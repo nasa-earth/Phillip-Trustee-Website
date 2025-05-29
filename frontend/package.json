@@ -10,9 +10,12 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@nuxtjs/auth-next": "^5.0.0-1667386184.dfbbb54",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/tailwindcss": "^7.0.0-beta.0",
+=======
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9
     "@primevue/forms": "^4.3.4",
     "@primevue/nuxt-module": "^4.3.4",
     "@rollup/plugin-yaml": "^4.1.2",

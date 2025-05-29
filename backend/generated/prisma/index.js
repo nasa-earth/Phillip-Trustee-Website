@@ -131,7 +131,11 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
+<<<<<<< HEAD
       "value": "D:\\Internship\\Phillip-Trustee-Website\\backend\\generated\\prisma",
+=======
+      "value": "D:\\Project\\Phillip Trustee Website\\backend\\generated\\prisma",
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9
       "fromEnvVar": null
     },
     "config": {
@@ -145,7 +149,11 @@ const config = {
       }
     ],
     "previewFeatures": [],
+<<<<<<< HEAD
     "sourceFilePath": "D:\\Internship\\Phillip-Trustee-Website\\backend\\prisma\\schema.prisma",
+=======
+    "sourceFilePath": "D:\\Project\\Phillip Trustee Website\\backend\\prisma\\schema.prisma",
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9
     "isCustomOutput": true
   },
   "relativeEnvPaths": {

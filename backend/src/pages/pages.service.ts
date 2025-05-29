@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePageDto } from './dto/create-page.dto';
@@ -71,3 +72,9 @@ export class PagesService {
     });
   }
 }
+=======
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class PagesService {}
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Injectable,
   Logger,
@@ -72,3 +73,9 @@ export class UsersService {
     }
   }
 }
+=======
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UsersService {}
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9

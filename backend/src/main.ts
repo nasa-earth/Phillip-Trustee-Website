@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core';
-<<<<<<< HEAD
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
@@ -62,22 +61,4 @@ async function bootstrap() {
   }
 }
 
-=======
-import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3001);
-  const config = new DocumentBuilder()
-    .setTitle('Phillip Trustee API')
-    .setDescription('API for dashboard/backend')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
-
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
-}
->>>>>>> 505917239e023882bbe548340b665dd061797bf9
 bootstrap();

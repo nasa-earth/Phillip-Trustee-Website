@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import {
   Injectable,
   UnauthorizedException,
@@ -10,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -91,39 +91,28 @@ export class AuthService {
         throw new ConflictException('User already exists');
       }
 
+      // Check if this is the first user
+      const allUsers = await this.usersService.findAll();
+      const role = allUsers.length === 0 ? Role.ADMIN : Role.EDITOR;
+
       const user = await this.usersService.create({
         email: registerDto.email,
         password: registerDto.password,
         name: registerDto.name,
-        role: 'EDITOR',
+        role,
       });
 
       this.logger.debug(`User registered successfully: ${registerDto.email}`);
-      const { password, ...userData } = user;
-      const payload = { email: user.email, sub: user.id, role: user.role };
 
-      return {
-        user: userData,
-        access_token: this.jwtService.sign(payload, {
-          secret: this.configService.get('app.jwt.secret'),
-          expiresIn: this.configService.get('app.jwt.expiresIn'),
-        }),
-      };
+      // Remove password from response and login user
+      const { password: _, ...userData } = user;
+      return this.login(userData);
     } catch (error) {
       this.logger.error(
-        `Registration error for ${registerDto.email}: ${error.message}`,
+        `Registration error for user ${registerDto.email}: ${error.message}`,
         error.stack,
       );
-      if (error instanceof ConflictException) {
-        throw error;
-      }
-      throw new InternalServerErrorException('Error during registration');
+      throw error;
     }
   }
 }
-=======
-import { Injectable } from '@nestjs/common';
-
-@Injectable()
-export class AuthService {}
->>>>>>> 505917239e023882bbe548340b665dd061797bf9

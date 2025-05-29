@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Controller,
   Post,
@@ -74,3 +75,9 @@ export class AuthController {
     }
   }
 }
+=======
+import { Controller } from '@nestjs/common';
+
+@Controller('auth')
+export class AuthController {}
+>>>>>>> 505917239e023882bbe548340b665dd061797bf9

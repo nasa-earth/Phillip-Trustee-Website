@@ -16,10 +16,69 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  name      String
   email     String   @unique
   password  String
+  name      String
   role      Role     @default(EDITOR)
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id         String    @id @default(uuid())
+  title      String
+  content    String
+  published  Boolean   @default(false)
+  author     User      @relation(fields: [authorId], references: [id])
+  authorId   String
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  posts     Post[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Partner {
+  id          String   @id @default(uuid())
+  name        String
+  logo        String?
+  website     String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FAQ {
+  id        String   @id @default(uuid())
+  question  String
+  answer    String
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id        String   @id @default(uuid())
+  title     String
+  slug      String   @unique
+  content   String
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Setting {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

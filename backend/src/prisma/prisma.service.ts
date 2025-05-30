@@ -3,6 +3,13 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
+  private _event: any;
+  public get event(): any {
+    return this._event;
+  }
+  public set event(value: any) {
+    this._event = value;
+  }
   constructor() {
     super({
       datasources: {

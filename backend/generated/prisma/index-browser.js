@@ -122,9 +122,9 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
   password: 'password',
-  name: 'name',
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -138,7 +138,9 @@ exports.Prisma.PostScalarFieldEnum = {
   authorId: 'authorId',
   categoryId: 'categoryId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  slug: 'slug',
+  thumbnail: 'thumbnail'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
@@ -179,8 +181,27 @@ exports.Prisma.PageScalarFieldEnum = {
 
 exports.Prisma.SettingScalarFieldEnum = {
   id: 'id',
-  key: 'key',
-  value: 'value',
+  siteTitle: 'siteTitle',
+  siteLogo: 'siteLogo',
+  description: 'description',
+  email: 'email',
+  phone: 'phone',
+  address: 'address',
+  facebook: 'facebook',
+  twitter: 'twitter',
+  linkedin: 'linkedin',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  description: 'description',
+  location: 'location',
+  date: 'date',
+  thumbnail: 'thumbnail',
+  isPublished: 'isPublished',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -211,7 +232,8 @@ exports.Prisma.ModelName = {
   Partner: 'Partner',
   FAQ: 'FAQ',
   Page: 'Page',
-  Setting: 'Setting'
+  Setting: 'Setting',
+  Event: 'Event'
 };
 
 /**

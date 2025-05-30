@@ -18,6 +18,7 @@ import { FaqsService } from './faqs/faqs.service';
 import { FaqsController } from './faqs/faqs.controller';
 import { FaqsModule } from './faqs/faqs.module';
 import { RolesGuard } from './common/guards/roles.guard';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     PartnersModule,
     SettingsModule,
     FaqsModule,
+    EventsModule,
   ],
   controllers: [AppController, PartnersController, FaqsController],
   providers: [

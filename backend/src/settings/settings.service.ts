@@ -5,30 +5,45 @@ import { UpdateSettingsDto } from './dto/update-settings.dto';
 @Injectable()
 export class SettingsService implements OnModuleInit {
   constructor(private prisma: PrismaService) {}
+
   async onModuleInit() {
-    const settings = await this.prisma.setting.findFirst();
-    if (!settings) {
-      await this.prisma.setting.create({
-        data: {
-          siteTitle: 'Phillip Trustee',
-          description: '',
-        },
-      });
+    try {
+      await this.prisma.$executeRaw`
+        INSERT INTO "Setting" ("id", "siteTitle", "updatedAt")
+        SELECT gen_random_uuid(), 'Phillip Trustee', NOW()
+        WHERE NOT EXISTS (SELECT 1 FROM "Setting" LIMIT 1)
+      `;
+    } catch (error) {
+      console.error('Failed to initialize settings:', error);
+      throw error;
     }
   }
 
   async findSettings() {
-    return this.prisma.setting.findFirst();
+    try {
+      return await this.prisma.setting.findFirst();
+    } catch (error) {
+      console.error('Failed to fetch settings:', error);
+      throw error;
+    }
   }
 
   async updateSettings(updateSettingsDto: UpdateSettingsDto) {
-    const settings = await this.prisma.setting.findFirst();
-    if (!settings) {
-      throw new Error('Settings not found');
+    try {
+      const settings = await this.prisma.setting.findFirst();
+      if (!settings) {
+        throw new Error('Settings not found');
+      }
+      return await this.prisma.setting.update({
+        where: { id: settings.id },
+        data: {
+          ...updateSettingsDto,
+          updatedAt: new Date(),
+        },
+      });
+    } catch (error) {
+      console.error('Failed to update settings:', error);
+      throw error;
     }
-    return this.prisma.setting.update({
-      where: { id: settings.id },
-      data: updateSettingsDto,
-    });
   }
 }

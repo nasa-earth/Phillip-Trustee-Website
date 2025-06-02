@@ -2,11 +2,14 @@ import {
   Injectable,
   Logger,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { Prisma, Role } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -22,21 +25,102 @@ export class UsersService {
         data: {
           ...data,
           password: hashedPassword,
-          role: data.role || 'EDITOR',
+        },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true,
         },
       });
       this.logger.debug(`Successfully created user: ${user.email}`);
       return user;
     } catch (error) {
       this.logger.error(`Failed to create user: ${error.message}`, error.stack);
-      if (error instanceof PrismaClientKnownRequestError) {
-        if (error.code === 'P2002') {
-          throw new InternalServerErrorException(
-            'Database constraint violation',
-          );
-        }
+      throw error;
+    }
+  }
+
+  async findAll(page = 1, limit = 10, search?: string) {
+    try {
+      const skip = (page - 1) * limit;
+
+      const where: Prisma.UserWhereInput = search
+        ? {
+            OR: [
+              {
+                name: {
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive,
+                },
+              },
+              {
+                email: {
+                  contains: search,
+                  mode: Prisma.QueryMode.insensitive,
+                },
+              },
+            ],
+          }
+        : {};
+
+      const [users, total] = await Promise.all([
+        this.prisma.user.findMany({
+          where,
+          select: {
+            id: true,
+            name: true,
+            email: true,
+            role: true,
+            createdAt: true,
+            updatedAt: true,
+          },
+          orderBy: {
+            createdAt: 'desc',
+          },
+          skip,
+          take: limit,
+        }),
+        this.prisma.user.count({ where }),
+      ]);
+
+      return {
+        users,
+        total,
+        page,
+        lastPage: Math.ceil(total / limit),
+      };
+    } catch (error) {
+      this.logger.error(`Failed to fetch users: ${error.message}`, error.stack);
+      throw error;
+    }
+  }
+
+  async findOne(id: string) {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { id },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
+      if (!user) {
+        throw new NotFoundException(`User with ID "${id}" not found`);
       }
-      throw new InternalServerErrorException('Failed to create user');
+      return user;
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch user ${id}: ${error.message}`,
+        error.stack,
+      );
+      throw error;
     }
   }
 
@@ -52,23 +136,59 @@ export class UsersService {
       return user;
     } catch (error) {
       this.logger.error(
-        `Error finding user by email: ${error.message}`,
+        `Failed to find user by email: ${error.message}`,
         error.stack,
       );
-      throw new InternalServerErrorException('Failed to find user');
+      throw error;
     }
   }
 
-  async findAll() {
+  async update(id: string, data: UpdateUserDto & { password?: string }) {
     try {
-      this.logger.debug('Finding all users');
-      return await this.prisma.user.findMany();
+      await this.findOne(id); // Verify user exists
+
+      // If password is provided, hash it
+      const updateData: Prisma.UserUpdateInput = { ...data };
+      if (data.password) {
+        updateData.password = await bcrypt.hash(data.password, 10);
+      }
+
+      return await this.prisma.user.update({
+        where: { id },
+        data: updateData,
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      });
     } catch (error) {
       this.logger.error(
-        `Error finding all users: ${error.message}`,
+        `Failed to update user ${id}: ${error.message}`,
         error.stack,
       );
-      throw new InternalServerErrorException('Failed to fetch users');
+      if (error instanceof PrismaClientKnownRequestError) {
+        if (error.code === 'P2002') {
+          throw error;
+        }
+      }
+      throw error;
+    }
+  }
+
+  async remove(id: string) {
+    try {
+      await this.findOne(id); // Verify user exists
+      return await this.prisma.user.delete({ where: { id } });
+    } catch (error) {
+      this.logger.error(
+        `Failed to delete user ${id}: ${error.message}`,
+        error.stack,
+      );
+      throw error;
     }
   }
 }

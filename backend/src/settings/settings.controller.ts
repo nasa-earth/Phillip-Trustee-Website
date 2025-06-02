@@ -3,7 +3,7 @@ import { SettingsService } from './settings.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Role } from '../auth/enums/role.enum';
+import { Role } from '@prisma/client';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { UpdateSettingsDto } from './dto/update-settings.dto';
 

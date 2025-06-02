@@ -9,7 +9,17 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
-import { Role } from '@prisma/client';
+import { Role, User } from '@prisma/client';
+import { RegisterDto } from './dto/register.dto';
+
+interface UserResponse {
+  id: string;
+  email: string;
+  name: string;
+  role: Role;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 @Injectable()
 export class AuthService {
@@ -21,7 +31,7 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
-  async validateUser(email: string, password: string) {
+  async validateUser(email: string, password: string): Promise<UserResponse> {
     try {
       this.logger.debug(`Attempting to validate user: ${email}`);
       const user = await this.usersService.findByEmail(email);
@@ -37,6 +47,7 @@ export class AuthService {
         throw new UnauthorizedException('Invalid credentials');
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password: _, ...result } = user;
       this.logger.debug(`User validated successfully: ${email}`);
       return result;
@@ -49,7 +60,7 @@ export class AuthService {
     }
   }
 
-  async login(user: any) {
+  async login(user: UserResponse) {
     try {
       this.logger.debug(`Attempting to login user: ${user.email}`);
       const payload = { email: user.email, sub: user.id, role: user.role };
@@ -77,7 +88,7 @@ export class AuthService {
     }
   }
 
-  async register(registerDto: any) {
+  async register(registerDto: RegisterDto) {
     try {
       this.logger.debug(`Attempting to register user: ${registerDto.email}`);
 
@@ -92,8 +103,8 @@ export class AuthService {
       }
 
       // Check if this is the first user
-      const allUsers = await this.usersService.findAll();
-      const role = allUsers.length === 0 ? Role.ADMIN : Role.EDITOR;
+      const { users } = await this.usersService.findAll();
+      const role = users.length === 0 ? Role.ADMIN : Role.EDITOR;
 
       const user = await this.usersService.create({
         email: registerDto.email,
@@ -104,9 +115,7 @@ export class AuthService {
 
       this.logger.debug(`User registered successfully: ${registerDto.email}`);
 
-      // Remove password from response and login user
-      const { password: _, ...userData } = user;
-      return this.login(userData);
+      return this.login(user);
     } catch (error) {
       this.logger.error(
         `Registration error for user ${registerDto.email}: ${error.message}`,

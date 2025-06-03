@@ -12,6 +12,12 @@ export default defineNuxtConfig({
     },
   },
 
+  runtimeConfig: {
+    public: {
+      apiBaseUrl: "http://localhost:3005/api",
+    },
+  },
+
   vite: {
     plugins: [yaml()],
   },

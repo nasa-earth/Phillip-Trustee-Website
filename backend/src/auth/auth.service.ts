@@ -88,40 +88,55 @@ export class AuthService {
     }
   }
 
-  async register(registerDto: RegisterDto) {
+  async register(registerDto: RegisterDto): Promise<any> {
     try {
       this.logger.debug(`Attempting to register user: ${registerDto.email}`);
 
-      const existingUser = await this.usersService.findByEmail(
-        registerDto.email,
-      );
-      if (existingUser) {
-        this.logger.warn(
-          `Registration failed - user already exists: ${registerDto.email}`,
-        );
-        throw new ConflictException('User already exists');
-      }
-
       // Check if this is the first user
-      const { users } = await this.usersService.findAll();
-      const role = users.length === 0 ? Role.ADMIN : Role.EDITOR;
+      const userCount = await this.usersService.count();
+      const role = userCount === 0 ? Role.ADMIN : Role.EDITOR;
 
+      const hashedPassword = await bcrypt.hash(registerDto.password, 10);
       const user = await this.usersService.create({
-        email: registerDto.email,
-        password: registerDto.password,
-        name: registerDto.name,
+        ...registerDto,
+        password: hashedPassword,
         role,
       });
 
-      this.logger.debug(`User registered successfully: ${registerDto.email}`);
+      this.logger.debug(`User registered successfully: ${registerDto.email}`); // Generate tokens with only necessary user info
+      const userInfo = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      };
+      const tokens = await this.generateTokens(userInfo);
 
-      return this.login(user);
+      // Return user info and tokens
+      return {
+        user: userInfo,
+        ...tokens,
+      };
     } catch (error) {
-      this.logger.error(
-        `Registration error for user ${registerDto.email}: ${error.message}`,
-        error.stack,
-      );
-      throw error;
+      if (error.code === 'P2002') {
+        throw new ConflictException('User with this email already exists');
+      }
+      this.logger.error('Registration failed:', error);
+      throw new InternalServerErrorException('Registration failed');
     }
+  }
+  private async generateTokens(user: {
+    id: string;
+    email: string;
+    name: string;
+    role: Role;
+  }) {
+    const payload = { email: user.email, sub: user.id, role: user.role };
+    const access_token = this.jwtService.sign(payload, {
+      secret: this.configService.get('app.jwt.secret'),
+      expiresIn: this.configService.get('app.jwt.expiresIn'),
+    });
+
+    return { access_token };
   }
 }

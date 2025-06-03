@@ -24,14 +24,14 @@ export const useAuthStore = defineStore("auth", () => {
   function setUser(newUser: User | null) {
     user.value = newUser;
   }
-
   function setAccessToken(token: string | null) {
     accessToken.value = token;
-    if (token) {
-      // Store the token in localStorage for persistence
-      localStorage.setItem("access_token", token);
-    } else {
-      localStorage.removeItem("access_token");
+    if (process.client) {
+      if (token) {
+        localStorage.setItem("access_token", token);
+      } else {
+        localStorage.removeItem("access_token");
+      }
     }
   }
 
@@ -58,10 +58,17 @@ export const useAuthStore = defineStore("auth", () => {
     error.value = errorMessage;
   }
 
-  // Initialize from localStorage if available
-  const storedToken = localStorage.getItem("access_token");
-  if (storedToken) {
-    setAccessToken(storedToken);
+  function initializeFromStorage() {
+    if (process.client) {
+      const storedToken = localStorage.getItem("access_token");
+      if (storedToken) {
+        setAccessToken(storedToken);
+      }
+    }
+  }
+  if (process.client) {
+    // Initialize from localStorage only on client side
+    initializeFromStorage();
   }
 
   return {
@@ -75,6 +82,7 @@ export const useAuthStore = defineStore("auth", () => {
     setError,
     logout,
     hasRole,
+    initializeFromStorage,
   };
 });
 

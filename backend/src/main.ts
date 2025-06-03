@@ -12,13 +12,18 @@ async function bootstrap() {
       logger: ['error', 'warn', 'debug', 'log', 'verbose'],
     });
 
-    const configService = app.get(ConfigService);
-
-    // Global prefix
+    const configService = app.get(ConfigService); // Global prefix
     app.setGlobalPrefix('api');
 
-    // CORS
-    app.enableCors();
+    // CORS configuration
+    app.enableCors({
+      origin: ['http://localhost:3000'],
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+      exposedHeaders: ['Content-Range', 'X-Content-Range'],
+      maxAge: 3600,
+    });
 
     // Pipes
     app.useGlobalPipes(

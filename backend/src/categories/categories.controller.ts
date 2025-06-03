@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -25,6 +26,8 @@ import { RolesGuard } from '../common/guards/roles.guard';
 @ApiTags('categories')
 @Controller('categories')
 export class CategoriesController {
+  private readonly logger = new Logger(CategoriesController.name);
+
   constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
@@ -36,14 +39,53 @@ export class CategoriesController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   create(@Body() createCategoryDto: CreateCategoryDto) {
-    return this.categoriesService.create(createCategoryDto);
+    try {
+      this.logger.log(`Creating new category: ${createCategoryDto.name}`);
+      return this.categoriesService.create(createCategoryDto);
+    } catch (error) {
+      this.logger.error(
+        `Failed to create category: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
+  }
+
+  @Get('admin')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.EDITOR)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all categories (admin)' })
+  @ApiResponse({ status: 200, description: 'Returns all categories.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  findAllAdmin() {
+    try {
+      this.logger.log('Fetching all categories (admin)');
+      return this.categoriesService.findAll();
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch categories: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all categories' })
+  @ApiOperation({ summary: 'Get all published categories' })
   @ApiResponse({ status: 200, description: 'Return all categories.' })
   findAll() {
-    return this.categoriesService.findAll();
+    try {
+      this.logger.log('Fetching all published categories');
+      return this.categoriesService.findAll();
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch categories: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
 
   @Get(':id')
@@ -51,7 +93,16 @@ export class CategoriesController {
   @ApiResponse({ status: 200, description: 'Return the category.' })
   @ApiResponse({ status: 404, description: 'Category not found.' })
   findOne(@Param('id') id: string) {
-    return this.categoriesService.findOne(id);
+    try {
+      this.logger.log(`Fetching category with id: ${id}`);
+      return this.categoriesService.findOne(id);
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch category: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
 
   @Patch(':id')
@@ -67,7 +118,16 @@ export class CategoriesController {
     @Param('id') id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return this.categoriesService.update(id, updateCategoryDto);
+    try {
+      this.logger.log(`Updating category: ${id}`);
+      return this.categoriesService.update(id, updateCategoryDto);
+    } catch (error) {
+      this.logger.error(
+        `Failed to update category: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
 
   @Delete(':id')
@@ -80,6 +140,15 @@ export class CategoriesController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Category not found.' })
   remove(@Param('id') id: string) {
-    return this.categoriesService.remove(id);
+    try {
+      this.logger.log(`Deleting category: ${id}`);
+      return this.categoriesService.remove(id);
+    } catch (error) {
+      this.logger.error(
+        `Failed to delete category: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
   }
 }

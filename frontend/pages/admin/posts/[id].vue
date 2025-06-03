@@ -5,16 +5,10 @@
         {{ isNew ? "Create Post" : "Edit Post" }}
       </h2>
       <div class="space-x-4">
-        <button
-          @click="saveAsDraft"
-          class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700"
-        >
+        <button @click="saveAsDraft" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700">
           Save as Draft
         </button>
-        <button
-          @click="publish"
-          class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
+        <button @click="publish" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
           {{ post.published ? "Update" : "Publish" }}
         </button>
       </div>
@@ -25,23 +19,15 @@
         <!-- Title -->
         <div>
           <label class="block text-sm font-medium text-gray-700"> Title </label>
-          <input
-            type="text"
-            v-model="post.title"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
+          <input type="text" v-model="post.title" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
         </div>
 
         <!-- Slug -->
         <div>
           <label class="block text-sm font-medium text-gray-700"> Slug </label>
-          <input
-            type="text"
-            v-model="post.slug"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
+          <input type="text" v-model="post.slug" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
         </div>
 
         <!-- Category -->
@@ -49,17 +35,10 @@
           <label class="block text-sm font-medium text-gray-700">
             Category
           </label>
-          <select
-            v-model="post.categoryId"
-            required
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          >
+          <select v-model="post.categoryId" required
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
             <option value="">Select a category</option>
-            <option
-              v-for="category in categories"
-              :key="category.id"
-              :value="category.id"
-            >
+            <option v-for="category in categories" :key="category.id" :value="category.id">
               {{ category.name }}
             </option>
           </select>
@@ -71,11 +50,8 @@
             Content
           </label>
           <!-- Add a rich text editor here -->
-          <textarea
-            v-model="post.content"
-            rows="10"
-            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          ></textarea>
+          <textarea v-model="post.content" rows="10"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
         </div>
 
         <!-- Featured Image -->
@@ -84,31 +60,18 @@
             Featured Image
           </label>
           <div class="mt-1 flex items-center">
-            <img
-              v-if="post.featuredImage"
-              :src="post.featuredImage"
-              class="h-32 w-32 object-cover rounded-lg"
-            />
-            <input
-              type="file"
-              accept="image/*"
-              @change="handleImageUpload"
-              class="ml-5"
-            />
+            <img v-if="post.featuredImage" :src="post.featuredImage" class="h-32 w-32 object-cover rounded-lg" />
+            <input type="file" accept="image/*" @change="handleImageUpload" class="ml-5" />
           </div>
         </div>
 
         <div class="flex justify-end space-x-4 pt-5">
-          <NuxtLink
-            to="/admin/posts"
-            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
+          <NuxtLink to="/admin/posts"
+            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
             Cancel
           </NuxtLink>
-          <button
-            type="submit"
-            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-          >
+          <button type="submit"
+            class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
             {{ isNew ? "Create" : "Update" }}
           </button>
         </div>
@@ -135,11 +98,10 @@ const post = ref({
   featuredImage: null,
 });
 
-const categories = ref([]);
-
-// Load post data if editing
+const categories = ref([]);    // Load post data if editing
 onMounted(async () => {
   try {
+    const post = await $fetch(`/api/posts/${route.params.id}`);
     // Load categories
     categories.value = await $fetch("/api/categories");
 

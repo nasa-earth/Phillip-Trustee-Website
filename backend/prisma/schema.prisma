@@ -9,14 +9,15 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   name      String
-  email     String   @unique
+  email     String     @unique
   password  String
-  role      Role     @default(EDITOR)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  role      Role       @default(EDITOR)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   posts     Post[]
+  auditLogs AuditLog[]
 }
 
 model Post {
@@ -91,14 +92,27 @@ enum Role {
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String   @unique
-  description String   @db.Text
-  location    String?
-  date        DateTime
-  thumbnail   String?
-  isPublished Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id             String   @id @default(uuid())
+  title          String
+  slug           String   @unique
+  description    String   @db.Text
+  location       String?
+  startDate      DateTime
+  endDate        DateTime
+  thumbnail      String?
+  isPublished    Boolean  @default(false)
+  registrationUrl String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String   // e.g., "create", "update", "delete"
+  entity    String   // e.g., "Post", "User", "Event"
+  entityId  String
+  userId    String
+  details   String?  @db.Text
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 }

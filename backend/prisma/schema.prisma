@@ -17,7 +17,6 @@ model User {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   posts     Post[]
-  auditLogs AuditLog[]
 }
 
 model Post {
@@ -104,15 +103,4 @@ model Event {
   registrationUrl String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-}
-
-model AuditLog {
-  id        String   @id @default(uuid())
-  action    String   // e.g., "create", "update", "delete"
-  entity    String   // e.g., "Post", "User", "Event"
-  entityId  String
-  userId    String
-  details   String?  @db.Text
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id])
 }

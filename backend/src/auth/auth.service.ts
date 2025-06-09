@@ -11,6 +11,7 @@ import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { Role, User } from '@prisma/client';
 import { RegisterDto } from './dto/register.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 
 interface UserResponse {
   id: string;
@@ -19,6 +20,12 @@ interface UserResponse {
   role: Role;
   createdAt: Date;
   updatedAt: Date;
+}
+
+interface TokenPayload {
+  email: string;
+  sub: string;
+  role: Role;
 }
 
 @Injectable()
@@ -59,25 +66,23 @@ export class AuthService {
       throw new InternalServerErrorException('Error during user validation');
     }
   }
-
   async login(user: UserResponse) {
     try {
       this.logger.debug(`Attempting to login user: ${user.email}`);
-      const payload = { email: user.email, sub: user.id, role: user.role };
-      const token = this.jwtService.sign(payload, {
-        secret: this.configService.get('app.jwt.secret'),
-        expiresIn: this.configService.get('app.jwt.expiresIn'),
-      });
+
+      const userInfo = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      };
+
+      const tokens = await this.generateTokens(userInfo);
 
       this.logger.debug(`Login successful for user: ${user.email}`);
       return {
-        user: {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        },
-        access_token: token,
+        user: userInfo,
+        ...tokens,
       };
     } catch (error) {
       this.logger.error(
@@ -102,8 +107,9 @@ export class AuthService {
         password: hashedPassword,
         role,
       });
+      this.logger.debug(`User registered successfully: ${registerDto.email}`);
 
-      this.logger.debug(`User registered successfully: ${registerDto.email}`); // Generate tokens with only necessary user info
+      // Generate tokens with only necessary user info
       const userInfo = {
         id: user.id,
         email: user.email,
@@ -111,6 +117,8 @@ export class AuthService {
         role: user.role,
       };
       const tokens = await this.generateTokens(userInfo);
+
+      this.logger.debug(`Generated tokens for user: ${registerDto.email}`);
 
       // Return user info and tokens
       return {
@@ -132,11 +140,58 @@ export class AuthService {
     role: Role;
   }) {
     const payload = { email: user.email, sub: user.id, role: user.role };
+
+    // Generate access token (short-lived)
     const access_token = this.jwtService.sign(payload, {
       secret: this.configService.get('app.jwt.secret'),
       expiresIn: this.configService.get('app.jwt.expiresIn'),
     });
 
-    return { access_token };
+    // Generate refresh token (long-lived)
+    const refresh_token = this.jwtService.sign(payload, {
+      secret:
+        this.configService.get('app.jwt.refreshSecret') ||
+        this.configService.get('app.jwt.secret'),
+      expiresIn: '7d', // Refresh token valid for 7 days
+    });
+
+    return { access_token, refresh_token };
+  }
+
+  async refreshToken(refresh_token: string): Promise<AuthResponseDto> {
+    try {
+      this.logger.debug('Verifying refresh token');
+
+      // Verify the refresh token
+      const payload = this.jwtService.verify(refresh_token, {
+        secret:
+          this.configService.get('app.jwt.refreshSecret') ||
+          this.configService.get('app.jwt.secret'),
+      });
+
+      // Get user information
+      const user = await this.usersService.findOne(payload.sub);
+      if (!user) {
+        throw new UnauthorizedException('User not found');
+      }
+
+      // Generate new tokens
+      const userInfo = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role,
+      };
+      const tokens = await this.generateTokens(userInfo);
+
+      // Return new tokens and user info
+      return {
+        user: userInfo,
+        ...tokens,
+      };
+    } catch (error) {
+      this.logger.error(`Token refresh failed: ${error.message}`, error.stack);
+      throw new UnauthorizedException('Invalid refresh token');
+    }
   }
 }

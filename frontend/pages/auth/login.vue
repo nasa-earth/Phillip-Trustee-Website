@@ -84,11 +84,10 @@ async function handleLogin() {
     console.log('Attempting login with:', { email: loginData.email });
 
     const response = await api.post('/auth/login', loginData);
-    console.log('Login response:', response);
-
-    // Update auth store with user data and token
+    console.log('Login response:', response);    // Update auth store with user data and tokens
     auth.setUser(response.user);
-    auth.setAccessToken(response.access_token);    // After successful login, redirect to posts dashboard
+    auth.setAccessToken(response.access_token);
+    auth.setRefreshToken(response.refresh_token);// After successful login, redirect to posts dashboard
     await router.push("/admin/posts");
   } catch (e) {
     const errorMessage =

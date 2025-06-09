@@ -9,6 +9,7 @@ import {
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
@@ -70,6 +71,31 @@ export class AuthController {
         `Login failed for email ${loginDto.email}: ${error.message}`,
         error.stack,
       );
+      throw error;
+    }
+  }
+
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Refresh access token' })
+  @ApiResponse({
+    status: 200,
+    description: 'New tokens generated successfully',
+    type: AuthResponseDto,
+  })
+  @ApiResponse({ status: 401, description: 'Invalid refresh token' })
+  async refresh(
+    @Body() refreshTokenDto: RefreshTokenDto,
+  ): Promise<AuthResponseDto> {
+    try {
+      this.logger.log('Token refresh attempt');
+      const result = await this.authService.refreshToken(
+        refreshTokenDto.refresh_token,
+      );
+      this.logger.log('Token refresh successful');
+      return result;
+    } catch (error) {
+      this.logger.error(`Token refresh failed: ${error.message}`, error.stack);
       throw error;
     }
   }

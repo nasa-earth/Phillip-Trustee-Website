@@ -16,15 +16,15 @@ export class UsersService {
   private readonly logger = new Logger(UsersService.name);
 
   constructor(private prisma: PrismaService) {}
-
   async create(data: CreateUserDto) {
     try {
       this.logger.debug(`Creating new user with email: ${data.email}`);
-      const hashedPassword = await bcrypt.hash(data.password, 10);
+      // Password should already be hashed by AuthService
       const user = await this.prisma.user.create({
         data: {
           ...data,
-          password: hashedPassword,
+          // Use the password as-is since it should be already hashed
+          password: data.password,
         },
         select: {
           id: true,

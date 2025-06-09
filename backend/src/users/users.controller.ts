@@ -24,6 +24,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as bcrypt from 'bcrypt';
 
 @ApiTags('users')
 @Controller('users')
@@ -44,7 +45,14 @@ export class UsersController {
   @ApiResponse({ status: 409, description: 'Email already exists.' })
   async create(@Body() createUserDto: CreateUserDto) {
     try {
-      const user = await this.usersService.create(createUserDto);
+      // Hash the password before creating the user
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+      const userWithHashedPassword = {
+        ...createUserDto,
+        password: hashedPassword,
+      };
+
+      const user = await this.usersService.create(userWithHashedPassword);
       this.logger.log(`Created new user: ${user.email}`);
       return user;
     } catch (error) {

@@ -333,8 +333,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.8.2
-   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+   * Prisma Client JS version: 6.9.0
+   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
    */
   export type PrismaVersion = {
     client: string
@@ -7983,88 +7983,88 @@ export namespace Prisma {
 
   export type SettingMinAggregateOutputType = {
     id: string | null
-    siteTitle: string | null
-    siteLogo: string | null
+    updatedAt: Date | null
+    address: string | null
     description: string | null
     email: string | null
-    phone: string | null
-    address: string | null
     facebook: string | null
-    twitter: string | null
     linkedin: string | null
-    updatedAt: Date | null
+    phone: string | null
+    siteLogo: string | null
+    siteTitle: string | null
+    twitter: string | null
   }
 
   export type SettingMaxAggregateOutputType = {
     id: string | null
-    siteTitle: string | null
-    siteLogo: string | null
+    updatedAt: Date | null
+    address: string | null
     description: string | null
     email: string | null
-    phone: string | null
-    address: string | null
     facebook: string | null
-    twitter: string | null
     linkedin: string | null
-    updatedAt: Date | null
+    phone: string | null
+    siteLogo: string | null
+    siteTitle: string | null
+    twitter: string | null
   }
 
   export type SettingCountAggregateOutputType = {
     id: number
-    siteTitle: number
-    siteLogo: number
+    updatedAt: number
+    address: number
     description: number
     email: number
-    phone: number
-    address: number
     facebook: number
-    twitter: number
     linkedin: number
-    updatedAt: number
+    phone: number
+    siteLogo: number
+    siteTitle: number
+    twitter: number
     _all: number
   }
 
 
   export type SettingMinAggregateInputType = {
     id?: true
-    siteTitle?: true
-    siteLogo?: true
+    updatedAt?: true
+    address?: true
     description?: true
     email?: true
-    phone?: true
-    address?: true
     facebook?: true
-    twitter?: true
     linkedin?: true
-    updatedAt?: true
+    phone?: true
+    siteLogo?: true
+    siteTitle?: true
+    twitter?: true
   }
 
   export type SettingMaxAggregateInputType = {
     id?: true
-    siteTitle?: true
-    siteLogo?: true
+    updatedAt?: true
+    address?: true
     description?: true
     email?: true
-    phone?: true
-    address?: true
     facebook?: true
-    twitter?: true
     linkedin?: true
-    updatedAt?: true
+    phone?: true
+    siteLogo?: true
+    siteTitle?: true
+    twitter?: true
   }
 
   export type SettingCountAggregateInputType = {
     id?: true
-    siteTitle?: true
-    siteLogo?: true
+    updatedAt?: true
+    address?: true
     description?: true
     email?: true
-    phone?: true
-    address?: true
     facebook?: true
-    twitter?: true
     linkedin?: true
-    updatedAt?: true
+    phone?: true
+    siteLogo?: true
+    siteTitle?: true
+    twitter?: true
     _all?: true
   }
 
@@ -8142,16 +8142,16 @@ export namespace Prisma {
 
   export type SettingGroupByOutputType = {
     id: string
-    siteTitle: string
-    siteLogo: string | null
+    updatedAt: Date
+    address: string | null
     description: string | null
     email: string | null
-    phone: string | null
-    address: string | null
     facebook: string | null
-    twitter: string | null
     linkedin: string | null
-    updatedAt: Date
+    phone: string | null
+    siteLogo: string | null
+    siteTitle: string
+    twitter: string | null
     _count: SettingCountAggregateOutputType | null
     _min: SettingMinAggregateOutputType | null
     _max: SettingMaxAggregateOutputType | null
@@ -8173,77 +8173,77 @@ export namespace Prisma {
 
   export type SettingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    siteTitle?: boolean
-    siteLogo?: boolean
+    updatedAt?: boolean
+    address?: boolean
     description?: boolean
     email?: boolean
-    phone?: boolean
-    address?: boolean
     facebook?: boolean
-    twitter?: boolean
     linkedin?: boolean
-    updatedAt?: boolean
+    phone?: boolean
+    siteLogo?: boolean
+    siteTitle?: boolean
+    twitter?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    siteTitle?: boolean
-    siteLogo?: boolean
+    updatedAt?: boolean
+    address?: boolean
     description?: boolean
     email?: boolean
-    phone?: boolean
-    address?: boolean
     facebook?: boolean
-    twitter?: boolean
     linkedin?: boolean
-    updatedAt?: boolean
+    phone?: boolean
+    siteLogo?: boolean
+    siteTitle?: boolean
+    twitter?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    siteTitle?: boolean
-    siteLogo?: boolean
+    updatedAt?: boolean
+    address?: boolean
     description?: boolean
     email?: boolean
-    phone?: boolean
-    address?: boolean
     facebook?: boolean
-    twitter?: boolean
     linkedin?: boolean
-    updatedAt?: boolean
+    phone?: boolean
+    siteLogo?: boolean
+    siteTitle?: boolean
+    twitter?: boolean
   }, ExtArgs["result"]["setting"]>
 
   export type SettingSelectScalar = {
     id?: boolean
-    siteTitle?: boolean
-    siteLogo?: boolean
+    updatedAt?: boolean
+    address?: boolean
     description?: boolean
     email?: boolean
-    phone?: boolean
-    address?: boolean
     facebook?: boolean
-    twitter?: boolean
     linkedin?: boolean
-    updatedAt?: boolean
+    phone?: boolean
+    siteLogo?: boolean
+    siteTitle?: boolean
+    twitter?: boolean
   }
 
-  export type SettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "siteTitle" | "siteLogo" | "description" | "email" | "phone" | "address" | "facebook" | "twitter" | "linkedin" | "updatedAt", ExtArgs["result"]["setting"]>
+  export type SettingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "updatedAt" | "address" | "description" | "email" | "facebook" | "linkedin" | "phone" | "siteLogo" | "siteTitle" | "twitter", ExtArgs["result"]["setting"]>
 
   export type $SettingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Setting"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      siteTitle: string
-      siteLogo: string | null
+      updatedAt: Date
+      address: string | null
       description: string | null
       email: string | null
-      phone: string | null
-      address: string | null
       facebook: string | null
-      twitter: string | null
       linkedin: string | null
-      updatedAt: Date
+      phone: string | null
+      siteLogo: string | null
+      siteTitle: string
+      twitter: string | null
     }, ExtArgs["result"]["setting"]>
     composites: {}
   }
@@ -8668,16 +8668,16 @@ export namespace Prisma {
    */
   interface SettingFieldRefs {
     readonly id: FieldRef<"Setting", 'String'>
-    readonly siteTitle: FieldRef<"Setting", 'String'>
-    readonly siteLogo: FieldRef<"Setting", 'String'>
+    readonly updatedAt: FieldRef<"Setting", 'DateTime'>
+    readonly address: FieldRef<"Setting", 'String'>
     readonly description: FieldRef<"Setting", 'String'>
     readonly email: FieldRef<"Setting", 'String'>
-    readonly phone: FieldRef<"Setting", 'String'>
-    readonly address: FieldRef<"Setting", 'String'>
     readonly facebook: FieldRef<"Setting", 'String'>
-    readonly twitter: FieldRef<"Setting", 'String'>
     readonly linkedin: FieldRef<"Setting", 'String'>
-    readonly updatedAt: FieldRef<"Setting", 'DateTime'>
+    readonly phone: FieldRef<"Setting", 'String'>
+    readonly siteLogo: FieldRef<"Setting", 'String'>
+    readonly siteTitle: FieldRef<"Setting", 'String'>
+    readonly twitter: FieldRef<"Setting", 'String'>
   }
     
 
@@ -9060,11 +9060,13 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     location: string | null
-    date: Date | null
     thumbnail: string | null
     isPublished: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    endDate: Date | null
+    registrationUrl: string | null
+    startDate: Date | null
   }
 
   export type EventMaxAggregateOutputType = {
@@ -9073,11 +9075,13 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     location: string | null
-    date: Date | null
     thumbnail: string | null
     isPublished: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    endDate: Date | null
+    registrationUrl: string | null
+    startDate: Date | null
   }
 
   export type EventCountAggregateOutputType = {
@@ -9086,11 +9090,13 @@ export namespace Prisma {
     slug: number
     description: number
     location: number
-    date: number
     thumbnail: number
     isPublished: number
     createdAt: number
     updatedAt: number
+    endDate: number
+    registrationUrl: number
+    startDate: number
     _all: number
   }
 
@@ -9101,11 +9107,13 @@ export namespace Prisma {
     slug?: true
     description?: true
     location?: true
-    date?: true
     thumbnail?: true
     isPublished?: true
     createdAt?: true
     updatedAt?: true
+    endDate?: true
+    registrationUrl?: true
+    startDate?: true
   }
 
   export type EventMaxAggregateInputType = {
@@ -9114,11 +9122,13 @@ export namespace Prisma {
     slug?: true
     description?: true
     location?: true
-    date?: true
     thumbnail?: true
     isPublished?: true
     createdAt?: true
     updatedAt?: true
+    endDate?: true
+    registrationUrl?: true
+    startDate?: true
   }
 
   export type EventCountAggregateInputType = {
@@ -9127,11 +9137,13 @@ export namespace Prisma {
     slug?: true
     description?: true
     location?: true
-    date?: true
     thumbnail?: true
     isPublished?: true
     createdAt?: true
     updatedAt?: true
+    endDate?: true
+    registrationUrl?: true
+    startDate?: true
     _all?: true
   }
 
@@ -9213,11 +9225,13 @@ export namespace Prisma {
     slug: string
     description: string
     location: string | null
-    date: Date
     thumbnail: string | null
     isPublished: boolean
     createdAt: Date
     updatedAt: Date
+    endDate: Date
+    registrationUrl: string | null
+    startDate: Date
     _count: EventCountAggregateOutputType | null
     _min: EventMinAggregateOutputType | null
     _max: EventMaxAggregateOutputType | null
@@ -9243,11 +9257,13 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     location?: boolean
-    date?: boolean
     thumbnail?: boolean
     isPublished?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    endDate?: boolean
+    registrationUrl?: boolean
+    startDate?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9256,11 +9272,13 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     location?: boolean
-    date?: boolean
     thumbnail?: boolean
     isPublished?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    endDate?: boolean
+    registrationUrl?: boolean
+    startDate?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9269,11 +9287,13 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     location?: boolean
-    date?: boolean
     thumbnail?: boolean
     isPublished?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    endDate?: boolean
+    registrationUrl?: boolean
+    startDate?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectScalar = {
@@ -9282,14 +9302,16 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     location?: boolean
-    date?: boolean
     thumbnail?: boolean
     isPublished?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    endDate?: boolean
+    registrationUrl?: boolean
+    startDate?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "location" | "date" | "thumbnail" | "isPublished" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "location" | "thumbnail" | "isPublished" | "createdAt" | "updatedAt" | "endDate" | "registrationUrl" | "startDate", ExtArgs["result"]["event"]>
 
   export type $EventPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Event"
@@ -9300,11 +9322,13 @@ export namespace Prisma {
       slug: string
       description: string
       location: string | null
-      date: Date
       thumbnail: string | null
       isPublished: boolean
       createdAt: Date
       updatedAt: Date
+      endDate: Date
+      registrationUrl: string | null
+      startDate: Date
     }, ExtArgs["result"]["event"]>
     composites: {}
   }
@@ -9733,11 +9757,13 @@ export namespace Prisma {
     readonly slug: FieldRef<"Event", 'String'>
     readonly description: FieldRef<"Event", 'String'>
     readonly location: FieldRef<"Event", 'String'>
-    readonly date: FieldRef<"Event", 'DateTime'>
     readonly thumbnail: FieldRef<"Event", 'String'>
     readonly isPublished: FieldRef<"Event", 'Boolean'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
     readonly updatedAt: FieldRef<"Event", 'DateTime'>
+    readonly endDate: FieldRef<"Event", 'DateTime'>
+    readonly registrationUrl: FieldRef<"Event", 'String'>
+    readonly startDate: FieldRef<"Event", 'DateTime'>
   }
     
 
@@ -10197,16 +10223,16 @@ export namespace Prisma {
 
   export const SettingScalarFieldEnum: {
     id: 'id',
-    siteTitle: 'siteTitle',
-    siteLogo: 'siteLogo',
+    updatedAt: 'updatedAt',
+    address: 'address',
     description: 'description',
     email: 'email',
-    phone: 'phone',
-    address: 'address',
     facebook: 'facebook',
-    twitter: 'twitter',
     linkedin: 'linkedin',
-    updatedAt: 'updatedAt'
+    phone: 'phone',
+    siteLogo: 'siteLogo',
+    siteTitle: 'siteTitle',
+    twitter: 'twitter'
   };
 
   export type SettingScalarFieldEnum = (typeof SettingScalarFieldEnum)[keyof typeof SettingScalarFieldEnum]
@@ -10218,11 +10244,13 @@ export namespace Prisma {
     slug: 'slug',
     description: 'description',
     location: 'location',
-    date: 'date',
     thumbnail: 'thumbnail',
     isPublished: 'isPublished',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    endDate: 'endDate',
+    registrationUrl: 'registrationUrl',
+    startDate: 'startDate'
   };
 
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
@@ -10723,30 +10751,30 @@ export namespace Prisma {
     OR?: SettingWhereInput[]
     NOT?: SettingWhereInput | SettingWhereInput[]
     id?: StringFilter<"Setting"> | string
-    siteTitle?: StringFilter<"Setting"> | string
-    siteLogo?: StringNullableFilter<"Setting"> | string | null
+    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+    address?: StringNullableFilter<"Setting"> | string | null
     description?: StringNullableFilter<"Setting"> | string | null
     email?: StringNullableFilter<"Setting"> | string | null
-    phone?: StringNullableFilter<"Setting"> | string | null
-    address?: StringNullableFilter<"Setting"> | string | null
     facebook?: StringNullableFilter<"Setting"> | string | null
-    twitter?: StringNullableFilter<"Setting"> | string | null
     linkedin?: StringNullableFilter<"Setting"> | string | null
-    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+    phone?: StringNullableFilter<"Setting"> | string | null
+    siteLogo?: StringNullableFilter<"Setting"> | string | null
+    siteTitle?: StringFilter<"Setting"> | string
+    twitter?: StringNullableFilter<"Setting"> | string | null
   }
 
   export type SettingOrderByWithRelationInput = {
     id?: SortOrder
-    siteTitle?: SortOrder
-    siteLogo?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    address?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
     facebook?: SortOrderInput | SortOrder
-    twitter?: SortOrderInput | SortOrder
     linkedin?: SortOrderInput | SortOrder
-    updatedAt?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    siteLogo?: SortOrderInput | SortOrder
+    siteTitle?: SortOrder
+    twitter?: SortOrderInput | SortOrder
   }
 
   export type SettingWhereUniqueInput = Prisma.AtLeast<{
@@ -10754,30 +10782,30 @@ export namespace Prisma {
     AND?: SettingWhereInput | SettingWhereInput[]
     OR?: SettingWhereInput[]
     NOT?: SettingWhereInput | SettingWhereInput[]
-    siteTitle?: StringFilter<"Setting"> | string
-    siteLogo?: StringNullableFilter<"Setting"> | string | null
+    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+    address?: StringNullableFilter<"Setting"> | string | null
     description?: StringNullableFilter<"Setting"> | string | null
     email?: StringNullableFilter<"Setting"> | string | null
-    phone?: StringNullableFilter<"Setting"> | string | null
-    address?: StringNullableFilter<"Setting"> | string | null
     facebook?: StringNullableFilter<"Setting"> | string | null
-    twitter?: StringNullableFilter<"Setting"> | string | null
     linkedin?: StringNullableFilter<"Setting"> | string | null
-    updatedAt?: DateTimeFilter<"Setting"> | Date | string
+    phone?: StringNullableFilter<"Setting"> | string | null
+    siteLogo?: StringNullableFilter<"Setting"> | string | null
+    siteTitle?: StringFilter<"Setting"> | string
+    twitter?: StringNullableFilter<"Setting"> | string | null
   }, "id">
 
   export type SettingOrderByWithAggregationInput = {
     id?: SortOrder
-    siteTitle?: SortOrder
-    siteLogo?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    address?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
-    phone?: SortOrderInput | SortOrder
-    address?: SortOrderInput | SortOrder
     facebook?: SortOrderInput | SortOrder
-    twitter?: SortOrderInput | SortOrder
     linkedin?: SortOrderInput | SortOrder
-    updatedAt?: SortOrder
+    phone?: SortOrderInput | SortOrder
+    siteLogo?: SortOrderInput | SortOrder
+    siteTitle?: SortOrder
+    twitter?: SortOrderInput | SortOrder
     _count?: SettingCountOrderByAggregateInput
     _max?: SettingMaxOrderByAggregateInput
     _min?: SettingMinOrderByAggregateInput
@@ -10788,16 +10816,16 @@ export namespace Prisma {
     OR?: SettingScalarWhereWithAggregatesInput[]
     NOT?: SettingScalarWhereWithAggregatesInput | SettingScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Setting"> | string
-    siteTitle?: StringWithAggregatesFilter<"Setting"> | string
-    siteLogo?: StringNullableWithAggregatesFilter<"Setting"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"Setting"> | Date | string
+    address?: StringNullableWithAggregatesFilter<"Setting"> | string | null
     description?: StringNullableWithAggregatesFilter<"Setting"> | string | null
     email?: StringNullableWithAggregatesFilter<"Setting"> | string | null
-    phone?: StringNullableWithAggregatesFilter<"Setting"> | string | null
-    address?: StringNullableWithAggregatesFilter<"Setting"> | string | null
     facebook?: StringNullableWithAggregatesFilter<"Setting"> | string | null
-    twitter?: StringNullableWithAggregatesFilter<"Setting"> | string | null
     linkedin?: StringNullableWithAggregatesFilter<"Setting"> | string | null
-    updatedAt?: DateTimeWithAggregatesFilter<"Setting"> | Date | string
+    phone?: StringNullableWithAggregatesFilter<"Setting"> | string | null
+    siteLogo?: StringNullableWithAggregatesFilter<"Setting"> | string | null
+    siteTitle?: StringWithAggregatesFilter<"Setting"> | string
+    twitter?: StringNullableWithAggregatesFilter<"Setting"> | string | null
   }
 
   export type EventWhereInput = {
@@ -10809,11 +10837,13 @@ export namespace Prisma {
     slug?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     location?: StringNullableFilter<"Event"> | string | null
-    date?: DateTimeFilter<"Event"> | Date | string
     thumbnail?: StringNullableFilter<"Event"> | string | null
     isPublished?: BoolFilter<"Event"> | boolean
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    endDate?: DateTimeFilter<"Event"> | Date | string
+    registrationUrl?: StringNullableFilter<"Event"> | string | null
+    startDate?: DateTimeFilter<"Event"> | Date | string
   }
 
   export type EventOrderByWithRelationInput = {
@@ -10822,11 +10852,13 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     location?: SortOrderInput | SortOrder
-    date?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
     isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    endDate?: SortOrder
+    registrationUrl?: SortOrderInput | SortOrder
+    startDate?: SortOrder
   }
 
   export type EventWhereUniqueInput = Prisma.AtLeast<{
@@ -10838,11 +10870,13 @@ export namespace Prisma {
     title?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     location?: StringNullableFilter<"Event"> | string | null
-    date?: DateTimeFilter<"Event"> | Date | string
     thumbnail?: StringNullableFilter<"Event"> | string | null
     isPublished?: BoolFilter<"Event"> | boolean
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    endDate?: DateTimeFilter<"Event"> | Date | string
+    registrationUrl?: StringNullableFilter<"Event"> | string | null
+    startDate?: DateTimeFilter<"Event"> | Date | string
   }, "id" | "slug">
 
   export type EventOrderByWithAggregationInput = {
@@ -10851,11 +10885,13 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     location?: SortOrderInput | SortOrder
-    date?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
     isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    endDate?: SortOrder
+    registrationUrl?: SortOrderInput | SortOrder
+    startDate?: SortOrder
     _count?: EventCountOrderByAggregateInput
     _max?: EventMaxOrderByAggregateInput
     _min?: EventMinOrderByAggregateInput
@@ -10870,11 +10906,13 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Event"> | string
     description?: StringWithAggregatesFilter<"Event"> | string
     location?: StringNullableWithAggregatesFilter<"Event"> | string | null
-    date?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     thumbnail?: StringNullableWithAggregatesFilter<"Event"> | string | null
     isPublished?: BoolWithAggregatesFilter<"Event"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    endDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    registrationUrl?: StringNullableWithAggregatesFilter<"Event"> | string | null
+    startDate?: DateTimeWithAggregatesFilter<"Event"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -11298,100 +11336,100 @@ export namespace Prisma {
 
   export type SettingCreateInput = {
     id?: string
-    siteTitle: string
-    siteLogo?: string | null
+    updatedAt?: Date | string
+    address?: string | null
     description?: string | null
     email?: string | null
-    phone?: string | null
-    address?: string | null
     facebook?: string | null
-    twitter?: string | null
     linkedin?: string | null
-    updatedAt?: Date | string
+    phone?: string | null
+    siteLogo?: string | null
+    siteTitle: string
+    twitter?: string | null
   }
 
   export type SettingUncheckedCreateInput = {
     id?: string
-    siteTitle: string
-    siteLogo?: string | null
+    updatedAt?: Date | string
+    address?: string | null
     description?: string | null
     email?: string | null
-    phone?: string | null
-    address?: string | null
     facebook?: string | null
-    twitter?: string | null
     linkedin?: string | null
-    updatedAt?: Date | string
+    phone?: string | null
+    siteLogo?: string | null
+    siteTitle: string
+    twitter?: string | null
   }
 
   export type SettingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    siteTitle?: StringFieldUpdateOperationsInput | string
-    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     facebook?: NullableStringFieldUpdateOperationsInput | string | null
-    twitter?: NullableStringFieldUpdateOperationsInput | string | null
     linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    siteTitle?: StringFieldUpdateOperationsInput | string
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SettingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    siteTitle?: StringFieldUpdateOperationsInput | string
-    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     facebook?: NullableStringFieldUpdateOperationsInput | string | null
-    twitter?: NullableStringFieldUpdateOperationsInput | string | null
     linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    siteTitle?: StringFieldUpdateOperationsInput | string
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SettingCreateManyInput = {
     id?: string
-    siteTitle: string
-    siteLogo?: string | null
+    updatedAt?: Date | string
+    address?: string | null
     description?: string | null
     email?: string | null
-    phone?: string | null
-    address?: string | null
     facebook?: string | null
-    twitter?: string | null
     linkedin?: string | null
-    updatedAt?: Date | string
+    phone?: string | null
+    siteLogo?: string | null
+    siteTitle: string
+    twitter?: string | null
   }
 
   export type SettingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    siteTitle?: StringFieldUpdateOperationsInput | string
-    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     facebook?: NullableStringFieldUpdateOperationsInput | string | null
-    twitter?: NullableStringFieldUpdateOperationsInput | string | null
     linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    siteTitle?: StringFieldUpdateOperationsInput | string
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SettingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    siteTitle?: StringFieldUpdateOperationsInput | string
-    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
-    phone?: NullableStringFieldUpdateOperationsInput | string | null
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     facebook?: NullableStringFieldUpdateOperationsInput | string | null
-    twitter?: NullableStringFieldUpdateOperationsInput | string | null
     linkedin?: NullableStringFieldUpdateOperationsInput | string | null
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    siteLogo?: NullableStringFieldUpdateOperationsInput | string | null
+    siteTitle?: StringFieldUpdateOperationsInput | string
+    twitter?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type EventCreateInput = {
@@ -11400,11 +11438,13 @@ export namespace Prisma {
     slug: string
     description: string
     location?: string | null
-    date: Date | string
     thumbnail?: string | null
     isPublished?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate: Date | string
+    registrationUrl?: string | null
+    startDate: Date | string
   }
 
   export type EventUncheckedCreateInput = {
@@ -11413,11 +11453,13 @@ export namespace Prisma {
     slug: string
     description: string
     location?: string | null
-    date: Date | string
     thumbnail?: string | null
     isPublished?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate: Date | string
+    registrationUrl?: string | null
+    startDate: Date | string
   }
 
   export type EventUpdateInput = {
@@ -11426,11 +11468,13 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EventUncheckedUpdateInput = {
@@ -11439,11 +11483,13 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EventCreateManyInput = {
@@ -11452,11 +11498,13 @@ export namespace Prisma {
     slug: string
     description: string
     location?: string | null
-    date: Date | string
     thumbnail?: string | null
     isPublished?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    endDate: Date | string
+    registrationUrl?: string | null
+    startDate: Date | string
   }
 
   export type EventUpdateManyMutationInput = {
@@ -11465,11 +11513,13 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type EventUncheckedUpdateManyInput = {
@@ -11478,11 +11528,13 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     location?: NullableStringFieldUpdateOperationsInput | string | null
-    date?: DateTimeFieldUpdateOperationsInput | Date | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    endDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    registrationUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    startDate?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11845,44 +11897,44 @@ export namespace Prisma {
 
   export type SettingCountOrderByAggregateInput = {
     id?: SortOrder
-    siteTitle?: SortOrder
-    siteLogo?: SortOrder
+    updatedAt?: SortOrder
+    address?: SortOrder
     description?: SortOrder
     email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
     facebook?: SortOrder
-    twitter?: SortOrder
     linkedin?: SortOrder
-    updatedAt?: SortOrder
+    phone?: SortOrder
+    siteLogo?: SortOrder
+    siteTitle?: SortOrder
+    twitter?: SortOrder
   }
 
   export type SettingMaxOrderByAggregateInput = {
     id?: SortOrder
-    siteTitle?: SortOrder
-    siteLogo?: SortOrder
+    updatedAt?: SortOrder
+    address?: SortOrder
     description?: SortOrder
     email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
     facebook?: SortOrder
-    twitter?: SortOrder
     linkedin?: SortOrder
-    updatedAt?: SortOrder
+    phone?: SortOrder
+    siteLogo?: SortOrder
+    siteTitle?: SortOrder
+    twitter?: SortOrder
   }
 
   export type SettingMinOrderByAggregateInput = {
     id?: SortOrder
-    siteTitle?: SortOrder
-    siteLogo?: SortOrder
+    updatedAt?: SortOrder
+    address?: SortOrder
     description?: SortOrder
     email?: SortOrder
-    phone?: SortOrder
-    address?: SortOrder
     facebook?: SortOrder
-    twitter?: SortOrder
     linkedin?: SortOrder
-    updatedAt?: SortOrder
+    phone?: SortOrder
+    siteLogo?: SortOrder
+    siteTitle?: SortOrder
+    twitter?: SortOrder
   }
 
   export type EventCountOrderByAggregateInput = {
@@ -11891,11 +11943,13 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     location?: SortOrder
-    date?: SortOrder
     thumbnail?: SortOrder
     isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    endDate?: SortOrder
+    registrationUrl?: SortOrder
+    startDate?: SortOrder
   }
 
   export type EventMaxOrderByAggregateInput = {
@@ -11904,11 +11958,13 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     location?: SortOrder
-    date?: SortOrder
     thumbnail?: SortOrder
     isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    endDate?: SortOrder
+    registrationUrl?: SortOrder
+    startDate?: SortOrder
   }
 
   export type EventMinOrderByAggregateInput = {
@@ -11917,11 +11973,13 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     location?: SortOrder
-    date?: SortOrder
     thumbnail?: SortOrder
     isPublished?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    endDate?: SortOrder
+    registrationUrl?: SortOrder
+    startDate?: SortOrder
   }
 
   export type PostCreateNestedManyWithoutAuthorInput = {

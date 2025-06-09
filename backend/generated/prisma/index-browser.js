@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.8.2
- * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
+ * Prisma Client JS version: 6.9.0
+ * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
  */
 Prisma.prismaVersion = {
-  client: "6.8.2",
-  engine: "2060c79ba17c6bb9f5823312b6f6b7f4a845738e"
+  client: "6.9.0",
+  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -181,16 +181,16 @@ exports.Prisma.PageScalarFieldEnum = {
 
 exports.Prisma.SettingScalarFieldEnum = {
   id: 'id',
-  siteTitle: 'siteTitle',
-  siteLogo: 'siteLogo',
+  updatedAt: 'updatedAt',
+  address: 'address',
   description: 'description',
   email: 'email',
-  phone: 'phone',
-  address: 'address',
   facebook: 'facebook',
-  twitter: 'twitter',
   linkedin: 'linkedin',
-  updatedAt: 'updatedAt'
+  phone: 'phone',
+  siteLogo: 'siteLogo',
+  siteTitle: 'siteTitle',
+  twitter: 'twitter'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -199,11 +199,13 @@ exports.Prisma.EventScalarFieldEnum = {
   slug: 'slug',
   description: 'description',
   location: 'location',
-  date: 'date',
   thumbnail: 'thumbnail',
   isPublished: 'isPublished',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  endDate: 'endDate',
+  registrationUrl: 'registrationUrl',
+  startDate: 'startDate'
 };
 
 exports.Prisma.SortOrder = {

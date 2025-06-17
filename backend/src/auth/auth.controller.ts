@@ -99,4 +99,37 @@ export class AuthController {
       throw error;
     }
   }
+
+  @Post('debug-login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Debug login response' })
+  async debugLogin(@Body() loginDto: LoginDto) {
+    try {
+      this.logger.log(`Debug login attempt for email: ${loginDto.email}`);
+      const user = await this.authService.validateUser(
+        loginDto.email,
+        loginDto.password,
+      );
+      const result = await this.authService.login(user);
+      this.logger.log(`Debug login successful for email: ${loginDto.email}`);
+      this.logger.log(`Response structure: ${JSON.stringify(result)}`);
+      return {
+        success: true,
+        responseData: result,
+        structureInfo: {
+          hasUser: !!result.user,
+          hasAccessToken: !!result.access_token,
+          hasRefreshToken: !!result.refresh_token,
+          keys: Object.keys(result),
+          userKeys: result.user ? Object.keys(result.user) : [],
+        },
+      };
+    } catch (error) {
+      this.logger.error(
+        `Debug login failed for email ${loginDto.email}: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
+  }
 }

@@ -16,6 +16,7 @@ import { SettingsModule } from './settings/settings.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { EventsModule } from './events/events.module';
 import { RolesGuard } from './common/guards/roles.guard';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { RolesGuard } from './common/guards/roles.guard';
     FaqsModule,
     EventsModule,
     AdminModule,
+    HealthModule,
   ],
   controllers: [AppController],
   providers: [

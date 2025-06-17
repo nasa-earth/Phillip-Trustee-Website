@@ -2,21 +2,27 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
-  compatibilityDate: '2025-05-15',
+  compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css',
-    
-  ],
+  css: ["~/assets/css/main.css"],
   vite: {
-    plugins: [
-      tailwindcss(),
-    ],
+    plugins: [tailwindcss()],
   },
-  plugins: [
-    '~/plugins/primevue.js'
+  plugins: ["~/plugins/primevue.js", "~/plugins/auth.js"],
+  modules: [
+    "@pinia/nuxt",
+    // '@primevue/nuxt-module'
   ],
-  // modules: [
-  //       '@primevue/nuxt-module'
-  //   ],
-
-})
+  runtimeConfig: {
+    public: {
+      apiBase: process.env.API_BASE || "http://localhost:3000",
+    },
+  },
+  // Explicitly configure router options
+  router: {
+    options: {
+      linkActiveClass: "active-link",
+      linkExactActiveClass: "exact-active-link",
+    },
+  },
+});

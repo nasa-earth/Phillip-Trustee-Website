@@ -1,6 +1,5 @@
 <template>
     <div class="min-h-screen bg-lightgray">
-        <Header />
 
         <!-- Hero Section -->
         <section class="relative bg-gradient-to-br from-navy via-[#1d4170] to-navy text-white py-24">

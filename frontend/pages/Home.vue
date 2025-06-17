@@ -1,5 +1,4 @@
 <template>
-    <Header />
   <section class="bg-gradient-to-b from-[#002e6e] to-[#001a4d] py-20">
   <div class="container mx-auto px-6">
     <!-- Hero Section -->

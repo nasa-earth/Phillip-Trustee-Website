@@ -23,13 +23,25 @@ export class TransformInterceptor<T>
   ): Observable<Response<T>> {
     const ctx = context.switchToHttp();
     const response = ctx.getResponse();
+    const request = ctx.getRequest();
+
+    // Skip transformation for auth endpoints to avoid breaking client expectations
+    const isAuthEndpoint = request.path.includes('/api/auth/');
 
     return next.handle().pipe(
-      map((data) => ({
-        data,
-        timestamp: new Date().toISOString(),
-        status: response.statusCode,
-      })),
+      map((data) => {
+        if (isAuthEndpoint) {
+          // Return auth responses directly without transformation
+          return data;
+        }
+
+        // Transform other responses with the standard format
+        return {
+          data,
+          timestamp: new Date().toISOString(),
+          status: response.statusCode,
+        };
+      }),
     );
   }
 }

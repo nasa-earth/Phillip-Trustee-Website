@@ -16,13 +16,19 @@ export default defineNuxtRouteMiddleware((to, from) => {
   }
 
   console.log("User authenticated, checking role:", authStore.user);
-
-  // If the user is not an admin, redirect to login with error
-  if (!authStore.user || authStore.user.role !== "ADMIN") {
-    console.warn("User is not an admin, redirecting to login with error");
+  // Check if the user has ADMIN or EDITOR role
+  if (
+    !authStore.user ||
+    (authStore.user.role !== "ADMIN" && authStore.user.role !== "EDITOR")
+  ) {
+    console.warn(
+      "User doesn't have required permissions, redirecting to login with error"
+    );
     authStore.logout();
     return navigateTo("/login?error=access_denied");
   }
 
-  console.log("User is authenticated and has admin role, allowing access");
+  console.log(
+    `User is authenticated and has ${authStore.user.role} role, allowing access`
+  );
 });

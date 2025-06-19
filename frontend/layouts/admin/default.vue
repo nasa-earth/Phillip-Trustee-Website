@@ -65,16 +65,28 @@ const isSidebarCollapsed = ref(false);
 // Get user from auth store
 const user = computed(() => authStore.user);
 
-// Admin menu items
-const menuItems = [
+// Common menu items for both ADMIN and EDITOR
+const commonMenuItems = [
     { name: 'Dashboard', link: '/admin/dashboard', icon: '📊' },
     { name: 'Posts', link: '/admin/posts', icon: '📝' },
     { name: 'Categories', link: '/admin/categories', icon: '🗂️' },
     { name: 'Events', link: '/admin/events', icon: '📅' },
     { name: 'Pages', link: '/admin/pages', icon: '📄' },
+];
+
+// Admin-only menu items
+const adminOnlyMenuItems = [
     { name: 'Users', link: '/admin/users', icon: '👥' },
     { name: 'Settings', link: '/admin/settings', icon: '⚙️' },
 ];
+
+// Compute menu items based on user role
+const menuItems = computed(() => {
+    if (user.value?.role === 'ADMIN') {
+        return [...commonMenuItems, ...adminOnlyMenuItems];
+    }
+    return commonMenuItems;
+});
 
 // Get current page title from route
 const currentPageTitle = computed(() => {

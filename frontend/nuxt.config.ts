@@ -8,7 +8,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  plugins: ["~/plugins/primevue.js", "~/plugins/auth.js"],
+  plugins: [
+    "~/plugins/primevue.js",
+    "~/plugins/auth.js",
+    "~/plugins/motion.js",
+  ],
   modules: [
     "@pinia/nuxt",
     // '@primevue/nuxt-module'

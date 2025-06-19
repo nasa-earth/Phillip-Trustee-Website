@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <div class="login-card">
-            <h1 class="login-title">Admin Login</h1>
+            <h1 class="login-title">Admin & Editor Login</h1>
             <p class="login-subtitle">Access the dashboard to manage your website</p>
             <div v-if="errorMessage" class="error-message">
                 {{ errorMessage }}
@@ -148,13 +148,11 @@ const handleLogin = async () => {
             authStore.logout();
             throw new Error('Access denied. Only administrators can login.');
         } console.log('Login successful, redirecting to dashboard');
-        console.log('Login result details:', result);
-
-        // Validate the user has ADMIN role before redirecting
-        if (!result.user || result.user.role !== 'ADMIN') {
-            console.error('User is not an admin:', result.user);
+        console.log('Login result details:', result);        // Validate the user has ADMIN or EDITOR role before redirecting
+        if (!result.user || (result.user.role !== 'ADMIN' && result.user.role !== 'EDITOR')) {
+            console.error('User does not have required permissions:', result.user);
             authStore.logout();
-            throw new Error('Access denied. Only administrators can access the dashboard.');
+            throw new Error('Access denied. Only administrators and editors can access the dashboard.');
         }
 
         console.log('User has admin role, redirecting to dashboard');

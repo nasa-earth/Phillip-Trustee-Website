@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen bg-[#e6eaf0]">
         <!-- Hero Section -->
-         <!-- testing  -->
+        <!-- What is Trust  -->
         <section
             class="relative bg-gradient-to-br from-[#13325e] via-[#1d4170] to-[#13325e] py-20 px-4 flex flex-col items-center justify-center text-center overflow-hidden">
             <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 animate-fadein">Our Trust Services</h1>
@@ -18,67 +18,276 @@
             </div>
         </section>
 
-        <!-- What is Trust & Types -->
-        <section class="container mx-auto py-16 px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-[#13325e] mb-3">What is Trust?</h2>
-                <p class="text-lg text-[#13325e]/80 mb-6">A trust is a legal arrangement where a trustee holds and
-                    manages assets for the benefit of beneficiaries.</p>
-                <h3 class="text-2xl font-semibold text-[#f15a22] mb-8">Types of Trust in Cambodia</h3>
+        <!-- What is Trust? Section -->
+        <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5">
+                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="dot-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1" fill="white" />
+                        </pattern>
+                    </defs>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dot-pattern)" />
+                </svg>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-                <div v-for="type in trustTypes" :key="type.title"
-                    class="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-300 cursor-pointer animate-card">
-                    <span class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#f15a22]/10 mb-4">
-                        <component :is="type.icon" class="w-8 h-8 text-[#f15a22]" />
-                    </span>
-                    <h4 class="text-xl font-bold text-[#13325e] mb-2">{{ type.title }}</h4>
-                    <p class="text-[#13325e]/80">{{ type.desc }}</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- Transfer of Equitable Title -->
-        <section class="container mx-auto py-16 px-4">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#13325e] mb-10 text-center">Transfer of Equitable Title</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div v-for="role in trustRoles" :key="role.title"
-                    class="bg-white rounded-2xl shadow-xl p-8 flex flex-col items-center text-center animate-card">
-                    <span class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-[#f15a22]/10 mb-4">
-                        <component :is="role.icon" class="w-8 h-8 text-[#f15a22]" />
-                    </span>
-                    <h3 class="text-xl font-bold text-[#13325e] mb-2">{{ role.title }}</h3>
-                    <p class="text-[#13325e]/80">{{ role.desc }}</p>
+            <div class="container mx-auto relative z-10">
+                <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-4">What is Trust?</h2>
+                    <div class="w-24 h-1 bg-orange-500"></div>
                 </div>
-            </div>
-        </section>
 
-        <!-- Key Services and Products -->
-        <section class="container mx-auto py-16 px-4">
-            <h2 class="text-3xl md:text-4xl font-bold text-[#13325e] mb-10 text-center">Key Services and Products</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
-                <div v-for="(service, idx) in services" :key="service.title" @click="openModal(idx)"
-                    class="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center text-center hover:-translate-y-2 hover:shadow-2xl transition-all duration-300 cursor-pointer animate-card group">
-                    <img :src="service.image" :alt="service.title"
-                        class="w-20 h-20 object-cover rounded-full mb-4 border-4 border-[#e6eaf0] group-hover:border-[#f15a22] transition-all" />
-                    <h4 class="text-lg font-bold text-[#13325e] group-hover:text-[#f15a22] mb-2">{{ service.title }}
-                    </h4>
-                </div>
-            </div>
-            <!-- Modal -->
-            <transition name="fade">
-                <div v-if="modalOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-                    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-card">
-                        <button @click="closeModal"
-                            class="absolute top-4 right-4 text-[#f15a22] hover:text-[#13325e] text-2xl font-bold">&times;</button>
-                        <img :src="selectedService.image" :alt="selectedService.title"
-                            class="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-[#e6eaf0]" />
-                        <h3 class="text-2xl font-bold text-[#13325e] mb-2 text-center">{{ selectedService.title }}</h3>
-                        <p class="text-[#13325e]/80 text-center">{{ selectedService.desc }}</p>
+                <!-- Row 1: Text left, Image right -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-12 mb-24" data-aos="fade-up"
+                    data-aos-duration="1000">
+                    <!-- Left: Content -->
+                    <div class="w-full lg:w-1/2 space-y-6">
+                        <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-4">Legal Foundation</h3>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            A trust is a legal arrangement where one party (the trustor) gives another party (the
+                            trustee) the right to hold and manage assets for the benefit of a third party (the
+                            beneficiary). The Cambodia Trust Law of 2019 provides the legal framework for establishing
+                            trusts, enabling foreigners to register their fixed assets with trustee companies in
+                            Cambodia.
+                        </p>
+
+                    </div>
+
+                    <!-- Right: Image -->
+                    <div class="w-full lg:w-1/2" data-aos="fade-left" data-aos-delay="200">
+                        <div
+                            class="rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 hover:shadow-orange-500/30 border border-white/10">
+                            <img src="/images/Services/Attorney-consults.jpg" alt="Trust Legal Foundation"
+                                class="w-full h-auto object-cover" />
+                        </div>
                     </div>
                 </div>
-            </transition>
+
+                <!-- Row 2: Image left, Text right -->
+                <div class="flex flex-col lg:flex-row-reverse items-center justify-between gap-12 mb-24"
+                    data-aos="fade-up" data-aos-duration="1000">
+                    <!-- Right: Content -->
+                    <div class="w-full lg:w-1/2 space-y-6">
+                        <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-4">Trust Relationship</h3>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            Trust relationships involve three key parties: the trustor (who creates the trust), the
+                            trustee (who manages the trust), and the beneficiaries (who benefit from the trust). At
+                            Phillip Trustee (Cambodia), we act as your trusted partner, providing specialized management
+                            of assets while ensuring compliance with Cambodian regulations and protecting your
+                            interests.
+                        </p>
+
+                    </div>
+
+                    <!-- Left: Image -->
+                    <div class="w-full lg:w-1/2" data-aos="fade-right" data-aos-delay="200">
+                        <div
+                            class="rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 hover:shadow-orange-500/30 border border-white/10">
+                            <img src="/images/Services/client-value.jpg" alt="Trust Relationship"
+                                class="w-full h-auto object-cover" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Text left, Image right -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-12" data-aos="fade-up"
+                    data-aos-duration="1000">
+                    <!-- Left: Content -->
+                    <div class="w-full lg:w-1/2 space-y-6">
+                        <h3 class="text-2xl md:text-3xl font-bold text-orange-400 mb-4">Benefits of Trust Services</h3>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            Establishing a trust in Cambodia offers numerous advantages, including asset protection,
+                            simplified foreign investment processes, legal property ownership for foreigners, tax
+                            efficiency, and succession planning. Our trust services provide a secure and regulated way
+                            to manage and transfer assets while navigating Cambodia's unique regulatory environment.
+                        </p>
+
+                    </div>
+
+                    <!-- Right: Image -->
+                    <div class="w-full lg:w-1/2" data-aos="fade-left" data-aos-delay="200">
+                        <div
+                            class="rounded-xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-500 hover:shadow-orange-500/30 border border-white/10">
+                            <img src="/images/Services/trustee-image.jpg" alt="Benefits of Trust Services"
+                                class="w-full h-auto object-cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- Types of Trust -->
+        <section class="bg-gradient-to-b from-[#0e2a52] to-[#0a2b5c] py-24 px-4 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5">
+                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="dot-pattern-trust" x="0" y="0" width="20" height="20"
+                            patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1" fill="white" />
+                        </pattern>
+                    </defs>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dot-pattern-trust)" />
+                </svg>
+            </div>
+
+            <!-- Circle Decoration Elements -->
+            <div
+                class="absolute top-10 left-10 w-48 h-48 bg-[#f15a22]/20 rounded-full blur-3xl -z-10 animate-pulse-slow">
+            </div>
+            <div
+                class="absolute bottom-20 right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
+            </div>
+
+            <div class="container mx-auto relative z-10">
+                <!-- Header -->
+                <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 text-center">Types of Trust in
+                        Cambodia</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-[#f15a22] to-orange-400 mx-auto mb-8"></div>
+                    <p class="text-lg text-white/80 max-w-3xl mx-auto text-center">
+                        Under Cambodia's Trust Law, there are several types of trusts designed to serve different
+                        purposes and meet various needs of individuals and organizations.
+                    </p>
+                </div>
+
+                <!-- Slider container with navigation buttons -->
+                <div class="relative px-4 md:px-10"> <!-- Left Navigation Button -->
+                    <button @click="slideTrustTypesLeft"
+                        class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-[#f15a22] transition-colors duration-300 text-[#0e2a52] hover:text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50"
+                        aria-label="Previous type of trust">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Slider Viewport -->
+                    <div class="overflow-hidden">
+                        <div class="flex transition-transform duration-500 ease-in-out"
+                            :style="{ transform: `translateX(-${trustTypeSlideIndex * 100 / visibleSlides}%)` }"
+                            ref="trustTypeSlider">
+                            <div v-for="(type, index) in trustTypes" :key="type.title"
+                                class="flex-shrink-0 px-3 md:px-5" :style="{ width: `${100 / visibleSlides}%` }">
+                                <div
+                                    class="bg-white/10 rounded-2xl shadow-xl h-full p-6 md:p-8 flex flex-col items-center text-center hover:-translate-y-2 transition-all duration-500 hover:shadow-2xl hover:shadow-[#f15a22]/20 border border-white/10 animate-card">
+                                    <!-- Icon -->
+                                    <div class="mb-5 bg-[#f15a22]/30 p-5 rounded-full">
+                                        <img :src="getIconImagePath(type.title)" :alt="`${type.title} icon`"
+                                            class="w-16 h-16 object-contain brightness-[1.5]" />
+                                    </div>
+
+                                    <!-- Title -->
+                                    <h4 class="text-xl md:text-2xl font-bold text-white mb-3">{{ type.title }}</h4>
+
+                                    <!-- Description -->
+                                    <p class="text-white/80 flex-grow">{{ type.desc }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- Right Navigation Button -->
+                    <button @click="slideTrustTypesRight"
+                        class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white hover:bg-[#f15a22] transition-colors duration-300 text-[#0e2a52] hover:text-white p-3 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50"
+                        aria-label="Next type of trust">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button> <!-- Slide Indicators (Dots) -->
+
+                    <div class="flex justify-center mt-8 space-x-3">
+                        <button v-for="(_, index) in Math.ceil(trustTypes.length / visibleSlides)" :key="index"
+                            @click="goToTrustTypeSlide(index)" :class="[
+                                'w-3 h-3 rounded-full focus:outline-none transition-all duration-300',
+                                trustTypeSlideIndex === index ? 'bg-[#f15a22] w-8' : 'bg-white/30 hover:bg-white/50'
+                            ]" :aria-label="`Go to slide ${index + 1}`"></button>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- Key Services and Products -->
+        <section class="bg-[#0a2b5c] py-24 px-4 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-5">
+                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="dot-pattern-services" x="0" y="0" width="20" height="20"
+                            patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1" fill="white" />
+                        </pattern>
+                    </defs>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dot-pattern-services)" />
+                </svg>
+            </div>
+
+            <!-- Circle Decoration Elements -->
+            <div
+                class="absolute top-20 right-10 w-48 h-48 bg-[#f15a22]/20 rounded-full blur-3xl -z-10 animate-pulse-slow">
+            </div>
+            <div
+                class="absolute bottom-20 left-20 w-64 h-64 bg-white/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
+            </div>
+
+            <div class="container mx-auto relative z-10">
+                <div class="flex flex-col items-center mb-16">
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 text-center">Our Key Services</h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-[#f15a22] to-orange-400 mx-auto mb-8"></div>
+                    <p class="text-lg text-white/80 max-w-3xl mx-auto text-center">
+                        We offer comprehensive trust services to protect your assets and secure your future with
+                        expertise and reliability.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div v-for="(service, idx) in services" :key="service.title"
+                        class="bg-white/10 border border-white/10 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group hover:bg-white/15"
+                        @click="openModal(idx)">
+                        <div class="relative">
+                            <img :src="service.image" :alt="service.title"
+                                class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/80 to-transparent"></div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-white group-hover:text-[#f15a22] mb-2">{{
+                                service.title }}</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
+
+        <!-- Modal for Service Details -->
+        <transition name="fade">
+            <div v-if="modalOpen"
+                class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 relative animate-card">
+                    <button @click="closeModal"
+                        class="absolute top-4 right-4 w-8 h-8 bg-[#f15a22]/10 hover:bg-[#f15a22] text-[#f15a22] hover:text-white rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <div class="flex flex-col md:flex-row items-center gap-6">
+                        <div class="md:w-1/3">
+                            <div
+                                class="relative w-32 h-32 md:w-full md:h-auto md:aspect-square mx-auto overflow-hidden rounded-2xl shadow-lg border-4 border-[#e6eaf0]">
+                                <img :src="selectedService.image" :alt="selectedService.title"
+                                    class="w-full h-full object-cover object-center" />
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#13325e]/70 to-transparent"></div>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3">
+                            <h3 class="text-2xl md:text-3xl font-bold text-[#13325e] mb-3 text-center md:text-left">
+                                {{ selectedService.title }}
+                            </h3>
+                            <div class="w-16 h-1 bg-[#f15a22] mb-4 mx-auto md:mx-0"></div>
+                            <p class="text-[#13325e]/80 text-center md:text-left text-lg">{{ selectedService.desc }}</p>
+                            <button @click="closeModal"
+                                class="mt-6 bg-[#f15a22] hover:bg-[#13325e] text-white py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </transition>
     </div>
 </template>
 
@@ -118,14 +327,23 @@ export default {
                 { title: 'Beneficiaries', desc: 'The individual(s) who benefits from the trust on the date the trust comes into force, with the exception of certain conditions.', icon: UsersIcon },
             ],
             services: [
-                { title: 'Hold Trust Property', image: '/images/services/key_service_img_02.jpg', desc: 'We securely hold and manage trust property on behalf of our clients, ensuring compliance and transparency.' },
+                { title: 'Hold Trust Property', image: '/images/services/Attorney-consults.jpg', desc: 'We securely hold and manage trust property on behalf of our clients, ensuring compliance and transparency.' },
                 { title: 'Hold Personal Trust', image: '/images/services/key_service_img_03.jpg', desc: 'Personal trust services tailored to your needs, safeguarding your assets for your benefit or your loved ones.' },
                 { title: 'Escrow Services', image: '/images/services/key_service_img_04.jpg', desc: 'Professional escrow services for secure transactions and peace of mind.' },
                 { title: 'Sales and Purchase Agreement (SPA) Service', image: '/images/services/key_service_img_02.jpg', desc: 'Expert handling of SPA services to facilitate smooth and secure property transactions.' },
             ],
             modalOpen: false,
             selectedService: {},
+            trustTypeSlideIndex: 0,
+            visibleSlides: 3, // Default for desktop
         }
+    },
+    mounted() {
+        this.updateVisibleSlides();
+        window.addEventListener('resize', this.updateVisibleSlides);
+    },
+    beforeUnmount() {
+        window.removeEventListener('resize', this.updateVisibleSlides);
     },
     methods: {
         openModal(idx) {
@@ -135,6 +353,48 @@ export default {
         closeModal() {
             this.modalOpen = false;
             this.selectedService = {};
+        },
+        // Slider navigation methods
+        slideTrustTypesLeft() {
+            if (this.trustTypeSlideIndex > 0) {
+                this.trustTypeSlideIndex--;
+            }
+        },
+        slideTrustTypesRight() {
+            const maxIndex = Math.ceil(this.trustTypes.length / this.visibleSlides) - 1;
+            if (this.trustTypeSlideIndex < maxIndex) {
+                this.trustTypeSlideIndex++;
+            }
+        },
+        goToTrustTypeSlide(index) {
+            this.trustTypeSlideIndex = index;
+        },
+        updateVisibleSlides() {
+            // Responsive behavior: adjust visible slides based on screen width
+            if (window.innerWidth < 640) {
+                this.visibleSlides = 1; // Mobile view
+            } else if (window.innerWidth < 1024) {
+                this.visibleSlides = 2; // Tablet view
+            } else {
+                this.visibleSlides = 3; // Desktop view
+            }
+
+            // Reset current slide index if needed
+            const maxIndex = Math.ceil(this.trustTypes.length / this.visibleSlides) - 1;
+            if (this.trustTypeSlideIndex > maxIndex) {
+                this.trustTypeSlideIndex = maxIndex;
+            }
+        }, getIconImagePath(title) {
+            // Map trust types to icon image paths
+            const iconMap = {
+                'Financial Trust': '/images/icons/income.png',
+                'Commercial Trust': '/images/icons/commercial.png',
+                'Public Trust': '/images/icons/multiple-users-silhouette.png',
+                'Social Trust': '/images/icons/collaboration.png',
+                'Personal Trust': '/images/icons/user.png'
+            };
+
+            return iconMap[title] || '/images/icons/money-bag.png'; // Default fallback icon
         }
     }
 }
@@ -197,6 +457,24 @@ export default {
 
 .animate-bounce-slow {
     animation: bounce-slow 4s infinite;
+}
+
+@keyframes pulse-slow {
+
+    0%,
+    100% {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 6s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
 
 .fade-enter-active,

@@ -1,32 +1,30 @@
 <template>
     <div class="min-h-screen bg-[#e6eaf0]"> <!-- Hero Section -->
-        <section class="relative bg-gradient-to-br from-navy via-[#1d4170] to-navy text-white py-32 overflow-hidden">
-            <div class="absolute inset-0 opacity-20">
-                <div class="absolute inset-0 bg-pattern-dots"></div>
-            </div>
-            <div class="container mx-auto px-4 md:px-8 flex flex-col items-center relative z-10">
-                <div class="absolute -top-10 -left-10 w-40 h-40 bg-orange-500 rounded-full filter blur-3xl opacity-20">
-                </div>
-                <div
-                    class="absolute -bottom-20 -right-10 w-60 h-60 bg-blue-700 rounded-full filter blur-3xl opacity-20">
-                </div>
+        <!-- Hero Section -->
+        <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+            backgroundImage: 'url(/images/Services/client-services.jpg)',
+        }">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
 
-                <h1 class="text-4xl md:text-6xl font-bold text-center mb-6 text-orange animate-fadeIn">
-                    Our <span class="text-white">Management Team</span>
+            <!-- Content -->
+            <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
+                data-aos-duration="1200">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                    <span class="text-orange-400">Learn</span>
+                    and 
+                    <span class="text-orange-400">Know</span>
+                    about
+                    <span class="text-orange-400">Phillip Trustee</span>
                 </h1>
-                <div class="h-1 w-32 bg-orange-500 mb-8 animate-widthGrow"></div>
-                <p class="text-xl md:text-2xl text-center max-w-3xl text-lightgray2 animate-fadeUp">
-                    Meet the leaders guiding Phillip Trustee (Cambodia) to success
+                <p class="text-lg md:text-xl text-white/80 mb-8">
+                    Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
-                <div class="mt-12 w-full max-w-md animate-fadeUp animation-delay-300">
-                    <div
-                        class="bg-white/10 backdrop-blur-sm rounded-2xl shadow-2xl p-6 flex items-center justify-center border border-white/20 hover:border-orange-500/50 transition-all duration-500">
-                        <img src="/images/logo.svg" alt="Pillip Trustee Logo" class="w-32 h-32 object-contain" />
-                    </div>
-                </div>
+
             </div>
-            <div class="absolute bottom-0 left-0 right-0 h-20 bg-[#e6eaf0] transform -translate-y-1/2 skew-y-3"></div>
-        </section><!-- Management Profiles -->
+        </section>
+        
+        <!-- Management Profiles -->
         <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">

@@ -2,19 +2,27 @@
     <div class="min-h-screen bg-[#e6eaf0]">
         <!-- Hero Section -->
         <!-- What is Trust  -->
-        <section
-            class="relative bg-gradient-to-br from-[#13325e] via-[#1d4170] to-[#13325e] py-20 px-4 flex flex-col items-center justify-center text-center overflow-hidden">
-            <h1 class="text-5xl md:text-6xl font-bold text-white mb-4 animate-fadein">Our Trust Services</h1>
-            <p class="text-xl md:text-2xl text-[#e6eaf0] max-w-2xl mb-8 animate-fadein delay-200">
-                Discover the types of trusts and key services we offer to help you secure your assets and future.
-            </p>
-            <img src="/images/logo.svg" alt="Phillip Trustee Logo"
-                class="w-24 h-24 mx-auto rounded-full bg-white/80 p-3 shadow-lg animate-fadein delay-300" />
-            <div class="absolute bottom-0 left-0 right-0 h-12 bg-[#f15a22] opacity-80 skew-y-3"></div>
-            <div
-                class="absolute top-0 left-0 w-32 h-32 bg-[#f15a22]/20 rounded-full blur-2xl -z-10 animate-bounce-slow">
-            </div>
-            <div class="absolute top-10 right-10 w-24 h-24 bg-[#e6eaf0]/30 rounded-full blur-2xl -z-10 animate-pulse">
+       <!-- Hero Section -->
+        <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+            backgroundImage: 'url(/images/Services/client-value.jpg)',
+        }">
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
+
+            <!-- Content -->
+            <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
+                data-aos-duration="1200">
+                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                    <span class="text-orange-400">Learn</span>
+                    and 
+                    <span class="text-orange-400">Know</span>
+                    about
+                    <span class="text-orange-400">Phillip Trustee</span>
+                </h1>
+                <p class="text-lg md:text-xl text-white/80 mb-8">
+                    Empowering investors and building trust in Cambodia through personalized, secure financial services.
+                </p>
+
             </div>
         </section>
 
@@ -171,7 +179,7 @@
                                     <!-- Icon -->
                                     <div class="mb-5 bg-[#f15a22]/30 p-5 rounded-full">
                                         <img :src="getIconImagePath(type.title)" :alt="`${type.title} icon`"
-                                            class="w-16 h-16 object-contain brightness-[1.5]" />
+                                            class="w-16 h-16 object-contain" />
                                     </div>
 
                                     <!-- Title -->
@@ -232,18 +240,44 @@
                         expertise and reliability.
                     </p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div v-for="(service, idx) in services" :key="service.title"
-                        class="bg-white/10 border border-white/10 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 cursor-pointer group hover:bg-white/15"
-                        @click="openModal(idx)">
-                        <div class="relative">
-                            <img :src="service.image" :alt="service.title"
-                                class="w-full h-48 object-cover object-center group-hover:scale-105 transition-transform duration-500" />
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/80 to-transparent"></div>
-                        </div>
-                        <div class="p-6">
-                            <h4 class="text-xl font-bold text-white group-hover:text-[#f15a22] mb-2">{{
-                                service.title }}</h4>
+                <div class="flex flex-col space-y-8">
+                    <div v-for="service in services" :key="service.id"
+                        class="bg-white/10 border border-white/10 rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:bg-white/15 group animate-card">
+                        <div class="flex flex-col md:flex-row">
+                            <!-- Left: Image -->
+                            <div class="md:w-2/5 relative">
+                                <img :src="service.image" :alt="service.title"
+                                    class="w-full h-full object-cover object-center md:h-64 group-hover:scale-105 transition-transform duration-500" />
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-r from-[#0a2b5c]/70 to-transparent md:bg-gradient-to-l">
+                                </div>
+                            </div>
+
+                            <!-- Right: Content -->
+                            <div class="md:w-3/5 p-6 md:p-8 flex flex-col justify-between">
+                                <div>
+                                    <h3
+                                        class="text-2xl font-bold text-white group-hover:text-[#f15a22] mb-3 transition-colors duration-300">
+                                        {{ service.title }}
+                                    </h3>
+                                    <p class="text-white/80 mb-6">
+                                        {{ service.desc }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <button @click="openModal(service.id - 1)"
+                                        class="px-5 py-2 bg-[#f15a22] hover:bg-[#f15a22]/80 text-white rounded-lg transition-all duration-300 flex items-center space-x-2 group-hover:shadow-lg">
+                                        <span>Learn More</span>
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300"
+                                            viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd"
+                                                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -278,11 +312,20 @@
                                 {{ selectedService.title }}
                             </h3>
                             <div class="w-16 h-1 bg-[#f15a22] mb-4 mx-auto md:mx-0"></div>
-                            <p class="text-[#13325e]/80 text-center md:text-left text-lg">{{ selectedService.desc }}</p>
-                            <button @click="closeModal"
-                                class="mt-6 bg-[#f15a22] hover:bg-[#13325e] text-white py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50">
-                                Close
-                            </button>
+                            <p class="text-[#13325e]/80 text-center md:text-left text-lg mb-4">{{ selectedService.desc
+                            }}</p>
+                            <p class="text-[#13325e]/70 text-center md:text-left text-base mb-6">{{
+                                selectedService.details }}</p>
+                            <div class="flex space-x-3 justify-center md:justify-start">
+                                <button @click="closeModal"
+                                    class="bg-[#f15a22] hover:bg-[#13325e] text-white py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50">
+                                    Close
+                                </button>
+                                <button
+                                    class="border border-[#13325e] hover:bg-[#13325e] hover:text-white text-[#13325e] py-2 px-6 rounded-lg transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[#13325e] focus:ring-opacity-50">
+                                    Contact Us
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -325,12 +368,35 @@ export default {
                 { title: 'Trustor', desc: 'The individual who gives their assets or initial funds to the trust with the right to receive information about the trust management and appointment or termination of the trustee.', icon: UserIcon },
                 { title: 'Trustee', desc: 'The person who has the right to manage and administer the trust from another trustor for the benefit of the beneficiary, in accordance with the letter of trust or regulations in force.', icon: BriefcaseIcon },
                 { title: 'Beneficiaries', desc: 'The individual(s) who benefits from the trust on the date the trust comes into force, with the exception of certain conditions.', icon: UsersIcon },
-            ],
-            services: [
-                { title: 'Hold Trust Property', image: '/images/services/Attorney-consults.jpg', desc: 'We securely hold and manage trust property on behalf of our clients, ensuring compliance and transparency.' },
-                { title: 'Hold Personal Trust', image: '/images/services/key_service_img_03.jpg', desc: 'Personal trust services tailored to your needs, safeguarding your assets for your benefit or your loved ones.' },
-                { title: 'Escrow Services', image: '/images/services/key_service_img_04.jpg', desc: 'Professional escrow services for secure transactions and peace of mind.' },
-                { title: 'Sales and Purchase Agreement (SPA) Service', image: '/images/services/key_service_img_02.jpg', desc: 'Expert handling of SPA services to facilitate smooth and secure property transactions.' },
+            ], services: [
+                {
+                    id: 1,
+                    title: 'Hold Trust Property',
+                    image: '/images/services/Attorney-consults.jpg',
+                    desc: 'We securely hold and manage trust property on behalf of our clients, ensuring compliance and transparency across all asset classes.',
+                    details: 'Our trust property holding services provide a secure framework for asset management that complies with all relevant regulations. Our expert team ensures transparent administration and reporting, giving you peace of mind about your valuable assets.'
+                },
+                {
+                    id: 2,
+                    title: 'Personal Trust Services',
+                    image: '/images/services/key_service_img_03.jpg',
+                    desc: 'Personal trust services tailored to your needs, safeguarding your assets for your benefit or your loved ones with personalized attention.',
+                    details: 'Our personal trust services are designed with your unique needs in mind. We work closely with you to develop customized solutions for asset protection, wealth preservation, and efficient succession planning that aligns with your goals.'
+                },
+                {
+                    id: 3,
+                    title: 'Escrow Services',
+                    image: '/images/services/key_service_img_04.jpg',
+                    desc: 'Professional escrow services for secure transactions and peace of mind when engaging in high-value business deals in Cambodia.',
+                    details: 'Our escrow services provide a neutral third-party solution that protects all parties in complex transactions. We verify conditions are met before funds are released, ensuring security and confidence throughout the process.'
+                },
+                {
+                    id: 4,
+                    title: 'Sales and Purchase Agreement (SPA) Services',
+                    image: '/images/services/key_service_img_02.jpg',
+                    desc: 'Expert handling of SPA services to facilitate smooth and secure property transactions that protect your interests.',
+                    details: 'Our comprehensive SPA services guide you through every step of property transactions in Cambodia. We ensure all documentation is properly executed, legal requirements are met, and your interests are protected throughout the transaction process.'
+                },
             ],
             modalOpen: false,
             selectedService: {},

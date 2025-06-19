@@ -12,15 +12,16 @@
             <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
                 data-aos-duration="1200">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                    Welcome to <span class="text-orange-400">Phillip Trustee</span>
+                    <span class="text-orange-400">Learn</span>
+                    and
+                    <span class="text-orange-400">Know</span>
+                    about
+                    <span class="text-orange-400">Phillip Trustee</span>
                 </h1>
                 <p class="text-lg md:text-xl text-white/80 mb-8">
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
-                <NuxtLink to="/about"
-                    class="inline-block px-6 py-3 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-full transition-all duration-300 shadow-md">
-                    Learn More
-                </NuxtLink>
+
             </div>
         </section>
         <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
@@ -67,8 +68,9 @@
                         data-aos-delay="200">
                         <div
                             class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
-                            <span
-                                class="text-orange-400 text-2xl pt-1 transition-transform duration-300 transform hover:scale-125">✔</span>
+                            <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
+                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                            </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Origins</h3>
                                 <p>
@@ -80,11 +82,11 @@
                                 </p>
                             </div>
                         </div>
-
                         <div
                             class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
-                            <span
-                                class="text-orange-400 text-2xl pt-1 transition-transform duration-300 transform hover:scale-125">✔</span>
+                            <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
+                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                            </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Affiliations</h3>
                                 <p>
@@ -95,11 +97,11 @@
                                 </p>
                             </div>
                         </div>
-
                         <div
                             class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
-                            <span
-                                class="text-orange-400 text-2xl pt-1 transition-transform duration-300 transform hover:scale-125">✔</span>
+                            <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
+                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                            </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Approach</h3>
                                 <p>
@@ -151,17 +153,7 @@
                                     One of the medium-sized commercial banks in Cambodia, providing
                                     comprehensive banking services to individuals and businesses.
                                 </p>
-                                <div class="mt-6 pt-4 border-t border-blue-900/30">
-                                    <a href="#"
-                                        class="text-orange-400 hover:text-orange-300 font-medium flex items-center gap-2 transition-colors group-hover:translate-x-1 transform duration-300">
-                                        Learn more
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -192,17 +184,7 @@
                                     Offering a wide range of insurance products designed to protect individuals
                                     and businesses across Cambodia.
                                 </p>
-                                <div class="mt-6 pt-4 border-t border-blue-900/30">
-                                    <a href="#"
-                                        class="text-orange-400 hover:text-orange-300 font-medium flex items-center gap-2 transition-colors group-hover:translate-x-1 transform duration-300">
-                                        Learn more
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -231,17 +213,7 @@
                                     Providing comprehensive trust services enabling foreign investors
                                     to own and manage their assets in Cambodia.
                                 </p>
-                                <div class="mt-6 pt-4 border-t border-blue-900/30">
-                                    <a href="#"
-                                        class="text-orange-400 hover:text-orange-300 font-medium flex items-center gap-2 transition-colors group-hover:translate-x-1 transform duration-300">
-                                        Learn more
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 5l7 7-7 7" />
-                                        </svg>
-                                    </a>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -289,6 +261,12 @@
                                             <h3 class="text-xl font-bold">{{ goal.title }}</h3>
                                         </div>
 
+                                        <!-- Large image below title and above content -->
+                                        <div v-if="goal.largeImage" class="my-6 rounded-lg overflow-hidden shadow-md">
+                                            <img :src="goal.largeImage" :alt="`${goal.title} illustration`"
+                                                class="w-full h-48 object-cover object-center hover:scale-105 transition-transform duration-500" />
+                                        </div>
+
                                         <p v-if="goal.type === 'text'" class="text-white/90">
                                             {{ goal.description }}
                                         </p>
@@ -296,7 +274,8 @@
                                         <ul v-if="goal.type === 'list'" class="space-y-3 mt-2">
                                             <li v-for="(item, i) in goal.description" :key="i"
                                                 class="flex items-start gap-2">
-                                                <span class="text-orange-400 pt-1">✔</span>
+                                                <img src="/images/icons/check.png" alt="Check"
+                                                    class="w-5 h-5 mt-1 object-contain flex-shrink-0" />
                                                 <span>{{ item }}</span>
                                             </li>
                                         </ul>
@@ -339,6 +318,7 @@ const goals = [
         image: "/images/icons/target.png",
         icon: "🎯", // Keeping the icon as backup
         type: "text",
+        largeImage: "/images/about/1-mission.jpg", // Added large image for the card
         description: "To enable foreign investors to own their tangible assets and to grow their businesses.",
     },
     {
@@ -346,6 +326,7 @@ const goals = [
         image: "/images/icons/idea.png",
         icon: "💡", // Keeping the icon as backup
         type: "text",
+        largeImage: "/images/about/1-vision.jpg", // Added large image for the card
         description: "To be an active catalyst in bringing foreign investments into Cambodia.",
     },
     {
@@ -353,6 +334,7 @@ const goals = [
         image: "/images/icons/diamond.png",
         icon: "💎", // Keeping the icon as backup
         type: "list",
+        largeImage: "/images/about/1-value.jpg", // Added large image for the card
         description: [
             "Transparency: We are transparent in all dealings with our customers.",
             "Conduct of Business: We serve our customers with mutual respect and honesty. We do not tolerate bribery in any form.",

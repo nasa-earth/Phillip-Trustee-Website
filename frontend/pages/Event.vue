@@ -1,28 +1,27 @@
 <template>
   <div class="min-h-screen bg-lightgray">
     <!-- Hero Section -->
-        <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
-            backgroundImage: 'url(/images/Services/Beneficiaries-rights.jpg)',
-        }">
-            <!-- Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
+    <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+      backgroundImage: 'url(/images/Services/Beneficiaries-rights.jpg)',
+    }">
+      <!-- Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
 
-            <!-- Content -->
-            <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
-                data-aos-duration="1200">
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                    <span class="text-orange-400">Learn</span>
-                    and
-                    <span class="text-orange-400">Know</span>
-                    about
-                    <span class="text-orange-400">Phillip Trustee</span>
-                </h1>
-                <p class="text-lg md:text-xl text-white/80 mb-8">
-                    Empowering investors and building trust in Cambodia through personalized, secure financial services.
-                </p>
+      <!-- Content -->
+      <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up" data-aos-duration="1200">
+        <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+          <span class="text-[#f15a22]">Learn</span>
+          and
+          <span class="text-[#f15a22]">Know</span>
+          about
+          <span class="text-[#f15a22]">Phillip Trustee</span>
+        </h1>
+        <p class="text-lg md:text-xl text-white/80 mb-8">
+          Empowering investors and building trust in Cambodia through personalized, secure financial services.
+        </p>
 
-            </div>
-        </section>
+      </div>
+    </section>
 
     <!-- Events Section -->
     <section
@@ -70,13 +69,13 @@
             </div>
 
             <div class="p-6">
-              <h3 class="text-2xl font-bold text-orange-400 mb-4">
+              <h3 class="text-2xl font-bold text-[#f15a22] mb-4">
                 {{ event.title }}
               </h3>
               <p class="text-white/90 mb-6">{{ event.description }}</p>
               <div class="flex justify-between items-center">
-                <button @click="openEventModal(event)"
-                  class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg">
+                <NuxtLink :to="`/EventDetails?id=${event.id}`"
+                  class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
                   <span>Read More</span>
                   <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20"
@@ -85,131 +84,15 @@
                       d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
                       clip-rule="evenodd" />
                   </svg>
-                </button>
+                </NuxtLink>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section> 
-   
+    </section>
 
-          
-    <!-- Event Details Modal -->
-    <div v-if="showModal && selectedEvent"
-      class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto" data-aos="zoom-in"
-        data-aos-duration="300">
-        <div class="relative">
-          <!-- Header Image -->
-          <div class="h-64 w-full overflow-hidden">
-            <img :src="selectedEvent.image" :alt="selectedEvent.title" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-          </div>
-
-          <!-- Close Button -->
-          <button @click="closeEventModal"
-            class="absolute top-4 right-4 bg-white/20 backdrop-blur-sm hover:bg-white/40 p-2 rounded-full text-white transition-all duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-
-          <!-- Event Title Overlay -->
-          <div class="absolute bottom-0 left-0 w-full p-6">
-            <div class="bg-orange-500 text-white px-4 py-2 rounded-lg inline-block mb-4">
-              {{ formatDate(selectedEvent.date) }}
-            </div>
-            <h2 class="text-3xl font-bold text-white mb-2">{{ selectedEvent.title }}</h2>
-          </div>
-        </div>
-
-        <!-- Event Content -->
-        <div class="p-6">
-          <!-- Event Details -->
-          <div class="flex flex-col md:flex-row gap-8 mb-8">
-            <div class="w-full md:w-2/3">
-              <h3 class="text-xl font-semibold text-[#0a2b5c] mb-4">Event Details</h3>
-              <p class="text-gray-700 mb-6">{{ selectedEvent.details }}</p>
-
-              <div v-if="selectedEvent.speakers && selectedEvent.speakers.length > 0">
-                <h4 class="text-lg font-medium text-[#0a2b5c] mb-3">Featured Speakers</h4>
-                <div class="space-y-4">
-                  <div v-for="(speaker, index) in selectedEvent.speakers" :key="index" class="flex items-center gap-4">
-                    <div
-                      class="w-10 h-10 rounded-full bg-[#0a2b5c] flex items-center justify-center text-white font-bold">
-                      {{ speaker.name.charAt(0) }}
-                    </div>
-                    <div>
-                      <h5 class="font-medium">{{ speaker.name }}</h5>
-                      <p class="text-sm text-gray-600">{{ speaker.role }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="w-full md:w-1/3">
-              <div class="bg-gray-50 p-5 rounded-lg">
-                <h3 class="text-xl font-semibold text-[#0a2b5c] mb-4">Event Information</h3>
-
-                <div class="space-y-4">
-                  <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500 mt-1" viewBox="0 0 20 20"
-                      fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <div>
-                      <h5 class="font-medium text-gray-700">Date</h5>
-                      <p>{{ formatDate(selectedEvent.date) }}</p>
-                    </div>
-                  </div>
-
-                  <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500 mt-1" viewBox="0 0 20 20"
-                      fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <div>
-                      <h5 class="font-medium text-gray-700">Time</h5>
-                      <p>{{ selectedEvent.time }}</p>
-                    </div>
-                  </div>
-
-                  <div class="flex items-start gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500 mt-1" viewBox="0 0 20 20"
-                      fill="currentColor">
-                      <path fill-rule="evenodd"
-                        d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                        clip-rule="evenodd" />
-                    </svg>
-                    <div>
-                      <h5 class="font-medium text-gray-700">Location</h5>
-                      <p>{{ selectedEvent.location }}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <button
-                class="w-full bg-[#0a2b5c] hover:bg-[#0a2b5c]/90 text-white px-6 py-3 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 mt-5">
-                <span>Register for Event</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
-                    clip-rule="evenodd" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <!-- Modal removed as we now navigate to the EventDetails page -->
   </div>
 </template>
 
@@ -227,11 +110,8 @@ export default {
         }
       ]
     }
-  },
-  data() {
+  }, data() {
     return {
-      selectedEvent: null,
-      showModal: false,
       events: [
         {
           id: 1,
@@ -317,21 +197,10 @@ export default {
         }
       ]
     }
-  }, methods: {
+  },
+  methods: {
     formatDate(dateString) {
       return dateString; // Simple pass-through for now, can be enhanced with date formatting if needed
-    },
-    openEventModal(event) {
-      this.selectedEvent = event;
-      this.showModal = true;
-      // Prevent scrolling on the body when modal is open
-      document.body.style.overflow = 'hidden';
-    },
-    closeEventModal() {
-      this.showModal = false;
-      this.selectedEvent = null;
-      // Restore scrolling on the body when modal is closed
-      document.body.style.overflow = 'auto';
     }
   }
 }

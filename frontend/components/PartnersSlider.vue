@@ -49,7 +49,7 @@ export default {
             switch (this.size) {
                 case 'small': return 'w-32 h-16';
                 case 'large': return 'w-64 h-32';
-                default: return 'w-48 h-24'; // medium
+                default: return 'w-36 h-18'; // medium
             }
         }
     },

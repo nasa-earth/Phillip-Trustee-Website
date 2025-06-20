@@ -72,7 +72,7 @@
                                 <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Origins</h3>
+                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Origins</h3>
                                 <p>
                                     <strong class="text-white">Phillip Trustee (Cambodia), Co Ltd.</strong> was
                                     incorporated in June 2022, after the Law of Trust was passed in 2019, allowing
@@ -88,7 +88,7 @@
                                 <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Affiliations</h3>
+                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Affiliations</h3>
                                 <p>
                                     We are the associated company of <strong class="text-white">Phillip Bank,
                                         Plc</strong>, one of the medium-sized commercial banks in Cambodia, part of the
@@ -103,7 +103,7 @@
                                 <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-orange-300">Our Approach</h3>
+                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Approach</h3>
                                 <p>
                                     At <strong class="text-white">Phillip Trustee (Cambodia), Co Ltd.</strong>, we
                                     believe in a financial and non-financial ecosystem that provides suitable services
@@ -139,7 +139,7 @@
                                 <div class="flex items-center gap-3 mb-4">
                                     <div
                                         class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-400"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
                                             <path fill-rule="evenodd"
@@ -147,7 +147,7 @@
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-xl font-bold text-orange-400">Phillip Bank</h3>
+                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip Bank</h3>
                                 </div>
                                 <p class="text-white/90">
                                     One of the medium-sized commercial banks in Cambodia, providing
@@ -171,14 +171,14 @@
                                 <div class="flex items-center gap-3 mb-4">
                                     <div
                                         class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-400"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
                                                 d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
                                                 clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-xl font-bold text-orange-400">Phillip General Insurance</h3>
+                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip General Insurance</h3>
                                 </div>
                                 <p class="text-white/90">
                                     Offering a wide range of insurance products designed to protect individuals
@@ -201,13 +201,13 @@
                                 <div class="flex items-center gap-3 mb-4">
                                     <div
                                         class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-400"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path
                                                 d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                                         </svg>
                                     </div>
-                                    <h3 class="text-xl font-bold text-orange-400">Phillip Trustee</h3>
+                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip Trustee</h3>
                                 </div>
                                 <p class="text-white/90">
                                     Providing comprehensive trust services enabling foreign investors
@@ -293,7 +293,7 @@
             <div class="container mx-auto mb-12">
                 <div class="flex flex-col items-center mb-12">
                     <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 text-white">Our Partners</h2>
-                    <div class="w-24 h-1 bg-orange-500"></div>
+                    <div class="w-24 h-1 text-[#f15a22]"></div>
                     <p class="text-white/80 text-center mt-6 max-w-2xl">
                         We collaborate with leading organizations across Cambodia to provide the best service to our
                         clients.

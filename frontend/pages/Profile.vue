@@ -11,11 +11,11 @@
             <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
                 data-aos-duration="1200">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                    <span class="text-orange-400">Learn</span>
+                    <span class="text-[#f15a22]">Learn</span>
                     and 
-                    <span class="text-orange-400">Know</span>
+                    <span class="text-[#f15a22]">Know</span>
                     about
-                    <span class="text-orange-400">Phillip Trustee</span>
+                    <span class="text-[#f15a22]">Phillip Trustee</span>
                 </h1>
                 <p class="text-lg md:text-xl text-white/80 mb-8">
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
@@ -78,7 +78,7 @@
                                 <!-- Text content -->
                                 <div class="mt-10 text-center">
                                     <h3
-                                        class="text-xl font-bold text-orange-400 transition-colors duration-300 group-hover:text-white mb-1">
+                                        class="text-xl font-bold text-[#f15a22] transition-colors duration-300 group-hover:text-white mb-1">
                                         {{ manager.name }}
                                     </h3>
                                     <p class="text-white/80 mb-4">{{ manager.title }}</p>
@@ -88,7 +88,7 @@
                                     <!-- View More button -->
                                     <div class="mt-4 pt-2">
                                         <span
-                                            class="inline-flex items-center gap-1 text-orange-400 hover:text-orange-300 text-sm font-medium transition-colors group-hover:translate-x-1 transform duration-300">
+                                            class="inline-flex items-center gap-1 text-[#f15a22] hover:text-orange-300 text-sm font-medium transition-colors group-hover:translate-x-1 transform duration-300">
                                             View Profile
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -111,7 +111,7 @@
                     <div
                         class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-card border border-white/10">
                         <button @click="closeModal"
-                            class="absolute top-4 right-4 text-orange-400 hover:text-white w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all">
+                            class="absolute top-4 right-4 text-[#f15a22] hover:text-white w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all">
                             &times;
                         </button>
 
@@ -123,7 +123,7 @@
                             </div>
 
                             <div class="flex-1">
-                                <h3 class="text-2xl font-bold text-orange-400 mb-1">{{ selectedManager.name }}</h3>
+                                <h3 class="text-2xl font-bold text-[#f15a22] mb-1">{{ selectedManager.name }}</h3>
                                 <p class="text-white/90 font-medium mb-2">{{ selectedManager.title }}</p>
                                 <div class="w-12 h-0.5 bg-orange-500/50 mb-4"></div>
                                 <p class="text-white/80 leading-relaxed">{{ selectedManager.desc }}</p>

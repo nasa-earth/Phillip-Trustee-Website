@@ -4,7 +4,7 @@
       <!-- Main Footer Content -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
         <!-- Left Section -->
-        <div class="space-y-8">
+        <div class="space-y-8 mx-[70px]">
           <!-- Company Info -->
           <div>
             <h2 class="text-2xl font-bold text-orange-400 mb-4">Phillip Trustee</h2>
@@ -37,7 +37,7 @@
 
           <!-- Partners -->
  <!-- Partners -->
-<div>
+<!-- <div>
   <h3 class="text-lg font-semibold mb-6 text-slate-200">Our Partners</h3>
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
     <div
@@ -52,13 +52,13 @@
       />
     </div>
   </div>
-</div>
+</div> -->
         </div>
 
         <!-- Right Section - Contact Info -->
-        <div class="space-y-6">
+        <div class="space-y-6 mx-[60px]">
           <h3 class="text-lg font-semibold mb-6 text-slate-200">Get In Touch</h3>
-          <div class="space-y-6">
+          <div class="space-y-[-10px]">
             <div v-for="(item, index) in contactInfo" :key="index" class="group">
               <NuxtLink
                 :to="item.href"
@@ -84,12 +84,12 @@
       </div>
 
       <!-- Bottom Section -->
-      <div class="mt-16 pt-8 border-t border-slate-700">
+      <!-- <div class="mt-16 pt-8 border-t border-slate-700">
         <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0">
           <p class="text-slate-400 text-sm">© {{ currentYear }} Phillip Trustee. All rights reserved.</p>
           
         </div>
-      </div>
+      </div> -->
     </div>
   </footer>
 </template>

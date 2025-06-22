@@ -157,7 +157,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useRouter } from 'vue-router';
-import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
 
 // Define layout and middleware for this page
@@ -421,16 +420,12 @@ const navigateToModule = (route) => {
 onMounted(() => {
     // Authentication check is handled by middleware
 
-    // Fetch data for dashboard (simulated)    refreshData();
+    // Fetch data for dashboard (simulated)
+    refreshData();
 });
 </script>
 
 <style scoped>
-.dashboard {
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
 .dashboard {
     padding: 1.5rem;
     max-width: 1400px;

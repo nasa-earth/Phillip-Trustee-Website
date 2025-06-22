@@ -4,7 +4,12 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-  css: ["~/assets/css/main.css"],
+  css: [
+    "~/assets/css/main.css",
+    // Add PrimeVue theme
+    "node_modules/primevue/resources/themes/lara-light-blue/theme.css", 
+    "node_modules/primevue/resources/primevue.min.css"
+  ],
   vite: {
     plugins: [tailwindcss()],
   },

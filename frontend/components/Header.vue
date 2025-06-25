@@ -18,7 +18,9 @@
               </h1>
             </div>
           </NuxtLink>
-        </div> <!-- Desktop Navigation -->
+        </div> 
+        
+        <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center space-x-1">
           <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to"
             class="relative px-4 py-2 text-white font-medium hover:text-orange-400 transition-all duration-300 rounded-lg hover:bg-white/10 group"
@@ -26,9 +28,12 @@
             {{ link.label }}
             <!-- Active indicator -->
             <span
-              class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-orange-400 group-hover:w-8 transition-all duration-300"></span>
+              class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-orange-400 group-hover:w-8 transition-all duration-300">
+            </span>
           </NuxtLink>
-        </div><!-- Mobile Menu Button -->
+        </div>
+        
+        <!-- Mobile Menu Button -->
         <button @click="toggleMobileMenu"
           class="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
           :class="{ 'bg-white/10': isMobileMenuOpen }" aria-label="Toggle mobile menu">

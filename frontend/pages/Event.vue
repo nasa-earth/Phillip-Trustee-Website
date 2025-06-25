@@ -8,7 +8,7 @@
       <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
 
       <!-- Content -->
-      <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up" data-aos-duration="1200">
+      <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" data-aos="fade-up" data-aos-duration="1200">
         <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
           <span class="text-[#f15a22]">Learn</span>
           and
@@ -16,7 +16,7 @@
           about
           <span class="text-[#f15a22]">Phillip Trustee</span>
         </h1>
-        <p class="text-lg md:text-xl text-white/80 mb-8">
+        <p class="text-lg md:text-xl text-[#e6eaf0]/80 mb-8">
           Empowering investors and building trust in Cambodia through personalized, secure financial services.
         </p>
 
@@ -25,7 +25,7 @@
 
     <!-- Events Section -->
     <section
-      class="bg-gradient-to-b from-[#0a2b5c] to-[#081d3f] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+      class="bg-gradient-to-b from-[#0a2b5c] to-[#081d3f] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
       <!-- Dot Pattern Background -->
       <div class="absolute inset-0 opacity-5">
         <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -46,9 +46,9 @@
 
       <div class="container mx-auto relative z-10">
         <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-          <h2 class="text-3xl md:text-5xl font-bold text-center mb-4">Events</h2>
-          <div class="w-24 h-1 bg-orange-500 mx-auto mb-8"></div>
-          <p class="text-lg text-white/80 max-w-3xl text-center mx-auto">
+          <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Events</h2>
+          <!-- <div class="w-24 h-1 bg-orange-500 mx-auto mb-8"></div>  -->
+          <p class="text-xl text-[#e6eaf0] max-w-3xl text-center mx-auto">
             Join us at our upcoming events to learn more about trust services and network with industry professionals
           </p>
         </div>
@@ -62,20 +62,16 @@
                 class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/90 to-transparent"></div>
 
-              <!-- Event Date Badge -->
-              <!-- <div class="absolute top-4 right-4 bg-orange-500 text-white px-4 py-2 rounded-lg shadow-lg">
-                {{ formatDate(event.date) }}
-              </div> -->
             </div>
 
             <div class="p-6">
-              <h3 class="text-2xl font-bold text-[#f15a22] mb-4">
+              <h3 class="text-xl font-bold text-[#f15a22] mb-4">
                 {{ event.title }}
               </h3>
-              <p class="text-white/90 mb-6">{{ event.description }}</p>
+              <p class="text-[#e6eaf0]/90 mb-6">{{ event.description }}</p>
               <div class="flex justify-between items-center">
                 <NuxtLink :to="`/EventDetails?id=${event.id}`"
-                  class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
+                  class="bg-orange-500 hover:bg-orange-600 text-[#e6eaf0] px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
                   <span>Read More</span>
                   <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20"
@@ -91,8 +87,6 @@
         </div>
       </div>
     </section>
-
-    <!-- Modal removed as we now navigate to the EventDetails page -->
   </div>
 </template>
 

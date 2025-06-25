@@ -8,7 +8,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
 
             <!-- Content -->
-            <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
+            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" data-aos="fade-up"
                 data-aos-duration="1200">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
                     <span class="text-[#f15a22]">Learn</span>
@@ -17,7 +17,7 @@
                     about
                     <span class="text-[#f15a22]">Phillip Trustee</span>
                 </h1>
-                <p class="text-lg md:text-xl text-white/80 mb-8">
+                <p class="text-lg md:text-xl text-[#e6eaf0] mb-8">
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
 
@@ -25,7 +25,7 @@
         </section>
         
         <!-- Management Profiles -->
-        <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -39,9 +39,9 @@
 
             <div class="container mx-auto relative z-10">
                 <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-4">Our Leadership Team</h2>
-                    <div class="w-24 h-1 bg-orange-500"></div>
-                    <p class="text-white/80 text-center mt-6 max-w-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Leadership Team</h2>
+                    <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
+                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                         Meet the dedicated professionals leading Phillip Trustee to excellence in Cambodia's financial
                         services.
                     </p>
@@ -78,12 +78,12 @@
                                 <!-- Text content -->
                                 <div class="mt-10 text-center">
                                     <h3
-                                        class="text-xl font-bold text-[#f15a22] transition-colors duration-300 group-hover:text-white mb-1">
+                                        class="text-xl font-bold text-[#f15a22] transition-colors duration-300 group-hover:text-[#e6eaf0] mb-1">
                                         {{ manager.name }}
                                     </h3>
-                                    <p class="text-white/80 mb-4">{{ manager.title }}</p>
+                                    <p class="text-[#e6eaf0] mb-4 text-base">{{ manager.title }}</p>
                                     <div class="w-12 h-0.5 bg-orange-500/50 mx-auto"></div>
-                                    <p class="mt-4 text-white/70 text-sm line-clamp-2">{{ manager.desc }}</p>
+                                    <p class="mt-4 text-[#e6eaf0] text-base line-clamp-2">{{ manager.desc }}</p>
 
                                     <!-- View More button -->
                                     <div class="mt-4 pt-2">
@@ -111,7 +111,7 @@
                     <div
                         class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-card border border-white/10">
                         <button @click="closeModal"
-                            class="absolute top-4 right-4 text-[#f15a22] hover:text-white w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all">
+                            class="absolute top-4 right-4 text-[#f15a22] hover:text-[#e6eaf0] w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all">
                             &times;
                         </button>
 
@@ -124,14 +124,14 @@
 
                             <div class="flex-1">
                                 <h3 class="text-2xl font-bold text-[#f15a22] mb-1">{{ selectedManager.name }}</h3>
-                                <p class="text-white/90 font-medium mb-2">{{ selectedManager.title }}</p>
+                                <p class="text-[#e6eaf0] font-medium mb-2">{{ selectedManager.title }}</p>
                                 <div class="w-12 h-0.5 bg-orange-500/50 mb-4"></div>
-                                <p class="text-white/80 leading-relaxed">{{ selectedManager.desc }}</p>
+                                <p class="text-[#e6eaf0] leading-relaxed">{{ selectedManager.desc }}</p>
 
                                 <!-- Additional details if available -->
                                 <div v-if="selectedManager.experience" class="mt-4 pt-4 border-t border-white/10">
-                                    <h4 class="text-white font-medium mb-2">Experience</h4>
-                                    <p class="text-white/80">{{ selectedManager.experience }}</p>
+                                    <h4 class="text-[#e6eaf0] font-medium mb-2">Experience</h4>
+                                    <p class="text-[#e6eaf0]">{{ selectedManager.experience }}</p>
                                 </div>
                             </div>
                         </div>
@@ -141,13 +141,13 @@
         </section>
 
         <!-- Partners Section -->
-        <section class="bg-[#13325e] text-white py-16 px-4 relative">
+        <section class="bg-[#13325e] text-[#e6eaf0] py-16 px-4 relative">
             <div class="container mx-auto mb-8">
                 <div class="flex flex-col items-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-white">Our Trusted Partners</h2>
-                    <div class="w-24 h-1 bg-orange-500"></div>
-                    <p class="text-white/80 text-center mt-6 max-w-2xl">
-                        Working with leading institutions across Cambodia to serve our clients better
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
+                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
+                        We collaborate with leading organizations across Cambodia to provide the best service to our
+                        clients.                    
                     </p>
                 </div>
 

@@ -1,35 +1,62 @@
 <template>
-    <div class="admin-layout">        <!-- Sidebar -->
+    <div class="admin-layout">
+        <!-- Modern Sidebar -->
         <div class="sidebar" :class="{ 'sidebar-collapsed': isSidebarCollapsed }">
             <div class="sidebar-header">
-                <h1 class="admin-logo">
-                    <i class="pi pi-shield mr-2"></i>
-                    <span v-if="!isSidebarCollapsed">PT Admin</span>
-                </h1>
-                <Button icon="pi pi-angle-left" text rounded @click="toggleSidebar" 
-                        :class="{'p-button-rotate-180': isSidebarCollapsed}" />
+                <div class="logo-container">
+                    <img src="/images/logo.svg" alt="Logo" class="admin-logo-img" />
+                    <h1 class="admin-logo" v-if="!isSidebarCollapsed">
+                        PT Admin
+                    </h1>
+                </div>
+                <Button icon="pi pi-angle-left" text rounded @click="toggleSidebar"
+                    :class="{ 'p-button-rotate-180': isSidebarCollapsed }" />
+            </div>
+
+            <div class="user-profile" v-if="user && !isSidebarCollapsed">
+                <Avatar :label="getUserInitials()" shape="circle" size="large" class="user-avatar" />
+                <div class="user-info-sidebar">
+                    <span class="user-name-sidebar">{{ user.name }}</span>
+                    <Tag :value="user.role" :severity="user.role === 'ADMIN' ? 'danger' : 'info'" size="small" />
+                </div>
+            </div>
+            <div class="user-profile-collapsed" v-if="user && isSidebarCollapsed">
+                <Avatar :label="getUserInitials()" shape="circle" size="normal" class="user-avatar" />
             </div>
 
             <div class="sidebar-content">
-                <PanelMenu :model="menuItems" class="sidebar-menu" />
+                <!-- Custom menu instead of PanelMenu for better styling -->
+                <ul class="sidebar-menu">
+                    <li v-for="(item, i) in sidebarItems" :key="i" :class="{ 'active': activeMenuItem === item.key }"
+                        @click="navigateTo(item)">
+                        <div class="menu-item">
+                            <i :class="item.icon"></i>
+                            <span v-if="!isSidebarCollapsed" class="menu-label">{{ item.label }}</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
             <div class="sidebar-footer">
-                <Button icon="pi pi-sign-out" :label="isSidebarCollapsed ? undefined : 'Logout'" 
-                       severity="secondary" outlined @click="logout" class="w-full" />
+                <Button icon="pi pi-sign-out" :label="isSidebarCollapsed ? undefined : 'Logout'" severity="secondary"
+                    outlined @click="logout" class="w-full logout-btn" />
             </div>
         </div>
 
         <!-- Main content -->
-        <div class="main-content">            <!-- Top header -->
+        <div class="main-content">
+            <!-- Top header -->
             <header class="admin-header">
                 <div class="header-left">
+                    <Button icon="pi pi-bars" text rounded @click="toggleSidebar" class="mobile-menu-toggle" />
                     <Breadcrumb :model="breadcrumbItems" home-icon="pi pi-home" />
                 </div>
                 <div class="header-right">
                     <div class="header-actions">
+                        <Button icon="pi pi-search" text rounded aria-label="Search" />
                         <Button icon="pi pi-bell" badge="2" severity="info" text rounded aria-label="Notifications" />
-                        <Button icon="pi pi-cog" text rounded aria-label="Settings" />
+                        <Button icon="pi pi-cog" text rounded aria-label="Settings"
+                            @click="navigateTo({ key: 'settings' })" />
                     </div>
                     <div v-if="user" class="user-info">
                         <Avatar :label="getUserInitials()" shape="circle" size="normal" class="mr-2" />
@@ -62,66 +89,72 @@ const isSidebarCollapsed = ref(false);
 // Get user from auth store
 const user = computed(() => authStore.user);
 
-// Compute menu items based on user role for PrimeVue PanelMenu
-const menuItems = computed(() => {
+// Current active menu item
+const activeMenuItem = ref('dashboard');
+
+// Sidebar navigation items
+const sidebarItems = computed(() => {
     const items = [
         {
+            key: 'dashboard',
             label: 'Dashboard',
             icon: 'pi pi-home',
-            command: () => router.push('/admin/dashboard')
+            route: '/admin/dashboard'
         },
         {
-            label: 'Content',
-            icon: 'pi pi-file-edit',
-            items: [
-                {
-                    label: 'Posts',
-                    icon: 'pi pi-file',
-                    command: () => router.push('/admin/posts')
-                },
-                {
-                    label: 'Categories',
-                    icon: 'pi pi-tags',
-                    command: () => router.push('/admin/categories')
-                },
-                {
-                    label: 'Pages',
-                    icon: 'pi pi-copy',
-                    command: () => router.push('/admin/pages')
-                }
-            ]
+            key: 'users',
+            label: 'Users',
+            icon: 'pi pi-users',
+            route: '/admin/users'
         },
         {
+            key: 'events',
             label: 'Events',
             icon: 'pi pi-calendar',
-            command: () => router.push('/admin/events')
+            route: '/admin/events'
+        },
+        {
+            key: 'partners',
+            label: 'Partners',
+            icon: 'pi pi-briefcase',
+            route: '/admin/partners'
+        },
+        {
+            key: 'content',
+            label: 'Content',
+            icon: 'pi pi-file-edit',
+            route: '/admin/content'
+        },
+        {
+            key: 'faq',
+            label: 'FAQs',
+            icon: 'pi pi-question-circle',
+            route: '/admin/faq'
         }
     ];
 
-    // Add admin-only menu items
+    // Add admin-only items
     if (user.value?.role === 'ADMIN') {
         items.push(
             {
-                label: 'Administration',
-                icon: 'pi pi-shield',
-                items: [
-                    {
-                        label: 'Users',
-                        icon: 'pi pi-users',
-                        command: () => router.push('/admin/users')
-                    },
-                    {
-                        label: 'Settings',
-                        icon: 'pi pi-cog',
-                        command: () => router.push('/admin/settings')
-                    }
-                ]
+                key: 'settings',
+                label: 'Settings',
+                icon: 'pi pi-cog',
+                route: '/admin/settings'
             }
         );
     }
-    
+
     return items;
 });
+
+// Navigate to selected menu
+const navigateTo = (item) => {
+    activeMenuItem.value = item.key;
+    if (item.route) {
+        router.push(item.route);
+    }
+};
 
 // Breadcrumb based on current route
 const breadcrumbItems = computed(() => {
@@ -138,7 +171,7 @@ const breadcrumbItems = computed(() => {
 // Get user initials for avatar
 const getUserInitials = () => {
     if (!user.value?.name) return 'U';
-    
+
     const nameParts = user.value.name.split(' ');
     if (nameParts.length >= 2) {
         return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
@@ -207,15 +240,17 @@ onMounted(() => {
     background-color: var(--surface-ground);
 }
 
+/* Modern Sidebar Styling */
 .sidebar {
     width: 280px;
-    background-color: var(--surface-overlay);
-    color: var(--text-color);
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    color: #f3f4f6;
     display: flex;
     flex-direction: column;
-    transition: width 0.3s ease;
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.02), 0 0 2px rgba(0, 0, 0, 0.05), 0 1px 4px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     z-index: 999;
+    position: relative;
 }
 
 .sidebar-collapsed {
@@ -226,81 +261,150 @@ onMounted(() => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
-    border-bottom: 1px solid var(--surface-border);
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    overflow: hidden;
+}
+
+.admin-logo-img {
+    height: 32px;
+    width: auto;
 }
 
 .admin-logo {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 700;
     white-space: nowrap;
     overflow: hidden;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
+    color: white;
+    margin: 0;
 }
 
 .p-button-rotate-180 .p-button-icon {
     transform: rotate(180deg);
 }
 
+/* User profile in sidebar */
+.user-profile {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-profile-collapsed {
+    padding: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.user-info-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.user-name-sidebar {
+    font-weight: 600;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.user-avatar {
+    background-color: var(--primary-color) !important;
+}
+
+/* Custom sidebar menu */
 .sidebar-content {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem;
+    padding: 1.5rem 0;
 }
 
 .sidebar-menu {
-    border: none;
-    background: transparent;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
-.sidebar-menu :deep(.p-panelmenu-header-link) {
-    padding: 0.75rem;
+.sidebar-menu li {
+    margin-bottom: 0.5rem;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+    border-radius: 0;
+    padding: 0;
 }
 
-.sidebar-menu :deep(.p-menuitem-icon) {
-    margin-right: 0.75rem;
+.sidebar-menu li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Hide text in collapsed mode */
-.sidebar-collapsed .sidebar-menu :deep(.p-menuitem-text), 
-.sidebar-collapsed .sidebar-menu :deep(.p-submenu-icon) {
-    display: none;
+.sidebar-menu li.active {
+    background-color: var(--primary-color);
 }
 
-.sidebar-collapsed .sidebar-menu :deep(.p-panelmenu-header-link) {
-    justify-content: center;
+.sidebar-menu li .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0.9rem 1.5rem;
+    gap: 1rem;
+    color: #f3f4f6;
 }
 
-.sidebar-collapsed .sidebar-menu :deep(.p-menuitem-icon) {
-    margin-right: 0;
+.sidebar-menu li i {
+    font-size: 1.25rem;
+    width: 1.5rem;
+    text-align: center;
+}
+
+.menu-label {
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .sidebar-footer {
-    padding: 1rem;
-    border-top: 1px solid var(--surface-border);
+    padding: 1.5rem 1.25rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.logout-btn {
+    border-radius: 8px;
+}
+
+/* Main content area */
 .main-content {
     flex: 1;
     display: flex;
     flex-direction: column;
+    background-color: #f9fafb;
 }
 
 .admin-header {
-    background-color: var(--surface-card);
+    background-color: white;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     padding: 1rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--surface-border);
+    height: 70px;
 }
 
 .header-left {
     display: flex;
     align-items: center;
+    gap: 1rem;
+}
+
+.mobile-menu-toggle {
+    display: none;
 }
 
 .header-right {
@@ -311,13 +415,15 @@ onMounted(() => {
 
 .header-actions {
     display: flex;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .user-info {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    border-left: 1px solid #e5e7eb;
+    padding-left: 1.5rem;
 }
 
 .user-details {
@@ -335,6 +441,35 @@ onMounted(() => {
     flex: 1;
     padding: 2rem;
     overflow-y: auto;
-    background-color: var(--surface-ground);
+    background-color: #f9fafb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        transform: translateX(-100%);
+        box-shadow: none;
+    }
+
+    .sidebar:not(.sidebar-collapsed) {
+        transform: translateX(0);
+    }
+
+    .sidebar-collapsed {
+        transform: translateX(-100%);
+    }
+
+    .mobile-menu-toggle {
+        display: block;
+    }
+
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 </style>

@@ -1,163 +1,279 @@
 <template>
-    <div class="dashboard">
+    <div class="w-full bg-slate-50 min-h-screen">
         <Toast />
         <!-- Welcome Header Section -->
-        <div class="dashboard-header">
-            <div class="welcome-container">
-                <h2 class="welcome-message">Welcome back, {{ user?.name || 'User' }}</h2>
-                <p class="date-message">{{ currentDate }}</p>
-                <Chip :label="user?.role || 'USER'"
+        <div class="flex justify-between items-center mb-8 p-6 bg-white rounded-xl shadow-sm">
+            <div class="flex flex-col">
+                <h2 class="text-2xl font-bold text-slate-800 mb-1">Welcome back, {{ user?.name || 'User' }}</h2>
+                <p class="text-slate-500">{{ currentDate }}</p>
+                <Chip :label="user?.role || 'ADMIN'"
                     :class="{ 'bg-indigo-600 text-white': user?.role === 'ADMIN', 'bg-blue-500 text-white': user?.role === 'EDITOR' }"
-                    class="role-chip" />
+                    class="mt-2 w-min" />
             </div>
-            <div class="action-buttons">
+            <div class="flex gap-3">
                 <Button icon="pi pi-refresh" @click="refreshData" rounded outlined aria-label="Refresh" />
                 <Button icon="pi pi-bell" badge="3" severity="info" rounded outlined aria-label="Notifications" />
             </div>
         </div>
 
-        <!-- Stats Overview -->
-        <div class="stats-grid">
-            <div v-for="(stat, index) in stats" :key="index" class="stat-card">
-                <div class="stat-icon" :style="{ backgroundColor: stat.bgColor }">
-                    <i :class="stat.icon"></i>
+        <!-- Admin Dashboard Content -->
+        <div class="flex gap-6">
+            <!-- Left Side - Content Selection Menu -->
+            <div class="w-64 bg-white rounded-xl shadow-sm p-4 h-fit">
+                <div class="border-b border-slate-100 pb-3 mb-3">
+                    <h3 class="text-lg font-semibold text-slate-800">Admin Controls</h3>
                 </div>
-                <div class="stat-content">
-                    <h3 class="stat-value">{{ stat.value }}</h3>
-                    <p class="stat-label">{{ stat.label }}</p>
-                    <div class="stat-trend" :class="stat.trend > 0 ? 'positive' : 'negative'" v-if="stat.trend">
-                        <i :class="stat.trend > 0 ? 'pi pi-arrow-up' : 'pi pi-arrow-down'"></i>
-                        <span>{{ Math.abs(stat.trend) }}%</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Recent Activities -->
-        <div class="section">
-            <div class="section-header">
-                <h3>Recent Activities</h3>
-                <Button label="View All" icon="pi pi-external-link" link />
-            </div>
-            <div class="activity-list">
-                <Timeline :value="activities" class="custom-timeline">
-                    <template #content="slotProps">
-                        <Card class="activity-card">
-                            <template #header>
-                                <div class="activity-header">
-                                    <Avatar :image="slotProps.item.avatar" shape="circle" />
-                                    <span class="activity-time">{{ slotProps.item.time }}</span>
-                                </div>
-                            </template>
-                            <template #title>
-                                {{ slotProps.item.title }}
-                            </template>
-                            <template #content>
-                                <p>{{ slotProps.item.text }}</p>
-                                <Tag :value="slotProps.item.type" :severity="getTagSeverity(slotProps.item.type)" />
-                            </template>
-                        </Card>
-                    </template>
-                </Timeline>
-            </div>
-        </div>
-
-        <!-- Management Modules -->
-        <div class="section management-section">
-            <div class="section-header">
-                <h3>Management Modules</h3>
-            </div>
-            <div class="management-grid">
-                <div v-for="(module, index) in managementModules" :key="index" class="management-card"
-                    @click="navigateToModule(module.route)">
-                    <div class="module-icon">
-                        <i :class="module.icon"></i>
-                    </div>
-                    <h4>{{ module.title }}</h4>
-                    <p>{{ module.description }}</p>
-                    <div class="module-stats">
-                        <span class="module-count">{{ module.count }}</span>
-                        <Button :label="'Manage ' + module.title" icon="pi pi-arrow-right" link />
-                    </div>
+                <ul class="space-y-2">
+                    <li v-for="(item, idx) in dashboardMenuItems" :key="idx"
+                        :class="{ 'bg-slate-100 text-indigo-600 font-medium': activeSection === item.key }"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg cursor-pointer hover:bg-slate-50 transition-colors duration-200"
+                        @click="selectSection(item.key)">
+                        <i :class="[item.icon, activeSection === item.key ? 'text-indigo-600' : 'text-slate-500']"></i>
+                        <span>{{ item.label }}</span>
+                    </li>
+                </ul>
+                <div class="flex items-center gap-2 mt-6 pt-4 border-t border-slate-100 text-sm text-slate-600">
+                    <div class="h-2 w-2 rounded-full bg-green-500"></div>
+                    <span>System Status: Online</span>
                 </div>
             </div>
-        </div>
 
-        <!-- Admin Controls (Admin Only) -->
-        <div v-if="user?.role === 'ADMIN'" class="section">
-            <div class="section-header">
-                <h3>Admin Controls</h3>
-            </div>
-            <div class="admin-controls-grid">
-                <div v-for="(control, index) in adminControls" :key="index" class="admin-control-card">
-                    <div class="control-icon" :style="{ backgroundColor: control.bgColor }">
-                        <i :class="control.icon"></i>
+            <!-- Right Side - Selected Content View -->
+            <div class="flex-1">
+                <!-- Dashboard Overview -->
+                <div v-if="activeSection === 'welcome'" class="space-y-6">
+                    <div class="flex justify-between items-center mb-2">
+                        <h3 class="text-xl font-semibold text-slate-800">Dashboard Overview</h3>
                     </div>
-                    <div class="control-content">
-                        <h4>{{ control.title }}</h4>
-                        <p>{{ control.description }}</p>
-                        <Button :label="control.buttonText" :severity="control.severity" @click="control.action" />
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Quick Actions for All Users -->
-        <div class="section">
-            <div class="section-header">
-                <h3>Quick Actions</h3>
-            </div>
-            <div class="quick-actions-grid">
-                <div v-for="(action, index) in quickActions" :key="index" class="quick-action-card"
-                    @click="action.action">
-                    <div class="action-icon-container" :style="{ backgroundColor: action.bgColor }">
-                        <i :class="action.icon"></i>
-                    </div>
-                    <div class="action-text">{{ action.label }}</div>
-                </div>
-            </div>
-        </div>
+                    <!-- Stats Cards -->
+                    <DashboardStats :stats="dashboardStats" />
 
-        <!-- Recent Posts Overview -->
-        <div class="section">
-            <div class="section-header">
-                <h3>Recent Posts</h3>
-                <Button label="All Posts" icon="pi pi-list" link />
-            </div>
-            <DataTable :value="recentPosts" class="recent-posts-table" :paginator="true" :rows="5"
-                responsiveLayout="scroll" stripedRows>
-                <Column field="title" header="Title" sortable></Column>
-                <Column field="category" header="Category" sortable>
-                    <template #body="{ data }">
-                        <Tag :value="data.category" severity="info" />
-                    </template>
-                </Column>
-                <Column field="date" header="Published" sortable></Column>
-                <Column field="author" header="Author"></Column>
-                <Column field="status" header="Status" sortable>
-                    <template #body="{ data }">
-                        <Tag :value="data.status" :severity="getStatusSeverity(data.status)" />
-                    </template>
-                </Column>
-                <Column header="Actions">
-                    <template #body>
-                        <div class="action-buttons-cell">
-                            <Button icon="pi pi-eye" rounded text severity="info" aria-label="View" />
-                            <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Edit" />
-                            <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Delete" />
+                    <!-- Quick Stats Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                            <div class="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center">
+                                <i class="pi pi-eye text-blue-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800">1,248</h4>
+                                <span class="text-sm text-slate-500">Total Visits</span>
+                            </div>
                         </div>
-                    </template>
-                </Column>
-            </DataTable>
+                        <div class="bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                            <div class="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center">
+                                <i class="pi pi-calendar text-amber-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800">8</h4>
+                                <span class="text-sm text-slate-500">Upcoming Events</span>
+                            </div>
+                        </div>
+                        <div class="bg-white rounded-xl p-4 flex items-center gap-4 shadow-sm">
+                            <div class="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center">
+                                <i class="pi pi-check-circle text-green-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold text-slate-800">96%</h4>
+                                <span class="text-sm text-slate-500">Task Completion</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity and Events Management -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <RecentActivity />
+                        <EventsManagement :loading="false" />
+                    </div>
+                </div> <!-- Users Section -->
+                <div v-if="activeSection === 'users'" class="space-y-4">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">User Management</h2>
+                    <UserManagement />
+                </div>
+
+                <!-- Settings Section -->
+                <div v-if="activeSection === 'settings'" class="space-y-4">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Settings</h2>
+                    <SettingsManagement />
+                </div>
+
+                <!-- Events Section -->
+                <div v-if="activeSection === 'events'" class="space-y-4">
+                    <h2 class="text-xl font-semibold text-slate-800 mb-4">Events Management</h2>
+                    <EventsManagement :loading="false" />
+                </div>
+
+                <!-- Partners Section -->
+                <div v-if="activeSection === 'partners'" class="space-y-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold text-slate-800">Partners Management</h3>
+                        <Button label="Add Partner" icon="pi pi-plus" severity="success" />
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div v-for="(partner, idx) in partners" :key="idx"
+                            class="bg-white rounded-xl shadow-sm overflow-hidden transition-all duration-200 hover:shadow-md">
+                            <img :src="partner.logo" :alt="partner.name"
+                                class="w-full h-40 object-cover object-center" />
+                            <div class="p-4">
+                                <h4 class="text-lg font-semibold text-slate-800 mb-1">{{ partner.name }}</h4>
+                                <p class="text-sm text-slate-500 mb-4">{{ partner.type }}</p>
+                                <div class="flex justify-end gap-2">
+                                    <Button icon="pi pi-pencil" text rounded />
+                                    <Button icon="pi pi-trash" text rounded severity="danger" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="dashboard-section" v-if="activeSection === 'settings'">
+                    <div class="section-title">
+                        <h2>Website Settings</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <SettingsManagement :loading="loading" @loading="setLoading" />
+                    </div>
+                </div>
+
+                <!-- Events Section -->
+                <div class="dashboard-section" v-if="activeSection === 'events'">
+                    <div class="section-title">
+                        <h2>Events Management</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <EventsManagement :loading="loading" @loading="setLoading" />
+                    </div>
+                </div>
+
+                <!-- Partners Section -->
+                <div v-if="activeSection === 'partners'" class="content-section">
+                    <div class="section-header">
+                        <h3>Partners Management</h3>
+                        <Button label="Add Partner" icon="pi pi-plus" severity="success" />
+                    </div>
+
+                    <div class="partners-grid">
+                        <div v-for="(partner, idx) in partners" :key="idx" class="partner-card">
+                            <img :src="partner.logo" :alt="partner.name" class="partner-logo" />
+                            <div class="partner-details">
+                                <h4>{{ partner.name }}</h4>
+                                <p class="partner-type">{{ partner.type }}</p>
+                                <div class="partner-actions">
+                                    <Button icon="pi pi-pencil" text rounded />
+                                    <Button icon="pi pi-trash" text rounded severity="danger" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQs Section -->
+                <div v-if="activeSection === 'faq'" class="content-section">
+                    <div class="section-header">
+                        <h3>FAQ Management</h3>
+                        <Button label="Add FAQ" icon="pi pi-plus" severity="success" />
+                    </div>
+
+                    <Accordion :multiple="true" class="faq-accordion">
+                        <AccordionTab v-for="(faq, idx) in faqs" :key="idx" :header="faq.question">
+                            <p class="faq-answer">{{ faq.answer }}</p>
+                            <div class="faq-actions">
+                                <Button label="Edit" icon="pi pi-pencil" text />
+                                <Button label="Delete" icon="pi pi-trash" severity="danger" text />
+                            </div>
+                        </AccordionTab>
+                    </Accordion>
+                </div>
+
+                <!-- Content Section -->
+                <div v-if="activeSection === 'content'" class="content-section">
+                    <div class="section-header">
+                        <h3>Content Management</h3>
+                    </div>
+                    <TabView>
+                        <TabPanel header="Posts">
+                            <DataTable :value="recentPosts" class="content-table" :paginator="true" :rows="5"
+                                responsiveLayout="scroll" stripedRows>
+                                <Column field="title" header="Title" sortable></Column>
+                                <Column field="category" header="Category" sortable>
+                                    <template #body="{ data }">
+                                        <Tag :value="data.category" severity="info" />
+                                    </template>
+                                </Column>
+                                <Column field="date" header="Published" sortable></Column>
+                                <Column field="author" header="Author"></Column>
+                                <Column field="status" header="Status" sortable>
+                                    <template #body="{ data }">
+                                        <Tag :value="data.status" :severity="getStatusSeverity(data.status)" />
+                                    </template>
+                                </Column>
+                                <Column header="Actions">
+                                    <template #body>
+                                        <div class="action-buttons-cell">
+                                            <Button icon="pi pi-eye" rounded text severity="info" aria-label="View" />
+                                            <Button icon="pi pi-pencil" rounded text severity="success"
+                                                aria-label="Edit" />
+                                            <Button icon="pi pi-trash" rounded text severity="danger"
+                                                aria-label="Delete" />
+                                        </div>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </TabPanel>
+                        <TabPanel header="Pages">
+                            <DataTable :value="pages" class="content-table" :paginator="true" :rows="5"
+                                responsiveLayout="scroll" stripedRows>
+                                <Column field="title" header="Title" sortable></Column>
+                                <Column field="slug" header="Slug" sortable></Column>
+                                <Column field="lastUpdated" header="Last Updated" sortable></Column>
+                                <Column field="status" header="Status" sortable>
+                                    <template #body="{ data }">
+                                        <Tag :value="data.status" :severity="getStatusSeverity(data.status)" />
+                                    </template>
+                                </Column>
+                                <Column header="Actions">
+                                    <template #body>
+                                        <div class="action-buttons-cell">
+                                            <Button icon="pi pi-eye" rounded text severity="info" aria-label="View" />
+                                            <Button icon="pi pi-pencil" rounded text severity="success"
+                                                aria-label="Edit" />
+                                            <Button icon="pi pi-trash" rounded text severity="danger"
+                                                aria-label="Delete" />
+                                        </div>
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </TabPanel>
+                    </TabView>
+                </div>
+
+                <!-- Posts Section -->
+                <div class="dashboard-section" v-if="activeSection === 'posts'">
+                    <div class="section-title">
+                        <h2>Blog Posts</h2>
+                    </div>
+
+                    <div class="section-content">
+                        <PostsManagement :loading="loading" @loading="setLoading" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useAuthStore } from '~/stores/auth';
-import { useRouter } from 'vue-router';
+import { ref, computed } from 'vue';
 import { useToast } from 'primevue/usetoast';
+import UserManagement from '~/components/admin/UserManagement.vue';
+import DashboardStats from '~/components/admin/DashboardStats.vue';
+import RecentActivity from '~/components/admin/RecentActivity.vue';
+import SettingsManagement from '~/components/admin/SettingsManagement.vue';
+import EventsManagement from '~/components/admin/EventsManagement.vue';
 
 // Define layout and middleware for this page
 definePageMeta({
@@ -165,11 +281,30 @@ definePageMeta({
     middleware: ['admin']
 });
 
-const router = useRouter();
-const authStore = useAuthStore();
 const toast = useToast();
-const user = computed(() => authStore.user);
-const loading = ref(false);
+
+// Mock user data
+const user = ref({
+    name: 'Admin User',
+    email: 'admin@example.com',
+    role: 'ADMIN'
+});
+
+// Dashboard data for stats component
+const dashboardStats = ref({
+    users: 42,
+    posts: 128,
+    publishedPosts: 96,
+    events: 24,
+    publishedEvents: 18,
+    partners: 15,
+    pages: 12,
+    faqs: 36,
+    categories: 8
+});
+
+// Dashboard menu state
+const activeSection = ref('welcome');
 
 // Format the current date
 const currentDate = computed(() => {
@@ -178,584 +313,90 @@ const currentDate = computed(() => {
     return now.toLocaleDateString('en-US', options);
 });
 
-// Dashboard stats data
-const stats = ref([
+// Dashboard menu items
+const dashboardMenuItems = ref([
     {
-        label: 'Total Posts',
-        value: '48',
-        icon: 'pi pi-file',
-        bgColor: 'var(--primary-color)',
-        trend: 12
+        key: 'welcome',
+        label: 'Dashboard',
+        icon: 'pi pi-home'
     },
     {
-        label: 'Active Pages',
-        value: '9',
-        icon: 'pi pi-copy',
-        bgColor: 'var(--green-500)',
-        trend: 4
+        key: 'users',
+        label: 'Users',
+        icon: 'pi pi-users'
     },
     {
-        label: 'Categories',
-        value: '14',
-        icon: 'pi pi-tags',
-        bgColor: 'var(--orange-500)',
-        trend: -2
+        key: 'posts',
+        label: 'Blog Posts',
+        icon: 'pi pi-file-edit'
     },
     {
-        label: 'Total Users',
-        value: '6',
-        icon: 'pi pi-users',
-        bgColor: 'var(--purple-500)',
-        trend: 0
+        key: 'events',
+        label: 'Events',
+        icon: 'pi pi-calendar'
+    },
+    {
+        key: 'partners',
+        label: 'Partners',
+        icon: 'pi pi-briefcase'
+    },
+    {
+        key: 'settings',
+        label: 'Settings',
+        icon: 'pi pi-cog'
     }
 ]);
 
-// Management modules
-const managementModules = ref([
+// Mock partners data
+const partners = ref([
     {
-        title: 'Users',
-        description: 'Manage user accounts and permissions',
-        icon: 'pi pi-users',
-        count: '6 users',
-        route: '/admin/users'
+        id: 1,
+        name: 'Acme Corporation',
+        type: 'Technology Partner',
+        logo: '/images/partners/1_Rose_Mavel.jpg'
     },
     {
-        title: 'Pages',
-        description: 'Create and edit website pages',
-        icon: 'pi pi-copy',
-        count: '9 pages',
-        route: '/admin/pages'
+        id: 2,
+        name: 'Global Finances',
+        type: 'Financial Partner',
+        logo: '/images/partners/2_La_Maision.jpg'
     },
     {
-        title: 'Posts',
-        description: 'Manage blog posts and articles',
-        icon: 'pi pi-file',
-        count: '48 posts',
-        route: '/admin/posts'
+        id: 3,
+        name: 'Eco Solutions',
+        type: 'Sustainability Partner',
+        logo: '/images/partners/3_Vimean_Samnang.jpg'
     },
     {
-        title: 'Categories',
-        description: 'Organize content with categories',
-        icon: 'pi pi-tags',
-        count: '14 categories',
-        route: '/admin/categories'
+        id: 4,
+        name: 'MediaTech',
+        type: 'Media Partner',
+        logo: '/images/partners/4_IPS.jpg'
     },
     {
-        title: 'Settings',
-        description: 'Configure website settings',
-        icon: 'pi pi-cog',
-        count: 'System settings',
-        route: '/admin/settings'
+        id: 5,
+        name: 'InnoVate Group',
+        type: 'Innovation Partner',
+        logo: '/images/partners/5_SaRaNa.jpg'
     }
 ]);
 
-// Admin controls (for ADMIN role only)
-const adminControls = ref([
-    {
-        title: 'User Management',
-        description: 'Add, edit, or remove user accounts',
-        icon: 'pi pi-user-edit',
-        bgColor: 'var(--primary-color)',
-        buttonText: 'Manage Users',
-        severity: 'info',
-        action: () => router.push('/admin/users')
-    },
-    {
-        title: 'System Settings',
-        description: 'Configure global website settings',
-        icon: 'pi pi-cog',
-        bgColor: 'var(--purple-500)',
-        buttonText: 'Site Settings',
-        severity: 'secondary',
-        action: () => router.push('/admin/settings')
-    }
-]);
-
-// Quick actions for all users
-const quickActions = ref([
-    {
-        label: 'New Post',
-        icon: 'pi pi-pencil',
-        bgColor: 'var(--primary-color)',
-        action: () => router.push('/admin/posts/create')
-    },
-    {
-        label: 'New Page',
-        icon: 'pi pi-file-edit',
-        bgColor: 'var(--green-500)',
-        action: () => router.push('/admin/pages/create')
-    },
-    {
-        label: 'New Category',
-        icon: 'pi pi-tag',
-        bgColor: 'var(--orange-500)',
-        action: () => router.push('/admin/categories/create')
-    },
-    {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        bgColor: 'var(--purple-500)',
-        action: () => router.push('/admin/profile')
-    }
-]);
-
-// Recent activities
-const activities = ref([
-    {
-        title: 'New Post Published',
-        text: 'You published "10 Tips for Financial Planning"',
-        time: '10 minutes ago',
-        type: 'post',
-        avatar: 'https://randomuser.me/api/portraits/men/41.jpg'
-    }, {
-        title: 'Page Updated',
-        text: 'Jane updated the "About Us" page',
-        time: '2 hours ago',
-        type: 'page',
-        avatar: 'https://randomuser.me/api/portraits/women/24.jpg'
-    },
-    {
-        title: 'New Category',
-        text: 'John created a new category "Investment Tips"',
-        time: '3 hours ago',
-        type: 'category',
-        avatar: 'https://randomuser.me/api/portraits/men/32.jpg'
-    },
-    {
-        title: 'User Registration',
-        text: 'A new editor has joined the team',
-        time: '1 day ago',
-        type: 'user',
-        avatar: 'https://randomuser.me/api/portraits/women/68.jpg'
-    }
-]);
-
-// Recent posts data
-const recentPosts = ref([
-    {
-        title: '10 Tips for Financial Planning',
-        category: 'Finance',
-        date: '2025-06-16',
-        author: 'John Doe',
-        status: 'published'
-    },
-    {
-        title: 'Understanding Trust Funds',
-        category: 'Education',
-        date: '2025-06-14',
-        author: 'Jane Smith',
-        status: 'published'
-    },
-    {
-        title: 'Retirement Planning Guide',
-        category: 'Finance',
-        date: '2025-06-12',
-        author: 'John Doe',
-        status: 'published'
-    },
-    {
-        title: 'Estate Planning 101',
-        category: 'Legal',
-        date: '2025-06-10',
-        author: 'Michael Brown',
-        status: 'draft'
-    },
-    {
-        title: 'Investment Strategies for 2025',
-        category: 'Finance',
-        date: '2025-06-08',
-        author: 'Sarah Johnson',
-        status: 'review'
-    }
-]);
-
-// Function to get status severity for PrimeVue tags
-const getStatusSeverity = (status) => {
-    switch (status.toLowerCase()) {
-        case 'published':
-            return 'success';
-        case 'draft':
-            return 'warning';
-        case 'review':
-            return 'info';
-        default:
-            return 'secondary';
-    }
+// Function to handle section selection
+const selectSection = (section) => {
+    activeSection.value = section;
 };
 
-// Function to get activity type severity
-const getTagSeverity = (type) => {
-    switch (type.toLowerCase()) {
-        case 'post':
-            return 'info';
-        case 'page':
-            return 'success';
-        case 'user':
-            return 'warning';
-        case 'category':
-            return 'secondary';
-        default:
-            return 'info';
-    }
-};
-
-// Function to refresh data
+// Function to handle data refresh
 const refreshData = () => {
-    loading.value = true;
-    toast.add({ severity: 'info', summary: 'Refreshing', detail: 'Updating dashboard data...', life: 3000 });
-
-    // Simulate API call
-    setTimeout(() => {
-        loading.value = false;
-        toast.add({ severity: 'success', summary: 'Updated', detail: 'Dashboard data refreshed', life: 3000 });
-    }, 1000);
+    toast.add({
+        severity: 'success',
+        summary: 'Refreshed',
+        detail: 'Dashboard data has been refreshed',
+        life: 3000
+    });
 };
-
-// Function to navigate to module pages
-const navigateToModule = (route) => {
-    router.push(route);
-};
-
-// Check authentication and fetch data on mount
-onMounted(() => {
-    // Authentication check is handled by middleware
-
-    // Fetch data for dashboard (simulated)
-    refreshData();
-});
 </script>
 
-<style scoped>
-.dashboard {
-    padding: 1.5rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--surface-border);
-}
-
-.welcome-message {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--text-color);
-    margin: 0 0 0.5rem 0;
-}
-
-.date-message {
-    color: var(--text-color-secondary);
-    margin: 0;
-    font-size: 1rem;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2.5rem;
-}
-
-.stat-card {
-    background-color: var(--surface-card);
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    padding: 1.5rem;
-    display: flex;
-    align-items: center;
-}
-
-.stat-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 1.25rem;
-    font-size: 1.5rem;
-    color: white;
-}
-
-.stat-content {
-    flex: 1;
-}
-
-.stat-value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0 0 0.25rem 0;
-    color: var(--text-color);
-}
-
-.stat-label {
-    color: var(--text-color-secondary);
-    font-size: 0.875rem;
-    margin: 0;
-}
-
-.section {
-    background-color: var(--surface-card);
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--surface-border);
-}
-
-.section-header h3 {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin: 0;
-}
-
-.view-all-btn {
-    color: #3b82f6;
-    background: none;
-    border: none;
-    font-size: 0.875rem;
-    cursor: pointer;
-    padding: 0.5rem;
-}
-
-.welcome-container {
-    flex: 1;
-}
-
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-/* Role chip styling */
-.role-chip {
-    margin-top: 0.5rem;
-}
-
-/* Activity styling */
-.custom-timeline {
-    margin-top: 1.5rem;
-}
-
-.activity-card {
-    margin-bottom: 0;
-}
-
-.activity-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem;
-}
-
-.activity-time {
-    font-size: 0.75rem;
-    color: var(--text-color-secondary);
-}
-
-/* Management modules grid */
-.management-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.management-card {
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--card-shadow);
-    background-color: var(--surface-card);
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: pointer;
-}
-
-.management-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-.module-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.module-icon i {
-    font-size: 1.5rem;
-    color: white;
-}
-
-.module-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--surface-border);
-}
-
-.module-count {
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
-/* Admin controls grid */
-.admin-controls-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.admin-control-card {
-    display: flex;
-    gap: 1.5rem;
-    padding: 1.5rem;
-    border-radius: var(--border-radius);
-    background-color: var(--surface-card);
-    box-shadow: var(--card-shadow);
-}
-
-.control-icon {
-    width: 64px;
-    height: 64px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.control-icon i {
-    font-size: 1.75rem;
-    color: white;
-}
-
-.control-content {
-    flex: 1;
-}
-
-.control-content h4 {
-    margin: 0 0 0.5rem 0;
-}
-
-.control-content p {
-    margin: 0 0 1rem 0;
-    color: var(--text-color-secondary);
-}
-
-/* Quick actions grid */
-.quick-actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1rem;
-}
-
-.quick-action-card {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem 1rem;
-    border-radius: var(--border-radius);
-    background-color: var(--surface-card);
-    box-shadow: var(--card-shadow);
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.quick-action-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-}
-
-.action-icon-container {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-}
-
-.action-icon-container i {
-    font-size: 1.5rem;
-    color: white;
-}
-
-.action-text {
-    font-weight: 600;
-    text-align: center;
-}
-
-/* Recent posts table styling */
-.recent-posts-table {
-    margin-top: 1rem;
-}
-
-.action-buttons-cell {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: center;
-}
-
-/* Stats cards */
-.stat-trend {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
-}
-
-.stat-trend.positive {
-    color: var(--green-500);
-}
-
-.stat-trend.negative {
-    color: var(--red-500);
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .dashboard-header {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    .action-buttons {
-        align-self: flex-end;
-    }
-
-    .stats-grid {
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    }
-
-    .management-grid,
-    .admin-controls-grid {
-        grid-template-columns: 1fr;
-    }
-}
+<style>
+@import '~/assets/css/dashboard.css';
 </style>

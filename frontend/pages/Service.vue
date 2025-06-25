@@ -37,7 +37,7 @@
             </div>
 
             <!-- Content -->
-            <div class="relative z-10 text-center text-white px-6 max-w-3xl" v-motion-slide-visible-once-bottom>
+            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" v-motion-slide-visible-once-bottom>
                 <div class="mb-8 flex justify-center" v-motion-pop-visible-once>
                     <div
                         class="w-20 h-20 bg-gradient-to-br from-[#f15a22] to-orange-400 rounded-full flex items-center justify-center shadow-xl shadow-[#f15a22]/20">
@@ -51,7 +51,7 @@
                         Trusted Services
                     </span>
                 </h1>
-                <p class="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed" v-motion-slide-visible-once-bottom>
+                <p class="text-xl md:text-2xl text-[#e6eaf0]/90 mb-10 leading-relaxed" v-motion-slide-visible-once-bottom>
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
 
@@ -60,8 +60,8 @@
             <!-- Scroll Indicator -->
             <div
                 class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce-slow z-10">
-                <span class="text-white/80 text-sm mb-2">Scroll Down</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white/80" fill="none" viewBox="0 0 24 24"
+                <span class="text-[#e6eaf0]/80 text-sm mb-2">Scroll Down</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#e6eaf0]/80" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 14l-7 7m0 0l-7-7m7 7V3" />
@@ -69,7 +69,7 @@
             </div>
         </section> <!-- What is Trust? Section -->
         <section
-            class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] text-white py-32 px-4 md:px-8 relative overflow-hidden">
+            class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] text-[#e6eaf0] py-32 px-4 md:px-8 relative overflow-hidden">
             <!-- Enhanced Background Pattern -->
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -104,10 +104,10 @@
                     <!-- <span class="text-[#f15a22] text-lg font-medium tracking-wider uppercase mb-3">Understanding
                         Trusts</span> -->
                     <h2
-                        class="text-4xl md:text-6xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+                        class="text-3xl md:text-4xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
                         What is Trust?</h2>
-                    <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div>
-                    <p class="text-xl text-white/80 max-w-3xl text-center leading-relaxed">
+                    <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
+                    <p class="text-xl text-[#e6eaf0] max-w-3xl text-center leading-relaxed">
                         A trust is a legal arrangement that allows a third party, or trustee, to hold and direct assets
                         in a trust fund on behalf of a beneficiary. Discover how trusts can protect your assets and
                         secure your legacy.
@@ -128,13 +128,13 @@
                                 Legal Foundation</h3>
                         </div>
 
-                        <p class="text-white/90 text-lg leading-relaxed">
+                        <p class="text-[#e6eaf0] text-lg leading-relaxed">
                             A trust is a legal arrangement where one party (the trustor) gives another party (the
                             trustee) the right to hold and manage assets for the benefit of a third party (the
                             beneficiary).
                         </p>
 
-                        <p class="text-white/80 text-lg leading-relaxed">
+                        <p class="text-[#e6eaf0] text-lg leading-relaxed">
                             The Cambodia Trust Law of 2019 provides the legal framework for establishing
                             trusts, enabling foreigners to register their fixed assets with trustee companies in
                             Cambodia.
@@ -146,14 +146,14 @@
                                     class="w-6 h-6 rounded-full bg-[#f15a22]/20 p-1 mt-1 flex-shrink-0 flex items-center justify-center">
                                     <div class="w-2 h-2 bg-[#f15a22] rounded-full"></div>
                                 </div>
-                                <span class="text-white/80">Legal protection for asset transfers</span>
+                                <span class="text-[#e6eaf0] text-lg">Legal protection for asset transfers</span>
                             </li>
                             <li class="flex items-start gap-3">
                                 <div
                                     class="w-6 h-6 rounded-full bg-[#f15a22]/20 p-1 mt-1 flex-shrink-0 flex items-center justify-center">
                                     <div class="w-2 h-2 bg-[#f15a22] rounded-full"></div>
                                 </div>
-                                <span class="text-white/80">Regulated by Cambodia's Trust Law framework</span>
+                                <span class="text-[#e6eaf0] text-lg">Regulated by Cambodia's Trust Law framework</span>
                             </li>
                         </ul>
                     </div>
@@ -198,12 +198,12 @@
                                 Trust Relationship</h3>
                         </div>
 
-                        <p class="text-white/90 text-lg leading-relaxed">
+                        <p class="text-[#e6eaf0] text-lg leading-relaxed">
                             Trust relationships involve three key parties: the trustor (who creates the trust), the
                             trustee (who manages the trust), and the beneficiaries (who benefit from the trust).
                         </p>
 
-                        <p class="text-white/80 text-lg leading-relaxed">
+                        <p class="text-[#e6eaf0] text-lg leading-relaxed">
                             At Phillip Trustee (Cambodia), we act as your trusted partner, providing specialized
                             management
                             of assets while ensuring compliance with Cambodian regulations and protecting your
@@ -215,29 +215,29 @@
                                 class="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/user.png" alt="Trustor" class="w-6 h-6" />
-                                    <h4 class="font-semibold text-white group-hover:text-[#f15a22] transition-colors">
+                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Trustor</h4>
                                 </div>
-                                <p class="text-white/70 text-sm">Creates and funds the trust</p>
+                                <p class="text-[#e6eaf0]/80 text-sm">Creates and funds the trust</p>
                             </div>
                             <div
                                 class="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/shield.png" alt="Trustee" class="w-6 h-6" />
-                                    <h4 class="font-semibold text-white group-hover:text-[#f15a22] transition-colors">
+                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Trustee</h4>
                                 </div>
-                                <p class="text-white/70 text-sm">Manages trust assets</p>
+                                <p class="text-[#e6eaf0]/80 text-sm">Manages trust assets</p>
                             </div>
                             <div
                                 class="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/multiple-users-silhouette.png" alt="Beneficiaries"
                                         class="w-6 h-6" />
-                                    <h4 class="font-semibold text-white group-hover:text-[#f15a22] transition-colors">
+                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Beneficiaries</h4>
                                 </div>
-                                <p class="text-white/70 text-sm">Receives trust benefits</p>
+                                <p class="text-[#e6eaf0]/80 text-sm">Receives trust benefits</p>
                             </div>
                         </div>
                     </div>
@@ -285,7 +285,7 @@
                                 Benefits of Trust Services</h3>
                         </div>
 
-                        <p class="text-white/90 text-lg leading-relaxed">
+                        <p class="text-[#e6eaf0] text-lg leading-relaxed">
                             Establishing a trust in Cambodia offers numerous advantages for both individuals and
                             organizations
                             seeking to protect and manage their assets effectively.
@@ -299,9 +299,9 @@
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-white/90 group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
                                         Asset Protection</h4>
-                                    <p class="text-white/70 text-sm leading-relaxed">Safeguard your assets from
+                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Safeguard your assets from
                                         creditors and legal claims</p>
                                 </div>
                             </div>
@@ -313,9 +313,9 @@
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-white/90 group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
                                         Foreign Investment</h4>
-                                    <p class="text-white/70 text-sm leading-relaxed">Simplified processes for
+                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Simplified processes for
                                         international investors</p>
                                 </div>
                             </div>
@@ -327,9 +327,9 @@
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-white/90 group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
                                         Tax Efficiency</h4>
-                                    <p class="text-white/70 text-sm leading-relaxed">Optimize tax obligations and
+                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Optimize tax obligations and
                                         financial planning</p>
                                 </div>
                             </div>
@@ -342,9 +342,9 @@
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-white/90 group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
                                         Succession Planning</h4>
-                                    <p class="text-white/70 text-sm leading-relaxed">Ensure smooth transfer of assets to
+                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Ensure smooth transfer of assets to
                                         future generations</p>
                                 </div>
                             </div>
@@ -372,7 +372,7 @@
 
                                 <!-- Feature Badge -->
                                 <!-- <div
-                                    class="absolute top-4 right-4 bg-[#f15a22] text-white text-sm font-medium px-4 py-1 rounded-full shadow-lg animate-pulse-slow">
+                                    class="absolute top-4 right-4 bg-[#f15a22] text-[#e6eaf0] text-sm font-medium px-4 py-1 rounded-full shadow-lg animate-pulse-slow">
                                     Expert Management
                                 </div> -->
                             </div>
@@ -427,14 +427,14 @@
                 <div class="flex flex-col items-center mb-20" v-motion-fade-visible-once>
                     <!-- <span class="text-[#f15a22] text-lg font-medium tracking-wider uppercase mb-3">Trust
                         Categories</span> -->
-                    <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 text-center">
+                    <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 t ext-center">
                         Types of Trust in <span class="text-[#f15a22]">Cambodia</span>
                     </h2>
-                    <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div>
-                    <p class="text-xl text-white/80 max-w-3xl mx-auto text-center leading-relaxed">
+                    <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
+                    <!-- <p class="text-xl text-[#e6eaf0]/80 max-w-3xl mx-auto text-center leading-relaxed">
                         Under Cambodia's Trust Law, there are several types of trusts designed to serve different
                         purposes and meet various needs of individuals and organizations.
-                    </p>
+                    </p> -->
                 </div> <!-- Enhanced Slider with 3D effects and better interaction -->
                 <div class="relative px-4 md:px-10" v-motion-fade-visible-once>
                     <!-- Glass Effect Background Panel -->
@@ -442,7 +442,7 @@
                         class="absolute inset-0 -mx-10 -my-6 bg-white/5 backdrop-filter backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl z-0">
                     </div> <!-- Left Navigation Button with enhanced visibility and call-to-action -->
                     <button @click="slideTrustTypesLeft"
-                        class="absolute -left-5 md:left-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-white p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:-translate-x-1 hover:-translate-y-1 transform active:scale-95"
+                        class="absolute -left-5 md:left-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-[#e6eaf0] p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:-translate-x-1 hover:-translate-y-1 transform active:scale-95"
                         :class="{ 'animate-pulse-slow': trustTypeSlideIndex > 0 }" aria-label="Previous type of trust">
                         <div class="relative">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -500,15 +500,12 @@
 
                                         <!-- Title with enhanced hover effect -->
                                         <h4
-                                            class="text-2xl font-bold text-white mb-4 relative group-hover:text-[#f15a22] transition-colors duration-500">
+                                            class="text-xl font-bold text-[#e6eaf0] mb-4 relative group-hover:text-[#f15a22] transition-colors duration-500">
                                             {{ type.title }}
-                                            <!-- <div
-                                                class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-[#f15a22] group-hover:w-1/2 transition-all duration-500">
-                                            </div> -->
                                         </h4>
 
                                         <!-- Description with enhanced readability -->
-                                        <p class="text-white/80 text-lg leading-relaxed flex-grow">{{ type.desc }}</p>
+                                        <p class="text-[#e6eaf0]/80 text-lg leading-relaxed flex-grow">{{ type.desc }}</p>
 
                                     </div>
                                 </div>
@@ -516,7 +513,7 @@
                         </div>
                     </div> <!-- Enhanced Right Navigation Button with more visibility -->
                     <button @click="slideTrustTypesRight"
-                        class="absolute -right-5 md:right-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-white p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:translate-x-1 hover:-translate-y-1 transform active:scale-95"
+                        class="absolute -right-5 md:right-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-[#e6eaf0] p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:translate-x-1 hover:-translate-y-1 transform active:scale-95"
                         :class="{ 'animate-pulse-slow': trustTypeSlideIndex < Math.ceil(trustTypes.length / visibleSlides) - 1 }"
                         aria-label="Next type of trust">
                         <div class="relative">
@@ -532,7 +529,7 @@
                         </div>
                     </button><!-- Enhanced Slide Indicators with Animation and More Clarity -->
                     <div class="flex flex-col items-center space-y-4 mt-12 relative z-10">
-                       
+
                         <!-- Visual Indicators -->
                         <div class="flex justify-center space-x-4">
                             <button v-for="(_, index) in Math.ceil(trustTypes.length / visibleSlides)" :key="index"
@@ -552,8 +549,8 @@
                                 @click="goToTrustTypeSlide(Math.floor(index / visibleSlides))"
                                 class="text-xs px-3 py-1 rounded-full border transition-all duration-300" :class="[
                                     Math.floor(index / visibleSlides) === trustTypeSlideIndex && (index % visibleSlides) < visibleSlides
-                                        ? 'bg-[#f15a22] text-white border-[#f15a22]'
-                                        : 'text-white/70 border-white/20 hover:border-white/50 hover:text-white'
+                                        ? 'bg-[#f15a22] text-[#e6eaf0] border-[#f15a22]'
+                                        : 'text-[#e6eaf0]/70 border-white/20 hover:border-white/50 hover:text-[#e6eaf0]'
                                 ]">
                                 {{ type.title }}
                             </button>
@@ -612,9 +609,9 @@
 
             <div class="container mx-auto relative z-10">
                 <div class="flex flex-col items-center mb-20" v-motion-fade-visible-once>
-                    <h2 class="text-4xl md:text-6xl font-bold text-white mb-6 text-center">Our Key Services</h2>
-                    <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div>
-                    <p class="text-xl text-white/80 max-w-3xl mx-auto text-center leading-relaxed">
+                    <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 text-center">Key Services & Products</h2>
+                    <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
+                    <p class="text-xl text-[#e6eaf0] max-w-3xl mx-auto text-center leading-relaxed">
                         We offer comprehensive trust services to protect your assets and secure your future with
                         expertise and reliability that you can depend on.
                     </p>
@@ -647,27 +644,22 @@
                             <!-- Right: Enhanced Content with Category and Features -->
                             <div
                                 class="md:w-3/5 p-6 md:p-10 flex flex-col justify-between relative bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm">
-                                <!-- Decorative Element -->
-                                <div
-                                    class="absolute top-0 left-0 w-40 h-1 bg-gradient-to-r from-[#f15a22] to-transparent group-hover:w-full transition-all duration-700">
-                                </div>
-
                                 <div class="mb-8">
                                     <h3
-                                        class="text-2xl md:text-3xl font-bold text-white group-hover:text-[#f15a22] mb-4 transition-colors duration-300">
+                                        class="text-xl md:text-3xl font-bold text-[#e6eaf0] group-hover:text-[#f15a22] mb-4 transition-colors duration-300">
                                         {{ service.title }}
                                     </h3>
 
                                     <!-- Service Description -->
-                                    <p class="text-white/80 mb-6 leading-relaxed text-lg">
+                                    <p class="text-[#e6eaf0]/80 mb-6 leading-relaxed text-lg">
                                         {{ service.desc }}
                                     </p>
-                                </div>
-
+                                </div> 
+                                
                                 <!-- CTA Button with Enhanced Animation -->
                                 <div>
-                                    <NuxtLink :to="`/service/${service.id}`"
-                                        class="w-33 px-4 py-2 bg-[#f15a22] hover:bg-orange-500 text-white shadow-md transition-all rounded-full duration-300 flex items-center space-x-2 text-sm font-medium group-hover:translate-y-0 transform hover:-translate-y-1 active:scale-95">
+                                    <NuxtLink :to="getServiceRoute(service)"
+                                        class="w-33 px-4 py-2 bg-[#f15a22] hover:bg-orange-500 text-[#e6eaf0] shadow-md transition-all rounded-full duration-300 flex items-center space-x-2 text-sm font-medium group-hover:translate-y-0 transform hover:-translate-y-1 active:scale-95">
                                         <span>Learn More</span>
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300"
@@ -683,7 +675,10 @@
                     </div>
                 </div>
             </div>
-        </section> <!-- Enhanced Modal for Service Details -->
+        </section> 
+        
+        
+        <!-- Enhanced Modal for Service Details -->
         <transition name="fade">
             <div v-if="modalOpen"
                 class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
@@ -710,7 +705,7 @@
                 <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden relative animate-modal">
                     <!-- Close Button -->
                     <button @click="closeModal"
-                        class="absolute top-6 right-6 z-50 w-10 h-10 bg-white/80 backdrop-blur-sm hover:bg-[#f15a22] text-[#f15a22] hover:text-white rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50 shadow-lg">
+                        class="absolute top-6 right-6 z-50 w-10 h-10 bg-white/80 backdrop-blur-sm hover:bg-[#f15a22] text-[#f15a22] hover:text-[#e6eaf0] rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50 shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
@@ -729,8 +724,8 @@
 
                                 <!-- Decorative Elements -->
                                 <div class="absolute bottom-6 left-6 flex flex-col">
-                                    <span class="text-xs uppercase tracking-wider text-white/60">Phillip Trustee</span>
-                                    <span class="text-2xl font-bold text-white">Professional Services</span>
+                                    <span class="text-xs uppercase tracking-wider text-[#e6eaf0]/60">Phillip Trustee</span>
+                                    <span class="text-2xl font-bold text-[#e6eaf0]">Professional Services</span>
                                 </div>
 
                                 <!-- Service Icon Badge -->
@@ -747,7 +742,7 @@
                             <div class="flex flex-col h-full">
                                 <!-- Header -->
                                 <div>
-                                    <h3 class="text-2xl md:text-3xl font-bold text-[#13325e] mb-3">
+                                    <h3 class="text-2xl md:text-xl font-bold text-[#13325e] mb-3">
                                         {{ selectedService.title }}
                                     </h3>
                                     <div
@@ -786,7 +781,7 @@
                                 <!-- Action Buttons -->
                                 <div class="flex flex-wrap gap-4">
                                     <button @click="closeModal"
-                                        class="bg-gradient-to-r from-[#f15a22] to-orange-500 text-white py-3 px-8 rounded-full shadow-lg shadow-[#f15a22]/20 hover:shadow-[#f15a22]/40 transition-all duration-300 hover:-translate-y-1 transform active:scale-95 focus:outline-none">
+                                        class="bg-gradient-to-r from-[#f15a22] to-orange-500 text-[#e6eaf0] py-3 px-8 rounded-full shadow-lg shadow-[#f15a22]/20 hover:shadow-[#f15a22]/40 transition-all duration-300 hover:-translate-y-1 transform active:scale-95 focus:outline-none">
                                         <span class="flex items-center gap-2">
                                             <span>Close</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -797,7 +792,7 @@
                                         </span>
                                     </button>
                                     <button
-                                        class="bg-white border-2 border-[#13325e] text-[#13325e] py-3 px-8 rounded-full hover:bg-[#13325e] hover:text-white transition-colors duration-300 shadow-lg hover:shadow-[#13325e]/20 focus:outline-none">
+                                        class="bg-white border-2 border-[#13325e] text-[#13325e] py-3 px-8 rounded-full hover:bg-[#13325e] hover:text-[#e6eaf0] transition-colors duration-300 shadow-lg hover:shadow-[#13325e]/20 focus:outline-none">
                                         <span class="flex items-center gap-2">
                                             <span>Contact Us</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -1034,10 +1029,19 @@ export default {
         getServiceCategory(title) {
             // Return the category for each service
             return this.serviceCategories[title] || 'Trust Services';
-        },
-        getServiceFeatures(title) {
+        }, getServiceFeatures(title) {
             // Return features list for each service
             return this.serviceFeatures[title] || [];
+        }, getServiceRoute(service) {
+            // Return the appropriate route based on service title
+            const routeMap = {
+                'Hold Trust Property': '/Services_hold_property',
+                'Personal Trust Services': '/Services_fund_retention', // Mapping to fund retention as closest match
+                'Escrow Services': '/Services_escrow_service',
+                'Sales and Purchase Agreement (SPA) Services': '/Services_spa'
+            };
+
+            return routeMap[service.title] || `/service/${service.id}`;
         },
         // Animation and visual effect methods
         animateSliderTransition() {

@@ -7,7 +7,7 @@
         <div class="space-y-8 mx-[70px]">
           <!-- Company Info -->
           <div>
-            <h2 class="text-2xl font-bold text-orange-400 mb-4">Phillip Trustee</h2>
+            <h2 class="text-2xl font-bold text-[#f15a22] mb-4">Phillip Trustee</h2>
             <p class="text-slate-300 leading-relaxed max-w-md">
               Your trusted partner in Cambodia, providing comprehensive services and solutions for your business
               needs.
@@ -34,25 +34,6 @@
               </NuxtLink>
             </div>
           </div>
-
-          <!-- Partners -->
- <!-- Partners -->
-<!-- <div>
-  <h3 class="text-lg font-semibold mb-6 text-slate-200">Our Partners</h3>
-  <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-    <div
-      v-for="(partner, index) in partners"
-      :key="index"
-      class="flex items-center justify-center bg-white/10 rounded-xl p-6 shadow hover:bg-white/20 transition-all duration-300 group border border-white/10"
-    >
-      <img
-        :src="partner.image"
-        :alt="partner.name"
-        class="h-12 max-w-[120px] object-contain transition-transform duration-300 group-hover:scale-105"
-      />
-    </div>
-  </div>
-</div> -->
         </div>
 
         <!-- Right Section - Contact Info -->
@@ -69,7 +50,7 @@
                 <div class="flex-shrink-0 p-2 bg-orange-500/20 rounded-lg group-hover:bg-orange-500 transition-colors duration-300">
                   <component 
                     :is="item.icon" 
-                    class="w-5 h-5 text-orange-400 group-hover:text-white transition-colors duration-300" 
+                    class="w-5 h-5 text-[#f15a22] group-hover:text-white transition-colors duration-300" 
                   />
                 </div>
                 <div class="flex-1">
@@ -101,16 +82,16 @@ import { computed } from 'vue'
 
 
 // Computed property for current year
-const currentYear = computed(() => new Date().getFullYear())
+// const currentYear = computed(() => new Date().getFullYear())
 
-const partners = [
-  { name: "Rose Mavel", image: "/images/partners/1_Rose_Mavel.jpg" },
-  { name: "La Maision", image: "/images/partners/2_La_Maision.jpg" },
-  { name: "Vimean Samnang", image: "/images/partners/3_Vimean_Samnang.jpg" },
-  { name: "IPS", image: "/images/partners/4_IPS.jpg" },
-  { name: "SaRaNa", image: "/images/partners/5_SaRaNa.jpg" },
-  { name: "YI Dung", image: "/images/partners/6_YI Dung.jpg" },
-]
+// const partners = [
+//   { name: "Rose Mavel", image: "/images/partners/1_Rose_Mavel.jpg" },
+//   { name: "La Maision", image: "/images/partners/2_La_Maision.jpg" },
+//   { name: "Vimean Samnang", image: "/images/partners/3_Vimean_Samnang.jpg" },
+//   { name: "IPS", image: "/images/partners/4_IPS.jpg" },
+//   { name: "SaRaNa", image: "/images/partners/5_SaRaNa.jpg" },
+//   { name: "YI Dung", image: "/images/partners/6_YI Dung.jpg" },
+// ]
 
 const socialLinks = [
   {

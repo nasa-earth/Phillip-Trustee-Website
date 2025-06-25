@@ -9,7 +9,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
 
             <!-- Content -->
-            <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up"
+            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" data-aos="fade-up"
                 data-aos-duration="1200">
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
                     <span class="text-orange-400">Learn</span>
@@ -18,13 +18,15 @@
                     about
                     <span class="text-orange-400">Phillip Trustee</span>
                 </h1>
-                <p class="text-lg md:text-xl text-white/80 mb-8">
+                <p class="text-lg md:text-xl text-[#e6eaf0] mb-8">
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
 
             </div>
         </section>
-        <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+
+
+        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -38,8 +40,8 @@
 
             <div class="container mx-auto relative z-10">
                 <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-4">About Us</h2>
-                    <div class="w-24 h-1 bg-orange-500"></div>
+                    <h2 class="text-3xl md:text-4xl font-semibold text-[#e6eaf0] mb-4">About Us</h2>
+                    <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
                 </div>
 
                 <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
@@ -73,8 +75,8 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Origins</h3>
-                                <p>
-                                    <strong class="text-white">Phillip Trustee (Cambodia), Co Ltd.</strong> was
+                                <p class="text-[#e6eaf0] text-lg">
+                                    <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong> was
                                     incorporated in June 2022, after the Law of Trust was passed in 2019, allowing
                                     foreigners to register their fixed assets with trustee companies in Cambodia. Our
                                     specialised license consists of commercial, social and personal trust in which has
@@ -89,8 +91,8 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Affiliations</h3>
-                                <p>
-                                    We are the associated company of <strong class="text-white">Phillip Bank,
+                                <p class="text-[#e6eaf0] text-lg">
+                                    We are the associated company of <strong class="text-[#e6eaf0] text-lg">Phillip Bank,
                                         Plc</strong>, one of the medium-sized commercial banks in Cambodia, part of the
                                     Phillip Capital group in Singapore, and a sister company of Phillip General
                                     Insurance and Phillip Life Assurance Company.
@@ -104,8 +106,8 @@
                             </div>
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Approach</h3>
-                                <p>
-                                    At <strong class="text-white">Phillip Trustee (Cambodia), Co Ltd.</strong>, we
+                                <p class="text-[#e6eaf0] text-lg">
+                                    At <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong>, we
                                     believe in a financial and non-financial ecosystem that provides suitable services
                                     to investors and customers throughout Cambodia, including commercial, public, social
                                     and personal trust services.
@@ -117,12 +119,12 @@
             </div>
         </section>
 
-        <section class="bg-[#0a2b5c] text-white py-24 px-4 md:px-8 relative overflow-hidden">
+        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-radial from-blue-900/20 to-transparent"></div>
             <div class="container mx-auto relative z-10">
                 <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-4">Phillip Members (Cambodia Offices)</h2>
-                    <div class="w-32 h-1 bg-orange-500"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Phillip Members (Cambodia Offices)</h2>
+                    <!-- <div class="w-32 h-1 bg-orange-500"></div> -->
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" data-aos="fade-up"
@@ -149,7 +151,7 @@
                                     </div>
                                     <h3 class="text-xl font-bold text-[#f15a22]">Phillip Bank</h3>
                                 </div>
-                                <p class="text-white/90">
+                                <p class="text-[#e6eaf0] text-lg">
                                     One of the medium-sized commercial banks in Cambodia, providing
                                     comprehensive banking services to individuals and businesses.
                                 </p>
@@ -180,7 +182,7 @@
                                     </div>
                                     <h3 class="text-xl font-bold text-[#f15a22]">Phillip General Insurance</h3>
                                 </div>
-                                <p class="text-white/90">
+                                <p class="text-[#e6eaf0] text-lg">
                                     Offering a wide range of insurance products designed to protect individuals
                                     and businesses across Cambodia.
                                 </p>
@@ -209,7 +211,7 @@
                                     </div>
                                     <h3 class="text-xl font-bold text-[#f15a22]">Phillip Trustee</h3>
                                 </div>
-                                <p class="text-white/90">
+                                <p class="text-[#e6eaf0] text-lg">
                                     Providing comprehensive trust services enabling foreign investors
                                     to own and manage their assets in Cambodia.
                                 </p>
@@ -224,8 +226,8 @@
             <div class="max-w-6xl mx-auto">
                 <!-- Header -->
                 <div class="text-center mb-16" data-aos="fade-down" data-aos-duration="1000">
-                    <h2 class="text-4xl md:text-5xl font-bold text-white mb-4">Goals</h2>
-                    <div class="w-24 h-1 bg-orange-500 mx-auto"></div>
+                    <h2 class="text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4">Goals</h2>
+                    <!-- <div class="w-24 h-1 bg-orange-500 mx-auto"></div> -->
                 </div>
 
                 <!-- Timeline -->
@@ -253,7 +255,7 @@
                                         class="hidden md:block absolute left-0 md:left-[calc(50%-0.625rem)] top-0 w-5 h-5 rounded-full border-4 border-orange-500 bg-white group-hover:scale-150 transition-transform duration-300">
                                     </div> <!-- Goal Card -->
                                     <div
-                                        class="relative bg-[#13325e] text-white p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
+                                        class="relative bg-[#13325e] text-[#e6eaf0] p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
                                         <div class="flex items-center gap-3 mb-4">
                                             <img :src="goal.image" :alt="goal.title" class="w-8 h-8 object-contain" />
                                             <!-- Fallback to emoji icon if image doesn't load -->
@@ -267,7 +269,7 @@
                                                 class="w-full h-48 object-cover object-center hover:scale-105 transition-transform duration-500" />
                                         </div>
 
-                                        <p v-if="goal.type === 'text'" class="text-white/90">
+                                        <p v-if="goal.type === 'text'" class="text-[#e6eaf0] text-lg">
                                             {{ goal.description }}
                                         </p>
 
@@ -292,9 +294,9 @@
         <section class="bg-[#0a2b5c] py-16 px-4">
             <div class="container mx-auto mb-12">
                 <div class="flex flex-col items-center mb-12">
-                    <h2 class="text-3xl md:text-5xl font-bold text-center mb-4 text-white">Our Partners</h2>
-                    <div class="w-24 h-1 text-[#f15a22]"></div>
-                    <p class="text-white/80 text-center mt-6 max-w-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
+                    <!-- <div class="w-24 h-1 text-[#f15a22]"></div> -->
+                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                         We collaborate with leading organizations across Cambodia to provide the best service to our
                         clients.
                     </p>
@@ -316,7 +318,6 @@ const goals = [
     {
         title: "Mission",
         image: "/images/icons/target.png",
-        icon: "🎯", // Keeping the icon as backup
         type: "text",
         largeImage: "/images/about/1-mission.jpg", // Added large image for the card
         description: "To enable foreign investors to own their tangible assets and to grow their businesses.",
@@ -324,7 +325,6 @@ const goals = [
     {
         title: "Vision",
         image: "/images/icons/idea.png",
-        icon: "💡", // Keeping the icon as backup
         type: "text",
         largeImage: "/images/about/1-vision.jpg", // Added large image for the card
         description: "To be an active catalyst in bringing foreign investments into Cambodia.",
@@ -332,7 +332,6 @@ const goals = [
     {
         title: "Value",
         image: "/images/icons/diamond.png",
-        icon: "💎", // Keeping the icon as backup
         type: "list",
         largeImage: "/images/about/1-value.jpg", // Added large image for the card
         description: [

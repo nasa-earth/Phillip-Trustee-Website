@@ -1,5 +1,7 @@
 <template>
-    <div class="faqs-page relative"> <!-- Hero Section with Particles -->
+    <div class="faqs-page relative">
+
+        <!-- Hero Section with Particles -->
         <section
             class="relative min-h-[80vh] w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{ backgroundImage: 'url(/images/Services/client-value.jpg)' }">
@@ -60,19 +62,6 @@
                 <p class="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed" v-motion-slide-visible-once-bottom>
                     Find answers to common questions about our trust services and support
                 </p>
-
-                <!-- Search Input -->
-                <div class="relative max-w-2xl mx-auto mb-12 animate-fadeInUp" v-motion-slide-visible-once-bottom>
-                    <input v-model="searchQuery" type="text" placeholder="Search for questions..."
-                        class="w-full px-6 py-4 pr-12 rounded-full text-lg focus:outline-none focus:ring-2 focus:ring-[#f15a22] shadow-lg transition-all duration-300">
-                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                    </span>
-                </div>
             </div>
 
             <!-- Scroll Indicator -->
@@ -85,77 +74,38 @@
                         d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
             </div>
-        </section> <!-- Main Question Highlight -->
-        <section class="container mx-auto px-4 -mt-20 relative z-20">
-            <div class="max-w-3xl mx-auto mb-16">
-                <div class="bg-gradient-to-br from-white/90 to-[#f8f9fa]/90 rounded-2xl shadow-2xl p-8 hover:shadow-[#f15a22]/20 transition-all duration-300 transform hover:translate-y-[-5px] backdrop-blur-md border border-white/50"
-                    v-motion-slide-visible-once-bottom>
-                    <div class="flex flex-wrap items-start gap-4 mb-6">
-                        <div class="shrink-0">
-                            <div
-                                class="bg-gradient-to-r from-[#f15a22] to-orange-400 text-white px-4 py-2 rounded-full font-semibold text-sm uppercase shadow-md">
-                                Featured Question
-                            </div>
-                        </div>
-                        <h2 class="text-2xl md:text-3xl font-bold text-[#13325e]">{{ faqs[0].question }}</h2>
-                    </div>
-                    <div class="text-[#13325e]/80 text-lg leading-relaxed" v-html="faqs[0].answer"></div>
+        </section>
 
-                    <div class="mt-6 pt-6 border-t border-gray-200 flex flex-wrap justify-between gap-4">
-                        <div class="flex items-center">
-                            <button @click="showContactInfo = !showContactInfo"
-                                class="flex items-center gap-2 text-[#13325e] hover:text-[#f15a22] transition-colors group">
-                                <div
-                                    class="w-8 h-8 rounded-full bg-[#f15a22]/10 flex items-center justify-center group-hover:bg-[#f15a22]/20 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#f15a22]" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <span>{{ showContactInfo ? 'Hide Contact Info' : 'Need more help?' }}</span>
-                            </button>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button
-                                class="w-8 h-8 rounded-full bg-[#13325e]/10 flex items-center justify-center hover:bg-[#13325e]/20 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#13325e]" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                </svg>
-                            </button>
-                            <button
-                                class="w-8 h-8 rounded-full bg-[#13325e]/10 flex items-center justify-center hover:bg-[#13325e]/20 transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#13325e]" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <transition name="fade">
-                        <div v-if="showContactInfo"
-                            class="mt-4 p-5 bg-gradient-to-r from-[#13325e]/5 to-[#f15a22]/5 rounded-lg text-center border border-[#13325e]/10">
-                            <p class="text-[#13325e]/80">For more detailed assistance, contact our trust experts at:</p>
-                            <p class="font-bold mt-2 text-[#13325e]">info@philliptrustee.com.kh | +855 23 922 222</p>
-                        </div>
-                    </transition>
-                </div>
+        <!-- FAQ Accordion Section -->
+        <section class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] py-16 px-4 mb-0 relative overflow-hidden">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 opacity-5">
+                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <pattern id="dot-pattern-faq" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <circle cx="2" cy="2" r="1" fill="white" />
+                        </pattern>
+                    </defs>
+                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dot-pattern-faq)" />
+                </svg>
             </div>
-        </section> <!-- FAQ Accordion Section -->
-        <section class="bg-gradient-to-b from-[#f8f9fa] to-white py-16 px-4 mb-0">
-            <div class="container mx-auto">
+
+            <!-- Decorative Elements -->
+            <div
+                class="absolute top-20 right-0 w-72 h-72 bg-[#f15a22]/10 rounded-full blur-[120px] -z-0 animate-pulse-slow">
+            </div>
+            <div
+                class="absolute bottom-40 left-20 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-0 animate-pulse-slow animation-delay-3000">
+            </div>
+
+            <div class="container mx-auto relative z-10">
                 <div class="max-w-4xl mx-auto">
                     <div class="flex flex-wrap justify-between items-center mb-8" v-motion-slide-visible-once-bottom>
-                        <h2
-                            class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#13325e] to-[#0e2a52]">
+                        <h2 class="text-3xl md:text-4xl font-bold text-[#e6eaf0]">
                             All Questions</h2>
                         <div class="flex items-center gap-2">
                             <button @click="expandAll"
-                                class="px-4 py-2 text-sm font-medium bg-[#13325e]/10 text-[#13325e] hover:bg-[#13325e]/20 transition-all rounded-lg flex items-center gap-1">
+                                class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -164,7 +114,7 @@
                                 Expand All
                             </button>
                             <button @click="collapseAll"
-                                class="px-4 py-2 text-sm font-medium bg-[#13325e]/10 text-[#13325e] hover:bg-[#13325e]/20 transition-all rounded-lg flex items-center gap-1">
+                                class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -174,7 +124,7 @@
                             </button>
                         </div>
                     </div> <!-- Filter Categories -->
-                    <div class="flex flex-wrap gap-2 mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/50 p-3 rounded-2xl backdrop-blur-sm border border-[#e6eaf0]"
+                    <div class="flex flex-wrap gap-2 mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-3 rounded-2xl backdrop-blur-sm border border-white/10"
                         v-motion-slide-visible-once-bottom>
                         <button @click="selectedCategory = null"
                             :class="['category-btn', !selectedCategory ? 'active' : '']">
@@ -193,14 +143,15 @@
                         </button>
                     </div>
 
-                    <div v-if="filteredFaqs.length === 0" class="text-center py-16 bg-white/50 rounded-2xl shadow-md"
+                    <div v-if="filteredFaqs.length === 0"
+                        class="text-center py-16 bg-white/20 rounded-2xl shadow-md backdrop-blur-sm border border-white/10"
                         v-motion-slide-visible-once-bottom>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none"
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 mx-auto text-white/40 mb-4" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p class="text-xl text-gray-500 mb-4">No questions found matching your search</p>
+                        <p class="text-xl text-[#e6eaf0]/80 mb-4">No questions found matching your search</p>
                         <button @click="clearSearch"
                             class="px-6 py-2 bg-gradient-to-r from-[#f15a22] to-orange-500 text-white rounded-lg hover:shadow-lg hover:shadow-[#f15a22]/30 transition-all transform hover:translate-y-[-2px]">
                             Clear Search
@@ -209,28 +160,28 @@
 
                     <div v-else class="space-y-4">
                         <div v-for="(faq, idx) in filteredFaqs" :key="idx"
-                            class="bg-gradient-to-r from-white to-white/90 rounded-xl shadow-md border border-[#e6eaf0] transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/20 backdrop-blur-sm"
+                            class="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-xl shadow-md border border-white/10 transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/30"
                             v-motion-slide-visible-once-bottom :style="{ animationDelay: `${idx * 100}ms` }">
                             <button
                                 class="w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none"
                                 @click="toggle(getFaqIndex(faq))">
                                 <span class="flex-1 pr-4">
                                     <span v-if="searchQuery" v-html="highlightSearch(faq.question)"
-                                        class="text-lg font-semibold bg-clip-text"
-                                        :class="faq.open ? 'text-transparent bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#13325e]'"></span>
+                                        class="text-lg font-semibold"
+                                        :class="faq.open ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#e6eaf0]'"></span>
                                     <span v-else class="text-lg font-semibold"
-                                        :class="faq.open ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#13325e]'">
+                                        :class="faq.open ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#e6eaf0]'">
                                         {{ faq.question }}
                                     </span>
                                 </span>
                                 <div class="flex items-center gap-3">
                                     <span class="hidden sm:block text-sm px-3 py-1 rounded-full"
-                                        :class="faq.open ? 'bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 text-[#f15a22] shadow-sm' : 'bg-[#13325e]/10 text-[#13325e]'">
+                                        :class="faq.open ? 'bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 text-[#f15a22] shadow-sm' : 'bg-white/10 text-[#e6eaf0]/80'">
                                         {{ getCategoryFromQuestion(faq.question) }}
                                     </span>
                                     <span
                                         class="h-8 w-8 flex items-center justify-center rounded-full transition-all duration-300"
-                                        :class="faq.open ? 'bg-gradient-to-r from-[#f15a22] to-orange-500 text-white shadow-md shadow-[#f15a22]/20' : 'bg-[#13325e]/5 text-[#13325e]'">
+                                        :class="faq.open ? 'bg-gradient-to-r from-[#f15a22] to-orange-500 text-white shadow-md shadow-[#f15a22]/20' : 'bg-white/10 text-[#e6eaf0]'">
                                         <svg :class="['w-4 h-4 transition-transform duration-300', { 'rotate-180': faq.open }]"
                                             fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
@@ -240,10 +191,10 @@
                             </button>
                             <transition name="accordion">
                                 <div v-if="faq.open"
-                                    class="px-6 pb-6 border-t border-[#e6eaf0] pt-4 bg-gradient-to-b from-white/50 to-[#f8f9fa]/80 backdrop-blur-sm">
+                                    class="px-6 pb-6 border-t border-white/10 pt-4 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-sm">
                                     <div v-if="searchQuery" v-html="highlightSearch(faq.answer)"
-                                        class="prose text-[#13325e]/80 leading-relaxed"></div>
-                                    <div v-else v-html="faq.answer" class="prose text-[#13325e]/80 leading-relaxed">
+                                        class="prose text-[#e6eaf0]/90 leading-relaxed"></div>
+                                    <div v-else v-html="faq.answer" class="prose text-[#e6eaf0]/90 leading-relaxed">
                                     </div>
                                 </div>
                             </transition>
@@ -251,45 +202,8 @@
                     </div>
                 </div>
             </div>
-        </section> <!-- Contact CTA Section -->
-        <section class="bg-gradient-to-br from-[#13325e] to-[#1d4170] py-16 relative overflow-hidden">
-            <div class="container mx-auto px-4 text-center">
-                <h2 class="text-3xl md:text-4xl font-bold mb-6" v-motion-slide-visible-once-bottom>
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-100">
-                        Still Have Questions?
-                    </span>
-                </h2>
-                <p class="text-xl text-[#e6eaf0] max-w-2xl mx-auto mb-8" v-motion-slide-visible-once-bottom>
-                    Our team of trust experts is ready to answer any questions you may have about our services.
-                </p>
-                <div class="flex flex-wrap justify-center gap-4" v-motion-slide-visible-once-bottom>
-                    <NuxtLink to="/contact"
-                        class="px-8 py-3 bg-gradient-to-r from-[#f15a22] to-orange-500 text-white rounded-lg shadow-lg shadow-[#f15a22]/30 hover:shadow-xl hover:shadow-[#f15a22]/40 transition-all duration-300 transform hover:scale-105">
-                        Contact Us
-                    </NuxtLink>
-                    <a href="tel:+85523922222"
-                        class="px-8 py-3 bg-white text-[#13325e] rounded-lg shadow-lg hover:shadow-xl hover:bg-[#e6eaf0] transition-all duration-300 transform hover:scale-105">
-                        Call Now
-                    </a>
-                </div>
-            </div>
-
-            <!-- Decorative Elements -->
-            <div
-                class="absolute top-0 right-0 w-64 h-64 bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 rounded-full blur-3xl -z-10">
-            </div>
-            <div
-                class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-r from-[#13325e]/30 to-[#1d4170]/30 rounded-full blur-3xl -z-10">
-            </div>
-
-            <!-- Floating Elements -->
-            <div
-                class="hidden md:block absolute top-1/4 right-1/4 w-16 h-16 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm rotate-12 animate-float">
-            </div>
-            <div
-                class="hidden md:block absolute bottom-1/4 left-1/4 w-24 h-24 rounded-full border border-[#f15a22]/10 bg-[#f15a22]/5 backdrop-blur-sm animate-float-delay">
-            </div>
         </section>
+
     </div>
 </template>
 
@@ -300,49 +214,96 @@ export default {
         return {
             faqs: [
                 {
-                    question: 'How does a Trust work? (1.1 What is the current state of trust law in Cambodia, and how has it evolved over time?)',
-                    answer: `Under the Trust Law enacted on January 2, 2019, a trust is a three-party legal relationship, in which the
-Trustor (or investor) transfers property or fund to a Trustee who shall hold, manage and protect it,
-apart from its own estate, for the trust's beneficiary. The Trustee (or the Trust Company) is licensed
-by the NBFSA under the Ministry of Economy and Finance (MEF) and the Trust Regulator. Foreign investors
-can now make a profit from land appreciation without acquiring the land in their name, they can do so
-without relinquishing their nationality or applying for the Cambodian nationality.`,
+                    question: "1.1 What is the current state of trust law in Cambodia, and how has it evolved over time?",
+                    answer: "Under the Trust Law enacted on January 2, 2019, a trust is a three-party legal relationship, in which the Trustor (or investor) transfers property or fund to a Trustee who shall hold, manage and protect it, apart from its own estate, for the trust’s beneficiary. The Trustee (or the Trust Company) is licensed by the NBFSA under the Ministry of Economy and Finance (MEF) and the Trust Regulator.Foreign investors can now make a profit from land appreciation without acquiring the land in their name, they can do so without relinquishing their nationality or applying for the Cambodian nationality.",
                     open: false
                 },
                 {
-                    question: 'What is Proprietary Protection Trust (1.2 What types of trusts are available in Cambodia?)',
-                    answer: `A Proprietary Protection Trust is a mechanism to protect property against risks. It's one of the trust types available in Cambodia, established to safeguard assets from creditors, legal judgments, or other claims. The trustee holds and manages the property for the benefit of the beneficiaries while keeping it separate from personal assets.`,
-                    open: false
-                }, {
-                    question: "What is Escrow Trust? (1.3 How do escrow services function within Cambodia's trust framework?)",
-                    answer: "An Escrow Trust is a type of trust arrangement where funds or assets are held by a third party (the trustee) on behalf of two other parties that are typically completing a transaction. The trustee only releases the funds or assets when all terms of the agreement have been met, providing security to both the buyer and seller in the transaction.",
+                    question: "1.2 What types of trusts are available in Cambodia?",
+                    answer: "A Proprietary Protection Trust is a mechanism to protect property against risks. It's one of the trust types available in Cambodia, established to safeguard assets from creditors, legal judgments, or other claims. The trustee holds and manages the property for the benefit of the beneficiaries while keeping it separate from personal assets.",
                     open: false
                 },
                 {
-                    question: "What is the purpose of a Trust Company? (2.1 What safeguards are in place to protect trust assets?)",
-                    answer: "A Trust Company serves as a fiduciary, holding and managing assets for the benefit of another party (beneficiary). In Cambodia, Trust Companies are regulated by the NBFSA and must maintain strict separation between their own assets and trust assets. They provide professional management, legal compliance, continuity, and protection against conflicts of interest.",
+                    question: "2.1 How is Phillip Trustee (Cambodia) related to Phillip Bank?",
+                    answer: "Phillip Trustee is an associated company of Phillip Bank, 49% owned by the bank while the remaining 51% by the local nominee shareholders. Phillip Trustee and Phillip Bank are both esteemed affiliates of Phillip Capital Group, a Singaporean holding group which has near 50 years business success in the financial services industry and a global presence, with operations in 16 countries and over 1 million clients with Assets Under Management (AUM) of total more than USD 35 Billion.",
                     open: false
                 },
                 {
-                    question: "How are my assets protected in a trust? (2.2 What happens to trust assets if the trustee faces financial difficulties?)",
-                    answer: "Assets in a trust are legally separated from the trustee's personal assets. This means that if the trustee faces bankruptcy or legal claims, the trust assets remain protected and cannot be seized by the trustee's creditors. Additionally, Trust Companies in Cambodia are regulated and must maintain appropriate insurance and capital requirements to further protect client assets.",
+                    question: "2.2 Is it safe to engage Phillip Trustee (Cambodia)?",
+                    answer: "Phillip Trustee is a registered trust company under the Cambodian Trust Regulator. We abide by strict trust regulations and are under the supervision of the governing Trust Regulator. Currently, we are the only trust company that is bank-related, and it does not have business affiliates in the real estate and construction sector. As a trust company, we provide trustee services and hold assets for clients. Although the assets are held under Phillip Trustee, the Trustor has full right to claim his/her ownership as per the registered trust deed.",
                     open: false
                 },
                 {
-                    question: "What are the fees for trust services? (3.1 What are the typical costs associated with setting up and maintaining a trust in Cambodia?)",
-                    answer: "Trust service fees typically include setup fees, annual administration fees (usually a percentage of assets under management), transaction fees, and potentially termination fees. At Phillip Trustee, our fee structure is transparent and competitive, varying based on the complexity and size of the trust arrangement. Contact our team for a personalized quote based on your specific requirements.",
+                    question: "2.3 As a Trustor, how can I ensure that the Trustee will only do as I wish?",
+                    answer: "All parties are governed by the trust deed. The trust deed must be registered for legal validity of trust operation. Phillip Trustee is regulated by the Trust Regulator. Our (Trustee’s) role is to execute based on the trust deed. If the trustee breaches the trust deed, the Trustor can take legal action and/or can file a complaint with the Trust Regulator.",
                     open: false
                 },
                 {
-                    question: "What are the tax implications of establishing a trust? (3.2 How are trusts taxed in Cambodia?)",
-                    answer: "The tax treatment of trusts in Cambodia depends on the type of trust and the specific arrangements. Generally, income generated by trust assets may be subject to taxation either at the trust level or when distributed to beneficiaries. Certain trusts may offer tax planning advantages. We recommend consulting with a tax professional to understand the specific implications for your situation.",
+                    question: "2.4 How are my asset/funds protected from fraudulent acts (eg: embezzlement of funds)?",
+                    answer: "Our Trustee company has a robust set of internal controls in place to safeguard client assets. These controls include checks and balances, segregation of duties, and ongoing monitoring and supervisions of operations. Regular audits and reviews are conducted to assess the effectiveness of internal controls and identify any potential vulnerabilities. In the case of loss from fraud, clients can file a complaint with the Trust Regulator and the police department for case investigations. Our company will be liable for reimbursement from any loss occurring from fraud.",
                     open: false
                 },
                 {
-                    question: "Can Phillip Trustee provide banking services? (4.1 What is the relationship between trusts and banking services in Cambodia?)",
-                    answer: "While Phillip Trustee is part of Phillip Bank PLC group, trust services and banking services are separate. However, we work closely with Phillip Bank to offer clients comprehensive financial solutions. Trust assets can be held in accounts at Phillip Bank or other financial institutions as appropriate for the trust's objectives and the beneficiaries' needs.",
+                    question: "2.5 What if Phillip Trustee (Cambodia) go out of business or become insolvent?",
+                    answer: "If our Trustee business becomes insolvent, the Trust Regulator will take over all asset under the trust deeds held in the name of the bankrupted Trustee and manage all operations/liquidation of the bankrupted Trustee. Since the Trustor is still the beneficial owner of the Trust, he/she may then appoint another Trustee to administer their trust.",
                     open: false
-                }
+                },
+                {
+                    question: "2.6 As a Trustor, what happens to my trust and the property held under the trust upon my demise?",
+                    answer: "During our consultation process, we will explicitly discuss all the details and specific arrangement to be administered upon the Trustor’s demise. This includes (a) whether the assets are to be sold and the proceeds are to be distributed to the beneficiaries, (b) the appointment of a successor Trustor upon the current Trustor’s demise, and other arrangements.During our onboarding process, we will similarly advise our clients to separate their assets under Trust and Will, to avoid the duplication of assets under these arrangements. The asset under trust arrangement in Cambodia will be managed, disposed and/or distributed to beneficiaries indicated in the trust deed.For Cambodians:Upon the unfortunate demise of the Trustor, the Trustee will continue executing the trust functions according to the trust deed. In the case that the trust has more than 1 single Trustor, the remaining Trustors can take control of the trust upon the passing of a Trustor. If you are the sole Trustor, the Trustee will hold and administer the trust until the end of the term and distribute the assets to the beneficiaries according to the trust deed.For Non-Cambodians:For foreign Trustors, the Trustee will similarly execute according to the trust deed upon the passing of the Trustor. However, if there are no successor Trustor(s) and no beneficiaries mentioned in the trust deed, and there are also no people with special connection (e.g. family ties) with the Trustor, the Trustee will hand over the assets within the Trust to the Cambodian government. Therefore, we advise our clients to indicate their beneficiaries during the formation of the Trust Deed, which the Trustee will then administer, dispose and distribute the assets in accordance with Trust Deed in their passing.To ensure protection of the Trustor’s succession interest, we strongly recommend that Non-Cambodian Trustor should also select a successor trustor from the outset so in the demise of the first Trustor, the successor trustor will then take over the Trust and its property.",
+                    open: false
+                },
+                {
+                    question: "2.7 Can my spouse take control of the trust and the property held under the trust upon my demise?",
+                    answer: "If your spouse is listed as the trustor, they can take control of the trust upon your demise. In contrast, if your spouse is not listed as the trustor, then the trustee will hold and administer the trust until the end of the term and asset is distributed to the beneficiary.Firstly, the beneficiary will have to manage and cover all tax payable under the Cambodian taxation law. After all tax has been cleared, the Trustee will issue a letter of asset distribution and then a transfer of fund or asset will be made to the beneficiary’s designated bank.If it is an immovable property, we will distribute it based on the trustor’s instruction and the distribution will occur via the SPA. All tax payable to the General Department of tax (GDT) has to be cleared before we will issue the distribution letter for the trustor’s signing off.",
+                    open: false
+                },
+                {
+                    question: "2.8 What would happen in the case of compulsory purchase of land by the Cambodian government?",
+                    answer: "Our legal due diligence process (conducted by third party professionals) will first establish if there are any encumbrances on the assets/ property and whether the land is owned by the government. We will only proceed with the purchase of land and setting up the Trust once we receive a positive legal due diligence report.Once the title deed of the property has been transferred under the Trustee and the Trust has been registered with the Trust Regulator, the Trustor will have full rights to the asset through the Trust. If the Cambodian government chooses to exercise its power of compulsory purchase, it typically follows a specific process that involves notifying the owner, conducting a valuation of the property, and offering compensation based on the fair market value.",
+                    open: false
+                },
+                {
+                    question: "3.1 Who is responsible to pay stamp duty on sale and purchase of property?",
+                    answer: "The seller of the property is usually the responsible party, and we always ensure it is included within the Sale and Purchase Agreement (SPA).",
+                    open: false
+                },
+                {
+                    question: "3.2 What taxes do I or the Trust have to pay in Cambodia?",
+                    answer: "• Duty Stamp Tax (4%): Required for any ownership transfer transactions.• Yearly Tax on Property (0.1 to 2%): Dependent on the type of land property.• Capital Gain Tax (20% - effective from Jan 2024): It is levied on the capital gain which is the difference between the proceeds from sale/transfer of assets (i.e., immovable property) and original purchase price, less permitted deductible expenses.- Upon the sale & purchase of the land, the Trust would have to pay a 20% capital gain tax under the law of Cambodia. Phillip Trustee will administer the tax payments on behalf of the Trustor and Trust.- For the payment of any fees and taxes, a Trust bank account would be established at Phillip Bank as per the mutual agreement between the Trustor and Phillip Trustee. In the case that Phillip Trustee makes the payment first, we will recover the full amount back from the Trust account.",
+                    open: false
+                },
+                {
+                    question: "4.1 If I choose to engage Phillip Trustee Cambodia, do I need to open a personal bank account with Phillip Bank?",
+                    answer: "For both Non-Cambodian and Cambodian Trustors, we strongly recommend you open a personal bank account with Phillip Bank for your ease of transactions and trust administration. By having a personal bank account with Phillip Bank, this will give you greater ease and convenience and you can avoid interbank transaction fees.",
+                    open: false
+                },
+                {
+                    question: "4.2 What are the bank account opening fees?",
+                    answer: "There are no fees for opening an account. However, there could be remittance fees incurred for sending money to fund the Phillip Bank account depending on the bank you are remitting from.",
+                    open: false
+                },
+                {
+                    question: "4.3 Does Phillip Bank an ATM and/or internet banking services?",
+                    answer: "Your personal Phillip Bank ATM card will be issued upon the opening of a savings account. The interest rate for savings account is between 2-3% per annum if they maintain balance between USD 500 to USD 100,000.Phillip Bank has both internet and mobile banking services available.",
+                    open: false
+                },
+                {
+                    question: "4.4 Does Phillip Bank charge fees for local wire transfer within Cambodia and international transfers?",
+                    answer: "For local wire transfers, there may be certain transaction fees of USD 0.50 to 1 per transaction (subject to changes).For international transfers (between Phnom Penh and Singapore), USD 9 is charged per transaction for a maximum of USD 10,000 per transaction per day (subject to changes).",
+                    open: false
+                },
+                {
+                    question: "4.5 What are the loan financing interest rate for individuals?",
+                    answer: "This is based on market rate. Also note that financing arrangement will be assessed on case by case basis.",
+                    open: false
+                },
+                {
+                    question: "4.6 If an investor chooses to purchase commercial properties via a Singapore registered company, is it possible to obtain financing from Phillip Bank?",
+                    answer: "Phillip Bank is precluded from offshore financing, and we are not allowed to lend to foreigners for foreign projects. However, in the case of foreign borrowing to fund local projects, we require approval from the local authorities.We would not recommend such arrangements for clients as the loan rates are higher in Cambodia than Singapore. Furthermore, documentation from overseas can be cumbersome and credit processing across border can be challenging.",
+                    open: false
+                },
+
             ],
             searchQuery: '',
             selectedCategory: null,
@@ -360,9 +321,6 @@ without relinquishing their nationality or applying for the Cambodian nationalit
         },
         filteredFaqs() {
             return this.faqs.filter(faq => {
-                // Skip first FAQ (featured) if we're in the accordion section
-                if (faq === this.faqs[0]) return false;
-
                 // Filter by search
                 if (this.searchQuery) {
                     const searchLower = this.searchQuery.toLowerCase();
@@ -390,10 +348,10 @@ without relinquishing their nationality or applying for the Cambodian nationalit
         },
         getCategoryFromQuestion(question) {
             // Extract category from question text
-            if (question.includes('(1.')) return 'Trust Basics';
-            if (question.includes('(2.')) return 'Safety & Security';
-            if (question.includes('(3.')) return 'Taxes & Fees';
-            if (question.includes('(4.')) return 'Banking Services';
+            if (question.startsWith('1.')) return 'Trust Basics';
+            if (question.startsWith('2.')) return 'Safety & Security';
+            if (question.startsWith('3.')) return 'Taxes & Fees';
+            if (question.startsWith('4.')) return 'Banking Services';
             return 'General';
         },
         highlightSearch(text) {
@@ -426,7 +384,7 @@ without relinquishing their nationality or applying for the Cambodian nationalit
 @import '~/assets/css/theme.css';
 
 .faqs-page {
-    background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(to bottom, #0a2b5c 0%, #081f42 100%);
     min-height: 100vh;
 }
 
@@ -579,24 +537,25 @@ without relinquishing their nationality or applying for the Cambodian nationalit
     border-radius: 9999px;
     font-size: 0.875rem;
     font-weight: 500;
-    background-color: #f5f5f7;
-    color: #13325e;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e6eaf0;
     transition: all 0.3s ease;
     white-space: nowrap;
-    border: 1px solid transparent;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
 }
 
 .category-btn:hover {
-    background-color: #e6eaf0;
-    border-color: rgba(19, 50, 94, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(241, 90, 34, 0.3);
     transform: translateY(-1px);
 }
 
 .category-btn.active {
-    background: linear-gradient(to right, #13325e, #1d4170);
+    background: linear-gradient(to right, #f15a22, #f97949);
     color: white;
     border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 4px 6px -1px rgba(19, 50, 94, 0.2), 0 2px 4px -1px rgba(19, 50, 94, 0.1);
+    box-shadow: 0 4px 6px -1px rgba(241, 90, 34, 0.3), 0 2px 4px -1px rgba(241, 90, 34, 0.2);
 }
 </style>

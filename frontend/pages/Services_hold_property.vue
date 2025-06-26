@@ -30,7 +30,8 @@
             We act as legal representatives for foreigners to make real estate purchases in Cambodia with a peace of
             mind.
         </p><br>
-        <p class="text-center text-xl mx-[350px]">Our responsibility is to hold ownership on your behalf for the purpose of
+        <p class="text-center text-xl mx-[350px]">Our responsibility is to hold ownership on your behalf for the purpose
+            of
             commercial, social and personal trust, managing the property trust in accordance with a Trust Deed or
             agreement.</p>
     </section>
@@ -155,7 +156,7 @@
 
     <!-- Trustee service transfer process  -->
     <section class="bg-[#003366] text-white py-16 px-6 md:px-12">
-        <div class="max-w-7xl mx-auto"> 
+        <div class="max-w-7xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">
                 Trustee Service Transfer Process
             </h2>
@@ -163,7 +164,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Step 1 -->
                 <div>
-                    <div class="bg-orange-500 p-5 rounded-xl shadow-md space-y-3">
+                    <div class="bg-orange-500 p-9.5 rounded-xl shadow-md space-y-3">
                         <h3 class="font-bold text-lg text-center">Pre-engagement</h3>
                         <p class="text-xs text-center">(between trustor and land-holding company)</p>
 
@@ -178,7 +179,7 @@
 
                 <!-- Step 2 -->
                 <div>
-                    <div class="bg-orange-500 p-5 rounded-xl shadow-md space-y-3">
+                    <div class="bg-orange-500 p-8 rounded-xl shadow-md space-y-3">
                         <h3 class="font-bold text-lg text-center">Transfer of Land Ownership</h3>
                         <p class="text-xs text-center">(from land-holding company to trustee)</p>
                     </div>
@@ -205,7 +206,7 @@
 
                 <!-- Step 3 -->
                 <div>
-                    <div class="bg-orange-500 p-5 rounded-xl shadow-md space-y-3">
+                    <div class="bg-orange-500 p-8 rounded-xl shadow-md space-y-3">
                         <h3 class="font-bold text-lg text-center">Enter Trust Agreement & Proceed</h3>
                         <p class="text-xs text-center">(3–5 Working Days)</p>
                     </div>
@@ -235,7 +236,7 @@
 
                 <!-- Step 4 -->
                 <div>
-                    <div class="bg-orange-500 p-5 rounded-xl shadow-md space-y-3">
+                    <div class="bg-orange-500 p-13 rounded-xl shadow-md space-y-3">
                         <h3 class="font-bold text-lg text-center">Trust Registration</h3>
                         <p class="text-sm mt-4 text-center"></p>
                     </div>
@@ -245,6 +246,77 @@
                     </p>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <!-- link to another services page  -->
+    <section class="bg-[#003366] text-white py-16 px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Explore Our Other Services
+            </h2>
+            <p class="text-lg text-white/80 mb-12">
+                Discover more ways Phillip Trustee can assist you with your financial needs
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Hold Personal Trust -->
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#13325e]/80">
+                    <div class="h-48 overflow-hidden">
+                        <img src="/images/Services/key_service_img_02.jpg" alt="Hold Personal Trust"
+                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 bg-[#0e2a52]">
+                        <h3 class="text-xl font-bold text-white mb-4">Hold Personal Trust</h3>
+                        <p class="text-white/70 mb-6">
+                            Secure fund management and retention services for your investment needs.
+                        </p>
+                        <NuxtLink to="/Services_fund_retention"
+                            class="inline-block bg-[#f15a22] text-white px-6 py-3 rounded-md hover:bg-[#d14615] transition-colors duration-300 font-semibold">
+                            Learn More
+                        </NuxtLink>
+                    </div>
+                </div>
+
+                <!-- Escrow Service -->
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#13325e]/80">
+                    <div class="h-48 overflow-hidden">
+                        <img src="/images/Services/key_service_img_03.jpg" alt="Escrow Service"
+                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 bg-[#0e2a52]">
+                        <h3 class="text-xl font-bold text-white mb-4">Escrow Service</h3>
+                        <p class="text-white/70 mb-6">
+                            We serve as an intermediary for your real estate transactions in Cambodia.
+                        </p>
+                        <NuxtLink to="/Services_escrow_service"
+                            class="inline-block bg-[#f15a22] text-white px-6 py-3 rounded-md hover:bg-[#d14615] transition-colors duration-300 font-semibold">
+                            Learn More
+                        </NuxtLink>
+                    </div>
+                </div>
+
+                <!-- SPA Service -->
+                <div
+                    class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border border-[#13325e]/80">
+                    <div class="h-48 overflow-hidden">
+                        <img src="/images/Services/key_service_img_04.jpg" alt="SPA Service"
+                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <div class="p-6 bg-[#0e2a52]">
+                        <h3 class="text-xl font-bold text-white mb-4">Sales & Purchase Agreement(SPA)</h3>
+                        <p class="text-white/70 mb-6">
+                            Sales and Purchase Agreement services to facilitate secure property transactions.
+                        </p>
+                        <NuxtLink to="/Services_spa"
+                            class="inline-block bg-[#f15a22] text-white px-6 py-3 rounded-md hover:bg-[#d14615] transition-colors duration-300 font-semibold">
+                            Learn More
+                        </NuxtLink>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

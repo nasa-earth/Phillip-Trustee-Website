@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-screen bg-[#e6eaf0]"> <!-- Hero Section -->
+    <div class="min-h-screen"> <!-- Hero Section -->
         <section
             class="relative min-h-[95vh] w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{
@@ -69,7 +69,7 @@
             </div>
         </section> <!-- What is Trust? Section -->
         <section
-            class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] text-[#e6eaf0] py-32 px-4 md:px-8 relative overflow-hidden">
+            class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] text-[#e6eaf0] py-32 px-4 md:px-8 relative overflow-hidden mx-auto">
             <!-- Enhanced Background Pattern -->
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -851,28 +851,28 @@ export default {
                 {
                     id: 1,
                     title: 'Hold Trust Property',
-                    image: '/images/services/Attorney-consults.jpg',
+                    image: '/images/services/key_service_img_01.jpg',
                     desc: 'We securely hold and manage trust property on behalf of our clients, ensuring compliance and transparency across all asset classes.',
                     details: 'Our trust property holding services provide a secure framework for asset management that complies with all relevant regulations. Our expert team ensures transparent administration and reporting, giving you peace of mind about your valuable assets.'
                 },
                 {
                     id: 2,
-                    title: 'Personal Trust Services',
-                    image: '/images/services/key_service_img_03.jpg',
+                    title: 'Hold Personal Trust',
+                    image: '/images/services/key_service_img_02.jpg',
                     desc: 'Personal trust services tailored to your needs, safeguarding your assets for your benefit or your loved ones with personalized attention.',
                     details: 'Our personal trust services are designed with your unique needs in mind. We work closely with you to develop customized solutions for asset protection, wealth preservation, and efficient succession planning that aligns with your goals.'
                 },
                 {
                     id: 3,
                     title: 'Escrow Services',
-                    image: '/images/services/key_service_img_04.jpg',
+                    image: '/images/services/key_service_img_03.jpg',
                     desc: 'Professional escrow services for secure transactions and peace of mind when engaging in high-value business deals in Cambodia.',
                     details: 'Our escrow services provide a neutral third-party solution that protects all parties in complex transactions. We verify conditions are met before funds are released, ensuring security and confidence throughout the process.'
                 },
                 {
                     id: 4,
                     title: 'Sales and Purchase Agreement (SPA) Services',
-                    image: '/images/services/key_service_img_02.jpg',
+                    image: '/images/services/key_service_img_04.jpg',
                     desc: 'Expert handling of SPA services to facilitate smooth and secure property transactions that protect your interests.',
                     details: 'Our comprehensive SPA services guide you through every step of property transactions in Cambodia. We ensure all documentation is properly executed, legal requirements are met, and your interests are protected throughout the transaction process.'
                 },

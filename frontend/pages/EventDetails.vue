@@ -9,9 +9,9 @@
             <!-- Content -->
             <div class="relative z-10 text-center text-white px-6 max-w-4xl" data-aos="fade-up"
                 data-aos-duration="1000">
-                <div class="bg-orange-500 text-white px-4 py-2 rounded-lg inline-block mb-4">
+                <!-- <div class="bg-orange-500 text-white px-4 py-2 rounded-lg inline-block mb-4">
                     {{ formatDate(event.date) }}
-                </div>
+                </div> -->
                 <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
                     {{ event.title }}
                 </h1>
@@ -46,7 +46,7 @@
 
             <div class="container mx-auto relative z-10">
                 <div
-                    class="max-w-4xl mx-auto bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl overflow-hidden">
+                    class=" bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl overflow-hidden mx-[60px]">
                     <div class="p-8 md:p-12">
                         <!-- Event Details -->
                         <div class="flex flex-col md:flex-row gap-8 mb-8">
@@ -54,7 +54,7 @@
                                 <h3 class="text-2xl font-semibold text-[#f15a22] mb-6">Event Details</h3>
                                 <p class="text-white/90 mb-8 text-lg leading-relaxed">{{ event.details }}</p>
 
-                                <div v-if="event.speakers && event.speakers.length > 0" class="mb-8">
+                                <!-- <div v-if="event.speakers && event.speakers.length > 0" class="mb-8">
                                     <h4 class="text-xl font-medium text-white mb-6">Featured Speakers</h4>
                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div v-for="(speaker, index) in event.speakers" :key="index"
@@ -69,7 +69,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="flex flex-wrap gap-4">
                                     <NuxtLink to="/Event"
@@ -82,7 +82,7 @@
                                         </svg>
                                         <span>Back to Events</span>
                                     </NuxtLink>
-                                    <button
+                                    <!-- <button
                                         class="bg-gradient-to-r from-[#f15a22] to-orange-500 text-white px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-lg hover:shadow-orange-500/30 hover:-translate-y-1">
                                         <span>Register for Event</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -91,7 +91,7 @@
                                                 d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
                                                 clip-rule="evenodd" />
                                         </svg>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
 
@@ -148,7 +148,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="mt-8 pt-8 border-t border-white/10">
+                                        <!-- <div class="mt-8 pt-8 border-t border-white/10">
                                             <h5 class="font-medium text-white/80 mb-3">Share This Event</h5>
                                             <div class="flex gap-4">
                                                 <a href="#"
@@ -176,7 +176,7 @@
                                                     </svg>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>

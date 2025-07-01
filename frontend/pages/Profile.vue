@@ -47,7 +47,7 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mx-[200px]">
                     <div v-for="(manager, idx) in managers" :key="manager.name" @click="openModal(idx)"
                         class="group relative animate-card" data-aos="fade-up" :data-aos-delay="idx * 100">
                         <!-- Card with hover effects -->
@@ -111,7 +111,7 @@
                     <div
                         class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-card border border-white/10">
                         <button @click="closeModal"
-                            class="absolute top-4 right-4 text-[#f15a22] hover:text-[#e6eaf0] w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all">
+                            class="absolute top-4 right-4 text-[#f15a22] hover:text-[#e6eaf0] w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all cursor-pointer">
                             &times;
                         </button>
 

@@ -5,8 +5,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: [
     "~/assets/css/main.css",
-    // "primevue/resources/themes/lara-light-blue/theme.css",
-    // "primevue/resources/primevue.min.css",
+    'primeicons/primeicons.css',
   ],
   vite: {
     plugins: [tailwindcss()],
@@ -20,6 +19,7 @@ export default defineNuxtConfig({
     "@pinia/nuxt",
     '@primevue/nuxt-module'
   ],
+  
   runtimeConfig: {
     public: {
       apiBase: process.env.API_BASE || "http://localhost:3000",

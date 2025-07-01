@@ -47,7 +47,7 @@
 
 
             <!-- Table -->
-            <div class="overflow-auto">
+            <div class="overflow-auto mx-[150px]">
                 <table class="min-w-full border-collapse rounded-xl overflow-hidden">
                     <thead class="bg-[#002855] text-white">
                         <tr>
@@ -100,7 +100,7 @@
                 Fund Management Process
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-[10px]">
                 <!-- Step 1 -->
                 <div>
                     <div class="bg-orange-500 p-12 rounded-xl shadow-md space-y-3">

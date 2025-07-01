@@ -10,7 +10,7 @@
         <div class="absolute inset-0 bg-gradient-to-l from-[#0e2a52] via-[#0e2a52]/70 to-transparent z-10"></div>
 
         <!-- Text Content -->
-        <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24">
+        <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24 mt-[-100px] ml-[100px]">
           <div class="max-w-xl text-left text-[#e6eaf0] space-y-6">
             <h3 class="text-xl md:text-2xl font-medium">Leave your worries behind,</h3>
             <h1 class="text-4xl md:text-5xl lg:text-6xl leading-tight font-semibold">
@@ -28,7 +28,7 @@
           <h2 class="text-3xl md:text-4xl font-semibold text-[#e6eaf0]">About Us</h2>
           <!-- <div class="w-24 h-1 bg-gradient-to-r from-[#f15a22] to-orange-400 mx-auto"></div> -->
         </div> <!-- Features -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 mx-[100px]">
           <div
             class="bg-white/10 border border-white/10 rounded-2xl p-6 text-[#e6eaf0] hover:bg-white/15 transition-all duration-300">
             <div class="flex items-center justify-center w-14 h-14 bg-[#f15a22]/30 rounded-full mb-4">
@@ -64,7 +64,7 @@
         </div>
 
         <!-- Company Info -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-10 mx-[100px]">
           <!-- Text Section -->
           <div class="text-[#e6eaf0]">
             <h3 class="text-2xl font-semibold mb-4 ml-[200px]">Phillip Trustee</h3>
@@ -96,7 +96,7 @@
         </div>
 
         <!-- Content Layout -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 items-center gap-12 mx-[100px]">
           <!-- Image with border accents -->
           <div class="relative rounded-2xl overflow-hidden border-[6px] border-white/20">
             <img src="~/assets/images/home/phillip-image.jpg" alt="Phillip Trustee Services"
@@ -147,6 +147,7 @@
     <EscrowService />
     <FundRetention />
     <ServiceSpa /> -->
+    <!-- <UserManagement /> -->
   </section>
 </template>
 
@@ -155,4 +156,5 @@
   // import EscrowService from '~/pages/Services_escrow_service.vue';
   // import ServiceSpa from '~/pages/Services_spa.vue';
   // import FundRetention from '~/pages/Services_fund_retention.vue';
+  // import UserManagement from '~/components/admin/UserManagement.vue';
 </script>

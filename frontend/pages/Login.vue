@@ -9,7 +9,7 @@
             <form @submit.prevent="handleLogin" class="login-form">
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input type="email" id="email" v-model="email" placeholder="Enter admin email" required
+                    <input type="email" id="email" v-model="email" placeholder="Enter your email" required
                         class="input-field" />
                 </div>
                 <div class="form-group">
@@ -49,7 +49,7 @@ const route = useRoute();
 // Check for error parameters in the URL
 onMounted(() => {
     if (route.query.error === 'access_denied') {
-        errorMessage.value = 'Access denied. Only administrators can access the dashboard.';
+        errorMessage.value = 'Access denied. Only administrators and editors can access the dashboard.';
     }
 });
 
@@ -142,20 +142,14 @@ const handleLogin = async () => {
 
         console.log('User details:', authStore.user);
 
-        // Check if the user is an admin
-        if (!authStore.user || authStore.user.role !== 'ADMIN') {
-            console.error('User is not an admin:', authStore.user);
-            authStore.logout();
-            throw new Error('Access denied. Only administrators can login.');
-        } console.log('Login successful, redirecting to dashboard');
-        console.log('Login result details:', result);        // Validate the user has ADMIN or EDITOR role before redirecting
+        // Validate the user has ADMIN or EDITOR role before redirecting
         if (!result.user || (result.user.role !== 'ADMIN' && result.user.role !== 'EDITOR')) {
             console.error('User does not have required permissions:', result.user);
             authStore.logout();
             throw new Error('Access denied. Only administrators and editors can access the dashboard.');
         }
 
-        console.log('User has admin role, redirecting to dashboard');
+        console.log('User has admin/editor role, redirecting to dashboard');
         const dashboardPath = '/admin/dashboard';
 
         // Store the authenticated state before navigation

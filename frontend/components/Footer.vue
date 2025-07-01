@@ -2,7 +2,7 @@
   <footer class="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
     <div class="container mx-auto px-6 py-16">
       <!-- Main Footer Content -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 mx-[100px]">
         <!-- Left Section -->
         <div class="space-y-8 mx-[70px]">
           <!-- Company Info -->
@@ -78,20 +78,7 @@
 <script setup>
 import { Facebook, Instagram, Linkedin, MapPin, Mail, Globe, Phone } from 'lucide-vue-next'
 import { computed } from 'vue'
-// import { LucideIcon } from 'lucide-vue-next';
 
-
-// Computed property for current year
-// const currentYear = computed(() => new Date().getFullYear())
-
-// const partners = [
-//   { name: "Rose Mavel", image: "/images/partners/1_Rose_Mavel.jpg" },
-//   { name: "La Maision", image: "/images/partners/2_La_Maision.jpg" },
-//   { name: "Vimean Samnang", image: "/images/partners/3_Vimean_Samnang.jpg" },
-//   { name: "IPS", image: "/images/partners/4_IPS.jpg" },
-//   { name: "SaRaNa", image: "/images/partners/5_SaRaNa.jpg" },
-//   { name: "YI Dung", image: "/images/partners/6_YI Dung.jpg" },
-// ]
 
 const socialLinks = [
   {

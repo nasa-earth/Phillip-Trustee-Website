@@ -161,7 +161,7 @@
                 Trustee Service Transfer Process
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mx-[40px]">
                 <!-- Step 1 -->
                 <div>
                     <div class="bg-orange-500 p-9.5 rounded-xl shadow-md space-y-3">

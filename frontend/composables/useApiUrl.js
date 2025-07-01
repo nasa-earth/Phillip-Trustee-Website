@@ -15,28 +15,13 @@ export const useApiUrl = () => {
     // Add other API endpoints as needed
     posts: {
       list: `${apiBase}/api/posts`,
-      admin: `${apiBase}/api/posts/admin`,
       get: (id) => `${apiBase}/api/posts/${id}`,
-      create: `${apiBase}/api/posts`,
-      update: (id) => `${apiBase}/api/posts/${id}`,
-      delete: (id) => `${apiBase}/api/posts/${id}`,
     },
     categories: {
       list: `${apiBase}/api/categories`,
-      admin: `${apiBase}/api/categories/admin`,
-      get: (id) => `${apiBase}/api/categories/${id}`,
-      create: `${apiBase}/api/categories`,
-      update: (id) => `${apiBase}/api/categories/${id}`,
-      delete: (id) => `${apiBase}/api/categories/${id}`,
     },
     events: {
       list: `${apiBase}/api/events`,
-      admin: `${apiBase}/api/events/admin`,
-      upcoming: `${apiBase}/api/events/upcoming`,
-      get: (id) => `${apiBase}/api/events/${id}`,
-      create: `${apiBase}/api/events`,
-      update: (id) => `${apiBase}/api/events/${id}`,
-      delete: (id) => `${apiBase}/api/events/${id}`,
     },
     users: {
       list: `${apiBase}/api/users`,
@@ -45,35 +30,6 @@ export const useApiUrl = () => {
       update: (id) => `${apiBase}/api/users/${id}`,
       delete: (id) => `${apiBase}/api/users/${id}`,
     },
-    settings: {
-      get: `${apiBase}/api/settings`,
-      update: `${apiBase}/api/settings`,
-    },
-    faqs: {
-      list: `${apiBase}/api/faqs`,
-      get: (id) => `${apiBase}/api/faqs/${id}`,
-      create: `${apiBase}/api/faqs`,
-      update: (id) => `${apiBase}/api/faqs/${id}`,
-      delete: (id) => `${apiBase}/api/faqs/${id}`,
-      reorder: `${apiBase}/api/faqs/reorder`,
-    },
-    partners: {
-      list: `${apiBase}/api/partners`,
-      get: (id) => `${apiBase}/api/partners/${id}`,
-      create: `${apiBase}/api/partners`,
-      update: (id) => `${apiBase}/api/partners/${id}`,
-      delete: (id) => `${apiBase}/api/partners/${id}`,
-    },
-    pages: {
-      list: `${apiBase}/api/pages`,
-      get: (id) => `${apiBase}/api/pages/${id}`,
-      create: `${apiBase}/api/pages`,
-      update: (id) => `${apiBase}/api/pages/${id}`,
-      delete: (id) => `${apiBase}/api/pages/${id}`,
-    },
-    admin: {
-      dashboard: `${apiBase}/api/admin/dashboard`,
-      posts: `${apiBase}/api/admin/posts`,
-    },
+    // etc.
   };
 };

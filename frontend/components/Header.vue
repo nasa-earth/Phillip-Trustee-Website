@@ -18,21 +18,23 @@
               </h1>
             </div>
           </NuxtLink>
-        </div> 
-        
+        </div>
+
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center space-x-1">
           <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to"
             class="relative px-4 py-2 text-white font-medium hover:text-orange-400 transition-all duration-300 rounded-lg hover:bg-white/10 group"
-            active-class="text-orange-400 font-bold">
+            active-class="text-orange-400 font-bold bg-white/20"
+            exact-active-class="text-orange-400 font-bold bg-white/20">
             {{ link.label }}
             <!-- Active indicator -->
             <span
-              class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-orange-400 group-hover:w-8 transition-all duration-300">
+              class="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-0.5 bg-orange-400 transition-all duration-300"
+              :class="$route.path === link.to ? 'w-8' : 'w-0 group-hover:w-8'">
             </span>
           </NuxtLink>
         </div>
-        
+
         <!-- Mobile Menu Button -->
         <button @click="toggleMobileMenu"
           class="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
@@ -58,14 +60,19 @@
             <div class="px-4 py-2">
               <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" @click="closeMobileMenu"
                 class="block px-4 py-3 text-white font-medium hover:text-orange-400 hover:bg-[#13325e] rounded-lg transition-all duration-300"
-                active-class="text-orange-400 bg-[#13325e]">
-                {{ link.label }}
+                active-class="text-orange-400 bg-[#13325e] font-bold"
+                exact-active-class="text-orange-400 bg-[#13325e] font-bold">
+                <div class="flex items-center">
+                  <span>{{ link.label }}</span>
+                  <!-- Active indicator for mobile -->
+                  <span v-if="$route.path === link.to" class="ml-auto w-2 h-2 bg-orange-400 rounded-full"></span>
+                </div>
               </NuxtLink> <!-- Mobile CTA Button -->
               <div class="mt-4 pt-4 border-t border-white/10">
-                <NuxtLink to="/contact" @click="closeMobileMenu"
+                <!-- <NuxtLink to="/contact" @click="closeMobileMenu"
                   class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg">
                   Contact Us
-                </NuxtLink>
+                </NuxtLink> -->
               </div>
             </div>
           </div>

@@ -44,9 +44,9 @@
                     <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-12 mx-[100px]">
                     <!-- Left Side: Overlapping Images with Animation -->
-                    <div class="w-full lg:w-1/2 relative flex justify-center" data-aos="fade-right"
+                    <div class="w-full lg:w-1/3 relative flex justify-center" data-aos="fade-right"
                         data-aos-duration="1000">
                         <!-- Back Image -->
                         <div class="w-[300px] md:w-[350px] lg:w-[400px] rounded-xl overflow-hidden shadow-xl z-10 
@@ -127,7 +127,7 @@
                     <!-- <div class="w-32 h-1 bg-orange-500"></div> -->
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" data-aos="fade-up"
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mx-[180px]" data-aos="fade-up"
                     data-aos-delay="200">
                     <!-- Card 1: Phillip Bank -->
                     <div class="group">

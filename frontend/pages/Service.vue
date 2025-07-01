@@ -51,7 +51,8 @@
                         Trusted Services
                     </span>
                 </h1>
-                <p class="text-xl md:text-2xl text-[#e6eaf0]/90 mb-10 leading-relaxed" v-motion-slide-visible-once-bottom>
+                <p class="text-xl md:text-2xl text-[#e6eaf0]/90 mb-10 leading-relaxed"
+                    v-motion-slide-visible-once-bottom>
                     Empowering investors and building trust in Cambodia through personalized, secure financial services.
                 </p>
 
@@ -61,8 +62,8 @@
             <div
                 class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce-slow z-10">
                 <span class="text-[#e6eaf0]/80 text-sm mb-2">Scroll Down</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#e6eaf0]/80" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#e6eaf0]/80" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                 </svg>
@@ -112,8 +113,10 @@
                         in a trust fund on behalf of a beneficiary. Discover how trusts can protect your assets and
                         secure your legacy.
                     </p>
-                </div> <!-- Row 1: Text left, Image right -->
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-16 mb-28"
+                </div>
+
+                <!-- Row 1: Text left, Image right -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-16 mb-28 mx-[150px]"
                     v-motion-fade-visible-once>
                     <!-- Left: Content -->
                     <div class="w-full lg:w-1/2 space-y-6" v-motion-slide-visible-once-left>
@@ -182,8 +185,11 @@
                             </div>
                         </div>
                     </div>
-                </div> <!-- Row 2: Image left, Text right -->
-                <div class="flex flex-col lg:flex-row-reverse items-center justify-between gap-16 mb-28"
+                </div>
+
+
+                <!-- Row 2: Image left, Text right -->
+                <div class="flex flex-col lg:flex-row-reverse items-center justify-between gap-16 mb-28 mx-[150px]"
                     v-motion-fade-visible-once>
                     <!-- Right: Content -->
                     <div class="w-full lg:w-1/2 space-y-6" v-motion-slide-visible-once-right>
@@ -215,7 +221,8 @@
                                 class="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/user.png" alt="Trustor" class="w-6 h-6" />
-                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
+                                    <h4
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Trustor</h4>
                                 </div>
                                 <p class="text-[#e6eaf0]/80 text-sm">Creates and funds the trust</p>
@@ -224,7 +231,8 @@
                                 class="bg-white/5 backdrop-blur-sm p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/shield.png" alt="Trustee" class="w-6 h-6" />
-                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
+                                    <h4
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Trustee</h4>
                                 </div>
                                 <p class="text-[#e6eaf0]/80 text-sm">Manages trust assets</p>
@@ -234,7 +242,8 @@
                                 <div class="flex items-center gap-3 mb-2">
                                     <img src="/images/icons/multiple-users-silhouette.png" alt="Beneficiaries"
                                         class="w-6 h-6" />
-                                    <h4 class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
+                                    <h4
+                                        class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors">
                                         Beneficiaries</h4>
                                 </div>
                                 <p class="text-[#e6eaf0]/80 text-sm">Receives trust benefits</p>
@@ -271,8 +280,12 @@
                             </div>
                         </div>
                     </div>
-                </div> <!-- Row 3: Text left, Image right -->
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-16" v-motion-fade-visible-once>
+                </div>
+
+
+                <!-- Row 3: Text left, Image right -->
+                <div class="flex flex-col lg:flex-row items-center justify-between gap-16 mx-[150px]"
+                    v-motion-fade-visible-once>
                     <!-- Left: Content -->
                     <div class="w-full lg:w-1/2 space-y-6" v-motion-slide-visible-once-left>
                         <div class="flex items-center gap-4 mb-6">
@@ -344,7 +357,8 @@
                                     <h4
                                         class="font-semibold text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
                                         Succession Planning</h4>
-                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Ensure smooth transfer of assets to
+                                    <p class="text-[#e6eaf0]/80 text-sm leading-relaxed">Ensure smooth transfer of
+                                        assets to
                                         future generations</p>
                                 </div>
                             </div>
@@ -458,7 +472,7 @@
                     </button>
 
                     <!-- Enhanced Slider Viewport with 3D perspective and smoother transitions -->
-                    <div class="overflow-hidden px-4 py-10 relative z-10">
+                    <div class="overflow-hidden px-4 py-10 relative z-10 ">
                         <div class="flex transition-all duration-1000 ease-out transform"
                             :style="{ transform: `translateX(-${trustTypeSlideIndex * 100 / visibleSlides}%)` }"
                             ref="trustTypeSlider">
@@ -505,7 +519,8 @@
                                         </h4>
 
                                         <!-- Description with enhanced readability -->
-                                        <p class="text-[#e6eaf0]/80 text-lg leading-relaxed flex-grow">{{ type.desc }}</p>
+                                        <p class="text-[#e6eaf0]/80 text-lg leading-relaxed flex-grow">{{ type.desc }}
+                                        </p>
 
                                     </div>
                                 </div>
@@ -609,23 +624,24 @@
 
             <div class="container mx-auto relative z-10">
                 <div class="flex flex-col items-center mb-20" v-motion-fade-visible-once>
-                    <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 text-center">Key Services & Products</h2>
+                    <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 text-center">Key Services & Products
+                    </h2>
                     <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
                     <p class="text-xl text-[#e6eaf0] max-w-3xl mx-auto text-center leading-relaxed">
                         We offer comprehensive trust services to protect your assets and secure your future with
                         expertise and reliability that you can depend on.
                     </p>
                 </div>
-                <div class="flex flex-col space-y-12" v-motion-fade-visible-once>
+                <div class="flex flex-col space-y-6 mx-[150px]" v-motion-fade-visible-once>
                     <div v-for="(service, index) in services" :key="service.id" v-motion-slide-visible-once-bottom
-                        class="bg-gradient-to-br from-white/5 to-white/15 backdrop-blur-sm border border-white/10 rounded-2xl shadow-2xl overflow-hidden hover:shadow-2xl hover:shadow-[#f15a22]/20 transition-all duration-500 group animate-card animation-delay-300"
+                        class="bg-gradient-to-br from-white/5 to-white/15 backdrop-blur-sm border border-white/10 rounded-xl shadow-xl overflow-hidden hover:shadow-xl hover:shadow-[#f15a22]/20 transition-all duration-500 group animate-card animation-delay-300"
                         :style="{ animationDelay: `${index * 150}ms` }">
                         <div class="flex flex-col md:flex-row">
                             <!-- Left: Image with Enhanced Visual Effects -->
                             <div class="md:w-2/5 relative overflow-hidden">
                                 <!-- Main Image -->
                                 <img :src="service.image" :alt="service.title"
-                                    class="w-full h-full object-cover object-center md:h-80 group-hover:scale-110 transition-transform duration-1000 ease-in-out" />
+                                    class="w-full h-full object-cover object-center md:h-60 group-hover:scale-110 transition-transform duration-1000 ease-in-out" />
 
                                 <!-- Enhanced Gradient Overlay -->
                                 <div
@@ -633,36 +649,36 @@
                                 </div>
 
                                 <!-- Service Number Badge -->
-                                <div class="absolute top-6 left-6 w-14 h-14 flex items-center justify-center">
+                                <div class="absolute top-3 left-3 w-8 h-8 flex items-center justify-center">
                                     <div
                                         class="absolute inset-0 bg-[#ffff]/80 backdrop-blur-sm rounded-full transform rotate-45 group-hover:rotate-0 transition-all duration-700">
                                     </div>
-                                    <span class="relative text-[#f15a22] text-2xl font-bold">0{{ service.id }}</span>
+                                    <span class="relative text-[#f15a22] text-lg font-bold">0{{ service.id }}</span>
                                 </div>
                             </div>
 
                             <!-- Right: Enhanced Content with Category and Features -->
                             <div
-                                class="md:w-3/5 p-6 md:p-10 flex flex-col justify-between relative bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm">
-                                <div class="mb-8">
+                                class="md:w-3/5 p-4 md:p-6 flex flex-col justify-between relative bg-gradient-to-br from-white/5 to-transparent backdrop-blur-sm">
+                                <div class="mb-4">
                                     <h3
-                                        class="text-xl md:text-3xl font-bold text-[#e6eaf0] group-hover:text-[#f15a22] mb-4 transition-colors duration-300">
+                                        class="text-xl md:text-2xl font-bold text-[#e6eaf0] group-hover:text-[#f15a22] mb-2 transition-colors duration-300">
                                         {{ service.title }}
                                     </h3>
 
                                     <!-- Service Description -->
-                                    <p class="text-[#e6eaf0]/80 mb-6 leading-relaxed text-lg">
+                                    <p class="text-[#e6eaf0]/80 mb-4 leading-relaxed text-base line-clamp-3">
                                         {{ service.desc }}
                                     </p>
-                                </div> 
-                                
+                                </div>
+
                                 <!-- CTA Button with Enhanced Animation -->
                                 <div>
                                     <NuxtLink :to="getServiceRoute(service)"
-                                        class="w-33 px-4 py-2 bg-[#f15a22] hover:bg-orange-500 text-[#e6eaf0] shadow-md transition-all rounded-full duration-300 flex items-center space-x-2 text-sm font-medium group-hover:translate-y-0 transform hover:-translate-y-1 active:scale-95">
+                                        class="w-33 px-3 py-1.5 bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] shadow-md transition-all rounded-full duration-300 flex items-center space-x-2 text-xs font-medium group-hover:translate-y-0 transform hover:-translate-y-1 active:scale-95">
                                         <span>Learn More</span>
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300"
+                                            class="h-3 w-3 group-hover:translate-x-1 transition-transform duration-300"
                                             viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
                                                 d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
@@ -675,9 +691,8 @@
                     </div>
                 </div>
             </div>
-        </section> 
-        
-        
+        </section>
+
         <!-- Enhanced Modal for Service Details -->
         <transition name="fade">
             <div v-if="modalOpen"
@@ -724,7 +739,8 @@
 
                                 <!-- Decorative Elements -->
                                 <div class="absolute bottom-6 left-6 flex flex-col">
-                                    <span class="text-xs uppercase tracking-wider text-[#e6eaf0]/60">Phillip Trustee</span>
+                                    <span class="text-xs uppercase tracking-wider text-[#e6eaf0]/60">Phillip
+                                        Trustee</span>
                                     <span class="text-2xl font-bold text-[#e6eaf0]">Professional Services</span>
                                 </div>
 

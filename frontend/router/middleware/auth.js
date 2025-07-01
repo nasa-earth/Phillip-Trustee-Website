@@ -14,10 +14,13 @@ export default function ({ to, next, store }) {
 
     // Check if route is admin only
     if (to.matched.some((record) => record.meta.adminOnly)) {
-      // Check if user is an admin
-      if (!authStore.user || authStore.user.role !== "ADMIN") {
+      // Check if user is an admin or editor
+      if (
+        !authStore.user ||
+        (authStore.user.role !== "ADMIN" && authStore.user.role !== "EDITOR")
+      ) {
         authStore.logout();
-        // User is not an admin, redirect to login page with error
+        // User is not an admin or editor, redirect to login page with error
         return next({
           path: "/login",
           query: { error: "access_denied" },

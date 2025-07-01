@@ -129,7 +129,7 @@
             <p class="text-lg font-semibold text-center mb-10">
                 To register your trust with Phillip Trustee, you will need:
             </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-center">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 text-center mx-[200px]">
                 <div v-for="(item, index) in trustRequirements" :key="index"
                     class="flex flex-col items-center space-y-4">
                     <img :src="item.img" :alt="item.text" class="h-24 w-24 object-contain" />
@@ -152,7 +152,7 @@
             </h2>
 
             <!-- Table -->
-            <div class="overflow-auto mt-10">
+            <div class="overflow-auto mt-10 mx-[100px]">
                 <table class="min-w-full border-collapse rounded-xl overflow-hidden">
                     <thead class="bg-[#002855] text-white">
                         <tr>

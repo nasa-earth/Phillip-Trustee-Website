@@ -372,6 +372,7 @@ export default {
                 this.faqs[idx].open = false;
             });
         },
+
         clearSearch() {
             this.searchQuery = '';
             this.selectedCategory = null;

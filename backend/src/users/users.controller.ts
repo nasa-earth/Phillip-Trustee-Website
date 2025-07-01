@@ -12,8 +12,8 @@ import {
   Query,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import {
   ApiBearerAuth,
@@ -29,7 +29,7 @@ import * as bcrypt from 'bcrypt';
 @ApiTags('users')
 @Controller('users')
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Roles(Role.ADMIN)
+@Roles(Role.ADMIN, Role.EDITOR)
 @ApiBearerAuth()
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);

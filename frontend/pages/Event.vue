@@ -53,7 +53,7 @@
           </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-[150px]">
           <div v-for="event in events" :key="event.id"
             class="group bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20 animate-card">
@@ -71,7 +71,7 @@
               <p class="text-[#e6eaf0]/90 mb-6">{{ event.description }}</p>
               <div class="flex justify-between items-center">
                 <NuxtLink :to="`/EventDetails?id=${event.id}`"
-                  class="bg-orange-500 hover:bg-orange-600 text-[#e6eaf0] px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
+                  class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
                   <span>Read More</span>
                   <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-4 w-4 group-hover:translate-x-1 transition-transform duration-300" viewBox="0 0 20 20"

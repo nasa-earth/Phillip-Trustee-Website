@@ -3,12 +3,13 @@ import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { UsersService } from '../users/users.service';
+import { PrismaService } from '../prisma/prisma.service';
 import {
   UnauthorizedException,
   InternalServerErrorException,
   ConflictException,
 } from '@nestjs/common';
-import { Role } from '@prisma/client';
+import { Role } from '../../generated/prisma';
 import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt');
@@ -17,6 +18,7 @@ describe('AuthService', () => {
   let service: AuthService;
   let usersService: UsersService;
   let jwtService: JwtService;
+  let prismaService: PrismaService;
 
   const mockUsersService = {
     findByEmail: jest.fn(),
@@ -27,10 +29,20 @@ describe('AuthService', () => {
 
   const mockJwtService = {
     sign: jest.fn(),
+    verify: jest.fn(),
   };
 
   const mockConfigService = {
     get: jest.fn(),
+  };
+
+  const mockPrismaService = {
+    refreshToken: {
+      create: jest.fn(),
+      findUnique: jest.fn(),
+      update: jest.fn(),
+      updateMany: jest.fn(),
+    },
   };
 
   const mockUser = {
@@ -59,12 +71,17 @@ describe('AuthService', () => {
           provide: ConfigService,
           useValue: mockConfigService,
         },
+        {
+          provide: PrismaService,
+          useValue: mockPrismaService,
+        },
       ],
     }).compile();
 
     service = module.get<AuthService>(AuthService);
     usersService = module.get<UsersService>(UsersService);
     jwtService = module.get<JwtService>(JwtService);
+    prismaService = module.get<PrismaService>(PrismaService);
 
     // Reset all mocks before each test
     jest.clearAllMocks();
@@ -223,6 +240,136 @@ describe('AuthService', () => {
       await expect(service.register(registerDto)).rejects.toThrow(
         ConflictException,
       );
+    });
+  });
+
+  describe('refreshToken', () => {
+    const mockRefreshToken = 'valid-refresh-token';
+    const mockTokenPayload = {
+      sub: '1',
+      email: 'test@example.com',
+      role: Role.EDITOR,
+      tokenId: 'token-uuid-123',
+    };
+    const mockStoredToken = {
+      id: 'token-uuid-123',
+      userId: '1',
+      expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+      revoked: false,
+      createdAt: new Date(),
+    };
+
+    beforeEach(() => {
+      mockJwtService.verify.mockReturnValue(mockTokenPayload);
+      mockPrismaService.refreshToken.findUnique.mockResolvedValue(
+        mockStoredToken,
+      );
+      mockUsersService.findOne.mockResolvedValue(mockUser);
+      mockJwtService.sign
+        .mockReturnValueOnce('new-access-token')
+        .mockReturnValueOnce('new-refresh-token');
+    });
+
+    it('should refresh tokens for valid refresh token', async () => {
+      const result = await service.refreshToken(mockRefreshToken);
+
+      expect(mockJwtService.verify).toHaveBeenCalledWith(mockRefreshToken, {
+        secret: 'refresh-secret',
+      });
+      expect(mockPrismaService.refreshToken.findUnique).toHaveBeenCalledWith({
+        where: { id: mockTokenPayload.tokenId },
+      });
+      expect(mockUsersService.findOne).toHaveBeenCalledWith(
+        mockTokenPayload.sub,
+      );
+      expect(mockPrismaService.refreshToken.update).toHaveBeenCalledWith({
+        where: { id: mockTokenPayload.tokenId },
+        data: { revoked: true },
+      });
+
+      expect(result).toEqual({
+        user: {
+          id: mockUser.id,
+          email: mockUser.email,
+          name: mockUser.name,
+          role: mockUser.role,
+        },
+        access_token: 'new-access-token',
+        refresh_token: 'new-refresh-token',
+      });
+    });
+
+    it('should throw UnauthorizedException if token is missing tokenId', async () => {
+      mockJwtService.verify.mockReturnValue({
+        sub: '1',
+        email: 'test@example.com',
+        role: Role.EDITOR,
+        // No tokenId
+      });
+
+      await expect(service.refreshToken(mockRefreshToken)).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw UnauthorizedException if token not found in database', async () => {
+      mockPrismaService.refreshToken.findUnique.mockResolvedValue(null);
+
+      await expect(service.refreshToken(mockRefreshToken)).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw UnauthorizedException if token is revoked', async () => {
+      mockPrismaService.refreshToken.findUnique.mockResolvedValue({
+        ...mockStoredToken,
+        revoked: true,
+      });
+
+      await expect(service.refreshToken(mockRefreshToken)).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+
+    it('should throw UnauthorizedException if user not found', async () => {
+      mockUsersService.findOne.mockResolvedValue(null);
+
+      await expect(service.refreshToken(mockRefreshToken)).rejects.toThrow(
+        UnauthorizedException,
+      );
+    });
+  });
+
+  describe('logout', () => {
+    const mockRefreshToken = 'valid-refresh-token';
+    const mockTokenPayload = {
+      sub: '1',
+      email: 'test@example.com',
+      role: Role.EDITOR,
+      tokenId: 'token-uuid-123',
+    };
+
+    it('should revoke refresh token on logout', async () => {
+      mockJwtService.verify.mockReturnValue(mockTokenPayload);
+
+      const result = await service.logout(mockRefreshToken);
+
+      expect(mockJwtService.verify).toHaveBeenCalled();
+      expect(mockPrismaService.refreshToken.update).toHaveBeenCalledWith({
+        where: { id: mockTokenPayload.tokenId },
+        data: { revoked: true },
+      });
+      expect(result).toEqual({ success: true });
+    });
+
+    it('should return success even if token verification fails', async () => {
+      mockJwtService.verify.mockImplementation(() => {
+        throw new Error('Invalid token');
+      });
+
+      const result = await service.logout(mockRefreshToken);
+
+      expect(result).toEqual({ success: true });
     });
   });
 

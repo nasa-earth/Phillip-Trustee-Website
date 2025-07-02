@@ -122,7 +122,7 @@ describe('EventsService', () => {
       expect(result).toEqual(events);
       expect(mockPrismaService.event.findMany).toHaveBeenCalledWith({
         where: { isPublished: true },
-        orderBy: { startDate: 'desc' },
+        orderBy: { date: 'desc' },
       });
     });
   });

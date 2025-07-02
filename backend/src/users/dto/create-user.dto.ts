@@ -18,7 +18,6 @@ export class CreateUserDto {
   @IsNotEmpty()
   email: string;
 
-  
   @ApiProperty({
     description:
       'Password for the user account. Should be hashed when using direct user creation. For registration through auth endpoints, provide the plain password.',

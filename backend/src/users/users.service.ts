@@ -8,8 +8,8 @@ import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { Prisma, Role } from '@prisma/client';
+import { PrismaClientKnownRequestError } from '../../generated/prisma/runtime/library';
+import { Prisma, Role } from '../../generated/prisma';
 
 @Injectable()
 export class UsersService {

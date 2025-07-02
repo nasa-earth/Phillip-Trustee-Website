@@ -2,7 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma/prisma.service';
 
 export type AuditAction = 'create' | 'update' | 'delete' | 'reorder';
-export type AuditEntity = 'Post' | 'Page' | 'FAQ' | 'Event' | 'Partner' | 'User' | 'Category' | 'Setting';
+export type AuditEntity =
+  | 'Post'
+  | 'Page'
+  | 'FAQ'
+  | 'Event'
+  | 'Partner'
+  | 'User'
+  | 'Category'
+  | 'Setting';
 
 @Injectable()
 export class AuditService {
@@ -22,7 +30,7 @@ export class AuditService {
         entityId: params.entityId,
         userId: params.userId,
         details: params.details,
-      }
+      },
     });
   }
 
@@ -30,15 +38,15 @@ export class AuditService {
     return this.prisma.auditLog.findMany({
       take: limit,
       orderBy: {
-        createdAt: 'desc'
+        createdAt: 'desc',
       },
       include: {
         user: {
           select: {
-            name: true
-          }
-        }
-      }
+            name: true,
+          },
+        },
+      },
     });
   }
 }

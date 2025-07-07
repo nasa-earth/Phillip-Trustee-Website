@@ -13,7 +13,7 @@
                 class="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
             <div class="hidden sm:block">
-              <h1 class="text-xl font-bold text-white group-hover:text-orange-400 transition-colors duration-300">
+              <h1 class="text-xl font-bold text-[#e6eaf0] group-hover:text-orange-400 transition-colors duration-300">
                 Phillip Trustee
               </h1>
             </div>
@@ -23,7 +23,7 @@
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center space-x-1">
           <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to"
-            class="relative px-4 py-2 text-white font-medium hover:text-orange-400 transition-all duration-300 rounded-lg hover:bg-white/10 group"
+            class="relative px-4 py-2 text-[#e6eaf0] font-medium hover:text-orange-400 transition-all duration-300 rounded-lg hover:bg-white/10 group"
             active-class="text-orange-400 font-bold bg-white/20"
             exact-active-class="text-orange-400 font-bold bg-white/20">
             {{ link.label }}
@@ -59,7 +59,7 @@
           <div class="bg-[#0d254a]/90 backdrop-blur-lg rounded-2xl shadow-xl border border-white/10 overflow-hidden">
             <div class="px-4 py-2">
               <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" @click="closeMobileMenu"
-                class="block px-4 py-3 text-white font-medium hover:text-orange-400 hover:bg-[#13325e] rounded-lg transition-all duration-300"
+                class="block px-4 py-3 text-[#e6eaf0] font-medium hover:text-orange-400 hover:bg-[#13325e] rounded-lg transition-all duration-300"
                 active-class="text-orange-400 bg-[#13325e] font-bold"
                 exact-active-class="text-orange-400 bg-[#13325e] font-bold">
                 <div class="flex items-center">
@@ -70,7 +70,7 @@
               </NuxtLink> <!-- Mobile CTA Button -->
               <div class="mt-4 pt-4 border-t border-white/10">
                 <!-- <NuxtLink to="/contact" @click="closeMobileMenu"
-                  class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg">
+                  class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg">
                   Contact Us
                 </NuxtLink> -->
               </div>

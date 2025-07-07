@@ -2,12 +2,13 @@
     <div class="space-y-4">
         <div class="flex justify-between items-center">
             <h3 class="text-xl font-semibold text-gray-800">User Management</h3>
-            <Button label="Create User" icon="pi pi-plus" severity="success" @click="openCreateUserDialog" />
+            <Button v-if="isAdmin" label="Create User" icon="pi pi-plus" severity="success"
+                @click="openCreateUserDialog" />
         </div>
 
         <div class="mb-4">
             <span class="p-input-icon-left w-full sm:w-64">
-                <i class="pi pi-search" />
+                <!-- <i class="pi pi-search" /> -->
                 <InputText v-model="searchQuery" placeholder="Search users..." @input="debounceSearch" class="w-full" />
             </span>
         </div>
@@ -45,22 +46,16 @@
                     <Calendar v-model="filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
                 </template>
             </Column>
-            <Column field="lastActive" header="Last Active" :sortable="true">
-                <template #body="{ data }">
-                    <span v-tooltip.top="data.lastActive ? new Date(data.lastActive).toLocaleString() : 'Never'">
-                        {{ formatDate(data.lastActive) }}
-                    </span>
-                </template>
-            </Column>
+
             <Column header="Actions">
                 <template #body="{ data }">
                     <div class="flex gap-2">
                         <Button icon="pi pi-eye" rounded text severity="info" aria-label="View"
                             @click="viewUser(data)" />
-                        <Button icon="pi pi-pencil" rounded text severity="success" aria-label="Edit"
+                        <Button v-if="isAdmin" icon="pi pi-pencil" rounded text severity="success" aria-label="Edit"
                             @click="editUser(data)" />
-                        <Button icon="pi pi-trash" rounded text severity="danger" aria-label="Delete"
-                            @click="confirmDeleteUser(data)" />
+                        <Button v-if="isAdmin" icon="pi pi-times" text severity="danger" rounded variant="outlined"
+                            aria-label="Delete" @click="confirmDeleteUser(data)" />
                     </div>
                 </template>
             </Column>
@@ -100,10 +95,7 @@
                 </div>
             </template>
         </Dialog>
-
-        <!-- Delete User Confirmation -->
-        <ConfirmDialog></ConfirmDialog>
-
+        
         <!-- User View Dialog -->
         <Dialog v-model:visible="userViewDialog" :header="`User Details`" :modal="true" :style="{ width: '500px' }">
             <div v-if="selectedUser" class="space-y-6">
@@ -147,39 +139,14 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="space-y-1">
-                            <p class="text-xs text-gray-500">Last Active</p>
-                            <div class="flex items-center">
-                                <i class="pi pi-user text-amber-500 mr-2"></i>
-                                <div>
-                                    <p class="font-medium">{{ formatDate(selectedUser.lastActive) }}</p>
-                                    <p class="text-xs text-gray-500" v-if="selectedUser.lastActive">
-                                        {{ new Date(selectedUser.lastActive).toLocaleString() }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="space-y-1">
-                            <p class="text-xs text-gray-500">Last Login</p>
-                            <div class="flex items-center">
-                                <i class="pi pi-sign-in text-purple-500 mr-2"></i>
-                                <div>
-                                    <p class="font-medium">{{ formatDate(selectedUser.lastLogin) }}</p>
-                                    <p class="text-xs text-gray-500" v-if="selectedUser.lastLogin">
-                                        {{ new Date(selectedUser.lastLogin).toLocaleString() }}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
             <template #footer>
                 <div class="flex justify-end gap-2">
-                    <Button label="Edit" icon="pi pi-pencil" severity="success" @click="editFromViewDialog" />
+                    <Button v-if="isAdmin" label="Edit" icon="pi pi-pencil" severity="success"
+                        @click="editFromViewDialog" />
                     <Button label="Close" icon="pi pi-times" text @click="userViewDialog = false" />
                 </div>
             </template>
@@ -188,7 +155,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { useAuthStore } from '~/stores/auth';
@@ -198,6 +165,11 @@ const apiUrl = useApiUrl();
 const authStore = useAuthStore();
 const confirm = useConfirm();
 const toast = useToast();
+
+// Computed properties
+const isAdmin = computed(() => {
+    return authStore.user?.role === 'ADMIN';
+});
 
 // Data
 const users = ref([]);
@@ -260,64 +232,23 @@ const loadUsers = async (page = 1, limit = 10, search = '') => {
 
         const data = await response.json();
 
-        console.log('API Response structure:', Object.keys(data));
-
-        // Debug user data from backend
-        if (data.users && data.users.length > 0) {
-            console.log('Sample user data from API:', data.users[0]);
-        } else if (data.data && data.data.length > 0) {
-            console.log('Sample user data from API (data property):', data.data[0]);
-        } else if (Array.isArray(data) && data.length > 0) {
-            console.log('Sample user data from API (array response):', data[0]);
-        }
-
-        // Determine the data structure from the response
-        console.log('Full API response:', data);
+        console.log('API Response structure:', data);
 
         // Handle the nested response structure from NestJS with Interceptors
+        let actualData = data;
         if (data.status === 200 && data.data) {
-            data = data.data; // Unwrap the data from the standard response format
+            actualData = data.data; // Unwrap the data from the standard response format
         }
 
-        let userData = [];
-        if (Array.isArray(data)) {
-            userData = data;
-            totalRecords.value = data.length;
-        } else if (data.users && Array.isArray(data.users)) {
-            userData = data.users;
-            totalRecords.value = data.total || data.users.length;
-        } else if (data.data && Array.isArray(data.data)) {
-            userData = data.data;
-            totalRecords.value = data.total || data.count || data.data.length;
-        } else {
-            console.error('Unexpected API response format:', data);
-            toast.add({
-                severity: 'error',
-                summary: 'API Error',
-                detail: 'Unexpected data format received from server',
-                life: 5000
-            });
-            // Try to handle the case where data might be in an unexpected format
-            if (typeof data === 'object' && data !== null) {
-                // Look for any array property that might contain users
-                const possibleArrays = Object.values(data).filter(val => Array.isArray(val));
-                if (possibleArrays.length > 0) {
-                    userData = possibleArrays[0];
-                    totalRecords.value = userData.length;
-                    console.log('Found potential user data in an unexpected location:', userData);
-                }
-            }
-        }
-
-        // Process dates before assignment
-        users.value = userData.map(user => ({
+        // The backend returns: { users: User[], total: number, page: number, lastPage: number }
+        users.value = actualData.users.map(user => ({
             ...user,
             // Ensure dates are properly formatted and handle nullish values
             createdAt: parseAndValidateDate(user.createdAt),
-            updatedAt: parseAndValidateDate(user.updatedAt),
-            lastActive: parseAndValidateDate(user.lastActive),
-            lastLogin: parseAndValidateDate(user.lastLogin)
+            updatedAt: parseAndValidateDate(user.updatedAt)
         }));
+
+        totalRecords.value = actualData.total;
 
     } catch (error) {
         console.error('Error loading users:', error);
@@ -373,6 +304,10 @@ const getRoleSeverity = (role) => {
 };
 
 const openCreateUserDialog = () => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can create users', life: 3000 });
+        return;
+    }
     user.value = {
         name: '',
         email: '',
@@ -385,6 +320,10 @@ const openCreateUserDialog = () => {
 };
 
 const editUser = (data) => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can edit users', life: 3000 });
+        return;
+    }
     user.value = { ...data };
     dialogMode.value = 'edit';
     submitted.value = false;
@@ -392,6 +331,10 @@ const editUser = (data) => {
 };
 
 const editFromViewDialog = () => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can edit users', life: 3000 });
+        return;
+    }
     // Close view dialog and open edit dialog with selected user data
     userViewDialog.value = false;
     user.value = { ...selectedUser.value };
@@ -407,6 +350,10 @@ const viewUser = (data) => {
 };
 
 const confirmDeleteUser = (data) => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can delete users', life: 3000 });
+        return;
+    }
     confirm.require({
         message: `Are you sure you want to delete ${data.name}?`,
         header: 'Confirm Deletion',
@@ -419,6 +366,10 @@ const confirmDeleteUser = (data) => {
 };
 
 const deleteUser = async (data) => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can delete users', life: 3000 });
+        return;
+    }
     try {
         const response = await fetch(apiUrl.users.delete(data.id), {
             method: 'DELETE',
@@ -457,6 +408,11 @@ const deleteUser = async (data) => {
 };
 
 const saveUser = async () => {
+    if (!isAdmin.value) {
+        toast.add({ severity: 'warn', summary: 'Access Denied', detail: 'Only admins can create or edit users', life: 3000 });
+        return;
+    }
+
     submitted.value = true;
 
     if (!user.value.name || !user.value.email || (dialogMode.value === 'create' && !user.value.password)) {
@@ -486,11 +442,26 @@ const saveUser = async () => {
             }
 
             if (!response.ok) {
-                throw new Error(
-                    responseData?.message ||
-                    (responseData?.error && typeof responseData.error === 'string' ? responseData.error : '') ||
-                    `Create user failed with status: ${response.status}`
-                );
+                console.error('Create user failed. Response status:', response.status);
+                console.error('Response data:', responseData);
+
+                let errorMessage = `Create user failed with status: ${response.status}`;
+
+                if (responseData?.message) {
+                    errorMessage = responseData.message;
+                } else if (responseData?.error) {
+                    if (typeof responseData.error === 'string') {
+                        errorMessage = responseData.error;
+                    } else if (responseData.error.message) {
+                        errorMessage = responseData.error.message;
+                    } else if (Array.isArray(responseData.error)) {
+                        errorMessage = responseData.error.join(', ');
+                    } else {
+                        errorMessage = JSON.stringify(responseData.error);
+                    }
+                }
+
+                throw new Error(errorMessage);
             }
 
             // Check if response follows the NestJS standard format
@@ -524,11 +495,26 @@ const saveUser = async () => {
             }
 
             if (!response.ok) {
-                throw new Error(
-                    responseData?.message ||
-                    (responseData?.error && typeof responseData.error === 'string' ? responseData.error : '') ||
-                    `Update user failed with status: ${response.status}`
-                );
+                console.error('Update user failed. Response status:', response.status);
+                console.error('Response data:', responseData);
+
+                let errorMessage = `Update user failed with status: ${response.status}`;
+
+                if (responseData?.message) {
+                    errorMessage = responseData.message;
+                } else if (responseData?.error) {
+                    if (typeof responseData.error === 'string') {
+                        errorMessage = responseData.error;
+                    } else if (responseData.error.message) {
+                        errorMessage = responseData.error.message;
+                    } else if (Array.isArray(responseData.error)) {
+                        errorMessage = responseData.error.join(', ');
+                    } else {
+                        errorMessage = JSON.stringify(responseData.error);
+                    }
+                }
+
+                throw new Error(errorMessage);
             }
 
             // Check if response follows the NestJS standard format
@@ -543,10 +529,18 @@ const saveUser = async () => {
         loadUsers(currentPage.value, rowsPerPage.value, searchQuery.value);
     } catch (error) {
         console.error('Error saving user:', error);
+
+        let errorDetail = 'Failed to save user';
+        if (error.message && error.message !== '[object Object]') {
+            errorDetail = error.message;
+        } else if (error.toString && error.toString() !== '[object Object]') {
+            errorDetail = error.toString();
+        }
+
         toast.add({
             severity: 'error',
             summary: 'Error',
-            detail: error.message || 'Failed to save user',
+            detail: errorDetail,
             life: 3000
         });
     } finally {

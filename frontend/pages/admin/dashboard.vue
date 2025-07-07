@@ -1,6 +1,7 @@
 <template>
     <div class="flex flex-col min-h-screen bg-gray-50">
         <Toast />
+        <ConfirmDialog />
         <!-- Welcome Header Section -->
         <div class="flex justify-between items-center p-6 bg-white shadow-sm rounded-lg m-4">
             <div class="space-y-1">
@@ -12,7 +13,9 @@
             </div>
             <div class="flex gap-2">
                 <Button icon="pi pi-refresh" @click="refreshData" rounded outlined aria-label="Refresh" />
-                <Button icon="pi pi-bell" badge="3" severity="info" rounded outlined aria-label="Notifications" />
+                <!-- <Button icon="pi pi-bell" badge="3" severity="info" rounded outlined aria-label="Notifications" /> -->
+                <Button icon="pi pi-sign-out" @click="handleLogout" severity="danger" rounded outlined
+                    aria-label="Logout" />
             </div>
         </div>
 
@@ -106,6 +109,7 @@ import { ref, computed, onMounted, nextTick } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
+import { useConfirm } from 'primevue/useconfirm';
 import UserManagement from '~/components/admin/UserManagement.vue';
 import EventsManagement from '~/components/admin/EventsManagement.vue';
 import FaqsManagement from '~/components/admin/FaqsManagement.vue';
@@ -121,6 +125,7 @@ definePageMeta({
 const router = useRouter();
 const authStore = useAuthStore();
 const toast = useToast();
+const confirm = useConfirm();
 const user = computed(() => authStore.user);
 const loading = ref(false);
 const componentLoading = ref(false);
@@ -137,6 +142,11 @@ const currentDate = computed(() => {
 
 // Dashboard menu items
 const dashboardMenuItems = ref([
+    {
+        key: 'dashboard',
+        label: 'Dashboard',
+        icon: 'pi pi-home'
+    },
     {
         key: 'users',
         label: 'Users',
@@ -203,6 +213,39 @@ const refreshData = () => {
         loading.value = false;
         toast.add({ severity: 'success', summary: 'Updated', detail: 'Dashboard data refreshed', life: 3000 });
     }, 1000);
+};
+
+// Function to handle logout with confirmation
+const handleLogout = () => {
+    confirm.require({
+        message: 'Are you sure you want to logout?',
+        header: 'Logout Confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        rejectClass: 'p-button-secondary p-button-outlined',
+        rejectLabel: 'No',
+        acceptLabel: 'Yes',
+        accept: () => {
+            // Perform logout
+            authStore.logout();
+            toast.add({
+                severity: 'success',
+                summary: 'Logged Out',
+                detail: 'You have been successfully logged out',
+                life: 3000
+            });
+            // Redirect to login page
+            router.push('/login');
+        },
+        reject: () => {
+            // User cancelled logout
+            toast.add({
+                severity: 'info',
+                summary: 'Cancelled',
+                detail: 'Logout cancelled',
+                life: 2000
+            });
+        }
+    });
 };
 
 // Check authentication and fetch data on mount

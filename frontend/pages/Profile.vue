@@ -1,27 +1,12 @@
 <template>
     <div class="min-h-screen bg-[#e6eaf0]"> <!-- Hero Section -->
         <!-- Hero Section -->
-        <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+        <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
             backgroundImage: 'url(/images/Services/client-services.jpg)',
         }">
             <!-- Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-0"></div>
 
-            <!-- Content -->
-            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" data-aos="fade-up"
-                data-aos-duration="1200">
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                    <span class="text-[#f15a22]">Learn</span>
-                    and 
-                    <span class="text-[#f15a22]">Know</span>
-                    about
-                    <span class="text-[#f15a22]">Phillip Trustee</span>
-                </h1>
-                <p class="text-lg md:text-xl text-[#e6eaf0] mb-8">
-                    Empowering investors and building trust in Cambodia through personalized, secure financial services.
-                </p>
-
-            </div>
         </section>
         
         <!-- Management Profiles -->

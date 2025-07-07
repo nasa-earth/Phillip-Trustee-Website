@@ -1,6 +1,6 @@
 <template>
     <!-- Hero Section -->
-    <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+    <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
         backgroundImage: 'url(/images/Services/client-services.jpg)',
     }">
         <!-- Overlay -->
@@ -13,9 +13,7 @@
                 Retention
                 <span class="text-[#f15a22]">Services</span>
             </h1>
-            <p class="text-lg md:text-xl text-white/80 mb-8">
-                Secure, reliable fund management solutions for your financial needs.
-            </p>
+
         </div>
     </section>
 

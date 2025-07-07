@@ -1,13 +1,13 @@
 <template>
-  <section class="bg-gradient-to-b from-[#002e6e] to-[#001a4d] py-20">
+  <section class="bg-gradient-to-b from-[#002e6e] to-[#001a4d]">
     <div class="container mx-auto px-6">
       <section class="relative h-[600px] md:h-[700px] lg:h-[800px] overflow-hidden">
         <!-- Background Image -->
         <img src="~/assets/images/home/hero_bg.png" alt="Team meeting"
-          class="absolute inset-0 w-full h-full object-cover object-center z-0" />
+          class="absolute inset-0 w-full h-screen object-cover object-center z-0" />
 
         <!-- Overlay Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-l from-[#0e2a52] via-[#0e2a52]/70 to-transparent z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-l from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-10"></div>
 
         <!-- Text Content -->
         <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24 mt-[-100px] ml-[100px]">

@@ -1,62 +1,18 @@
 <template>
     <div class="min-h-screen"> <!-- Hero Section -->
         <section
-            class="relative min-h-[95vh] w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
+            class="relative h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{
                 backgroundImage: 'url(/images/Services/client-value.jpg)',
             }">
-            <!-- Animated Overlay with Particles -->
             <div class="absolute inset-0 z-0">
                 <!-- Glass Gradient Overlay -->
                 <div
-                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/70 via-[#0e2a52]/60 to-[#001a4d]/80 backdrop-blur-[2px]">
-                </div>
-
-                <!-- Animated Particles for dynamic effect -->
-                <div class="particles-container absolute inset-0 opacity-30">
-                    <div v-for="i in 20" :key="`particle-${i}`" :class="`particle-${i} absolute rounded-full bg-white`"
-                        :style="{
-                            width: `${Math.random() * 6 + 2}px`,
-                            height: `${Math.random() * 6 + 2}px`,
-                            top: `${Math.random() * 100}%`,
-                            left: `${Math.random() * 100}%`,
-                            opacity: Math.random() * 0.5 + 0.3,
-                            animationDuration: `${Math.random() * 20 + 10}s`,
-                            animationDelay: `${Math.random() * 5}s`
-                        }">
-                    </div>
-                </div>
+                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30">
+                </div>                
             </div>
-
-            <!-- Decorative Elements -->
-            <div
-                class="absolute top-1/4 left-10 w-32 h-32 md:w-64 md:h-64 bg-[#f15a22]/20 rounded-full blur-[80px] animate-pulse-slow">
-            </div>
-            <div
-                class="absolute bottom-1/4 right-10 w-40 h-40 md:w-80 md:h-80 bg-[#001a4d]/30 rounded-full blur-[100px] animate-pulse-slow animation-delay-2000">
-            </div>
-
             <!-- Content -->
-            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-3xl" v-motion-slide-visible-once-bottom>
-                <div class="mb-8 flex justify-center" v-motion-pop-visible-once>
-                    <div
-                        class="w-20 h-20 bg-gradient-to-br from-[#f15a22] to-orange-400 rounded-full flex items-center justify-center shadow-xl shadow-[#f15a22]/20">
-                        <img src="/images/icons/shield.png" alt="Phillip Trustee" class="w-10 h-10 object-contain" />
-                    </div>
-                </div>
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6" v-motion-slide-visible-once-bottom>
-                    <span class="text-orange-400 block mb-2" v-motion-slide-visible-once>Discover Our</span>
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-200 block"
-                        v-motion-slide-visible-once-bottom>
-                        Trusted Services
-                    </span>
-                </h1>
-                <p class="text-xl md:text-2xl text-[#e6eaf0]/90 mb-10 leading-relaxed"
-                    v-motion-slide-visible-once-bottom>
-                    Empowering investors and building trust in Cambodia through personalized, secure financial services.
-                </p>
-
-            </div>
+            
 
             <!-- Scroll Indicator -->
             <div
@@ -105,7 +61,7 @@
                     <!-- <span class="text-[#f15a22] text-lg font-medium tracking-wider uppercase mb-3">Understanding
                         Trusts</span> -->
                     <h2
-                        class="text-3xl md:text-4xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-200">
+                        class="text-3xl md:text-4xl font-bold text-center mb-6 ">
                         What is Trust?</h2>
                     <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
                     <p class="text-xl text-[#e6eaf0] max-w-3xl text-center leading-relaxed">
@@ -127,7 +83,7 @@
                                     class="w-8 h-8 object-contain" />
                             </div>
                             <h3
-                                class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#f15a22] to-orange-300">
+                                class="text-2xl md:text-3xl font-bold text-[#f15a22]">
                                 Legal Foundation</h3>
                         </div>
 
@@ -200,7 +156,7 @@
                                     class="w-8 h-8 object-contain" />
                             </div>
                             <h3
-                                class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#f15a22] to-orange-300">
+                                class="text-2xl md:text-3xl font-bold bg-clip-text text-[#f15a22]">
                                 Trust Relationship</h3>
                         </div>
 
@@ -294,7 +250,7 @@
                                 <img src="/images/icons/diamond.png" alt="Benefits" class="w-8 h-8 object-contain" />
                             </div>
                             <h3
-                                class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#f15a22] to-orange-300">
+                                class="text-2xl md:text-3xl font-bold bg-clip-text text-[#f15a22]">
                                 Benefits of Trust Services</h3>
                         </div>
 
@@ -645,7 +601,7 @@
 
                                 <!-- Enhanced Gradient Overlay -->
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-r from-[#0a2b5c]/80 via-[#0a2b5c]/60 to-transparent md:bg-gradient-to-l">
+                                    class="absolute inset-0 to-transparent md:bg-gradient-to-l">
                                 </div>
 
                                 <!-- Service Number Badge -->

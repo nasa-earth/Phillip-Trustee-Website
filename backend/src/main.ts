@@ -5,14 +5,23 @@ import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
   try {
-    const app = await NestFactory.create(AppModule, {
+    const app = await NestFactory.create<NestExpressApplication>(AppModule, {
       logger: ['error', 'warn', 'debug', 'log', 'verbose'],
     });
 
-    const configService = app.get(ConfigService); // Global prefix
+    const configService = app.get(ConfigService);
+
+    // Serve static files from uploads directory
+    app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+      prefix: '/uploads/',
+    });
+
+    // Global prefix
     app.setGlobalPrefix('api'); // CORS configuration
     app.enableCors({
       origin: [

@@ -9,6 +9,14 @@ export const useAuthStore = defineStore("auth", {
     isAuthenticated: false,
   }),
 
+  getters: {
+    isAdmin: (state) => state.user?.role === "ADMIN",
+    isEditor: (state) => state.user?.role === "EDITOR",
+    userRole: (state) => state.user?.role,
+    userName: (state) => state.user?.name,
+    userEmail: (state) => state.user?.email,
+  },
+
   actions: {
     setUser(user) {
       this.user = user;
@@ -26,8 +34,6 @@ export const useAuthStore = defineStore("auth", {
     async login(email, password) {
       try {
         const apiUrl = useApiUrl();
-        console.log("Login URL:", apiUrl.auth.login);
-        console.log("Login credentials:", { email });
 
         const response = await fetch(apiUrl.auth.login, {
           method: "POST",
@@ -37,91 +43,39 @@ export const useAuthStore = defineStore("auth", {
           body: JSON.stringify({ email, password }),
         });
 
-        console.log("Login response status:", response.status);
-
-        // Check if the response is valid before trying to parse JSON
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Error response text:", errorText);
-
+          let errorMessage = `Login failed with status: ${response.status}`;
           try {
-            const errorData = JSON.parse(errorText);
-            throw new Error(
-              errorData.message ||
-                `Login failed with status: ${response.status}`
-            );
+            const errorData = await response.json();
+            errorMessage = errorData.message || errorMessage;
           } catch (e) {
-            throw new Error(
-              `Login failed with status: ${response.status}. Response was not valid JSON.`
-            );
+            // If error response isn't JSON, use status message
           }
+          throw new Error(errorMessage);
         }
 
-        // Get response as text first for debugging
-        const responseText = await response.text();
-        console.log("Raw response text:", responseText);
+        const data = await response.json();
 
-        // Try to parse as JSON
-        let data;
-        try {
-          data = JSON.parse(responseText);
-          console.log("Login response data:", data);
-          console.log("Response data type:", typeof data);
-          console.log("Response data keys:", Object.keys(data));
-        } catch (e) {
-          console.error("JSON parse error:", e);
-          throw new Error("Invalid JSON response from server");
-        }
-        // Handle the TransformInterceptor's response wrapping
+        // Handle NestJS TransformInterceptor response format
+        let responseData = data;
         if (data.data && typeof data.data === "object") {
-          console.log(
-            "Found data property, appears to be from TransformInterceptor"
+          responseData = data.data;
+        }
+
+        // Validate response structure
+        if (
+          !responseData.user ||
+          !responseData.access_token ||
+          !responseData.refresh_token
+        ) {
+          throw new Error(
+            "Invalid response format: missing user data or tokens"
           );
-          data = data.data;
         }
 
-        console.log("Processing data after transformation:", data);
-
-        // Ensure the response has the required structure
-        if (!data.user || !data.access_token || !data.refresh_token) {
-          console.error("Invalid response format after transformation:", data);
-
-          // Attempt to construct the expected structure from what we have
-          if (data.id && data.email && data.role) {
-            console.log(
-              "Found user data in root object, restructuring response"
-            );
-            data = {
-              user: {
-                id: data.id,
-                email: data.email,
-                name: data.name || data.email.split("@")[0],
-                role: data.role,
-              },
-              access_token: data.access_token || data.accessToken || data.token,
-              refresh_token:
-                data.refresh_token || data.refreshToken || data.token,
-            };
-          } else {
-            throw new Error(
-              "Invalid response format from server. Missing user data or tokens."
-            );
-          }
-        }
-        console.log("Setting user data:", data.user);
-        console.log("Setting tokens:", {
-          accessToken: !!data.access_token,
-          refreshToken: !!data.refresh_token,
-        });
-
-        this.setUser(data.user);
-        this.setTokens(data.access_token, data.refresh_token);
-
-        console.log("Auth state after login:", {
-          isAuthenticated: this.isAuthenticated,
-          hasUser: !!this.user,
-          role: this.user?.role,
-        });
+        // Set user and tokens
+        this.setUser(responseData.user);
+        this.setTokens(responseData.access_token, responseData.refresh_token);
 
         return {
           success: true,
@@ -149,62 +103,86 @@ export const useAuthStore = defineStore("auth", {
           body: JSON.stringify({ refresh_token: this.refreshToken }),
         });
 
-        const data = await response.json();
-
         if (!response.ok) {
           this.logout();
           return false;
         }
 
-        this.setUser(data.user);
-        this.setTokens(data.access_token, data.refresh_token);
-        return true;
+        const data = await response.json();
+
+        // Handle NestJS TransformInterceptor response format
+        let responseData = data;
+        if (data.data && typeof data.data === "object") {
+          responseData = data.data;
+        }
+
+        // Validate response structure
+        if (
+          responseData.user &&
+          responseData.access_token &&
+          responseData.refresh_token
+        ) {
+          this.setUser(responseData.user);
+          this.setTokens(responseData.access_token, responseData.refresh_token);
+          return true;
+        }
+
+        this.logout();
+        return false;
       } catch (error) {
+        console.error("Token refresh error:", error);
         this.logout();
         return false;
       }
     },
 
-    logout() {
+    async logout() {
+      // Try to call backend logout endpoint if we have a refresh token
+      if (this.refreshToken) {
+        try {
+          const apiUrl = useApiUrl();
+          await fetch(apiUrl.auth.logout, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ refresh_token: this.refreshToken }),
+          });
+        } catch (error) {
+          console.error("Error during logout:", error);
+          // Continue with local logout even if backend call fails
+        }
+      }
+
+      // Clear local state
       this.user = null;
       this.accessToken = null;
       this.refreshToken = null;
       this.isAuthenticated = false;
 
+      // Clear localStorage
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("user");
     },
     initFromStorage() {
       if (typeof window !== "undefined") {
-        console.log("Initializing auth state from storage");
         const accessToken = localStorage.getItem("access_token");
         const refreshToken = localStorage.getItem("refresh_token");
         const userStr = localStorage.getItem("user");
 
-        console.log("Storage state:", {
-          hasAccessToken: !!accessToken,
-          hasRefreshToken: !!refreshToken,
-          hasUserData: !!userStr,
-        });
-
         if (accessToken && refreshToken && userStr) {
           try {
             const userData = JSON.parse(userStr);
-            console.log("Parsed user data:", userData);
 
             this.accessToken = accessToken;
             this.refreshToken = refreshToken;
             this.user = userData;
             this.isAuthenticated = true;
-
-            console.log("Authentication restored from storage");
           } catch (e) {
             console.error("Error restoring auth from storage:", e);
             this.logout();
           }
-        } else {
-          console.log("Incomplete auth data in storage, not restoring session");
         }
       }
     },

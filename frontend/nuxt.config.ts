@@ -1,12 +1,10 @@
 import tailwindcss from "@tailwindcss/vite";
+import Aura from "@primeuix/themes/aura";
 
 export default defineNuxtConfig({
   compatibilityDate: "2025-05-15",
   devtools: { enabled: true },
-  css: [
-    "~/assets/css/main.css",
-    'primeicons/primeicons.css',
-  ],
+  css: ["~/assets/css/main.css", "primeicons/primeicons.css"],
   vite: {
     plugins: [tailwindcss()],
   },
@@ -15,14 +13,18 @@ export default defineNuxtConfig({
     "~/plugins/auth.js",
     "~/plugins/motion.js",
   ],
-  modules: [
-    "@pinia/nuxt",
-    '@primevue/nuxt-module'
-  ],
-  
+  modules: ["@pinia/nuxt", "@primevue/nuxt-module"],
+  primevue: {
+    options: {
+      theme: {
+        preset: Aura,
+      },
+    },
+  },
+
   runtimeConfig: {
     public: {
-      apiBase: process.env.API_BASE || "http://localhost:3000",
+      apiBase: process.env.API_BASE || "http://localhost:3005",
     },
   },
   // Explicitly configure router options

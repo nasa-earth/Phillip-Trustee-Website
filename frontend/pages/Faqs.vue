@@ -1,78 +1,13 @@
 <template>
     <div class="faqs-page relative">
-
         <!-- Hero Section with Particles -->
         <section
-            class="relative min-h-[80vh] w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
+            class="relative h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{ backgroundImage: 'url(/images/Services/client-value.jpg)' }">
-            <!-- Animated Overlay with Particles -->
             <div class="absolute inset-0 z-0">
-                <!-- Glass Gradient Overlay -->
                 <div
-                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/80 via-[#0e2a52]/70 to-[#001a4d]/90 backdrop-blur-[2px]">
+                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30">
                 </div>
-
-                <!-- Animated Particles for dynamic effect -->
-                <div class="particles-container absolute inset-0 opacity-30">
-                    <div v-for="i in 40" :key="`particle-${i}`" class="particle absolute rounded-full bg-white" :style="{
-                        width: `${Math.random() * 6 + 2}px`,
-                        height: `${Math.random() * 6 + 2}px`,
-                        top: `${Math.random() * 100}%`,
-                        left: `${Math.random() * 100}%`,
-                        opacity: Math.random() * 0.5 + 0.3,
-                        animationDuration: `${Math.random() * 20 + 10}s`,
-                        animationDelay: `${Math.random() * 5}s`
-                    }">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Animated Gradient Orbs -->
-            <div
-                class="absolute top-1/4 left-10 w-32 h-32 md:w-64 md:h-64 bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 rounded-full blur-[80px] animate-pulse-slow">
-            </div>
-            <div
-                class="absolute bottom-1/4 right-10 w-40 h-40 md:w-80 md:h-80 bg-gradient-to-r from-[#001a4d]/30 to-[#0e2a52]/30 rounded-full blur-[100px] animate-pulse-slow animation-delay-2000">
-            </div>
-
-            <!-- Floating Elements -->
-            <div
-                class="hidden md:block absolute top-1/3 right-[20%] w-16 h-16 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm animate-float">
-            </div>
-            <div
-                class="hidden md:block absolute bottom-1/3 left-[15%] w-20 h-20 rounded-full border border-[#f15a22]/10 bg-[#f15a22]/5 backdrop-blur-sm animate-float-delay">
-            </div>
-
-            <!-- Content -->
-            <div class="relative z-10 text-center px-6 max-w-4xl" v-motion-slide-visible-once-bottom>
-                <div class="mb-8 flex justify-center" v-motion-pop-visible-once>
-                    <div
-                        class="w-20 h-20 bg-gradient-to-br from-[#f15a22] to-orange-400 rounded-full flex items-center justify-center shadow-xl shadow-[#f15a22]/20">
-                        <img src="/images/icons/shield.png" alt="Phillip Trustee" class="w-10 h-10 object-contain" />
-                    </div>
-                </div>
-
-                <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6" v-motion-slide-visible-once-bottom>
-                    <span class="text-orange-400 block mb-2">Frequently Asked</span>
-                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-orange-200 block">
-                        Questions
-                    </span>
-                </h1>
-
-                <p class="text-xl md:text-2xl text-white/90 mb-10 leading-relaxed" v-motion-slide-visible-once-bottom>
-                    Find answers to common questions about our trust services and support
-                </p>
-            </div>
-
-            <!-- Scroll Indicator -->
-            <div
-                class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce-slow z-10">
-                <span class="text-white/80 text-sm mb-2">Scroll Down</span>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white/80" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
             </div>
         </section>
 

@@ -1,6 +1,6 @@
 <template>
     <!-- Hero Section -->
-    <section class="relative h-[90vh] w-full flex items-center justify-center bg-cover bg-center" :style="{
+    <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
         backgroundImage: 'url(/images/Services/client-services.jpg)',
     }">
         <!-- Overlay -->
@@ -15,9 +15,6 @@
                 about
                 <span class="text-[#f15a22]">Phillip Trustee</span>
             </h1>
-            <p class="text-lg md:text-xl text-white/80 mb-8">
-                Empowering investors and building trust in Cambodia through personalized, secure financial services.
-            </p>
 
         </div>
     </section>

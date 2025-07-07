@@ -162,8 +162,6 @@ exports.Prisma.PartnerScalarFieldEnum = {
   id: 'id',
   name: 'name',
   logo: 'logo',
-  website: 'website',
-  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -206,14 +204,16 @@ exports.Prisma.EventScalarFieldEnum = {
   title: 'title',
   slug: 'slug',
   description: 'description',
-  location: 'location',
   thumbnail: 'thumbnail',
-  isPublished: 'isPublished',
+  published: 'published',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  endDate: 'endDate',
-  registrationUrl: 'registrationUrl',
-  startDate: 'startDate'
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.EventImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  eventId: 'eventId'
 };
 
 exports.Prisma.SortOrder = {
@@ -244,7 +244,8 @@ exports.Prisma.ModelName = {
   FAQ: 'FAQ',
   Page: 'Page',
   Setting: 'Setting',
-  Event: 'Event'
+  Event: 'Event',
+  EventImage: 'EventImage'
 };
 
 /**

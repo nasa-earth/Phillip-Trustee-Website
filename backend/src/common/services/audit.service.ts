@@ -7,6 +7,7 @@ export type AuditEntity =
   | 'Page'
   | 'FAQ'
   | 'Event'
+  | 'EventImage'
   | 'Partner'
   | 'User'
   | 'Category'

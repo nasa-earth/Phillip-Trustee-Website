@@ -28,6 +28,7 @@ import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-events.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { Request as ExpressRequest } from 'express';
+import { CreateEventImageDto } from './dto/create-event-image.dto';
 
 @ApiTags('events')
 @Controller('events')
@@ -64,32 +65,28 @@ export class EventsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all published events' })
-  @ApiResponse({ status: 200, description: 'Returns all published events.' })
-  findAll() {
-    return this.eventsService.findAll(true);
-  }
-
-  @Get('admin')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.EDITOR)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Get all events (including drafts) - Admin only' })
+  @ApiOperation({ summary: 'Get all events' })
   @ApiResponse({ status: 200, description: 'Returns all events.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  findAllAdmin() {
-    return this.eventsService.findAll(false);
+  findAll() {
+    return this.eventsService.findAll();
   }
 
-  @Get('upcoming')
-  @ApiOperation({ summary: 'Get upcoming published events' })
+  @Get('recent')
+  @ApiOperation({ summary: 'Get recent events' })
   @ApiResponse({
     status: 200,
-    description: 'Returns all upcoming published events.',
+    description: 'Returns recent events.',
   })
-  findUpcoming() {
-    return this.eventsService.findUpcoming();
+  @ApiQuery({
+    name: 'limit',
+    required: false,
+    type: Number,
+    description: 'Number of events to return (default: 10)',
+  })
+  findRecent(@Query('limit') limit?: number) {
+    return this.eventsService.findRecent(
+      limit ? parseInt(limit.toString()) : 10,
+    );
   }
 
   @Get('by-slug/:slug')
@@ -98,19 +95,6 @@ export class EventsController {
   @ApiResponse({ status: 404, description: 'Event not found.' })
   findBySlug(@Param('slug') slug: string) {
     return this.eventsService.findBySlug(slug);
-  }
-
-  @Get('by-slug/:slug/preview')
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.ADMIN, Role.EDITOR)
-  @ApiBearerAuth()
-  @ApiOperation({ summary: 'Preview an event by slug (includes drafts)' })
-  @ApiResponse({ status: 200, description: 'Returns the event.' })
-  @ApiResponse({ status: 401, description: 'Unauthorized.' })
-  @ApiResponse({ status: 403, description: 'Forbidden.' })
-  @ApiResponse({ status: 404, description: 'Event not found.' })
-  previewBySlug(@Param('slug') slug: string) {
-    return this.eventsService.findBySlug(slug, false);
   }
 
   @Get(':id')
@@ -166,6 +150,63 @@ export class EventsController {
     } catch (error) {
       if (error instanceof NotFoundException) {
         this.logger.warn(`Event not found: ${id}`);
+      }
+      throw error;
+    }
+  }
+
+  @Post(':id/images')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.EDITOR)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Add an image to an event' })
+  @ApiResponse({
+    status: 201,
+    description: 'Image successfully added to event.',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Event not found.' })
+  addImageToEvent(
+    @Param('id') id: string,
+    @Body() createEventImageDto: CreateEventImageDto,
+    @Request() req: ExpressRequest,
+  ) {
+    try {
+      this.logger.log(`Adding image to event: ${id}`);
+      return this.eventsService.addImageToEvent(
+        id,
+        createEventImageDto,
+        req.user.id,
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete(':id/images/:imageId')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.EDITOR)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove an image from an event' })
+  @ApiResponse({
+    status: 200,
+    description: 'Image successfully removed from event.',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Event or image not found.' })
+  removeImageFromEvent(
+    @Param('id') id: string,
+    @Param('imageId') imageId: string,
+    @Request() req: ExpressRequest,
+  ) {
+    try {
+      this.logger.log(`Removing image ${imageId} from event: ${id}`);
+      return this.eventsService.removeImageFromEvent(id, imageId, req.user.id);
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        this.logger.warn(`Event or image not found: ${id}/${imageId}`);
       }
       throw error;
     }

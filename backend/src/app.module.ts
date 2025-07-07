@@ -15,6 +15,7 @@ import { PartnersModule } from './partners/partners.module';
 import { SettingsModule } from './settings/settings.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { EventsModule } from './events/events.module';
+import { UploadModule } from './upload/upload.module';
 import { RolesGuard } from './common/guards/roles.guard';
 import { HealthModule } from './health/health.module';
 
@@ -34,6 +35,7 @@ import { HealthModule } from './health/health.module';
     SettingsModule,
     FaqsModule,
     EventsModule,
+    UploadModule,
     AdminModule,
     HealthModule,
   ],

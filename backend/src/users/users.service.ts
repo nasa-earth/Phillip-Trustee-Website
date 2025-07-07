@@ -53,13 +53,11 @@ export class UsersService {
               {
                 name: {
                   contains: search,
-                  mode: Prisma.QueryMode.insensitive,
                 },
               },
               {
                 email: {
                   contains: search,
-                  mode: Prisma.QueryMode.insensitive,
                 },
               },
             ],

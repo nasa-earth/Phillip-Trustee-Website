@@ -18,6 +18,14 @@ export class CreateFaqDto {
   })
   answer: string;
 
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'The category of the FAQ',
+    example: 'General',
+  })
+  category: string;
+
   @IsInt()
   @IsOptional()
   @ApiPropertyOptional({

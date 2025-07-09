@@ -6209,6 +6209,8 @@ export namespace Prisma {
     id: string | null
     name: string | null
     logo: string | null
+    website: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6217,6 +6219,8 @@ export namespace Prisma {
     id: string | null
     name: string | null
     logo: string | null
+    website: string | null
+    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6225,6 +6229,8 @@ export namespace Prisma {
     id: number
     name: number
     logo: number
+    website: number
+    description: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6235,6 +6241,8 @@ export namespace Prisma {
     id?: true
     name?: true
     logo?: true
+    website?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6243,6 +6251,8 @@ export namespace Prisma {
     id?: true
     name?: true
     logo?: true
+    website?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6251,6 +6261,8 @@ export namespace Prisma {
     id?: true
     name?: true
     logo?: true
+    website?: true
+    description?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6332,6 +6344,8 @@ export namespace Prisma {
     id: string
     name: string
     logo: string | null
+    website: string | null
+    description: string | null
     createdAt: Date
     updatedAt: Date
     _count: PartnerCountAggregateOutputType | null
@@ -6357,6 +6371,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     logo?: boolean
+    website?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -6365,6 +6381,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     logo?: boolean
+    website?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -6373,6 +6391,8 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     logo?: boolean
+    website?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["partner"]>
@@ -6381,11 +6401,13 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     logo?: boolean
+    website?: boolean
+    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "logo" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
+  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "logo" | "website" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
 
   export type $PartnerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Partner"
@@ -6394,6 +6416,8 @@ export namespace Prisma {
       id: string
       name: string
       logo: string | null
+      website: string | null
+      description: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["partner"]>
@@ -6822,6 +6846,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Partner", 'String'>
     readonly name: FieldRef<"Partner", 'String'>
     readonly logo: FieldRef<"Partner", 'String'>
+    readonly website: FieldRef<"Partner", 'String'>
+    readonly description: FieldRef<"Partner", 'String'>
     readonly createdAt: FieldRef<"Partner", 'DateTime'>
     readonly updatedAt: FieldRef<"Partner", 'DateTime'>
   }
@@ -7212,27 +7238,33 @@ export namespace Prisma {
 
   export type FAQMinAggregateOutputType = {
     id: string | null
+    category: string | null
     question: string | null
     answer: string | null
     order: number | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type FAQMaxAggregateOutputType = {
     id: string | null
+    category: string | null
     question: string | null
     answer: string | null
     order: number | null
+    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type FAQCountAggregateOutputType = {
     id: number
+    category: number
     question: number
     answer: number
     order: number
+    isActive: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7249,27 +7281,33 @@ export namespace Prisma {
 
   export type FAQMinAggregateInputType = {
     id?: true
+    category?: true
     question?: true
     answer?: true
     order?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type FAQMaxAggregateInputType = {
     id?: true
+    category?: true
     question?: true
     answer?: true
     order?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type FAQCountAggregateInputType = {
     id?: true
+    category?: true
     question?: true
     answer?: true
     order?: true
+    isActive?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7363,9 +7401,11 @@ export namespace Prisma {
 
   export type FAQGroupByOutputType = {
     id: string
+    category: string
     question: string
     answer: string
     order: number
+    isActive: boolean
     createdAt: Date
     updatedAt: Date
     _count: FAQCountAggregateOutputType | null
@@ -7391,50 +7431,60 @@ export namespace Prisma {
 
   export type FAQSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectScalar = {
     id?: boolean
+    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
+    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FAQOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["fAQ"]>
+  export type FAQOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "question" | "answer" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["fAQ"]>
 
   export type $FAQPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FAQ"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      category: string
       question: string
       answer: string
       order: number
+      isActive: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["fAQ"]>
@@ -7861,9 +7911,11 @@ export namespace Prisma {
    */
   interface FAQFieldRefs {
     readonly id: FieldRef<"FAQ", 'String'>
+    readonly category: FieldRef<"FAQ", 'String'>
     readonly question: FieldRef<"FAQ", 'String'>
     readonly answer: FieldRef<"FAQ", 'String'>
     readonly order: FieldRef<"FAQ", 'Int'>
+    readonly isActive: FieldRef<"FAQ", 'Boolean'>
     readonly createdAt: FieldRef<"FAQ", 'DateTime'>
     readonly updatedAt: FieldRef<"FAQ", 'DateTime'>
   }
@@ -12535,6 +12587,8 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     logo: 'logo',
+    website: 'website',
+    description: 'description',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12544,9 +12598,11 @@ export namespace Prisma {
 
   export const FAQScalarFieldEnum: {
     id: 'id',
+    category: 'category',
     question: 'question',
     answer: 'answer',
     order: 'order',
+    isActive: 'isActive',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -12979,6 +13035,8 @@ export namespace Prisma {
     id?: StringFilter<"Partner"> | string
     name?: StringFilter<"Partner"> | string
     logo?: StringNullableFilter<"Partner"> | string | null
+    website?: StringNullableFilter<"Partner"> | string | null
+    description?: StringNullableFilter<"Partner"> | string | null
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
   }
@@ -12987,6 +13045,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12998,6 +13058,8 @@ export namespace Prisma {
     NOT?: PartnerWhereInput | PartnerWhereInput[]
     name?: StringFilter<"Partner"> | string
     logo?: StringNullableFilter<"Partner"> | string | null
+    website?: StringNullableFilter<"Partner"> | string | null
+    description?: StringNullableFilter<"Partner"> | string | null
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
   }, "id">
@@ -13006,6 +13068,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PartnerCountOrderByAggregateInput
@@ -13020,6 +13084,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Partner"> | string
     name?: StringWithAggregatesFilter<"Partner"> | string
     logo?: StringNullableWithAggregatesFilter<"Partner"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Partner"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Partner"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
   }
@@ -13029,18 +13095,22 @@ export namespace Prisma {
     OR?: FAQWhereInput[]
     NOT?: FAQWhereInput | FAQWhereInput[]
     id?: StringFilter<"FAQ"> | string
+    category?: StringFilter<"FAQ"> | string
     question?: StringFilter<"FAQ"> | string
     answer?: StringFilter<"FAQ"> | string
     order?: IntFilter<"FAQ"> | number
+    isActive?: BoolFilter<"FAQ"> | boolean
     createdAt?: DateTimeFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeFilter<"FAQ"> | Date | string
   }
 
   export type FAQOrderByWithRelationInput = {
     id?: SortOrder
+    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -13050,18 +13120,22 @@ export namespace Prisma {
     AND?: FAQWhereInput | FAQWhereInput[]
     OR?: FAQWhereInput[]
     NOT?: FAQWhereInput | FAQWhereInput[]
+    category?: StringFilter<"FAQ"> | string
     question?: StringFilter<"FAQ"> | string
     answer?: StringFilter<"FAQ"> | string
     order?: IntFilter<"FAQ"> | number
+    isActive?: BoolFilter<"FAQ"> | boolean
     createdAt?: DateTimeFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeFilter<"FAQ"> | Date | string
   }, "id">
 
   export type FAQOrderByWithAggregationInput = {
     id?: SortOrder
+    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FAQCountOrderByAggregateInput
@@ -13076,9 +13150,11 @@ export namespace Prisma {
     OR?: FAQScalarWhereWithAggregatesInput[]
     NOT?: FAQScalarWhereWithAggregatesInput | FAQScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"FAQ"> | string
+    category?: StringWithAggregatesFilter<"FAQ"> | string
     question?: StringWithAggregatesFilter<"FAQ"> | string
     answer?: StringWithAggregatesFilter<"FAQ"> | string
     order?: IntWithAggregatesFilter<"FAQ"> | number
+    isActive?: BoolWithAggregatesFilter<"FAQ"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FAQ"> | Date | string
   }
@@ -13621,6 +13697,8 @@ export namespace Prisma {
     id?: string
     name: string
     logo?: string | null
+    website?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13629,6 +13707,8 @@ export namespace Prisma {
     id?: string
     name: string
     logo?: string | null
+    website?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13637,6 +13717,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13645,6 +13727,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13653,6 +13737,8 @@ export namespace Prisma {
     id?: string
     name: string
     logo?: string | null
+    website?: string | null
+    description?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13661,6 +13747,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13669,69 +13757,85 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     logo?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FAQCreateInput = {
     id?: string
+    category: string
     question: string
     answer: string
     order?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FAQUncheckedCreateInput = {
     id?: string
+    category: string
     question: string
     answer: string
     order?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FAQUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FAQUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FAQCreateManyInput = {
     id?: string
+    category: string
     question: string
     answer: string
     order?: number
+    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type FAQUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type FAQUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
+    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -14300,6 +14404,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
+    website?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14308,6 +14414,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
+    website?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14316,6 +14424,8 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
+    website?: SortOrder
+    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14333,9 +14443,11 @@ export namespace Prisma {
 
   export type FAQCountOrderByAggregateInput = {
     id?: SortOrder
+    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -14346,18 +14458,22 @@ export namespace Prisma {
 
   export type FAQMaxOrderByAggregateInput = {
     id?: SortOrder
+    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type FAQMinOrderByAggregateInput = {
     id?: SortOrder
+    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
+    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

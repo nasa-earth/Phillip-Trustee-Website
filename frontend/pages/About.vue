@@ -60,7 +60,8 @@
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Origins</h3>
                                 <p class="text-[#e6eaf0] text-lg">
-                                    <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong> was
+                                    <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong>
+                                    was
                                     incorporated in June 2022, after the Law of Trust was passed in 2019, allowing
                                     foreigners to register their fixed assets with trustee companies in Cambodia. Our
                                     specialised license consists of commercial, social and personal trust in which has
@@ -76,7 +77,8 @@
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Affiliations</h3>
                                 <p class="text-[#e6eaf0] text-lg">
-                                    We are the associated company of <strong class="text-[#e6eaf0] text-lg">Phillip Bank,
+                                    We are the associated company of <strong class="text-[#e6eaf0] text-lg">Phillip
+                                        Bank,
                                         Plc</strong>, one of the medium-sized commercial banks in Cambodia, part of the
                                     Phillip Capital group in Singapore, and a sister company of Phillip General
                                     Insurance and Phillip Life Assurance Company.
@@ -91,7 +93,8 @@
                             <div>
                                 <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Approach</h3>
                                 <p class="text-[#e6eaf0] text-lg">
-                                    At <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong>, we
+                                    At <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co
+                                        Ltd.</strong>, we
                                     believe in a financial and non-financial ecosystem that provides suitable services
                                     to investors and customers throughout Cambodia, including commercial, public, social
                                     and personal trust services.
@@ -287,37 +290,41 @@
                 </div>
 
                 <!-- Partners Slider Component -->
-                <PartnersSlider :partners="partnersList" :speed="40" size="medium" />
+                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" />
             </div>
         </section>
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue';
 import Header from '~/components/Header.vue';
 import Footer from '~/components/Footer.vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
+import { usePartners } from '~/composables/usePartners';
+
+const { partnersForSlider, fetchPartners } = usePartners();
 
 const goals = [
     {
         title: "Mission",
         image: "/images/icons/target.png",
         type: "text",
-        largeImage: "/images/about/1-mission.jpg", // Added large image for the card
+        largeImage: "/images/about/1-mission.jpg",
         description: "To enable foreign investors to own their tangible assets and to grow their businesses.",
     },
     {
         title: "Vision",
         image: "/images/icons/idea.png",
         type: "text",
-        largeImage: "/images/about/1-vision.jpg", // Added large image for the card
+        largeImage: "/images/about/1-vision.jpg",
         description: "To be an active catalyst in bringing foreign investments into Cambodia.",
     },
     {
         title: "Value",
         image: "/images/icons/diamond.png",
         type: "list",
-        largeImage: "/images/about/1-value.jpg", // Added large image for the card
+        largeImage: "/images/about/1-value.jpg",
         description: [
             "Transparency: We are transparent in all dealings with our customers.",
             "Conduct of Business: We serve our customers with mutual respect and honesty. We do not tolerate bribery in any form.",
@@ -326,84 +333,94 @@ const goals = [
     },
 ];
 
-export default {
+const currentSlide = ref(0);
+const members = ref([
+    {
+        title: 'Phillip Bank',
+        description: 'One of the medium-sized commercial banks in Cambodia, providing comprehensive banking services.',
+        image: '/images/about/1-phillip-bank.jpg',
+        icon: 'bank'
+    },
+    {
+        title: 'Phillip General & Life Insurance',
+        description: 'Offering a wide range of insurance products to protect individuals and businesses.',
+        image: '/images/about/1-phillip-general-insurance.png',
+        icon: 'shield'
+    },
+    {
+        title: 'Phillip Trustee',
+        description: 'Providing trust services to help foreign investors secure their assets in Cambodia.',
+        image: '/images/about/1-phillip-trustee.jpg',
+        icon: 'users'
+    }
+]);
 
-    name: 'AboutPage',
-    components: {
-        Header,
-        Footer,
-        PartnersSlider
-    },
-    data() {
-        return {
-            currentSlide: 0,
-            goals,
-            members: [
-                {
-                    title: 'Phillip Bank',
-                    description: 'One of the medium-sized commercial banks in Cambodia, providing comprehensive banking services.',
-                    image: '/images/about/1-phillip-bank.jpg',
-                    icon: 'bank'
-                },
-                {
-                    title: 'Phillip General & Life Insurance',
-                    description: 'Offering a wide range of insurance products to protect individuals and businesses.',
-                    image: '/images/about/1-phillip-general-insurance.png',
-                    icon: 'shield'
-                },
-                {
-                    title: 'Phillip Trustee',
-                    description: 'Providing trust services to help foreign investors secure their assets in Cambodia.',
-                    image: '/images/about/1-phillip-trustee.jpg',
-                    icon: 'users'
-                }
-            ],
-            partnersList: [
-                { name: 'Rose Mavel', image: '/images/partners/1_Rose_Mavel.jpg' },
-                { name: 'La Maision', image: '/images/partners/2_La_Maision.jpg' },
-                { name: 'Vimean Samnang', image: '/images/partners/3_Vimean_Samnang.jpg' },
-                { name: 'IPS', image: '/images/partners/4_IPS.jpg' },
-                { name: 'SaRaNa', image: '/images/partners/5_SaRaNa.jpg' },
-                { name: 'YI Dung', image: '/images/partners/6_YI Dung.jpg' },
-                { name: 'Dragon Land', image: '/images/partners/Dragon Land.jpg' },
-            ]
-        };
-    },
-    methods: {
-        nextSlide() {
-            this.currentSlide = (this.currentSlide + 1) % this.members.length;
-            this.updateCarousel();
-        },
-        prevSlide() {
-            this.currentSlide = (this.currentSlide - 1 + this.members.length) % this.members.length;
-            this.updateCarousel();
-        },
-        goToSlide(index) {
-            this.currentSlide = index;
-            this.updateCarousel();
-        },
-        updateCarousel() {
-            const track = this.$refs.carouselTrack;
-            if (track) {
-                const slideWidth = 100;
-                const translateX = -this.currentSlide * slideWidth;
-                track.style.transform = `translateX(${translateX}%)`;
-            }
-        }
-    },
-    mounted() {
-        this.updateCarousel();
-        // Handle responsive carousel
-        this.handleResize = () => {
-            this.updateCarousel();
-        };
-        window.addEventListener('resize', this.handleResize);
-    },
-    beforeUnmount() {
-        window.removeEventListener('resize', this.handleResize);
+const nextSlide = () => {
+    currentSlide.value = (currentSlide.value + 1) % members.value.length;
+    updateCarousel();
+};
+
+const prevSlide = () => {
+    currentSlide.value = (currentSlide.value - 1 + members.value.length) % members.value.length;
+    updateCarousel();
+};
+
+const goToSlide = (index) => {
+    currentSlide.value = index;
+    updateCarousel();
+};
+
+const updateCarousel = () => {
+    const track = document.querySelector('.carousel-track');
+    if (track) {
+        const slideWidth = 100;
+        const translateX = -currentSlide.value * slideWidth;
+        track.style.transform = `translateX(${translateX}%)`;
     }
 };
+
+onMounted(async () => {
+    await fetchPartners();
+    updateCarousel();
+
+    // Handle responsive carousel
+    const handleResize = () => {
+        updateCarousel();
+    };
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup on unmount
+    onUnmounted(() => {
+        window.removeEventListener('resize', handleResize);
+    });
+});
 </script>
+image: '/images/about/1-phillip-general-insurance.png',
+icon: 'shield'
+},
+{
+title: 'Phillip Trustee',
+description: 'Providing trust services to help foreign investors secure their assets in Cambodia.',
+image: '/images/about/1-phillip-trustee.jpg',
+icon: 'users'
+}
+],
+partnersList: [
+{ name: 'Rose Mavel', image: '/images/partners/1_Rose_Mavel.jpg' },
+{ name: 'La Maision', image: '/images/partners/2_La_Maision.jpg' },
+{ name: 'Vimean Samnang', image: '/images/partners/3_Vimean_Samnang.jpg' },
+{ name: 'IPS', image: '/images/partners/4_IPS.jpg' },
+{ name: 'SaRaNa', image: '/images/partners/5_SaRaNa.jpg' },
+{ name: 'YI Dung', image: '/images/partners/6_YI Dung.jpg' },
+{ name: 'Dragon Land', image: '/images/partners/Dragon Land.jpg' },
+]
+};
+},
+methods: {
+nextSlide() {
+this.currentSlide = (this.currentSlide + 1) % this.members.length;
+this.updateCarousel();
+
 
 <style scoped>
 @import '~/assets/css/theme.css';

@@ -1,4 +1,3 @@
-// composables/useApiUrl.js
 export const useApiUrl = () => {
   const config = useRuntimeConfig();
   const apiBase = config.public.apiBase;
@@ -29,6 +28,21 @@ export const useApiUrl = () => {
       create: `${apiBase}/api/users`,
       update: (id) => `${apiBase}/api/users/${id}`,
       delete: (id) => `${apiBase}/api/users/${id}`,
+    },
+    partners: {
+      list: `${apiBase}/api/partners`,
+      get: (id) => `${apiBase}/api/partners/${id}`,
+      create: `${apiBase}/api/partners`,
+      update: (id) => `${apiBase}/api/partners/${id}`,
+      delete: (id) => `${apiBase}/api/partners/${id}`,
+    },
+    faqs: {
+      list: `${apiBase}/api/faqs`,
+      get: (id) => `${apiBase}/api/faqs/${id}`,
+      create: `${apiBase}/api/faqs`,
+      update: (id) => `${apiBase}/api/faqs/${id}`,
+      delete: (id) => `${apiBase}/api/faqs/${id}`,
+      reorder: `${apiBase}/api/faqs/reorder`,
     },
     // etc.
   };

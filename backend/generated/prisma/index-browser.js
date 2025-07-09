@@ -162,15 +162,19 @@ exports.Prisma.PartnerScalarFieldEnum = {
   id: 'id',
   name: 'name',
   logo: 'logo',
+  website: 'website',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.FAQScalarFieldEnum = {
   id: 'id',
+  category: 'category',
   question: 'question',
   answer: 'answer',
   order: 'order',
+  isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

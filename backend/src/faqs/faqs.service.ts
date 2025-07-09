@@ -41,6 +41,7 @@ export class FaqsService {
       data: {
         question: data.question,
         answer: data.answer,
+        category: data.category,
         order: data.order,
       },
     });

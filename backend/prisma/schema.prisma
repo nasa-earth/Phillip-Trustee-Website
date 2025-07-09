@@ -58,15 +58,19 @@ model Partner {
   id          String   @id @default(uuid())
   name        String
   logo        String?
+  website     String?
+  description String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
 
 model FAQ {
   id        String   @id @default(uuid())
+  category  String
   question  String
   answer    String
   order     Int      @default(0)
+  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

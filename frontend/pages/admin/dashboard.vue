@@ -82,21 +82,31 @@
                     </Transition>
                 </div>
 
-                <!-- Welcome View -->
-                <div v-else-if="activeSection === 'welcome'"
+                <!-- Dashboard View -->
+                <div v-else-if="activeSection === 'dashboard'"
                     class="h-full flex flex-col items-center justify-center p-8 text-center">
                     <div class="w-full max-w-md">
                         <h2 class="text-2xl font-bold text-blue-700 mb-4">Admin Dashboard</h2>
                         <p class="text-gray-600 mb-6">Select a section from the sidebar to manage your website content.
                         </p>
                         <div class="grid grid-cols-2 gap-4 mt-4">
-                            <div v-for="(item, idx) in dashboardMenuItems.slice(0, 4)" :key="idx"
+                            <div v-for="(item, idx) in dashboardMenuItems.slice(0, 6)" :key="idx"
                                 @click="selectSection(item.key)"
                                 class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
                                 <i :class="[item.icon, 'text-2xl text-blue-600 mb-2']"></i>
                                 <h3 class="font-medium">{{ item.label }}</h3>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Welcome View -->
+                <div v-else-if="activeSection === 'welcome'"
+                    class="h-full flex flex-col items-center justify-center p-8 text-center">
+                    <div class="w-full max-w-md">
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Welcome to Admin Dashboard</h2>
+                        <p class="text-gray-600 mb-6">Select a section from the sidebar to manage your website content.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -172,7 +182,8 @@ const dashboardMenuItems = ref([
         key: 'settings',
         label: 'Settings',
         icon: 'pi pi-cog'
-    }
+    },
+
 ]);
 
 
@@ -252,8 +263,8 @@ const handleLogout = () => {
 onMounted(() => {
     // Authentication check is handled by middleware
 
-    // Set initial section
-    activeSection.value = 'welcome';
+    // Set initial section to dashboard
+    activeSection.value = 'dashboard';
 
     // Fetch data for dashboard (simulated)
     refreshData();

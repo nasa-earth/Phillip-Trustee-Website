@@ -8,7 +8,7 @@
             <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-0"></div>
 
         </section>
-        
+
         <!-- Management Profiles -->
         <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
@@ -132,87 +132,78 @@
                     <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
                     <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                         We collaborate with leading organizations across Cambodia to provide the best service to our
-                        clients.                    
+                        clients.
                     </p>
                 </div>
 
                 <!-- Partners Slider Component -->
-                <PartnersSlider :partners="partnersList" :speed="40" size="medium" />
+                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" />
             </div>
         </section>
     </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
+import { usePartners } from '~/composables/usePartners';
 
-export default {
-    name: 'ProfilePage',
-    components: {
-        PartnersSlider
+const { partnersForSlider, fetchPartners } = usePartners();
+
+const managers = ref([
+    {
+        name: 'ONG TEONG HOON',
+        title: 'Chairman',
+        image: '/images/profile/ceo.jpg',
+        desc: 'Chairman of Phillip Trustee (Cambodia) with over 20 years of experience in finance and trust management. Leads the strategic direction of the company with a focus on innovation and client-centered solutions.',
+        experience: 'Previously served as CEO of multiple financial institutions across Southeast Asia with expertise in both commercial and private banking.'
     },
-    data() {
-        return {
-            managers: [
-                {
-                    name: 'ONG TEONG HOON',
-                    title: 'Chairman',
-                    image: '/images/profile/ceo.jpg',
-                    desc: 'Chairman of Phillip Trustee (Cambodia) with over 20 years of experience in finance and trust management. Leads the strategic direction of the company with a focus on innovation and client-centered solutions.',
-                    experience: 'Previously served as CEO of multiple financial institutions across Southeast Asia with expertise in both commercial and private banking.'
-                },
-                {
-                    name: 'Sopheap Proeung',
-                    title: 'General Manager',
-                    image: '/images/profile/mr_sopheap.jpg',
-                    desc: 'General Manager with extensive experience in banking and trust operations. Oversees daily management and ensures operational excellence across all departments.',
-                    experience: '15+ years in leadership roles within the Cambodian financial sector.'
-                },
-                {
-                    name: 'Phang Vichet',
-                    title: 'Legal & Compliance Manager',
-                    image: '/images/profile/legal_manager.jpg',
-                    desc: 'Expert in legal and compliance matters for trust and financial services. Ensures all operations adhere to Cambodian laws and regulations while protecting client interests.',
-                    experience: 'Former legal advisor to multiple international banks operating in Cambodia.'
-                },
-                {
-                    name: 'Kong Rothana',
-                    title: 'Accounting and Finance Manager',
-                    image: '/images/profile/kong_rothana.jpg',
-                    desc: 'Specialist in accounting and finance for trust management. Responsible for maintaining financial integrity and transparency in all client accounts.',
-                    experience: 'Certified accountant with expertise in international financial reporting standards.'
-                },
-                {
-                    name: 'Ho Souven',
-                    title: 'Operation Supervisor',
-                    image: '/images/profile/ho_souven.jpg',
-                    desc: 'Oversees daily operations and ensures service excellence. Dedicated to maintaining the highest standards of client satisfaction through efficient processes.',
-                    experience: 'Joined Phillip Trustee after 8 years of experience in banking operations.'
-                },
-            ], modalOpen: false,
-            selectedManager: {},
-            partnersList: [
-                { name: 'Rose Mavel', image: '/images/partners/1_Rose_Mavel.jpg' },
-                { name: 'La Maision', image: '/images/partners/2_La_Maision.jpg' },
-                { name: 'Vimean Samnang', image: '/images/partners/3_Vimean_Samnang.jpg' },
-                { name: 'IPS', image: '/images/partners/4_IPS.jpg' },
-                { name: 'SaRaNa', image: '/images/partners/5_SaRaNa.jpg' },
-                { name: 'YI Dung', image: '/images/partners/6_YI Dung.jpg' },
-                { name: 'Dragon Land', image: '/images/partners/Dragon Land.jpg' },
-            ]
-        }
+    {
+        name: 'Sopheap Proeung',
+        title: 'General Manager',
+        image: '/images/profile/mr_sopheap.jpg',
+        desc: 'General Manager with extensive experience in banking and trust operations. Oversees daily management and ensures operational excellence across all departments.',
+        experience: '15+ years in leadership roles within the Cambodian financial sector.'
     },
-    methods: {
-        openModal(idx) {
-            this.selectedManager = this.managers[idx];
-            this.modalOpen = true;
-        },
-        closeModal() {
-            this.modalOpen = false;
-            this.selectedManager = {};
-        }
-    }
-}
+    {
+        name: 'Phang Vichet',
+        title: 'Legal & Compliance Manager',
+        image: '/images/profile/legal_manager.jpg',
+        desc: 'Expert in legal and compliance matters for trust and financial services. Ensures all operations adhere to Cambodian laws and regulations while protecting client interests.',
+        experience: 'Former legal advisor to multiple international banks operating in Cambodia.'
+    },
+    {
+        name: 'Kong Rothana',
+        title: 'Accounting and Finance Manager',
+        image: '/images/profile/kong_rothana.jpg',
+        desc: 'Specialist in accounting and finance for trust management. Responsible for maintaining financial integrity and transparency in all client accounts.',
+        experience: 'Certified accountant with expertise in international financial reporting standards.'
+    },
+    {
+        name: 'Ho Souven',
+        title: 'Operation Supervisor',
+        image: '/images/profile/ho_souven.jpg',
+        desc: 'Oversees daily operations and ensures service excellence. Dedicated to maintaining the highest standards of client satisfaction through efficient processes.',
+        experience: 'Joined Phillip Trustee after 8 years of experience in banking operations.'
+    },
+]);
+
+const modalOpen = ref(false);
+const selectedManager = ref({});
+
+const openModal = (idx) => {
+    selectedManager.value = managers.value[idx];
+    modalOpen.value = true;
+};
+
+const closeModal = () => {
+    modalOpen.value = false;
+    selectedManager.value = {};
+};
+
+onMounted(async () => {
+    await fetchPartners();
+});
 </script>
 
 <style scoped>

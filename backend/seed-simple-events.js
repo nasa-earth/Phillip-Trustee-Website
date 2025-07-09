@@ -6,14 +6,16 @@ const sampleEvents = [
   {
     title: 'Annual Financial Advisory Summit 2025',
     slug: 'annual-financial-advisory-summit-2025',
-    description: 'Join us for our premier annual summit bringing together financial advisors, trust professionals, and industry experts. This comprehensive event features keynote presentations, panel discussions, and networking opportunities focused on the latest trends in trust management, investment strategies, and regulatory updates in Cambodia. Learn from seasoned professionals and discover new opportunities for growth in the financial services sector.',
+    description:
+      'Join us for our premier annual summit bringing together financial advisors, trust professionals, and industry experts. This comprehensive event features keynote presentations, panel discussions, and networking opportunities focused on the latest trends in trust management, investment strategies, and regulatory updates in Cambodia. Learn from seasoned professionals and discover new opportunities for growth in the financial services sector.',
     thumbnail: '/images/events/financial-summit-thumbnail.jpg',
     published: true,
   },
   {
     title: 'Introduction to Trust Services Workshop',
     slug: 'introduction-trust-services-workshop',
-    description: 'A beginner-friendly workshop designed for individuals and businesses interested in understanding trust services and their benefits. This hands-on session covers the fundamentals of trust structures, estate planning, asset protection, and succession planning. Perfect for entrepreneurs, high-net-worth individuals, and professionals looking to expand their knowledge of trust services in Cambodia.',
+    description:
+      'A beginner-friendly workshop designed for individuals and businesses interested in understanding trust services and their benefits. This hands-on session covers the fundamentals of trust structures, estate planning, asset protection, and succession planning. Perfect for entrepreneurs, high-net-worth individuals, and professionals looking to expand their knowledge of trust services in Cambodia.',
     thumbnail: '/images/events/trust-workshop-thumbnail.jpg',
     published: true,
   },
@@ -27,7 +29,7 @@ async function seedSimpleEvents() {
     for (const eventData of sampleEvents) {
       // Check if event with this slug already exists
       const existingEvent = await prisma.event.findUnique({
-        where: { slug: eventData.slug }
+        where: { slug: eventData.slug },
       });
 
       if (!existingEvent) {

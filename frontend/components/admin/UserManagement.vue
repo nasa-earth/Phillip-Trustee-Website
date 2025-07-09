@@ -95,7 +95,7 @@
                 </div>
             </template>
         </Dialog>
-        
+
         <!-- User View Dialog -->
         <Dialog v-model:visible="userViewDialog" :header="`User Details`" :modal="true" :style="{ width: '500px' }">
             <div v-if="selectedUser" class="space-y-6">
@@ -448,7 +448,18 @@ const saveUser = async () => {
                 let errorMessage = `Create user failed with status: ${response.status}`;
 
                 if (responseData?.message) {
-                    errorMessage = responseData.message;
+                    // Handle nested message structure from NestJS validation
+                    if (typeof responseData.message === 'object' && responseData.message.message) {
+                        if (Array.isArray(responseData.message.message)) {
+                            errorMessage = responseData.message.message.join(', ');
+                        } else {
+                            errorMessage = responseData.message.message;
+                        }
+                    } else if (typeof responseData.message === 'string') {
+                        errorMessage = responseData.message;
+                    } else if (Array.isArray(responseData.message)) {
+                        errorMessage = responseData.message.join(', ');
+                    }
                 } else if (responseData?.error) {
                     if (typeof responseData.error === 'string') {
                         errorMessage = responseData.error;
@@ -471,7 +482,7 @@ const saveUser = async () => {
 
             toast.add({ severity: 'success', summary: 'Success', detail: 'User created successfully', life: 3000 });
         } else {
-            const { id, ...updateData } = user.value;
+            const { id, createdAt, updatedAt, ...updateData } = user.value;
             // Remove password if it's empty (not changed)
             if (!updateData.password) delete updateData.password;
 
@@ -501,7 +512,18 @@ const saveUser = async () => {
                 let errorMessage = `Update user failed with status: ${response.status}`;
 
                 if (responseData?.message) {
-                    errorMessage = responseData.message;
+                    // Handle nested message structure from NestJS validation
+                    if (typeof responseData.message === 'object' && responseData.message.message) {
+                        if (Array.isArray(responseData.message.message)) {
+                            errorMessage = responseData.message.message.join(', ');
+                        } else {
+                            errorMessage = responseData.message.message;
+                        }
+                    } else if (typeof responseData.message === 'string') {
+                        errorMessage = responseData.message;
+                    } else if (Array.isArray(responseData.message)) {
+                        errorMessage = responseData.message.join(', ');
+                    }
                 } else if (responseData?.error) {
                     if (typeof responseData.error === 'string') {
                         errorMessage = responseData.error;
@@ -531,7 +553,7 @@ const saveUser = async () => {
         console.error('Error saving user:', error);
 
         let errorDetail = 'Failed to save user';
-        if (error.message && error.message !== '[object Object]') {
+        if (error.message && error.message !== '[object Object]' && error.message !== 'Error: [object Object]') {
             errorDetail = error.message;
         } else if (error.toString && error.toString() !== '[object Object]') {
             errorDetail = error.toString();

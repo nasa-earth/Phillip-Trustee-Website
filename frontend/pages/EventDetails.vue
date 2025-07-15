@@ -47,15 +47,33 @@
                         <!-- Event Details -->
                         <div class="flex flex-col md:flex-row gap-8 mb-8">
                             <div class="w-full md:w-2/3 mx-[200px]">
-                                <p class="text-[#e6eaf0]/90 mb-8 text-lg leading-relaxed">{{ event.description }}</p>
+                                <p class="text-[#e6eaf0]/90 mb-8 text-lg leading-relaxed whitespace-pre-line">{{
+                                    event.description }}</p>
 
                                 <!-- Event Images Gallery -->
                                 <div v-if="event.images && event.images.length > 0" class="mb-8">
-                                    <div class="grid grid-cols-1 gap-6">
+                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-4">Event Gallery</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div v-for="(image, index) in event.images" :key="index"
-                                            class="rounded-lg overflow-hidden shadow-lg border border-white/10">
+                                            class="rounded-lg overflow-hidden shadow-lg border border-white/10 cursor-pointer"
+                                            @click="openImageModal(image)">
                                             <img :src="image.url || image" :alt="`${event.title} - Image ${index + 1}`"
-                                                class="w-full h-full">
+                                                class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Event Meta Information -->
+                                <div class="bg-white/5 rounded-lg p-6 mb-8">
+                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-4">Event Details</h4>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                        <div class="flex items-center">
+                                            <i class="pi pi-calendar mr-2 text-[#f15a22]"></i>
+                                            <span>Created: {{ formatDate(event.createdAt) }}</span>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <i class="pi pi-clock mr-2 text-[#f15a22]"></i>
+                                            <span>Updated: {{ formatDate(event.updatedAt) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +146,8 @@ export default {
     data() {
         return {
             event: null,
-            loading: true
+            loading: true,
+            error: null
         }
     },
     async mounted() {
@@ -137,6 +156,7 @@ export default {
     methods: {
         async loadEvent() {
             this.loading = true
+            this.error = null
             try {
                 const slug = this.$route.query.slug
                 if (!slug) {
@@ -146,13 +166,19 @@ export default {
                 const { useEventService } = await import('@/composables/useEventService')
                 const eventService = useEventService()
                 this.event = await eventService.getEventBySlug(slug)
+
+                if (!this.event) {
+                    throw new Error('Event not found')
+                }
             } catch (error) {
                 console.error('Error loading event:', error)
+                this.error = error.message || 'Failed to load event'
                 this.event = null
             } finally {
                 this.loading = false
             }
         },
+
         formatDate(dateString) {
             if (!dateString) return 'No date'
             return new Date(dateString).toLocaleDateString('en-US', {
@@ -160,6 +186,12 @@ export default {
                 month: 'long',
                 day: 'numeric'
             })
+        },
+
+        openImageModal(image) {
+            // Simple image modal - you can enhance this with a proper modal component
+            const imageUrl = image.url || image
+            window.open(imageUrl, '_blank')
         }
     }
 }

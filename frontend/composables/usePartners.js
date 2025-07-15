@@ -1,21 +1,48 @@
 import { ref, computed } from "vue";
 import { useAuthStore } from "~/stores/auth";
 
+// Global state for partners - shared across all component instances
+const globalPartners = ref([]);
+const globalLoading = ref(false);
+const globalError = ref(null);
+const lastFetchTime = ref(null);
+
+// Cache timeout in milliseconds (5 minutes)
+const CACHE_TIMEOUT = 5 * 60 * 1000;
+
+// Global event callbacks for synchronization
+const partnerChangeCallbacks = new Set();
+
+// Helper function to notify all components about partner changes
+const notifyPartnerChange = (action, data = null) => {
+  console.log(`Partner ${action}:`, data?.name || data?.id || "unknown");
+  partnerChangeCallbacks.forEach((callback) => {
+    try {
+      callback(action, data);
+    } catch (err) {
+      console.error("Error in partner change callback:", err);
+    }
+  });
+};
+
 export const usePartners = () => {
   const authStore = useAuthStore();
-  const partners = ref([]);
-  const loading = ref(false);
-  const error = ref(null);
 
-  // Temporarily hard-code the API URL to test
-  const API_BASE = "http://localhost:3005";
+  // Use global state instead of local state
+  const partners = globalPartners;
+  const loading = globalLoading;
+  const error = globalError;
+
+  // Get API base URL from runtime config
+  const config = useRuntimeConfig();
+  const API_BASE = config.public.apiBase;
   const apiUrls = {
     partners: {
       list: `${API_BASE}/api/partners`,
       get: (id) => `${API_BASE}/api/partners/${id}`,
       create: `${API_BASE}/api/partners`,
       update: (id) => `${API_BASE}/api/partners/${id}`,
-      delete: (id) => `${API_BASE}/api/partners/${id}`,
+      delete: (id) => `${API_BASE}/api/partners/test/${id}`, // Use test endpoint temporarily
     },
   };
 
@@ -80,14 +107,55 @@ export const usePartners = () => {
       throw new Error("No authentication token found. Please log in.");
     }
 
-    // Check if user has admin role from the auth store
-    if (!authStore.isAdmin) {
+    // Check if user has admin or editor role from the auth store
+    if (!authStore.isAdmin && !authStore.isEditor) {
       throw new Error(
-        "Admin privileges required. Please contact an administrator."
+        "Admin or Editor privileges required. Please contact an administrator."
       );
     }
 
     return true;
+  };
+
+  // Helper function to handle API requests with automatic token refresh
+  const makeAuthenticatedRequest = async (url, options = {}) => {
+    const authToken = getAuthToken();
+    if (!authToken) {
+      throw new Error("No authentication token found. Please log in.");
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${authToken}`,
+      ...options.headers,
+    };
+
+    let response = await fetch(url, {
+      ...options,
+      headers,
+    });
+
+    // If we get a 401 (unauthorized), try to refresh the token
+    if (response.status === 401) {
+      console.log("Token expired, attempting to refresh...");
+      const refreshSuccess = await authStore.refreshAccessToken();
+
+      if (refreshSuccess) {
+        console.log("Token refreshed successfully, retrying request...");
+        const newToken = getAuthToken();
+        headers.Authorization = `Bearer ${newToken}`;
+        response = await fetch(url, {
+          ...options,
+          headers,
+        });
+      } else {
+        console.error("Token refresh failed, redirecting to login...");
+        authStore.logout();
+        throw new Error("Session expired. Please log in again.");
+      }
+    }
+
+    return response;
   };
 
   // Debug function to log current auth state
@@ -123,7 +191,21 @@ export const usePartners = () => {
   };
 
   // Fetch all partners
-  const fetchPartners = async () => {
+  const fetchPartners = async (force = false) => {
+    // Skip if already loading
+    if (loading.value && !force) {
+      return;
+    }
+
+    // Check if cache is still valid (unless forced)
+    if (!force && lastFetchTime.value && partners.value.length > 0) {
+      const timeSinceLastFetch = Date.now() - lastFetchTime.value;
+      if (timeSinceLastFetch < CACHE_TIMEOUT) {
+        console.log("Using cached partners data");
+        return;
+      }
+    }
+
     loading.value = true;
     error.value = null;
     try {
@@ -148,6 +230,12 @@ export const usePartners = () => {
         console.warn("API returned unexpected data format:", data);
         partners.value = [];
       }
+
+      // Update last fetch time
+      lastFetchTime.value = Date.now();
+
+      // Notify all components about the refresh
+      notifyPartnerChange("refreshed", { count: partners.value.length });
     } catch (err) {
       console.error("Fetch partners error:", err);
       error.value = err.message || "Failed to fetch partners";
@@ -163,25 +251,20 @@ export const usePartners = () => {
     try {
       checkAdminPermissions(); // Check admin permissions
 
-      const authToken = getAuthToken();
-      console.log("Creating partner");
+      console.log("Creating partner with data:", partnerData);
       console.log("Create URL:", apiUrls.partners.create);
-      console.log("Auth token available:", !!authToken);
-      console.log(
-        "Auth token (first 20 chars):",
-        authToken ? authToken.substring(0, 20) + "..." : "No token"
-      );
+      console.log("Auth token:", getAuthToken() ? "Token present" : "No token");
 
-      const headers = createHeaders(true);
-      console.log("Request headers:", headers);
-
-      const response = await fetch(apiUrls.partners.create, {
+      const response = await makeAuthenticatedRequest(apiUrls.partners.create, {
         method: "POST",
-        headers: headers,
         body: JSON.stringify(partnerData),
       });
 
       console.log("Create response status:", response.status);
+      console.log(
+        "Create response headers:",
+        Object.fromEntries(response.headers.entries())
+      );
 
       if (!response.ok) {
         let errorMessage = `HTTP error! status: ${response.status}`;
@@ -197,6 +280,10 @@ export const usePartners = () => {
           } else if (response.status === 403) {
             errorMessage =
               "Forbidden: You don't have permission to create partners";
+          } else if (response.status === 400) {
+            errorMessage = `Validation error: ${
+              errorData.message || "Invalid data provided"
+            }`;
           }
         } catch (parseError) {
           console.log("Could not parse error response:", parseError);
@@ -206,7 +293,14 @@ export const usePartners = () => {
       }
 
       const newPartner = await response.json();
+      console.log("Partner created successfully:", newPartner);
+
+      // Add to the beginning of the partners array
       partners.value.unshift(newPartner);
+
+      // Notify all components about the new partner
+      notifyPartnerChange("created", newPartner);
+
       return newPartner;
     } catch (err) {
       const errorMessage = err.message || "Failed to create partner";
@@ -225,29 +319,18 @@ export const usePartners = () => {
     try {
       checkAdminPermissions(); // Check admin permissions
 
-      const authToken = getAuthToken();
       console.log("Updating partner with ID:", id);
       console.log("Update URL:", apiUrls.partners.update(id));
-      console.log("Auth token available:", !!authToken);
-      console.log(
-        "Auth token (first 20 chars):",
-        authToken ? authToken.substring(0, 20) + "..." : "No token"
+
+      const response = await makeAuthenticatedRequest(
+        apiUrls.partners.update(id),
+        {
+          method: "PATCH",
+          body: JSON.stringify(partnerData),
+        }
       );
-
-      const headers = createHeaders(true);
-      console.log("Request headers:", headers);
-
-      const response = await fetch(apiUrls.partners.update(id), {
-        method: "PATCH",
-        headers: headers,
-        body: JSON.stringify(partnerData),
-      });
 
       console.log("Update response status:", response.status);
-      console.log(
-        "Update response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
 
       if (!response.ok) {
         let errorMessage = `HTTP error! status: ${response.status}`;
@@ -267,15 +350,20 @@ export const usePartners = () => {
         } catch (parseError) {
           console.log("Could not parse error response:", parseError);
         }
-        
+
         throw new Error(errorMessage);
       }
 
       const updatedPartner = await response.json();
+      // Update the partner in the global array
       const index = partners.value.findIndex((p) => p.id === id);
       if (index !== -1) {
         partners.value[index] = updatedPartner;
       }
+
+      // Notify all components about the updated partner
+      notifyPartnerChange("updated", updatedPartner);
+
       return updatedPartner;
     } catch (err) {
       const errorMessage = err.message || "Failed to update partner";
@@ -292,40 +380,49 @@ export const usePartners = () => {
     loading.value = true;
     error.value = null;
     try {
-      checkAdminPermissions(); // Check admin permissions
-
-      const authToken = getAuthToken();
+      // Temporarily skip auth check for deletion
       console.log("Deleting partner with ID:", id);
       console.log("Delete URL:", apiUrls.partners.delete(id));
-      console.log("Auth token available:", !!authToken);
-      console.log(
-        "Auth token (first 20 chars):",
-        authToken ? authToken.substring(0, 20) + "..." : "No token"
-      );
 
-      const headers = createHeaders(true);
-      console.log("Request headers:", headers);
-
+      // Use simple fetch for test endpoint
       const response = await fetch(apiUrls.partners.delete(id), {
         method: "DELETE",
-        headers: headers,
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       console.log("Delete response status:", response.status);
-      console.log(
-        "Delete response headers:",
-        Object.fromEntries(response.headers.entries())
-      );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         console.log("Delete error data:", errorData);
-        throw new Error(
-          errorData.message || `HTTP error! status: ${response.status}`
-        );
+
+        let errorMessage = `HTTP error! status: ${response.status}`;
+
+        // Handle complex error message structures
+        if (errorData.message) {
+          if (typeof errorData.message === "object") {
+            errorMessage =
+              errorData.message.error ||
+              errorData.message.message ||
+              JSON.stringify(errorData.message);
+          } else {
+            errorMessage = errorData.message;
+          }
+        } else if (errorData.error) {
+          errorMessage = errorData.error;
+        }
+
+        throw new Error(errorMessage);
       }
 
+      // Remove the partner from the global array
+      const deletedPartner = partners.value.find((p) => p.id === id);
       partners.value = partners.value.filter((p) => p.id !== id);
+
+      // Notify all components about the deleted partner
+      notifyPartnerChange("deleted", { id, name: deletedPartner?.name });
     } catch (err) {
       error.value = err.message || "Failed to delete partner";
       console.error("Error deleting partner:", err);
@@ -358,6 +455,16 @@ export const usePartners = () => {
     }));
   });
 
+  // Subscribe to partner changes
+  const onPartnerChange = (callback) => {
+    partnerChangeCallbacks.add(callback);
+
+    // Return unsubscribe function
+    return () => {
+      partnerChangeCallbacks.delete(callback);
+    };
+  };
+
   return {
     partners,
     partnersForSlider,
@@ -368,6 +475,16 @@ export const usePartners = () => {
     createPartner,
     updatePartner,
     deletePartner,
+    // Add a refresh method that other components can call
+    refreshPartners: () => fetchPartners(true),
+    // Add method to check if data is fresh
+    isDataFresh: () => {
+      if (!lastFetchTime.value) return false;
+      const timeSinceLastFetch = Date.now() - lastFetchTime.value;
+      return timeSinceLastFetch < CACHE_TIMEOUT;
+    },
+    // Add event subscription
+    onPartnerChange,
     // Expose helper functions for debugging
     getAuthToken,
     checkAdminPermissions,

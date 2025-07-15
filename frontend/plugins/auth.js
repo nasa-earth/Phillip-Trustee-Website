@@ -1,17 +1,17 @@
 // plugins/auth.js
-export default defineNuxtPlugin(({ app }) => {
-  // Wait until client-side to run this
+export default defineNuxtPlugin(async () => {
+  // Only run on client-side
   if (process.client) {
-    console.log("Auth plugin running on client");
     const authStore = useAuthStore();
-    authStore.initFromStorage();
 
-    // Log authentication state
-    console.log("Auth state initialized:", {
+    console.log("Initializing auth from storage...");
+    await authStore.initFromStorage();
+
+    console.log("Auth initialized:", {
       isAuthenticated: authStore.isAuthenticated,
-      user: authStore.user,
-      hasAccessToken: !!authStore.accessToken,
-      hasRefreshToken: !!authStore.refreshToken,
+      hasAdminAccess: authStore.hasAdminAccess,
+      user: authStore.user?.email,
+      role: authStore.user?.role,
     });
   }
 });

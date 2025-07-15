@@ -35,9 +35,10 @@
 
         <!-- Table View -->
         <div v-if="viewMode === 'table'" class="bg-white rounded-lg shadow-sm overflow-hidden">
-            <DataTable :value="filteredEvents.data" :loading="loading" :paginator="true" :rows="rowsPerPage"
+            <DataTable :value="filteredEvents" :loading="loading" :paginator="true" :rows="rowsPerPage"
                 :rowsPerPageOptions="[5, 10, 20, 50]" :totalRecords="totalRecords" :lazy="false"
-                responsiveLayout="scroll" stripedRows @page="onPage" class="events-table">
+                responsiveLayout="scroll" stripedRows @page="onPage" class="events-table"
+                :globalFilterFields="['title', 'description', 'slug']">
                 <template #empty>
                     <div class="text-center py-8">
                         <i class="pi pi-calendar text-4xl text-gray-300 mb-4"></i>
@@ -59,35 +60,25 @@
                     <template #body="slotProps">
                         <div>
                             <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.title }}</h4>
-                            <!-- <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.description }}</p> -->
+                            <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.slug }}</p>
                         </div>
                     </template>
                 </Column>
 
-                <Column field="description" header="Description" sortable class="min-w-48">
+                <Column field="description" header="Description" sortable class="min-w-64">
                     <template #body="slotProps">
                         <div>
-                            <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.description }}</h4>
-                            <!-- <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data. }}</p> -->
+                            <p class="text-sm text-gray-700 line-clamp-2">{{ slotProps.data.description }}</p>
                         </div>
                     </template>
                 </Column>
 
-                <Column field="slug" header="Slug" sortable class="min-w-32">
+                <Column field="status" header="Status" :style="{ width: '100px' }">
                     <template #body="slotProps">
-                        <code class="text-xs bg-gray-100 px-2 py-1 rounded">{{ slotProps.data.slug }}</code>
+                        <Tag :value="slotProps.data.published ? 'Published' : 'Draft'"
+                            :severity="slotProps.data.published ? 'success' : 'warning'" />
                     </template>
                 </Column>
-
-                <!-- <Column field="location" header="Location" sortable>
-                    <template #body="slotProps">
-                        <span v-if="slotProps.data.location" class="text-gray-700">
-                            <i class="pi pi-map-marker text-gray-400 mr-1"></i>
-                            {{ slotProps.data.location }}
-                        </span>
-                        <span v-else class="text-gray-400 italic">No location</span>
-                    </template>
-                </Column> -->
 
                 <Column field="createdAt" header="Created" sortable>
                     <template #body="slotProps">
@@ -123,10 +114,16 @@
             </div>
 
             <!-- Events Grid -->
-            <div v-else-if="events.length > 0"
+            <div v-else-if="displayedEvents.length > 0"
                 class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <div v-for="event in events" :key="event.id"
+                <div v-for="event in displayedEvents" :key="event.id"
                     class="group bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 relative">
+
+                    <!-- Status Badge -->
+                    <div class="absolute top-3 left-3 z-10">
+                        <Tag :value="event.published ? 'Published' : 'Draft'"
+                            :severity="event.published ? 'success' : 'warning'" class="text-xs" />
+                    </div>
 
                     <!-- Admin Action Buttons -->
                     <div
@@ -203,6 +200,14 @@
                     </div>
 
                     <div class="field">
+                        <div class="flex align-items-center">
+                            <Checkbox id="published" v-model="eventForm.published" :binary="true" />
+                            <label for="published" class="ml-2 font-medium">Published</label>
+                        </div>
+                        <small class="text-gray-600">Check to make this event visible on the public website</small>
+                    </div>
+
+                    <div class="field">
                         <label for="thumbnail" class="font-medium">Thumbnail Image</label>
                         <FileUpload mode="basic" name="thumbnail" accept="image/*" :maxFileSize="5000000"
                             @select="onThumbnailSelect" @clear="onThumbnailClear" chooseLabel="Choose Thumbnail"
@@ -264,6 +269,7 @@
 import { useEventService } from '@/composables/useEventService'
 import { useFileUpload } from '@/composables/useFileUpload'
 import { useDebug } from '@/composables/useDebug'
+import { useAuthStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import Button from 'primevue/button'
@@ -278,6 +284,7 @@ import DataTable from 'primevue/datatable'
 import Column from 'primevue/column'
 import Tag from 'primevue/tag'
 import Dropdown from 'primevue/dropdown'
+import FileUpload from 'primevue/fileupload'
 import { ref } from 'vue'
 
 export default {
@@ -294,7 +301,8 @@ export default {
         DataTable,
         Column,
         Tag,
-        Dropdown
+        Dropdown,
+        FileUpload
     }, setup() {
         const toast = useToast()
         const confirm = useConfirm()
@@ -329,12 +337,12 @@ export default {
                 title: '',
                 slug: '',
                 description: '',
+                published: true,
                 thumbnailFile: null,
                 thumbnailPreview: '',
                 imageFiles: [],
                 imagePreviews: []
             },
-            eventImagesText: '',
             uploadedThumbnail: null,
             uploadedImages: []
         }
@@ -344,7 +352,7 @@ export default {
     },
     computed: {
         displayedEvents() {
-            return this.searchQuery ? this.filteredEvents : this.events
+            return this.filteredEvents || this.events || []
         }
     },
     watch: {
@@ -362,16 +370,75 @@ export default {
         async loadEvents() {
             this.loading = true
             try {
+                // Check authentication state first
+                const authStore = useAuthStore();
+                console.log('Auth state:', {
+                    isAuthenticated: authStore.isAuthenticated,
+                    hasToken: !!authStore.accessToken,
+                    userRole: authStore.user?.role,
+                    tokenPreview: authStore.accessToken ? authStore.accessToken.substring(0, 20) + '...' : 'None'
+                });
+
+                if (!authStore.isAuthenticated || !authStore.accessToken) {
+                    console.warn('User not authenticated, redirecting to login');
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Authentication Required',
+                        detail: 'Please log in to access the admin panel',
+                        life: 5000
+                    });
+                    await navigateTo('/login');
+                    return;
+                }
+
+                // Try to refresh token if it might be expired
+                if (authStore.refreshToken) {
+                    console.log('Attempting to refresh token...');
+                    const refreshSuccess = await authStore.refreshAccessToken();
+                    if (!refreshSuccess) {
+                        console.warn('Token refresh failed, redirecting to login');
+                        this.toast.add({
+                            severity: 'error',
+                            summary: 'Session Expired',
+                            detail: 'Please log in again',
+                            life: 5000
+                        });
+                        await authStore.logout();
+                        await navigateTo('/login');
+                        return;
+                    }
+                }
+
                 this.events = await this.eventService.getAdminEvents()
                 this.totalRecords = this.events.length
                 this.applySearch()
             } catch (error) {
-                this.toast.add({
-                    severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to load events',
-                    life: 3000
-                })
+                console.error('Load events error:', error);
+
+                // Handle specific error cases
+                if (error.status === 401 || error.statusCode === 401) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Authentication Error',
+                        detail: 'Your session has expired. Please log in again.',
+                        life: 5000
+                    });
+                    const authStore = useAuthStore();
+                    await authStore.logout();
+                    await navigateTo('/login');
+                } else {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: 'Failed to load events. Please try again.',
+                        life: 3000
+                    })
+                }
+
+                // Set empty array as fallback
+                this.events = []
+                this.totalRecords = 0
+                this.applySearch()
             } finally {
                 this.loading = false
             }
@@ -389,15 +456,15 @@ export default {
         },
 
         applySearch() {
-            let filtered = this.events
+            let filtered = [...this.events]
 
             // Apply search filter
             if (this.searchQuery.trim()) {
                 const query = this.searchQuery.toLowerCase()
                 filtered = filtered.filter(event =>
-                    event.title.toLowerCase().includes(query) ||
-                    event.description.toLowerCase().includes(query) ||
-                    event.slug.toLowerCase().includes(query)
+                    event.title?.toLowerCase().includes(query) ||
+                    event.description?.toLowerCase().includes(query) ||
+                    event.slug?.toLowerCase().includes(query)
                 )
             }
 
@@ -435,6 +502,7 @@ export default {
                     title: event.title || '',
                     slug: event.slug || '',
                     description: event.description || '',
+                    published: event.published !== undefined ? event.published : true,
                     thumbnailFile: null,
                     thumbnailPreview: event.thumbnail || '',
                     imageFiles: [],
@@ -452,6 +520,7 @@ export default {
                 title: '',
                 slug: '',
                 description: '',
+                published: true,
                 thumbnailFile: null,
                 thumbnailPreview: '',
                 imageFiles: [],
@@ -518,6 +587,7 @@ export default {
                     title: this.eventForm.title,
                     slug: this.eventForm.slug,
                     description: this.eventForm.description,
+                    published: this.eventForm.published,
                     thumbnail: thumbnailUrl
                 }
 
@@ -832,7 +902,15 @@ export default {
     font-weight: 500;
 }
 
-.events-management .line-clamp-3 {
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     line-clamp: 3;

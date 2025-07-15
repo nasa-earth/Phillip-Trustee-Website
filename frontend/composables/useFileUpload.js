@@ -1,7 +1,8 @@
 import { useAuth } from "./useAuth";
+import { useAuthStore } from "~/stores/auth";
 
 export const useFileUpload = () => {
-  const { getAuthHeaders } = useAuth();
+  const { getAuthHeaders, checkAuthStatus } = useAuth();
 
   // Get the base API URL
   const getApiBase = () => {
@@ -12,6 +13,26 @@ export const useFileUpload = () => {
   // Upload a single file
   const uploadFile = async (file, type = "general") => {
     try {
+      // Check authentication before attempting upload
+      const authStore = useAuthStore();
+      const authStatus = checkAuthStatus();
+
+      if (!authStore.isAuthenticated || !authStore.accessToken) {
+        console.error("Authentication check failed:", authStatus);
+        throw new Error("Authentication required. Please log in again.");
+      }
+
+      // Try to refresh token if it might be expired
+      if (authStore.refreshToken) {
+        console.log("Attempting token refresh before upload...");
+        const refreshSuccess = await authStore.refreshAccessToken();
+        if (!refreshSuccess) {
+          throw new Error(
+            "Failed to refresh authentication token. Please log in again."
+          );
+        }
+      }
+
       const formData = new FormData();
       formData.append("file", file);
       formData.append("type", type);
@@ -19,18 +40,32 @@ export const useFileUpload = () => {
       // Get auth headers for FormData (without Content-Type)
       const authHeaders = getAuthHeaders(true);
 
+      console.log("Upload attempt:", {
+        file: file.name,
+        size: file.size,
+        type: type,
+        hasAuth: !!authHeaders.Authorization,
+        apiUrl: `${getApiBase()}/api/upload`,
+        authStatus: checkAuthStatus(),
+      });
+
       const response = await $fetch(`${getApiBase()}/api/upload`, {
         method: "POST",
         headers: authHeaders,
         body: formData,
       });
 
-      return response.url;
+      console.log("Upload successful:", response);
+      return response;
     } catch (error) {
-      console.warn(
-        "Upload endpoint not available, using local preview:",
-        error
-      );
+      console.error("Upload failed:", error);
+
+      // If it's an authentication error, throw it up
+      if (error.status === 401 || error.statusCode === 401) {
+        throw new Error("Authentication failed. Please log in again.");
+      }
+
+      console.warn("Upload endpoint error, using local preview:", error);
 
       // Fallback: create a data URL for preview
       // In production, you should implement the backend upload endpoint

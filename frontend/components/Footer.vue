@@ -63,14 +63,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Bottom Section -->
-      <!-- <div class="mt-16 pt-8 border-t border-slate-700">
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0">
-          <p class="text-slate-400 text-sm">© {{ currentYear }} Phillip Trustee. All rights reserved.</p>
-          
-        </div>
-      </div> -->
     </div>
   </footer>
 </template>

@@ -8,11 +8,7 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { PostsModule } from './posts/posts.module';
-import { PagesModule } from './pages/pages.module';
-import { CategoriesModule } from './categories/categories.module';
 import { PartnersModule } from './partners/partners.module';
-import { SettingsModule } from './settings/settings.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { EventsModule } from './events/events.module';
 import { UploadModule } from './upload/upload.module';
@@ -28,11 +24,7 @@ import { HealthModule } from './health/health.module';
     PrismaModule,
     AuthModule,
     UsersModule,
-    PostsModule,
-    PagesModule,
-    CategoriesModule,
     PartnersModule,
-    SettingsModule,
     FaqsModule,
     EventsModule,
     UploadModule,

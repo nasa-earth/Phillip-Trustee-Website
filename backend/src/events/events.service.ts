@@ -27,6 +27,7 @@ export class EventsService {
         slug: createEventDto.slug,
         description: createEventDto.description,
         thumbnail: createEventDto.thumbnail,
+        published: createEventDto.published ?? false,
       };
 
       const event = await this.prisma.event.create({
@@ -77,6 +78,26 @@ export class EventsService {
     }
   }
 
+  async findPublished() {
+    try {
+      return await this.prisma.event.findMany({
+        where: {
+          published: true,
+        },
+        include: {
+          images: true,
+        },
+        orderBy: { createdAt: 'desc' },
+      });
+    } catch (error) {
+      this.logger.error(
+        `Failed to fetch published events: ${error.message}`,
+        error.stack,
+      );
+      throw error;
+    }
+  }
+
   async findOne(id: string) {
     try {
       const event = await this.prisma.event.findFirst({
@@ -106,14 +127,19 @@ export class EventsService {
   async findBySlug(slug: string) {
     try {
       const event = await this.prisma.event.findFirst({
-        where: { slug },
+        where: {
+          slug,
+          published: true, // Only return published events for public access
+        },
         include: {
           images: true,
         },
       });
 
       if (!event) {
-        throw new NotFoundException(`Event with slug "${slug}" not found`);
+        throw new NotFoundException(
+          `Event with slug "${slug}" not found or not published`,
+        );
       }
 
       return event;
@@ -141,6 +167,9 @@ export class EventsService {
         }),
         ...(updateEventDto.thumbnail && {
           thumbnail: updateEventDto.thumbnail,
+        }),
+        ...(updateEventDto.published !== undefined && {
+          published: updateEventDto.published,
         }),
       };
 

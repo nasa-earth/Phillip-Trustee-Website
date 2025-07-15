@@ -43,9 +43,10 @@ describe('PartnersController', () => {
         websiteUrl: 'http://example.com',
       };
       const expectedResult = { id: '1', ...createPartnerDto };
+      const mockRequest = { user: { id: '1', role: 'ADMIN' } };
       mockPartnersService.create.mockResolvedValue(expectedResult);
 
-      const result = await controller.create(createPartnerDto);
+      const result = await controller.create(createPartnerDto, mockRequest);
       expect(result).toEqual(expectedResult);
       expect(mockPartnersService.create).toHaveBeenCalledWith(createPartnerDto);
     });
@@ -96,9 +97,10 @@ describe('PartnersController', () => {
   describe('remove', () => {
     it('should remove a partner', async () => {
       const expectedResult = { id: '1', name: 'Partner 1' };
+      const mockRequest = { user: { id: '1', role: 'ADMIN' } };
       mockPartnersService.remove.mockResolvedValue(expectedResult);
 
-      const result = await controller.remove('1');
+      const result = await controller.remove('1', mockRequest);
       expect(result).toEqual(expectedResult);
       expect(mockPartnersService.remove).toHaveBeenCalledWith('1');
     });

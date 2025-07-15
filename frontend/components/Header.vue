@@ -69,10 +69,6 @@
                 </div>
               </NuxtLink> <!-- Mobile CTA Button -->
               <div class="mt-4 pt-4 border-t border-white/10">
-                <!-- <NuxtLink to="/contact" @click="closeMobileMenu"
-                  class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg font-medium transition-all duration-300 shadow-lg">
-                  Contact Us
-                </NuxtLink> -->
               </div>
             </div>
           </div>
@@ -92,7 +88,7 @@ const navLinks = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
   { label: 'Profile', to: '/profile' },
-  { label: 'Services', to: '/service' },
+  { label: 'Service', to: '/service' },
   { label: 'Event', to: '/event' },
   { label: 'FAQs', to: '/faqs' },
 ]

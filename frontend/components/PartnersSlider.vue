@@ -3,13 +3,29 @@
         <!-- Background effects (optional) -->
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent z-10"></div>
 
+        <!-- Show loading state -->
+        <div v-if="loading" class="flex justify-center items-center h-24">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+
+        <!-- Show error state -->
+        <div v-else-if="error" class="flex justify-center items-center h-24 text-red-500">
+            <p>{{ error }}</p>
+        </div>
+
+        <!-- Show empty state -->
+        <div v-else-if="!partners || partners.length === 0" class="flex justify-center items-center h-24 text-gray-500">
+            <p>No partners to display</p>
+        </div>
+
         <!-- Main slider container -->
-        <div class="partners-slider-container">
+        <div v-else class="partners-slider-container">
             <!-- First copy of images for seamless looping -->
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`first-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4" />
+                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4"
+                        @error="onImageError" />
                 </div>
             </div>
 
@@ -17,7 +33,8 @@
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`second-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4" />
+                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4"
+                        @error="onImageError" />
                 </div>
             </div>
         </div>
@@ -31,6 +48,7 @@ export default {
         partners: {
             type: Array,
             required: true,
+            default: () => []
             // Expected format: [{ name: 'Partner Name', image: '/path/to/image.jpg' }]
         },
         speed: {
@@ -42,6 +60,14 @@ export default {
             type: String,
             default: 'medium',
             validator: (value) => ['small', 'medium', 'large'].includes(value)
+        },
+        loading: {
+            type: Boolean,
+            default: false
+        },
+        error: {
+            type: String,
+            default: null
         }
     },
     computed: {
@@ -53,19 +79,26 @@ export default {
             }
         }
     },
+    methods: {
+        onImageError(event) {
+            // Set a fallback image when the original fails to load
+            event.target.src = '/images/placeholder-logo.png';
+        }
+    },
     mounted() {
         // Pause animation on hover
         const container = this.$el.querySelector('.partners-slider-container');
+        if (container) {
+            container.addEventListener('mouseenter', () => {
+                const tracks = container.querySelectorAll('.partners-track');
+                tracks.forEach(track => track.style.animationPlayState = 'paused');
+            });
 
-        container.addEventListener('mouseenter', () => {
-            const tracks = container.querySelectorAll('.partners-track');
-            tracks.forEach(track => track.style.animationPlayState = 'paused');
-        });
-
-        container.addEventListener('mouseleave', () => {
-            const tracks = container.querySelectorAll('.partners-track');
-            tracks.forEach(track => track.style.animationPlayState = 'running');
-        });
+            container.addEventListener('mouseleave', () => {
+                const tracks = container.querySelectorAll('.partners-track');
+                tracks.forEach(track => track.style.animationPlayState = 'running');
+            });
+        }
     }
 }
 </script>

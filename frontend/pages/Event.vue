@@ -53,16 +53,17 @@
               <img :src="event.thumbnail || '/images/event/default.jpg'" :alt="event.title"
                 class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/30 to-transparent"></div>
-
             </div>
 
             <div class="p-6">
               <h3 class="text-xl font-bold text-[#f15a22] mb-4">
                 {{ event.title }}
               </h3>
-              <p class="text-[#e6eaf0]/90 mb-4">{{ event.description }}</p>
+              <p class="text-[#e6eaf0]/90 mb-4 line-clamp-3">{{ event.description }}</p>
               <div class="text-sm text-[#e6eaf0]/70 mb-6">
-                <p v-if="event.location"><i class="pi pi-map-marker mr-2"></i>{{ event.location }}</p>
+                <p v-if="event.createdAt">
+                  <i class="pi pi-calendar mr-2"></i>{{ formatDate(event.createdAt) }}
+                </p>
               </div>
               <div class="flex justify-between items-center">
                 <NuxtLink :to="`/EventDetails?slug=${event.slug}`"
@@ -81,7 +82,7 @@
           </div>
 
           <!-- Empty State -->
-          <div v-if="!loading && events.length === 0" class="text-center py-20">
+          <div v-if="!loading && events.length === 0" class="col-span-full text-center py-20">
             <i class="pi pi-calendar text-6xl text-[#e6eaf0]/30 mb-4"></i>
             <h3 class="text-xl text-[#e6eaf0] mb-2">No Events Available</h3>
             <p class="text-[#e6eaf0]/70">Check back soon for upcoming events</p>
@@ -145,6 +146,14 @@ export default {
 
 <style scoped>
 @import '~/assets/css/theme.css';
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 @keyframes fadein {
   from {

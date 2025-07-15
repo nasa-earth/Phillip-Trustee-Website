@@ -11,10 +11,11 @@ export const useEventService = () => {
     return config.public.apiBase;
   };
 
-  // Get all published events
+  // Get all published events (for public pages)
   const getEvents = async () => {
     try {
       const response = await $fetch(`${getApiBase()}/api/events`);
+      // Backend now returns only published events, no need to filter
       return response;
     } catch (error) {
       console.error("Error fetching events:", error);
@@ -36,12 +37,13 @@ export const useEventService = () => {
     }
   };
 
-  // Get event by slug
+  // Get event by slug (for public access - only published events)
   const getEventBySlug = async (slug) => {
     try {
       const response = await $fetch(
         `${getApiBase()}/api/events/by-slug/${slug}`
       );
+
       return response;
     } catch (error) {
       console.error("Error fetching event by slug:", error);
@@ -52,14 +54,40 @@ export const useEventService = () => {
   // Admin functions - require authentication
   const getAdminEvents = async () => {
     try {
-      // Use the regular events endpoint with auth headers
-      // The backend will handle admin authorization through role guards
-      const response = await $fetch(`${getApiBase()}/api/events`, {
-        headers: getAuthHeaders(),
+      const headers = getAuthHeaders();
+      console.log("Making admin events request with headers:", headers);
+      console.log("API URL:", `${getApiBase()}/api/events/admin/all`);
+
+      // Use the admin-specific endpoint that returns all events (published and unpublished)
+      const response = await $fetch(`${getApiBase()}/api/events/admin/all`, {
+        headers: headers,
       });
       return response;
     } catch (error) {
       console.error("Error fetching admin events:", error);
+      console.error("Error details:", {
+        status: error.status || error.statusCode,
+        statusText: error.statusText,
+        data: error.data,
+        message: error.message,
+      });
+
+      // Fallback to public events endpoint if admin endpoint fails
+      if (error.status === 404 || error.statusCode === 404) {
+        console.warn(
+          "Admin endpoint not found, falling back to public events endpoint"
+        );
+        try {
+          const fallbackResponse = await $fetch(`${getApiBase()}/api/events`, {
+            headers: headers,
+          });
+          return fallbackResponse;
+        } catch (fallbackError) {
+          console.error("Fallback also failed:", fallbackError);
+          throw error; // Throw original error
+        }
+      }
+
       throw error;
     }
   };

@@ -7,14 +7,18 @@ export const useAuthStore = defineStore("auth", {
     accessToken: null,
     refreshToken: null,
     isAuthenticated: false,
+    isLoading: false,
   }),
 
   getters: {
     isAdmin: (state) => state.user?.role === "ADMIN",
     isEditor: (state) => state.user?.role === "EDITOR",
+    hasAdminAccess: (state) =>
+      state.user?.role === "ADMIN" || state.user?.role === "EDITOR",
     userRole: (state) => state.user?.role,
     userName: (state) => state.user?.name,
     userEmail: (state) => state.user?.email,
+    isReady: (state) => !state.isLoading,
   },
 
   actions: {
@@ -27,36 +31,64 @@ export const useAuthStore = defineStore("auth", {
       this.refreshToken = refreshToken;
       this.isAuthenticated = !!accessToken;
 
-      localStorage.setItem("access_token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
-      localStorage.setItem("user", JSON.stringify(this.user));
+      if (typeof window !== "undefined") {
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
+        localStorage.setItem("user", JSON.stringify(this.user));
+      }
+    },
+
+    clearAuth() {
+      this.user = null;
+      this.accessToken = null;
+      this.refreshToken = null;
+      this.isAuthenticated = false;
+      this.isLoading = false;
+
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("user");
+      }
     },
     async login(email, password) {
+      this.isLoading = true;
       try {
-        const apiUrl = useApiUrl();
+        console.log("Auth store login attempt:", { email });
 
-        const response = await fetch(apiUrl.auth.login, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-        });
+        const config = useRuntimeConfig();
+        const response = await fetch(
+          `${config.public.apiBase}/api/auth/login`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          }
+        );
+
+        console.log("Login response status:", response.status);
 
         if (!response.ok) {
-          let errorMessage = `Login failed with status: ${response.status}`;
+          let errorMessage = "Login failed";
           try {
             const errorData = await response.json();
             errorMessage = errorData.message || errorMessage;
           } catch (e) {
-            // If error response isn't JSON, use status message
+            errorMessage = `HTTP ${response.status}: ${response.statusText}`;
           }
           throw new Error(errorMessage);
         }
 
         const data = await response.json();
+        console.log("Login successful:", {
+          user: data.user,
+          hasAccessToken: !!data.access_token,
+          hasRefreshToken: !!data.refresh_token,
+        });
 
-        // Handle NestJS TransformInterceptor response format
+        // Handle NestJS response format
         let responseData = data;
         if (data.data && typeof data.data === "object") {
           responseData = data.data;
@@ -68,14 +100,24 @@ export const useAuthStore = defineStore("auth", {
           !responseData.access_token ||
           !responseData.refresh_token
         ) {
+          throw new Error("Invalid response format from server");
+        }
+
+        // Check user permissions
+        if (
+          !responseData.user.role ||
+          !["ADMIN", "EDITOR"].includes(responseData.user.role)
+        ) {
           throw new Error(
-            "Invalid response format: missing user data or tokens"
+            "Access denied. Only administrators and editors can access the dashboard."
           );
         }
 
         // Set user and tokens
         this.setUser(responseData.user);
         this.setTokens(responseData.access_token, responseData.refresh_token);
+
+        console.log("Authentication successful, tokens stored");
 
         return {
           success: true,
@@ -84,31 +126,45 @@ export const useAuthStore = defineStore("auth", {
         };
       } catch (error) {
         console.error("Login error:", error);
+        this.clearAuth();
         return {
           success: false,
           error: error.message || "An error occurred during login",
         };
+      } finally {
+        this.isLoading = false;
       }
     },
     async refreshAccessToken() {
-      if (!this.refreshToken) return false;
+      if (!this.refreshToken) {
+        console.log("No refresh token available");
+        return false;
+      }
 
       try {
-        const apiUrl = useApiUrl();
-        const response = await fetch(apiUrl.auth.refresh, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ refresh_token: this.refreshToken }),
-        });
+        console.log("Attempting to refresh access token...");
+        const config = useRuntimeConfig();
+        const response = await fetch(
+          `${config.public.apiBase}/api/auth/refresh`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ refresh_token: this.refreshToken }),
+          }
+        );
+
+        console.log("Refresh response status:", response.status);
 
         if (!response.ok) {
+          console.log("Token refresh failed, logging out");
           this.logout();
           return false;
         }
 
         const data = await response.json();
+        console.log("Token refresh successful");
 
         // Handle NestJS TransformInterceptor response format
         let responseData = data;
@@ -124,9 +180,11 @@ export const useAuthStore = defineStore("auth", {
         ) {
           this.setUser(responseData.user);
           this.setTokens(responseData.access_token, responseData.refresh_token);
+          console.log("Tokens updated successfully");
           return true;
         }
 
+        console.log("Invalid response structure from refresh");
         this.logout();
         return false;
       } catch (error) {
@@ -137,6 +195,8 @@ export const useAuthStore = defineStore("auth", {
     },
 
     async logout() {
+      this.isLoading = true;
+
       // Try to call backend logout endpoint if we have a refresh token
       if (this.refreshToken) {
         try {
@@ -154,35 +214,48 @@ export const useAuthStore = defineStore("auth", {
         }
       }
 
-      // Clear local state
-      this.user = null;
-      this.accessToken = null;
-      this.refreshToken = null;
-      this.isAuthenticated = false;
-
-      // Clear localStorage
-      localStorage.removeItem("access_token");
-      localStorage.removeItem("refresh_token");
-      localStorage.removeItem("user");
+      this.clearAuth();
     },
-    initFromStorage() {
-      if (typeof window !== "undefined") {
-        const accessToken = localStorage.getItem("access_token");
-        const refreshToken = localStorage.getItem("refresh_token");
-        const userStr = localStorage.getItem("user");
 
-        if (accessToken && refreshToken && userStr) {
-          try {
+    async initFromStorage() {
+      if (typeof window !== "undefined") {
+        this.isLoading = true;
+
+        try {
+          const accessToken = localStorage.getItem("access_token");
+          const refreshToken = localStorage.getItem("refresh_token");
+          const userStr = localStorage.getItem("user");
+
+          if (accessToken && refreshToken && userStr) {
             const userData = JSON.parse(userStr);
 
-            this.accessToken = accessToken;
-            this.refreshToken = refreshToken;
-            this.user = userData;
-            this.isAuthenticated = true;
-          } catch (e) {
-            console.error("Error restoring auth from storage:", e);
-            this.logout();
+            // Validate user has required permissions
+            if (userData && ["ADMIN", "EDITOR"].includes(userData.role)) {
+              this.accessToken = accessToken;
+              this.refreshToken = refreshToken;
+              this.user = userData;
+              this.isAuthenticated = true;
+
+              console.log("Auth restored from storage:", {
+                user: userData.email,
+                role: userData.role,
+                hasToken: !!accessToken,
+              });
+            } else {
+              console.warn(
+                "User doesn't have required permissions, clearing auth"
+              );
+              this.clearAuth();
+            }
+          } else {
+            console.log("No auth data found in storage");
+            this.clearAuth();
           }
+        } catch (e) {
+          console.error("Error restoring auth from storage:", e);
+          this.clearAuth();
+        } finally {
+          this.isLoading = false;
         }
       }
     },

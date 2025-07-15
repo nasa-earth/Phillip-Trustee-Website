@@ -137,18 +137,24 @@
                 </div>
 
                 <!-- Partners Slider Component -->
-                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" />
+                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" :loading="loading"
+                    :error="error" />
             </div>
         </section>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
 import { usePartners } from '~/composables/usePartners';
 
-const { partnersForSlider, fetchPartners } = usePartners();
+const { partnersForSlider, loading, error, fetchPartners, onPartnerChange, isDataFresh } = usePartners();
+
+// Watch for changes in partners data to ensure reactivity
+watch(partnersForSlider, (newPartners) => {
+    console.log('Partners data updated in Profile:', newPartners.length);
+}, { immediate: true });
 
 const managers = ref([
     {
@@ -203,6 +209,16 @@ const closeModal = () => {
 
 onMounted(async () => {
     await fetchPartners();
+
+    // Listen for partner changes
+    const unsubscribe = onPartnerChange((action, data) => {
+        console.log(`Partner ${action} detected in Profile page:`, data);
+    });
+
+    // Clean up subscription on unmount
+    onUnmounted(() => {
+        unsubscribe();
+    });
 });
 </script>
 

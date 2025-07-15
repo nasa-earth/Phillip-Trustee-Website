@@ -138,26 +138,6 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
-exports.Prisma.PostScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  content: 'content',
-  published: 'published',
-  authorId: 'authorId',
-  categoryId: 'categoryId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  slug: 'slug',
-  thumbnail: 'thumbnail'
-};
-
-exports.Prisma.CategoryScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.PartnerScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -177,30 +157,6 @@ exports.Prisma.FAQScalarFieldEnum = {
   isActive: 'isActive',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.PageScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  slug: 'slug',
-  content: 'content',
-  published: 'published',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SettingScalarFieldEnum = {
-  id: 'id',
-  updatedAt: 'updatedAt',
-  address: 'address',
-  description: 'description',
-  email: 'email',
-  facebook: 'facebook',
-  linkedin: 'linkedin',
-  phone: 'phone',
-  siteLogo: 'siteLogo',
-  siteTitle: 'siteTitle',
-  twitter: 'twitter'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -242,12 +198,8 @@ exports.Role = exports.$Enums.Role = {
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
-  Post: 'Post',
-  Category: 'Category',
   Partner: 'Partner',
   FAQ: 'FAQ',
-  Page: 'Page',
-  Setting: 'Setting',
   Event: 'Event',
   EventImage: 'EventImage'
 };

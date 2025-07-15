@@ -1,141 +1,264 @@
 <template>
-    <div class="space-y-4">
-        <div class="flex justify-between items-center">
-            <h3 class="text-xl font-semibold text-gray-800">User Management</h3>
-            <Button v-if="isAdmin" label="Create User" icon="pi pi-plus" severity="success"
-                @click="openCreateUserDialog" />
+    <div class="space-y-6 p-2">
+        <!-- Header Section -->
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
+            <div>
+                <h3
+                    class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+                    <i class="pi pi-users text-blue-600"></i>
+                    User Management
+                </h3>
+            </div>
+            <Button v-if="isAdmin" label="Create User" icon="pi pi-plus" @click="openCreateUserDialog"
+                class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 font-semibold" />
         </div>
 
-        <div class="mb-4">
-            <span class="p-input-icon-left w-full sm:w-64">
-                <!-- <i class="pi pi-search" /> -->
-                <InputText v-model="searchQuery" placeholder="Search users..." @input="debounceSearch" class="w-full" />
-            </span>
+        <!-- Search Section -->
+        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+            <div class="flex items-center gap-3">
+                <div class="relative flex-1 max-w-md">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <!-- <i class="pi pi-search text-slate-400"></i> -->
+                    </div>
+                    <InputText v-model="searchQuery" placeholder="Search"
+                        @input="debounceSearch"
+                        class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" />
+                </div>
+                <div class="flex items-center gap-2 text-sm text-slate-500">
+                    <i class="pi pi-info-circle"></i>
+                    <span>{{ totalRecords }} users found</span>
+                </div>
+            </div>
         </div>
 
-        <DataTable :value="users" :loading="loading" :paginator="true" :rows="10" :rowsPerPageOptions="[5, 10, 20]"
-            v-model:filters="filters" filterDisplay="menu" responsiveLayout="scroll" stripedRows class="users-table"
-            :totalRecords="totalRecords" :lazy="true" @page="onPage">
-            <Column field="name" header="Name" :sortable="true">
-                <template #body="{ data }">
-                    <div class="flex items-center">
-                        <div
-                            class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-semibold mr-2">
-                            {{ data.name ? data.name.charAt(0).toUpperCase() : '?' }}
+        <!-- Users Data Table -->
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 overflow-hidden">
+            <DataTable :value="users" :loading="loading" :paginator="true" :rows="10" :rowsPerPageOptions="[5, 10, 20]"
+                v-model:filters="filters" filterDisplay="menu" responsiveLayout="scroll" stripedRows class="users-table"
+                :totalRecords="totalRecords" :lazy="true" @page="onPage">
+                <Column field="name" header="Name" :sortable="true">
+                    <template #body="{ data }">
+                        <div class="flex items-center gap-3">
+                            <div class="relative">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg">
+                                    {{ data.name ? data.name.charAt(0).toUpperCase() : '?' }}
+                                </div>
+                                <!-- <div
+                                    class="absolute -bottom-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white">
+                                </div> -->
+                            </div>
+                            <div>
+                                <span class="font-semibold text-slate-800">{{ data.name }}</span>
+                                <!-- <div class="text-xs text-slate-500">{{ data.email }}</div> -->
+                            </div>
                         </div>
-                        <span>{{ data.name }}</span>
-                    </div>
-                </template>
-            </Column>
-            <Column field="email" header="Email" :sortable="true"></Column>
-            <Column field="role" header="Role">
-                <template #body="{ data }">
-                    <Tag :value="data.role" :severity="getRoleSeverity(data.role)" />
-                </template>
-            </Column>
-            <Column field="createdAt" header="Created At" :sortable="true">
-                <template #body="{ data }">
-                    <div class="flex flex-col">
-                        <span>{{ formatDate(data.createdAt) }}</span>
-                        <span v-if="data.createdAt" class="text-xs text-gray-500">
-                            {{ new Date(data.createdAt).toLocaleTimeString() }}
-                        </span>
-                    </div>
-                </template>
-                <template #filter="{ filterModel }">
-                    <Calendar v-model="filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
-                </template>
-            </Column>
+                    </template>
+                </Column>
+                <Column field="email" header="Email" :sortable="true" class="hidden md:table-cell">
+                    <template #body="{ data }">
+                        <div class="flex items-center gap-2">
+                            <i class="pi pi-envelope text-slate-400"></i>
+                            <span class="text-slate-700">{{ data.email }}</span>
+                        </div>
+                    </template>
+                </Column>
+                <Column field="role" header="Role">
+                    <template #body="{ data }">
+                        <Tag :value="data.role" :class="{
+                            'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg': data.role === 'ADMIN',
+                            'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg': data.role === 'EDITOR',
+                            'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': data.role !== 'ADMIN' && data.role !== 'EDITOR'
+                        }" class="px-3 py-1 rounded-full font-semibold text-xs" />
+                    </template>
+                </Column>
+                <Column field="createdAt" header="Created At" :sortable="true" class="hidden lg:table-cell">
+                    <template #body="{ data }">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center gap-2">
+                                <i class="pi pi-calendar text-blue-500"></i>
+                                <span class="font-medium text-slate-700">{{ formatDate(data.createdAt) }}</span>
+                            </div>
 
-            <Column header="Actions">
-                <template #body="{ data }">
-                    <div class="flex gap-2">
-                        <Button icon="pi pi-eye" rounded text severity="info" aria-label="View"
-                            @click="viewUser(data)" />
-                        <Button v-if="isAdmin" icon="pi pi-pencil" rounded text severity="success" aria-label="Edit"
-                            @click="editUser(data)" />
-                        <Button v-if="isAdmin" icon="pi pi-times" text severity="danger" rounded variant="outlined"
-                            aria-label="Delete" @click="confirmDeleteUser(data)" />
-                    </div>
-                </template>
-            </Column>
-        </DataTable>
+                        </div>
+                    </template>
+                    <template #filter="{ filterModel }">
+                        <Calendar v-model="filterModel.value" dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" />
+                    </template>
+                </Column>
+
+                <Column header="Actions" class="w-32">
+                    <template #body="{ data }">
+                        <div class="flex gap-1 justify-center">
+                            <Button icon="pi pi-eye" @click="viewUser(data)"
+                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'View Details'" />
+                            <Button v-if="isAdmin" icon="pi pi-pencil" @click="editUser(data)"
+                                class="w-8 h-8 bg-green-500 hover:bg-green-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'Edit User'" />
+                            <Button v-if="isAdmin" icon="pi pi-trash" @click="confirmDeleteUser(data)"
+                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'Delete User'" />
+                        </div>
+                    </template>
+                </Column>
+            </DataTable>
+        </div>
 
         <!-- Create/Edit User Dialog -->
-        <Dialog v-model:visible="userDialog" :header="dialogMode === 'create' ? 'Create User' : 'Edit User'"
-            :modal="true" class="p-fluid">
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                <InputText id="name" v-model="user.name" required autofocus
-                    :class="{ 'p-invalid': submitted && !user.name, 'w-full': true }" />
-                <small class="text-red-500 text-xs" v-if="submitted && !user.name">Name is required.</small>
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                <InputText id="email" v-model="user.email" required
-                    :class="{ 'p-invalid': submitted && !user.email, 'w-full': true }" />
-                <small class="text-red-500 text-xs" v-if="submitted && !user.email">Email is required.</small>
-            </div>
-            <div class="mb-4" v-if="dialogMode === 'create'">
-                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                <Password id="password" v-model="user.password" required
-                    :class="{ 'p-invalid': submitted && !user.password, 'w-full': true }" toggleMask />
-                <small class="text-red-500 text-xs" v-if="submitted && !user.password">Password is required.</small>
-            </div>
-            <div class="mb-4">
-                <label for="role" class="block text-sm font-medium text-gray-700 mb-1">Role</label>
-                <Dropdown id="role" v-model="user.role" :options="roles" optionLabel="label" optionValue="value"
-                    placeholder="Select a Role" class="w-full" />
+        <Dialog v-model:visible="userDialog" :header="dialogMode === 'create' ? 'Create New User' : 'Edit User'"
+            :modal="true" class="p-fluid max-w-md">
+            <template #header>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                        <i :class="dialogMode === 'create' ? 'pi pi-user-plus' : 'pi pi-user-edit'"
+                            class="text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">{{ dialogMode === 'create' ? 'Create New User' :
+                            'Edit User' }}</h3>
+                        <p class="text-sm text-slate-500">{{ dialogMode === 'create' ? 'Add a new user to the system' :
+                            'Update user information' }}</p>
+                    </div>
+                </div>
+            </template>
+
+            <div class="space-y-6 pt-4">
+                <div class="space-y-2">
+                    <label for="name" class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <i class="pi pi-user text-blue-500"></i>
+                        Full Name
+                    </label>
+                    <InputText id="name" v-model="user.name" required autofocus
+                        :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !user.name }"
+                        class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Enter full name" />
+                    <small class="text-red-500 text-xs flex items-center gap-1" v-if="submitted && !user.name">
+                        <i class="pi pi-exclamation-triangle"></i>
+                        Name is required
+                    </small>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="email" class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <i class="pi pi-envelope text-blue-500"></i>
+                        Email Address
+                    </label>
+                    <InputText id="email" v-model="user.email" required type="email"
+                        :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !user.email }"
+                        class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+                        placeholder="Enter email address" />
+                    <small class="text-red-500 text-xs flex items-center gap-1" v-if="submitted && !user.email">
+                        <i class="pi pi-exclamation-triangle"></i>
+                        Email is required
+                    </small>
+                </div>
+
+                <div class="space-y-2" v-if="dialogMode === 'create'">
+                    <label for="password" class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <i class="pi pi-lock text-blue-500"></i>
+                        Password
+                    </label>
+                    <Password id="password" v-model="user.password" required
+                        :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !user.password }"
+                        class="w-full" placeholder="Enter secure password" toggleMask :feedback="false" />
+                    <small class="text-red-500 text-xs flex items-center gap-1" v-if="submitted && !user.password">
+                        <i class="pi pi-exclamation-triangle"></i>
+                        Password is required
+                    </small>
+                </div>
+
+                <div class="space-y-2">
+                    <label for="role" class="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                        <i class="pi pi-shield text-blue-500"></i>
+                        User Role
+                    </label>
+                    <Dropdown id="role" v-model="user.role" :options="roles" optionLabel="label" optionValue="value"
+                        placeholder="Select a Role"
+                        class="w-full border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" />
+                </div>
             </div>
 
             <template #footer>
-                <div class="flex justify-end gap-2">
-                    <Button label="Cancel" icon="pi pi-times" text @click="hideDialog" />
-                    <Button label="Save" icon="pi pi-check" severity="success" @click="saveUser" />
+                <div class="flex justify-end gap-3 pt-6 border-t border-slate-200">
+                    <Button label="Cancel" icon="pi pi-times" @click="hideDialog"
+                        class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg transition-all duration-200" />
+                    <Button :label="dialogMode === 'create' ? 'Create User' : 'Update User'"
+                        :icon="dialogMode === 'create' ? 'pi pi-plus' : 'pi pi-check'" @click="saveUser"
+                        class="px-6 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white border-none rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
                 </div>
             </template>
         </Dialog>
 
         <!-- User View Dialog -->
-        <Dialog v-model:visible="userViewDialog" :header="`User Details`" :modal="true" :style="{ width: '500px' }">
-            <div v-if="selectedUser" class="space-y-6">
-                <!-- User profile header -->
-                <div class="flex flex-col items-center text-center">
+        <Dialog v-model:visible="userViewDialog" :header="`User Profile`" :modal="true" class="max-w-lg">
+            <template #header>
+                <div class="flex items-center gap-3">
                     <div
-                        class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 text-3xl font-bold mb-2">
-                        {{ selectedUser.name ? selectedUser.name.charAt(0).toUpperCase() : '?' }}
+                        class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
+                        <i class="pi pi-user text-white text-lg"></i>
                     </div>
-                    <h3 class="text-xl font-semibold">{{ selectedUser.name }}</h3>
-                    <p class="text-gray-600">{{ selectedUser.email }}</p>
-                    <Tag :value="selectedUser.role" :severity="getRoleSeverity(selectedUser.role)" class="mt-2" />
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">User Profile</h3>
+                    </div>
+                </div>
+            </template>
+
+            <div v-if="selectedUser" class="space-y-6 pt-4">
+                <!-- User profile header -->
+                <div
+                    class="flex flex-col items-center text-center p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
+                    <div class="relative mb-4">
+                        <div
+                            class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+                            {{ selectedUser.name ? selectedUser.name.charAt(0).toUpperCase() : '?' }}
+                        </div>
+
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-1">{{ selectedUser.name }}</h3>
+                    <p class="text-slate-600 mb-3 flex items-center gap-2">
+                        <i class="pi pi-envelope text-blue-500"></i>
+                        {{ selectedUser.email }}
+                    </p>
+                    <Tag :value="selectedUser.role" :class="{
+                        'bg-gradient-to-r from-red-500 to-pink-500 text-white shadow-lg': selectedUser.role === 'ADMIN',
+                        'bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg': selectedUser.role === 'EDITOR',
+                        'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': selectedUser.role !== 'ADMIN' && selectedUser.role !== 'EDITOR'
+                    }" class="px-4 py-2 rounded-full font-semibold" />
                 </div>
 
                 <!-- User timestamps details -->
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h4 class="text-sm font-medium uppercase text-gray-500 mb-3">Timestamp Information</h4>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="space-y-1">
-                            <p class="text-xs text-gray-500">Created At</p>
-                            <div class="flex items-center">
-                                <i class="pi pi-calendar text-blue-500 mr-2"></i>
+                <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                    <h4 class="text-lg font-semibold text-slate-800 mb-4 flex items-center gap-2">
+                        <i class="pi pi-clock text-blue-500"></i>
+                        Timeline Information
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <i class="pi pi-calendar text-blue-500"></i>
+                                </div>
                                 <div>
-                                    <p class="font-medium">{{ formatDate(selectedUser.createdAt) }}</p>
-                                    <p class="text-xs text-gray-500" v-if="selectedUser.createdAt">
-                                        {{ new Date(selectedUser.createdAt).toLocaleString() }}
-                                    </p>
+                                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Created At</p>
+                                    <p class="font-semibold text-slate-800">{{ formatDate(selectedUser.createdAt) }}</p>
+
                                 </div>
                             </div>
                         </div>
 
-                        <div class="space-y-1">
-                            <p class="text-xs text-gray-500">Last Updated</p>
-                            <div class="flex items-center">
-                                <i class="pi pi-sync text-green-500 mr-2"></i>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                    <i class="pi pi-sync text-green-500"></i>
+                                </div>
                                 <div>
-                                    <p class="font-medium">{{ formatDate(selectedUser.updatedAt) }}</p>
-                                    <p class="text-xs text-gray-500" v-if="selectedUser.updatedAt">
-                                        {{ new Date(selectedUser.updatedAt).toLocaleString() }}
+                                    <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Last Updated
                                     </p>
+                                    <p class="font-semibold text-slate-800">{{ formatDate(selectedUser.updatedAt) }}</p>
+
                                 </div>
                             </div>
                         </div>
@@ -144,10 +267,11 @@
             </div>
 
             <template #footer>
-                <div class="flex justify-end gap-2">
-                    <Button v-if="isAdmin" label="Edit" icon="pi pi-pencil" severity="success"
-                        @click="editFromViewDialog" />
-                    <Button label="Close" icon="pi pi-times" text @click="userViewDialog = false" />
+                <div class="flex justify-end gap-3 pt-6 border-t border-slate-200">
+                    <Button v-if="isAdmin" label="Edit User" icon="pi pi-pencil" @click="editFromViewDialog"
+                        class="px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white border-none rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
+                    <Button label="Close" icon="pi pi-times" @click="userViewDialog = false"
+                        class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg transition-all duration-200" />
                 </div>
             </template>
         </Dialog>
@@ -633,31 +757,211 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Keep only PrimeVue specific styling that can't be handled with Tailwind */
+/* Enhanced Tailwind custom styles */
+
+/* Custom animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Glassmorphism effect */
+.backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Custom gradient text */
+.bg-clip-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+/* PrimeVue component customizations with enhanced styling */
 :deep(.p-dropdown) {
     width: 100%;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+:deep(.p-dropdown:hover) {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+:deep(.p-dropdown:focus-within) {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 :deep(.p-confirm-dialog-message) {
     margin-left: 1rem;
 }
 
-/* PrimeVue DataTable customization */
+/* Enhanced DataTable styling */
 :deep(.p-datatable-wrapper) {
-    border-radius: 0.5rem;
+    border-radius: 0.75rem;
     overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 :deep(.p-datatable .p-datatable-thead > tr > th) {
-    background-color: #f9fafb;
-    color: #374151;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    color: #334155;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 1rem 0.75rem;
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr) {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 :deep(.p-datatable .p-datatable-tbody > tr:nth-child(even)) {
-    background-color: #f9fafb;
+    background-color: #fafafa;
 }
 
 :deep(.p-datatable .p-datatable-tbody > tr:hover) {
-    background-color: #eff6ff;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+:deep(.p-datatable .p-datatable-tbody > tr > td) {
+    padding: 1rem 0.75rem;
+    border: none;
+}
+
+/* Enhanced Paginator */
+:deep(.p-paginator) {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem;
+}
+
+:deep(.p-paginator .p-paginator-pages .p-paginator-page) {
+    border-radius: 0.5rem;
+    margin: 0 0.125rem;
+    transition: all 0.2s ease;
+}
+
+:deep(.p-paginator .p-paginator-pages .p-paginator-page:hover) {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: white;
+    transform: scale(1.05);
+}
+
+:deep(.p-paginator .p-paginator-pages .p-paginator-page.p-highlight) {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* Enhanced Dialog */
+:deep(.p-dialog) {
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+:deep(.p-dialog .p-dialog-header) {
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 1rem 1rem 0 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 1.5rem;
+}
+
+:deep(.p-dialog .p-dialog-content) {
+    padding: 0 1.5rem;
+}
+
+:deep(.p-dialog .p-dialog-footer) {
+    padding: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 1rem 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+/* Enhanced Password component */
+:deep(.p-password) {
+    width: 100%;
+}
+
+:deep(.p-password .p-inputtext) {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+:deep(.p-password .p-inputtext:focus) {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Enhanced InputText */
+:deep(.p-inputtext) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-inputtext:hover) {
+    border-color: #64748b;
+}
+
+:deep(.p-inputtext:focus) {
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Enhanced Tags */
+:deep(.p-tag) {
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Button hover effects */
+:deep(.p-button) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-button:hover) {
+    transform: translateY(-1px);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #3b82f6, #6366f1);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #2563eb, #4f46e5);
 }
 </style>

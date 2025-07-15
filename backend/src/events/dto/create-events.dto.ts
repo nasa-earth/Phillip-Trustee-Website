@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsOptional, Matches } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsOptional,
+  IsBoolean,
+  Matches,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateEventDto {
@@ -40,4 +46,13 @@ export class CreateEventDto {
     example: 'https://example.com/images/gala-2024.jpg',
   })
   thumbnail?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional({
+    description: 'Whether the event is published and visible to public',
+    example: true,
+    default: false,
+  })
+  published?: boolean;
 }

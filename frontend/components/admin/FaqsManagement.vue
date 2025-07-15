@@ -1,211 +1,382 @@
 <template>
-    <div class="faqs-management space-y-6">
+    <div class="faqs-management space-y-6 p-2">
         <!-- Header Section -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-            <div class="flex justify-between items-center">
+        <div class="p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200/50 shadow-lg">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-800">FAQ Management</h3>
-                    <p class="text-gray-600 mt-1">Manage frequently asked questions</p>
+                    <h3
+                        class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+                        <i class="pi pi-question-circle text-purple-600"></i>
+                        FAQ Management
+                    </h3>
                 </div>
-                <Button label="Add New FAQ" icon="pi pi-plus" severity="success" @click="openFaqDialog()"
-                    class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
+                <Button label="Add New FAQ" icon="pi pi-plus" @click="openFaqDialog()"
+                    class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 font-semibold" />
             </div>
         </div>
 
         <!-- Filters and Search -->
-        <div class="bg-white rounded-lg shadow-sm p-4">
+        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6">
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div class="flex flex-col sm:flex-row gap-4 flex-1">
                     <div class="flex-1 max-w-md">
-                        <span class="p-input-icon-left w-full">
-                            <i class="pi pi-search" />
-                            <InputText v-model="searchQuery" placeholder="Search FAQs..." class="w-full"
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <!-- <i class="pi pi-search text-slate-400"></i> -->
+                            </div>
+                            <InputText v-model="searchQuery" placeholder="Search"
+                                class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
                                 @input="debouncedSearch" />
-                        </span>
-                    </div>
-                    <div class="min-w-48">
-                        <Dropdown v-model="selectedCategory" :options="categoryOptions" placeholder="Filter by Category"
-                            showClear class="w-full" />
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-2">
-                    <Button icon="pi pi-refresh" @click="loadFaqs" :loading="loading" outlined aria-label="Refresh" />
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 text-sm text-slate-500 bg-slate-100 px-3 py-2 rounded-lg">
+                        <i class="pi pi-info-circle"></i>
+                        <span>{{ filteredFaqs.length }} FAQs</span>
+                    </div>
+                    <!-- <Button icon="pi pi-refresh" @click="loadFaqs" :loading="loading"
+                        class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                        v-tooltip.top="'Refresh FAQs'" /> -->
                 </div>
             </div>
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading && !faqs.length" class="bg-white rounded-lg shadow-sm p-8">
-            <div class="flex justify-center items-center">
-                <div
-                    class="w-16 h-16 border-4 border-t-[#f15a22] border-r-[#f15a22]/50 border-b-[#f15a22]/30 border-l-[#f15a22]/10 rounded-full animate-spin">
+        <div v-if="loading && !faqs.length"
+            class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-12">
+            <div class="flex flex-col items-center justify-center">
+                <div class="relative mb-6">
+                    <div class="w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full animate-spin">
+                    </div>
+                    <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-indigo-400 rounded-full animate-spin"
+                        style="animation-delay: 0.3s;"></div>
                 </div>
+                <h3 class="text-lg font-semibold text-slate-800 mb-2">Loading FAQs</h3>
+                <p class="text-slate-600">Please wait while we fetch the latest FAQs...</p>
             </div>
         </div>
 
         <!-- Error State -->
-        <div v-else-if="error" class="bg-white rounded-lg shadow-sm p-8">
+        <div v-else-if="error" class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-12">
             <div class="text-center">
-                <i class="pi pi-exclamation-triangle text-4xl text-red-500 mb-4"></i>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Error Loading FAQs</h3>
-                <p class="text-gray-600 mb-4">{{ error }}</p>
-                <Button label="Try Again" icon="pi pi-refresh" @click="loadFaqs" />
+                <div
+                    class="w-16 h-16 bg-gradient-to-br from-red-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                    <i class="pi pi-exclamation-triangle text-3xl text-white"></i>
+                </div>
+                <h3 class="text-xl font-bold text-slate-800 mb-3">Error Loading FAQs</h3>
+                <p class="text-slate-600 mb-6 max-w-md mx-auto">{{ error }}</p>
+                <Button label="Try Again" icon="pi pi-refresh" @click="loadFaqs"
+                    class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
             </div>
         </div>
 
-        <!-- FAQs List -->
-        <div v-else-if="filteredFaqs.length > 0" class="bg-white rounded-lg shadow-sm">
-            <div class="p-6 border-b border-gray-200">
-                <div class="flex justify-between items-center">
-                    <h4 class="text-lg font-semibold text-gray-800">
-                        FAQs ({{ filteredFaqs.length }})
-                    </h4>
-                    <div class="flex gap-2">
-                        <Button label="Expand All" icon="pi pi-angle-down" size="small" outlined @click="expandAll" />
-                        <Button label="Collapse All" icon="pi pi-angle-up" size="small" outlined @click="collapseAll" />
+        <!-- FAQs Table -->
+        <div v-else-if="filteredFaqs.length > 0"
+            class="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 overflow-hidden">
+            <div class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h4 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="pi pi-table text-purple-600"></i>
+                            FAQ Library
+                        </h4>
+                        <!-- <p class="text-slate-600 text-sm mt-1">{{ filteredFaqs.length }} questions available</p> -->
                     </div>
                 </div>
             </div>
 
-            <Accordion :multiple="true" class="faq-accordion">
-                <AccordionTab v-for="(faq, index) in filteredFaqs" :key="faq.id" :header="faq.question">
-                    <template #header>
-                        <div class="flex justify-between items-center w-full pr-4">
-                            <div class="flex items-center gap-3">
-                                <span class="text-sm px-2 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
-                                    {{ faq.category || 'General' }}
-                                </span>
-                                <span class="font-medium">{{ faq.question }}</span>
-                            </div>
+            <DataTable :value="filteredFaqs" :loading="loading" :paginator="true" :rows="10"
+                :rowsPerPageOptions="[5, 10, 20, 50]" filterDisplay="menu" responsiveLayout="scroll" stripedRows
+                class="faq-table" :expandedRows="expandedRows" v-model:expandedRows="expandedRows" dataKey="id">
+
+                <!-- Row Expander Column -->
+                <Column :expander="true" headerStyle="width: 3rem" />
+
+                <!-- Order Column -->
+                <Column field="order" header="Order" :sortable="true" headerStyle="width: 5rem">
+                    <template #body="{ data }">
+                        <div class="flex items-center justify-center">
+                            <span
+                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                                {{ data.order || 0 }}
+                            </span>
+                        </div>
+                    </template>
+                </Column>
+
+                <!-- Question Column -->
+                <Column field="question" header="Question" :sortable="true">
+                    <template #body="{ data }">
+                        <div class="space-y-2">
+                            <div class="font-semibold text-slate-800 line-clamp-2">{{ data.question }}</div>
                             <div class="flex items-center gap-2">
-                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                                    Order: {{ faq.order }}
+                                <span
+                                    class="text-xs px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full font-semibold shadow-md">
+                                    {{ data.category || 'General' }}
                                 </span>
                             </div>
                         </div>
                     </template>
+                </Column>
 
-                    <div class="space-y-4">
-                        <div class="prose max-w-none">
-                            <div v-html="faq.answer" class="text-gray-700 leading-relaxed"></div>
+                <!-- Answer Preview Column -->
+                <Column field="answer" header="Answer Preview" class="hidden lg:table-cell">
+                    <template #body="{ data }">
+                        <div class="text-slate-600 text-sm line-clamp-3 max-w-xs">
+                            {{ stripHtml(data.answer).substring(0, 150) }}{{ stripHtml(data.answer).length > 150 ? '...'
+                                : '' }}
                         </div>
+                    </template>
+                </Column>
 
-                        <div class="flex items-center justify-between pt-4 border-t border-gray-200">
-                            <div class="text-sm text-gray-500">
-                                <span>Created: {{ formatDate(faq.createdAt) }}</span>
-                                <span v-if="faq.updatedAt !== faq.createdAt" class="ml-4">
-                                    Updated: {{ formatDate(faq.updatedAt) }}
-                                </span>
+                <!-- Created Date Column -->
+                <Column field="createdAt" header="Created" :sortable="true" class="hidden md:table-cell">
+                    <template #body="{ data }">
+                        <div class="flex flex-col gap-1">
+                            <div class="flex items-center gap-2">
+                                <i class="pi pi-calendar text-blue-500"></i>
+                                <span class="font-medium text-slate-700 text-sm">{{ formatDate(data.createdAt) }}</span>
                             </div>
-                            <div class="flex gap-2">
-                                <Button icon="pi pi-pencil" size="small" outlined @click="editFaq(faq)"
-                                    v-tooltip="'Edit FAQ'" />
-                                <Button icon="pi pi-arrows-v" size="small" outlined @click="openReorderDialog"
-                                    v-tooltip="'Reorder FAQs'" />
-                                <Button icon="pi pi-trash" size="small" severity="danger" outlined
-                                    @click="confirmDeleteFaq(faq)" v-tooltip="'Delete FAQ'" />
+                            <span v-if="data.updatedAt !== data.createdAt"
+                                class="text-xs text-slate-500 flex items-center gap-1">
+                                <i class="pi pi-clock text-green-500"></i>
+                                Updated: {{ formatDateShort(data.updatedAt) }}
+                            </span>
+                        </div>
+                    </template>
+                </Column>
+
+                <!-- Actions Column -->
+                <Column header="Actions" headerStyle="width: 10rem">
+                    <template #body="{ data }">
+                        <div class="flex gap-1 justify-center">
+                            <Button icon="pi pi-pencil" @click="editFaq(data)"
+                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'Edit FAQ'" />
+                            <Button icon="pi pi-arrows-v" @click="openReorderDialog"
+                                class="w-8 h-8 bg-purple-500 hover:bg-purple-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'Reorder FAQs'" />
+                            <Button icon="pi pi-trash" @click="confirmDeleteFaq(data)"
+                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                size="small" v-tooltip.top="'Delete FAQ'" />
+                        </div>
+                    </template>
+                </Column>
+
+                <!-- Row Expansion Template -->
+                <template #expansion="{ data }">
+                    <div class="p-6 bg-gradient-to-r from-slate-50 to-slate-100 border-t border-slate-200">
+                        <div class="space-y-4">
+                            <div>
+                                <h5 class="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
+                                    <i class="pi pi-file-edit text-purple-500"></i>
+                                    Full Answer
+                                </h5>
+                                <div class="prose max-w-none">
+                                    <div v-html="data.answer"
+                                        class="text-slate-700 leading-relaxed bg-white p-4 rounded-lg border border-slate-200 shadow-sm">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
+                                <div class="flex items-center gap-2">
+                                    <i class="pi pi-tag text-purple-500"></i>
+                                    <div>
+                                        <p class="text-xs font-medium text-slate-500 uppercase">Category</p>
+                                        <p class="font-semibold text-slate-800">{{ data.category || 'General' }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="pi pi-calendar text-blue-500"></i>
+                                    <div>
+                                        <p class="text-xs font-medium text-slate-500 uppercase">Created</p>
+                                        <p class="font-semibold text-slate-800">{{ formatDate(data.createdAt) }}</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i class="pi pi-clock text-green-500"></i>
+                                    <div>
+                                        <p class="text-xs font-medium text-slate-500 uppercase">Last Updated</p>
+                                        <p class="font-semibold text-slate-800">{{ formatDate(data.updatedAt) }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </AccordionTab>
-            </Accordion>
+                </template>
+            </DataTable>
         </div>
 
         <!-- Empty State -->
-        <div v-else class="bg-white rounded-lg shadow-sm p-8">
+        <div v-else class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-12">
             <div class="text-center">
-                <i class="pi pi-question-circle text-4xl text-gray-400 mb-4"></i>
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">No FAQs Found</h3>
-                <p class="text-gray-600 mb-4">
-                    {{ searchQuery ? 'No FAQs match your search criteria.' : 'Get started by creating your first FAQ.'
-                    }}
+                <div
+                    class="w-20 h-20 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-3xl flex items-center justify-center mx-auto mb-6">
+                    <i class="pi pi-question-circle text-4xl text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-800 mb-3">No FAQs Found</h3>
+                <p class="text-slate-600 mb-6 max-w-md mx-auto">
+                    {{ searchQuery ? 'No FAQs match your search criteria. Try adjusting your filters or search terms.' :
+                        'Get started by creating your first FAQ to help users find answers quickly.' }}
                 </p>
-                <Button v-if="!searchQuery" label="Add First FAQ" icon="pi pi-plus" @click="openFaqDialog()" />
-                <Button v-else label="Clear Search" icon="pi pi-times" @click="clearSearch" outlined />
+                <div class="flex justify-center gap-3">
+                    <Button v-if="!searchQuery" label="Add First FAQ" icon="pi pi-plus" @click="openFaqDialog()"
+                        class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
+                    <Button v-else label="Clear Search" icon="pi pi-times" @click="clearSearch"
+                        class="bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg transition-all duration-200" />
+                </div>
             </div>
         </div>
 
         <!-- FAQ Form Dialog -->
-        <Dialog v-model:visible="faqDialog" :header="editingFaq ? 'Edit FAQ' : 'Create New FAQ'" modal class="p-fluid"
-            style="width: 70vw; max-width: 800px">
-            <form @submit.prevent="saveFaq" class="space-y-6">
-                <div class="space-y-4">
+        <Dialog v-model:visible="faqDialog" :header="editingFaq ? 'Edit FAQ' : 'Create New FAQ'" modal
+            class="p-fluid max-w-4xl">
+            <template #header>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                        <i :class="editingFaq ? 'pi pi-pencil' : 'pi pi-plus'" class="text-white text-lg"></i>
+                    </div>
                     <div>
-                        <label for="question" class="block text-sm font-medium text-gray-700 mb-2">
+                        <h3 class="text-xl font-bold text-slate-800">{{ editingFaq ? 'Edit FAQ' : 'Create New FAQ' }}
+                        </h3>
+                        <p class="text-sm text-slate-500">{{ editingFaq ? 'Update FAQ information' : 'Add a new frequently asked question' }}</p>
+                    </div>
+                </div>
+            </template>
+
+            <form @submit.prevent="saveFaq" class="space-y-6 pt-4">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="lg:col-span-2">
+                        <label for="question" class="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-2">
+                            <i class="pi pi-question-circle text-purple-500"></i>
                             Question *
                         </label>
                         <InputText id="question" v-model="faq.question" required autofocus
-                            :class="{ 'p-invalid': submitted && !faq.question }" placeholder="Enter the FAQ question" />
-                        <small class="text-red-500" v-if="submitted && !faq.question">
-                            Question is required.
+                            :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !faq.question }"
+                            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                            placeholder="Enter the FAQ question (e.g., What is a trust?)" />
+                        <small class="text-red-500 text-xs flex items-center gap-1 mt-1"
+                            v-if="submitted && !faq.question">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            Question is required
                         </small>
                     </div>
 
-                    <div>
-                        <label for="answer" class="block text-sm font-medium text-gray-700 mb-2">
+                    <div class="lg:col-span-2">
+                        <label for="answer" class="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-2">
+                            <i class="pi pi-file-edit text-purple-500"></i>
                             Answer *
                         </label>
                         <Textarea id="answer" v-model="faq.answer" required rows="6"
-                            :class="{ 'p-invalid': submitted && !faq.answer }"
-                            placeholder="Enter the detailed answer" />
-                        <small class="text-red-500" v-if="submitted && !faq.answer">
-                            Answer is required.
+                            :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !faq.answer }"
+                            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200 resize-none"
+                            placeholder="Provide a detailed answer to the question..." />
+                        <small class="text-red-500 text-xs flex items-center gap-1 mt-1"
+                            v-if="submitted && !faq.answer">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            Answer is required
                         </small>
                     </div>
 
                     <div>
-                        <label for="category" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="category" class="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-2">
+                            <i class="pi pi-tag text-purple-500"></i>
                             Category *
                         </label>
                         <InputText id="category" v-model="faq.category" required
-                            :class="{ 'p-invalid': submitted && !faq.category }"
-                            placeholder="Enter the FAQ category (e.g., General, Trust Basics)" />
-                        <small class="text-red-500" v-if="submitted && !faq.category">
-                            Category is required.
+                            :class="{ 'border-red-300 focus:border-red-500 focus:ring-red-500': submitted && !faq.category }"
+                            class="w-full px-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                            placeholder="e.g., Trust Basics, Services, Legal" />
+                        <small class="text-red-500 text-xs flex items-center gap-1 mt-1"
+                            v-if="submitted && !faq.category">
+                            <i class="pi pi-exclamation-triangle"></i>
+                            Category is required
                         </small>
                     </div>
 
                     <div>
-                        <label for="order" class="block text-sm font-medium text-gray-700 mb-2">
+                        <label for="order" class="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-2">
+                            <i class="pi pi-sort-numeric-up text-purple-500"></i>
                             Display Order
                         </label>
                         <InputNumber id="order" v-model="faq.order" :min="0" :max="1000"
-                            placeholder="Display order (0 = first)" />
-                        <small class="text-gray-500">
+                            class="w-full border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                            placeholder="0" />
+                        <small class="text-slate-500 text-xs mt-1 flex items-center gap-1">
+                            <i class="pi pi-info-circle"></i>
                             Lower numbers appear first. Leave empty to add at the end.
                         </small>
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                    <Button label="Cancel" icon="pi pi-times" severity="secondary" @click="faqDialog = false"
-                        type="button" />
-                    <Button :label="editingFaq ? 'Update FAQ' : 'Create FAQ'" icon="pi pi-check" type="submit"
-                        :loading="saving" class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
+                <div class="flex justify-end gap-3 pt-6 border-t border-slate-200">
+                    <Button label="Cancel" icon="pi pi-times" @click="faqDialog = false" type="button"
+                        class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg transition-all duration-200" />
+                    <Button :label="editingFaq ? 'Update FAQ' : 'Create FAQ'"
+                        :icon="editingFaq ? 'pi pi-check' : 'pi pi-plus'" type="submit" :loading="saving"
+                        class="px-6 py-2 bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-none rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
                 </div>
             </form>
         </Dialog>
 
         <!-- Reorder Dialog -->
-        <Dialog v-model:visible="reorderDialog" header="Reorder FAQs" modal style="width: 60vw; max-width: 600px">
-            <div class="space-y-4">
-                <p class="text-gray-600 mb-4">
-                    Drag and drop to reorder FAQs. Lower order numbers appear first.
-                </p>
+        <Dialog v-model:visible="reorderDialog" header="Reorder FAQs" modal class="max-w-3xl">
+            <template #header>
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-500 rounded-xl flex items-center justify-center">
+                        <i class="pi pi-arrows-v text-white text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800">Reorder FAQs</h3>
+                        <p class="text-sm text-slate-500">Adjust the display order of your FAQs</p>
+                    </div>
+                </div>
+            </template>
 
-                <div class="space-y-2">
-                    <div v-for="(faq, index) in reorderFaqsList" :key="faq.id"
-                        class="flex items-center gap-3 p-3 border border-gray-200 rounded-lg bg-gray-50">
-                        <i class="pi pi-bars text-gray-400 cursor-move"></i>
-                        <InputNumber v-model="faq.order" :min="0" :max="1000" class="w-20" />
-                        <span class="flex-1 font-medium">{{ faq.question }}</span>
+            <div class="space-y-6 pt-4">
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div class="flex items-start gap-3">
+                        <i class="pi pi-info-circle text-blue-500 mt-0.5"></i>
+                        <div>
+                            <p class="text-blue-800 font-medium">How to reorder</p>
+                            <p class="text-blue-700 text-sm mt-1">
+                                Adjust the order numbers to change how FAQs appear. Lower numbers appear first on the
+                                website.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
-                    <Button label="Cancel" icon="pi pi-times" severity="secondary" @click="reorderDialog = false" />
+                <div class="space-y-3 max-h-96 overflow-y-auto">
+                    <div v-for="(faq, index) in reorderFaqsList" :key="faq.id"
+                        class="flex items-center gap-4 p-4 border border-slate-200 rounded-xl bg-white hover:shadow-md transition-all duration-200">
+                        <div class="flex items-center justify-center w-8 h-8 bg-slate-100 rounded-lg">
+                            <i class="pi pi-bars text-slate-400 cursor-move"></i>
+                        </div>
+                        <div class="w-20">
+                            <InputNumber v-model="faq.order" :min="0" :max="1000"
+                                class="w-full border border-slate-200 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500" />
+                        </div>
+                        <div class="flex-1">
+                            <div class="font-semibold text-slate-800 truncate">{{ faq.question }}</div>
+                            <div class="text-sm text-slate-500 flex items-center gap-2 mt-1">
+                                <span class="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-md text-xs">{{
+                                    faq.category
+                                    }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-end gap-3 pt-6 border-t border-slate-200">
+                    <Button label="Cancel" icon="pi pi-times" @click="reorderDialog = false"
+                        class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-lg transition-all duration-200" />
                     <Button label="Save Order" icon="pi pi-check" @click="saveReorder" :loading="saving"
-                        class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
+                        class="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-none rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
                 </div>
             </div>
         </Dialog>
@@ -235,6 +406,8 @@ import InputText from 'primevue/inputtext';
 import Textarea from 'primevue/textarea';
 import InputNumber from 'primevue/inputnumber';
 import Dropdown from 'primevue/dropdown';
+import DataTable from 'primevue/datatable';
+import Column from 'primevue/column';
 import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 
@@ -271,6 +444,7 @@ const saving = ref(false);
 const searchQuery = ref('');
 const selectedCategory = ref(null);
 const searchTimeout = ref(null);
+const expandedRows = ref([]);
 
 // Form data
 const faq = ref({
@@ -460,13 +634,27 @@ const saveReorder = async () => {
 };
 
 const expandAll = () => {
-    // This would need to be implemented with the Accordion component's API
-    console.log('Expand all FAQs');
+    expandedRows.value = [...filteredFaqs.value];
 };
 
 const collapseAll = () => {
-    // This would need to be implemented with the Accordion component's API
-    console.log('Collapse all FAQs');
+    expandedRows.value = [];
+};
+
+const stripHtml = (html) => {
+    if (!html) return '';
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+};
+
+const formatDateShort = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric'
+    });
 };
 
 const debouncedSearch = () => {
@@ -507,35 +695,74 @@ watch(() => props.activeSection, (newSection) => {
 </script>
 
 <style scoped>
+/* Enhanced Tailwind custom styles */
 .faqs-management {
     padding: 0;
 }
 
+/* Custom animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in-up {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+/* Glassmorphism effect */
+.backdrop-blur-sm {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Custom gradient text */
+.bg-clip-text {
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+
+/* Enhanced Accordion styling */
 :deep(.faq-accordion) {
     border: none;
 }
 
 :deep(.faq-accordion .p-accordion-tab) {
-    margin-bottom: 0.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
     overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+:deep(.faq-accordion .p-accordion-tab:hover) {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
 :deep(.faq-accordion .p-accordion-header) {
-    background: #f9fafb;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     border: none;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: 0.75rem 0.75rem 0 0;
 }
 
 :deep(.faq-accordion .p-accordion-header:not(.p-disabled):hover) {
-    background: #f3f4f6;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
 }
 
 :deep(.faq-accordion .p-accordion-header-link) {
-    padding: 1rem;
+    padding: 1.25rem;
     border: none;
-    border-radius: 0.5rem 0.5rem 0 0;
+    border-radius: 0.75rem 0.75rem 0 0;
+    transition: all 0.2s ease;
 }
 
 :deep(.faq-accordion .p-accordion-content) {
@@ -545,11 +772,194 @@ watch(() => props.activeSection, (newSection) => {
 }
 
 :deep(.faq-accordion .p-accordion-tab.p-accordion-tab-active .p-accordion-header) {
-    background: #eff6ff;
-    border-radius: 0.5rem 0.5rem 0 0;
+    background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+    border-radius: 0.75rem 0.75rem 0 0;
 }
 
-/* Loading spinner */
+:deep(.faq-accordion .p-accordion-tab.p-accordion-tab-active) {
+    border-color: #8b5cf6;
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.15);
+}
+
+/* Enhanced Dialog styling */
+:deep(.p-dialog) {
+    border-radius: 1rem;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+:deep(.p-dialog .p-dialog-header) {
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 1rem 1rem 0 0;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 1.5rem;
+}
+
+:deep(.p-dialog .p-dialog-content) {
+    padding: 0 1.5rem;
+}
+
+:deep(.p-dialog .p-dialog-footer) {
+    padding: 1.5rem;
+    border-top: 1px solid #e2e8f0;
+    border-radius: 0 0 1rem 1rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+/* Enhanced DataTable styling */
+:deep(.faq-table .p-datatable-wrapper) {
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+:deep(.faq-table .p-datatable .p-datatable-thead > tr > th) {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    color: #334155;
+    font-weight: 600;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 1rem 0.75rem;
+}
+
+:deep(.faq-table .p-datatable .p-datatable-tbody > tr) {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+:deep(.faq-table .p-datatable .p-datatable-tbody > tr:nth-child(even)) {
+    background-color: #fafafa;
+}
+
+:deep(.faq-table .p-datatable .p-datatable-tbody > tr:hover) {
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.15);
+}
+
+:deep(.faq-table .p-datatable .p-datatable-tbody > tr > td) {
+    padding: 1rem 0.75rem;
+    border: none;
+    vertical-align: top;
+}
+
+/* Row expansion styling */
+:deep(.faq-table .p-datatable .p-datatable-row-expansion) {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+/* Expander button styling */
+:deep(.faq-table .p-row-toggler) {
+    color: #8b5cf6;
+    transition: all 0.2s ease;
+}
+
+:deep(.faq-table .p-row-toggler:hover) {
+    color: #7c3aed;
+    background: #f3f4f6;
+}
+
+/* Enhanced Paginator for table */
+:deep(.faq-table .p-paginator) {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem;
+}
+
+:deep(.faq-table .p-paginator .p-paginator-pages .p-paginator-page) {
+    border-radius: 0.5rem;
+    margin: 0 0.125rem;
+    transition: all 0.2s ease;
+}
+
+:deep(.faq-table .p-paginator .p-paginator-pages .p-paginator-page:hover) {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    transform: scale(1.05);
+}
+
+:deep(.faq-table .p-paginator .p-paginator-pages .p-paginator-page.p-highlight) {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+    color: white;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+:deep(.p-inputtext) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-inputtext:hover) {
+    border-color: #64748b;
+}
+
+:deep(.p-inputtext:focus) {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+:deep(.p-textarea) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-textarea:hover) {
+    border-color: #64748b;
+}
+
+:deep(.p-textarea:focus) {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+:deep(.p-dropdown) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-dropdown:hover) {
+    border-color: #64748b;
+}
+
+:deep(.p-dropdown:focus-within) {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+:deep(.p-inputnumber) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-inputnumber:hover) {
+    border-color: #64748b;
+}
+
+:deep(.p-inputnumber:focus-within) {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+}
+
+/* Button hover effects */
+:deep(.p-button) {
+    transition: all 0.2s ease;
+}
+
+:deep(.p-button:hover) {
+    transform: translateY(-1px);
+}
+
+/* Loading spinner enhancement */
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -560,43 +970,24 @@ watch(() => props.activeSection, (newSection) => {
     animation: spin 1s linear infinite;
 }
 
-/* Form styling */
-:deep(.p-dialog .p-dialog-header) {
-    background: #f8fafc;
-    border-bottom: 1px solid #e2e8f0;
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
 }
 
-:deep(.p-dialog .p-dialog-content) {
-    padding: 2rem;
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 3px;
 }
 
-/* Input styling */
-:deep(.p-inputtext:focus) {
-    border-color: #f15a22;
-    box-shadow: 0 0 0 1px #f15a22;
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #8b5cf6, #6366f1);
+    border-radius: 3px;
 }
 
-:deep(.p-dropdown:not(.p-disabled).p-focus) {
-    border-color: #f15a22;
-    box-shadow: 0 0 0 1px #f15a22;
-}
-
-:deep(.p-inputnumber:not(.p-disabled).p-focus) {
-    border-color: #f15a22;
-    box-shadow: 0 0 0 1px #f15a22;
-}
-
-/* Custom button colors */
-.bg-orange-500 {
-    background-color: #f15a22;
-}
-
-.hover\:bg-orange-600:hover {
-    background-color: #ea580c;
-}
-
-.border-orange-500 {
-    border-color: #f15a22;
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #7c3aed, #4f46e5);
 }
 
 /* Responsive adjustments */
@@ -607,11 +998,44 @@ watch(() => props.activeSection, (newSection) => {
     }
 
     :deep(.faq-accordion .p-accordion-header-link) {
-        padding: 0.75rem;
+        padding: 1rem;
     }
 
     :deep(.faq-accordion .p-accordion-content) {
         padding: 1rem;
     }
+}
+
+/* Enhanced prose styling for FAQ answers */
+.prose {
+    max-width: none;
+}
+
+.prose p {
+    margin-bottom: 0.75rem;
+}
+
+.prose ul,
+.prose ol {
+    padding-left: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.prose li {
+    margin-bottom: 0.25rem;
+}
+
+.prose strong {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.prose a {
+    color: #8b5cf6;
+    text-decoration: underline;
+}
+
+.prose a:hover {
+    color: #7c3aed;
 }
 </style>

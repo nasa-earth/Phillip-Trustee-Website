@@ -65,8 +65,23 @@ export class EventsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all events' })
-  @ApiResponse({ status: 200, description: 'Returns all events.' })
+  @ApiOperation({ summary: 'Get all published events (public)' })
+  @ApiResponse({ status: 200, description: 'Returns all published events.' })
+  findPublished() {
+    return this.eventsService.findPublished();
+  }
+
+  @Get('admin/all')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.EDITOR)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Get all events (admin only)' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns all events including unpublished.',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
   findAll() {
     return this.eventsService.findAll();
   }

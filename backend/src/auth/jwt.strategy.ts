@@ -21,6 +21,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     try {
+      this.logger.debug(
+        `JWT validation - Payload received: ${JSON.stringify(payload)}`,
+      );
+
       // Check if user still exists and is active
       const user = await this.usersService.findOne(payload.sub);
 
@@ -31,14 +35,21 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         throw new UnauthorizedException('User no longer exists');
       }
 
-      // You could add additional validation here if needed
-      // For example, check if user is active, not banned, etc.
+      this.logger.debug(`JWT validation successful for user: ${user.email}`);
 
-      return {
+      // Return the user object that will be attached to request.user
+      const validatedUser = {
         id: payload.sub,
         email: payload.email,
         role: payload.role,
+        name: user.name, // Include name from database
       };
+
+      this.logger.debug(
+        `Returning validated user: ${JSON.stringify(validatedUser)}`,
+      );
+
+      return validatedUser;
     } catch (error) {
       this.logger.error(`JWT validation error: ${error.message}`, error.stack);
       throw new UnauthorizedException('Invalid token');

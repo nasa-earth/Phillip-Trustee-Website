@@ -290,20 +290,26 @@
                 </div>
 
                 <!-- Partners Slider Component -->
-                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" />
+                <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" :loading="loading"
+                    :error="error" />
             </div>
         </section>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import Header from '~/components/Header.vue';
 import Footer from '~/components/Footer.vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
 import { usePartners } from '~/composables/usePartners';
 
-const { partnersForSlider, fetchPartners } = usePartners();
+const { partnersForSlider, loading, error, fetchPartners, onPartnerChange, isDataFresh } = usePartners();
+
+// Watch for changes in partners data to ensure reactivity
+watch(partnersForSlider, (newPartners) => {
+    console.log('Partners data updated:', newPartners.length);
+}, { immediate: true });
 
 const goals = [
     {
@@ -389,9 +395,15 @@ onMounted(async () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // Listen for partner changes
+    const unsubscribe = onPartnerChange((action, data) => {
+        console.log(`Partner ${action} detected in About page:`, data);
+    });
+
     // Cleanup on unmount
     onUnmounted(() => {
         window.removeEventListener('resize', handleResize);
+        unsubscribe();
     });
 });
 </script>

@@ -26,8 +26,8 @@
         <!-- Header -->
         <div class="text-center mb-16">
           <h2 class="text-3xl md:text-4xl font-semibold text-[#e6eaf0]">About Us</h2>
-          <!-- <div class="w-24 h-1 bg-gradient-to-r from-[#f15a22] to-orange-400 mx-auto"></div> -->
-        </div> <!-- Features -->
+        </div> 
+        <!-- Features -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20 mx-[100px]">
           <div
             class="bg-white/10 border border-white/10 rounded-2xl p-6 text-[#e6eaf0] hover:bg-white/15 transition-all duration-300">
@@ -142,19 +142,10 @@
       </section>
 
     </div>
-<!-- 
-    <HoldProperty />
-    <EscrowService />
-    <FundRetention />
-    <ServiceSpa /> -->
-    <!-- <UserManagement /> -->
+
   </section>
 </template>
 
 <script setup>
-  // import HoldProperty from '~/pages/Services_hold_property.vue';
-  // import EscrowService from '~/pages/Services_escrow_service.vue';
-  // import ServiceSpa from '~/pages/Services_spa.vue';
-  // import FundRetention from '~/pages/Services_fund_retention.vue';
-  // import UserManagement from '~/components/admin/UserManagement.vue';
+
 </script>

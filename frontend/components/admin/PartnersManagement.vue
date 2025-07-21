@@ -11,11 +11,18 @@
         <div v-if="loading" class="flex flex-col items-center py-12 gap-4">
             <ProgressSpinner />
             <p class="text-gray-600">Loading partners...</p>
+            <Button label="Cancel" icon="pi pi-times" @click="cancelLoading" class="p-button-text p-button-sm"
+                v-if="loading" />
         </div>
 
         <div v-else-if="error" class="mb-8">
             <Message severity="error" :closable="false">
                 {{ error }}
+                <template #slot>
+                    <div class="flex justify-end mt-3">
+                        <Button label="Retry" icon="pi pi-refresh" @click="retryLoadPartners" class="p-button-sm" />
+                    </div>
+                </template>
             </Message>
         </div>
 
@@ -114,7 +121,7 @@
             </div>
 
             <div class="field">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Logo *</label>
                 <FileUpload mode="basic" name="logo" accept="image/*" :maxFileSize="5000000" :auto="false"
                     chooseLabel="Choose Logo" @select="onLogoSelect" @clear="onLogoClear" :disabled="uploadingLogo"
                     class="w-full" />
@@ -131,7 +138,8 @@
                     <Button label="Cancel" icon="pi pi-times" @click="showAddDialog = false"
                         class="p-button-text hover:bg-gray-100" />
                     <Button label="Add Partner" icon="pi pi-check" @click="addPartner" :loading="saving"
-                        :disabled="!newPartner.name.trim()" class="bg-green-600 hover:bg-green-700 border-green-600" />
+                        :disabled="!newPartner.name.trim() || !newPartner.logo?.trim()"
+                        class="bg-green-600 hover:bg-green-700 border-green-600" />
                 </div>
             </template>
         </Dialog>
@@ -161,7 +169,7 @@
             </div>
 
             <div class="field">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Logo *</label>
                 <FileUpload mode="basic" name="editLogo" accept="image/*" :maxFileSize="5000000" :auto="false"
                     chooseLabel="Change Logo" @select="onEditLogoSelect" @clear="onEditLogoClear"
                     :disabled="uploadingLogo" class="w-full" />
@@ -178,7 +186,8 @@
                     <Button label="Cancel" icon="pi pi-times" @click="showEditDialog = false"
                         class="p-button-text hover:bg-gray-100" />
                     <Button label="Update Partner" icon="pi pi-check" @click="updatePartnerData" :loading="saving"
-                        :disabled="!editingPartner.name.trim()" class="bg-blue-600 hover:bg-blue-700 border-blue-600" />
+                        :disabled="!editingPartner.name.trim() || !editingPartner.logo?.trim()"
+                        class="bg-blue-600 hover:bg-blue-700 border-blue-600" />
                 </div>
             </template>
         </Dialog>
@@ -189,6 +198,13 @@
 // Import PrimeVue components
 import DataTable from 'primevue/datatable';
 import Column from 'primevue/column';
+
+// Import required composables
+import { useAuthStore } from '~/stores/auth';
+import { useApiUrl } from '~/composables/useApiUrl';
+import { useAuth } from '~/composables/useAuth';
+import { useFileUpload } from '~/composables/useFileUpload';
+import { usePartners } from '~/composables/usePartners';
 
 const props = defineProps({
     activeSection: {
@@ -201,20 +217,41 @@ const toast = useToast();
 const confirm = useConfirm();
 const authStore = useAuthStore();
 const { uploadFile } = useFileUpload();
-const { checkAuthStatus, isValidTokenFormat } = useAuth();
+const { checkAuthStatus, isValidTokenFormat, getAuthHeaders } = useAuth();
+const apiUrls = useApiUrl();
+
+// Helper function to get auth token
+const getAuthToken = () => {
+    return authStore.accessToken;
+};
+
+// Helper function to handle logout and navigation
+const handleLogout = async () => {
+    try {
+        await authStore.logout();
+        await navigateTo('/login');
+    } catch (error) {
+        console.error('Logout error:', error);
+        // Force navigation even if logout fails
+        await navigateTo('/login');
+    }
+};
 
 const {
-    partnersForManagement,
+    partners: partnersForManagement,
     loading,
     error,
-    fetchPartners,
+    getPartners: fetchPartners,
     createPartner,
     updatePartner,
     deletePartner,
-    getAuthToken,
-    apiUrls,
     onPartnerChange
 } = usePartners();
+
+// Validate that we have the composable functions
+if (!onPartnerChange || typeof onPartnerChange !== 'function') {
+    console.error('usePartners composable did not return onPartnerChange function');
+}
 
 const showAddDialog = ref(false);
 const showEditDialog = ref(false);
@@ -238,69 +275,152 @@ const editingPartner = ref({
 
 // Watch for changes in partners data
 watch(partnersForManagement, (newPartners) => {
-    console.log('Partners data updated in management:', newPartners.length);
+    console.log('Partners data updated in management:', newPartners?.length || 0);
 }, { immediate: true });
 
 // Subscribe to partner change events
-onMounted(() => {
-    loadPartners();
+let unsubscribePartnerChanges = null;
+
+onMounted(async () => {
+    console.log('PartnersManagement component mounted');
+
+    // Load partners in background, don't block component mounting
+    loadPartners().catch(err => {
+        console.error('Failed to load partners on mount:', err);
+        // Component should still mount even if partners fail to load
+    });
 
     // Listen for partner changes from other components
-    const unsubscribe = onPartnerChange((action, data) => {
-        console.log(`Partner ${action} detected in management component:`, data);
+    try {
+        if (onPartnerChange && typeof onPartnerChange === 'function') {
+            unsubscribePartnerChanges = onPartnerChange((action, data) => {
+                console.log(`Partner ${action} detected in management component:`, data);
 
-        // Show appropriate toast message
-        if (action === 'created') {
-            toast.add({
-                severity: 'success',
-                summary: 'Partner Added',
-                detail: `${data.name} has been added`,
-                life: 3000
+                // Show appropriate toast message
+                if (action === 'created') {
+                    toast.add({
+                        severity: 'success',
+                        summary: 'Partner Added',
+                        detail: `${data.name} has been added`,
+                        life: 3000
+                    });
+                } else if (action === 'updated') {
+                    toast.add({
+                        severity: 'info',
+                        summary: 'Partner Updated',
+                        detail: `${data.name} has been updated`,
+                        life: 3000
+                    });
+                } else if (action === 'deleted') {
+                    toast.add({
+                        severity: 'warn',
+                        summary: 'Partner Deleted',
+                        detail: `${data.name} has been deleted`,
+                        life: 3000
+                    });
+                }
             });
-        } else if (action === 'updated') {
-            toast.add({
-                severity: 'info',
-                summary: 'Partner Updated',
-                detail: `${data.name} has been updated`,
-                life: 3000
-            });
-        } else if (action === 'deleted') {
-            toast.add({
-                severity: 'warn',
-                summary: 'Partner Deleted',
-                detail: `${data.name} has been deleted`,
-                life: 3000
-            });
+
+            // Validate that we got a proper unsubscribe function
+            if (!unsubscribePartnerChanges || typeof unsubscribePartnerChanges !== 'function') {
+                console.warn('onPartnerChange did not return a valid unsubscribe function');
+                unsubscribePartnerChanges = null;
+            }
+        } else {
+            console.warn('onPartnerChange function is not available');
+            unsubscribePartnerChanges = null;
         }
-    });
+    } catch (error) {
+        console.error('Error setting up partner change listener:', error);
+        unsubscribePartnerChanges = null;
+    }
+});
 
-    // Clean up subscription on unmount
-    onUnmounted(() => {
-        unsubscribe();
-    });
+// Clean up subscription on unmount
+onUnmounted(() => {
+    console.log('PartnersManagement component unmounting');
+
+    // Safely unsubscribe from partner changes
+    try {
+        if (unsubscribePartnerChanges && typeof unsubscribePartnerChanges === 'function') {
+            unsubscribePartnerChanges();
+            console.log('Successfully unsubscribed from partner changes');
+        } else {
+            console.log('No valid unsubscribe function to call');
+        }
+    } catch (error) {
+        console.error('Error during unsubscribe:', error);
+    }
+
+    // Reset the unsubscribe function
+    unsubscribePartnerChanges = null;
 });
 
 const loadPartners = async () => {
+    let timeoutId;
+
     try {
-        // Debug: Check API URL and auth token
-        console.log('API URLs:', apiUrls);
-        console.log('Partners API URL:', apiUrls.partners);
-        console.log('Auth token present:', !!getAuthToken());
+        // Debug: Check auth state
         console.log('Auth store state:', {
             isAuthenticated: authStore.isAuthenticated,
             hasAdminAccess: authStore.hasAdminAccess,
             user: authStore.user
         });
 
-        await fetchPartners();
+        // Set a timeout for the fetch operation
+        const timeoutPromise = new Promise((_, reject) => {
+            timeoutId = setTimeout(() => {
+                reject(new Error('Request timeout: Partners data took too long to load'));
+            }, 10000); // 10 second timeout
+        });
+
+        // Race between the fetch operation and timeout
+        await Promise.race([
+            fetchPartners(),
+            timeoutPromise
+        ]);
+
+        // Clear timeout if fetch succeeds
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
+        console.log('Partners loaded successfully');
     } catch (err) {
+        // Clear timeout on error
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+
         console.error('Load partners error:', err);
+
+        // Show user-friendly error message
+        let errorMessage = 'Failed to load partners';
+        if (err.message.includes('timeout')) {
+            errorMessage = 'Loading partners is taking too long. Please check your connection and try again.';
+        } else if (err.message.includes('Network')) {
+            errorMessage = 'Network error. Please check your connection.';
+        } else if (err.message.includes('401') || err.message.includes('Unauthorized')) {
+            errorMessage = 'Authentication expired. Please log in again.';
+            // Optionally redirect to login
+            setTimeout(async () => {
+                await authStore.logout();
+                await navigateTo('/login');
+            }, 2000);
+        } else if (err.message) {
+            errorMessage = err.message;
+        }
+
         toast.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Failed to load partners: ${err.message}`,
+            detail: errorMessage,
             life: 5000
         });
+
+        // Set error state to prevent infinite loading
+        error.value = errorMessage;
+        loading.value = false;
     }
 };
 
@@ -308,18 +428,8 @@ const onLogoSelect = async (event) => {
     const file = event.files[0];
     if (file) {
         try {
-            // Check authentication before upload
-            if (!authStore.isAuthenticated || !authStore.accessToken) {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Authentication Required',
-                    detail: 'Please log in again to upload files',
-                    life: 5000
-                });
-                return;
-            }
-
             uploadingLogo.value = true;
+
             const result = await uploadFile(file, 'partner-logos');
 
             // Handle both direct URL response and object response
@@ -334,37 +444,14 @@ const onLogoSelect = async (event) => {
         } catch (err) {
             console.error('Logo upload error:', err);
 
-            // Handle authentication errors specifically
-            if (err.message.includes('Authentication')) {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Authentication Error',
-                    detail: err.message,
-                    life: 5000
-                });
+            toast.add({
+                severity: 'error',
+                summary: 'Upload Failed',
+                detail: `Failed to upload logo: ${err.message}`,
+                life: 5000
+            });
 
-                // Redirect to login if auth failed
-                await authStore.logout();
-                await navigateTo('/login');
-            } else {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Upload Failed',
-                    detail: 'Failed to upload logo. Using fallback preview.',
-                    life: 5000
-                });
-
-                // Fallback: create a preview URL for the UI
-                try {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        newPartner.value.logo = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } catch (fallbackError) {
-                    console.error('Fallback preview failed:', fallbackError);
-                }
-            }
+            newPartner.value.logo = '';
         } finally {
             uploadingLogo.value = false;
         }
@@ -379,19 +466,18 @@ const onEditLogoSelect = async (event) => {
     const file = event.files[0];
     if (file) {
         try {
-            // Check authentication before upload
-            if (!authStore.isAuthenticated || !authStore.accessToken) {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Authentication Required',
-                    detail: 'Please log in again to upload files',
-                    life: 5000
-                });
-                return;
-            }
-
             uploadingLogo.value = true;
+
+            console.log('Starting logo upload for edit:', file.name);
+            console.log('Current auth state:', {
+                isAuthenticated: authStore.isAuthenticated,
+                hasToken: !!authStore.accessToken,
+                tokenLength: authStore.accessToken?.length || 0,
+                userRole: authStore.user?.role
+            });
+
             const result = await uploadFile(file, 'partner-logos');
+            console.log('Upload result:', result);
 
             // Handle both direct URL response and object response
             editingPartner.value.logo = result.url || result;
@@ -405,37 +491,15 @@ const onEditLogoSelect = async (event) => {
         } catch (err) {
             console.error('Logo upload error:', err);
 
-            // Handle authentication errors specifically
-            if (err.message.includes('Authentication')) {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Authentication Error',
-                    detail: err.message,
-                    life: 5000
-                });
+            toast.add({
+                severity: 'error',
+                summary: 'Upload Failed',
+                detail: `Failed to upload logo: ${err.message}`,
+                life: 5000
+            });
 
-                // Redirect to login if auth failed
-                await authStore.logout();
-                await navigateTo('/login');
-            } else {
-                toast.add({
-                    severity: 'error',
-                    summary: 'Upload Failed',
-                    detail: 'Failed to upload logo. Using fallback preview.',
-                    life: 5000
-                });
-
-                // Fallback: create a preview URL for the UI
-                try {
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        editingPartner.value.logo = e.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                } catch (fallbackError) {
-                    console.error('Fallback preview failed:', fallbackError);
-                }
-            }
+            // Don't use fallback for now - let user know upload failed
+            editingPartner.value.logo = '';
         } finally {
             uploadingLogo.value = false;
         }
@@ -457,6 +521,16 @@ const addPartner = async () => {
         return;
     }
 
+    if (!newPartner.value.logo?.trim()) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: 'Partner logo is required',
+            life: 3000
+        });
+        return;
+    }
+
     try {
         saving.value = true;
 
@@ -468,6 +542,7 @@ const addPartner = async () => {
                 detail: 'Please log in again to add partners',
                 life: 5000
             });
+            alert(1);
             await authStore.logout();
             await navigateTo('/login');
             return;
@@ -478,7 +553,7 @@ const addPartner = async () => {
         // Validate required fields
         const partnerData = {
             name: newPartner.value.name.trim(),
-            logo: newPartner.value.logo?.trim() || null,
+            logo: newPartner.value.logo.trim(),
             website: newPartner.value.website?.trim() || null,
             description: newPartner.value.description?.trim() || null
         };
@@ -535,6 +610,16 @@ const updatePartnerData = async () => {
             severity: 'warn',
             summary: 'Warning',
             detail: 'Partner name is required',
+            life: 3000
+        });
+        return;
+    }
+
+    if (!editingPartner.value.logo?.trim()) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: 'Partner logo is required',
             life: 3000
         });
         return;
@@ -644,150 +729,21 @@ const resetNewPartner = () => {
     };
 };
 
-// Test functions for debugging
-const testUploadAuthentication = async () => {
-    try {
-        console.log('Testing upload authentication...');
-        const authStatus = checkAuthStatus();
-
-        toast.add({
-            severity: 'info',
-            summary: 'Auth Test',
-            detail: `Auth Status: ${authStatus.isAuthenticated ? 'Valid' : 'Invalid'}`,
-            life: 3000
-        });
-
-        // Create a test file
-        const testContent = new Blob(['test'], { type: 'text/plain' });
-        const testFile = new File([testContent], 'test.txt', { type: 'text/plain' });
-
-        try {
-            const result = await uploadFile(testFile, 'test');
-            toast.add({
-                severity: 'success',
-                summary: 'Upload Test Success',
-                detail: 'Authentication and upload working properly',
-                life: 3000
-            });
-        } catch (err) {
-            toast.add({
-                severity: 'error',
-                summary: 'Upload Test Failed',
-                detail: err.message,
-                life: 5000
-            });
-        }
-    } catch (error) {
-        console.error('Test failed:', error);
-        toast.add({
-            severity: 'error',
-            summary: 'Test Error',
-            detail: 'Failed to run authentication test',
-            life: 3000
-        });
-    }
+// Helper function to cancel loading
+const cancelLoading = () => {
+    console.log('User cancelled loading');
+    loading.value = false;
+    error.value = 'Loading was cancelled by user';
 };
 
-const refreshAuthToken = async () => {
-    try {
-        const success = await authStore.refreshAccessToken();
-        if (success) {
-            toast.add({
-                severity: 'success',
-                summary: 'Token Refreshed',
-                detail: 'Authentication token refreshed successfully',
-                life: 3000
-            });
-        } else {
-            toast.add({
-                severity: 'error',
-                summary: 'Refresh Failed',
-                detail: 'Failed to refresh token. Please log in again.',
-                life: 5000
-            });
-        }
-    } catch (error) {
-        console.error('Token refresh failed:', error);
-        toast.add({
-            severity: 'error',
-            summary: 'Refresh Error',
-            detail: 'Error refreshing token',
-            life: 3000
-        });
-    }
+// Helper function to retry loading partners
+const retryLoadPartners = async () => {
+    console.log('Retrying to load partners');
+    error.value = null;
+    await loadPartners();
 };
 
-// NEW: Test partner update specifically
-const testPartnerUpdate = async () => {
-    try {
-        console.log('🧪 Testing partner update...');
 
-        // Get first partner for testing
-        if (partnersForManagement.length === 0) {
-            toast.add({
-                severity: 'warn',
-                summary: 'No Partners',
-                detail: 'No partners available for testing',
-                life: 3000
-            });
-            return;
-        }
-
-        const testPartner = partnersForManagement[0];
-        console.log('Testing with partner:', testPartner);
-
-        // Test data
-        const testUpdateData = {
-            name: testPartner.name + ' (TEST)',
-            logo: testPartner.logo,
-            website: testPartner.website,
-            description: testPartner.description + ' - Updated for testing'
-        };
-
-        console.log('Auth state before update:', {
-            isAuthenticated: authStore.isAuthenticated,
-            hasToken: !!authStore.accessToken,
-            user: authStore.user
-        });
-
-        console.log('Attempting update with data:', testUpdateData);
-
-        const result = await updatePartner(testPartner.id, testUpdateData);
-
-        toast.add({
-            severity: 'success',
-            summary: 'Test Success',
-            detail: 'Partner update test completed successfully',
-            life: 3000
-        });
-
-        console.log('✅ Update test result:', result);
-
-        // Revert the test change
-        setTimeout(async () => {
-            try {
-                await updatePartner(testPartner.id, {
-                    name: testPartner.name,
-                    logo: testPartner.logo,
-                    website: testPartner.website,
-                    description: testPartner.description
-                });
-                console.log('🔄 Test changes reverted');
-            } catch (revertError) {
-                console.error('Failed to revert test changes:', revertError);
-            }
-        }, 2000);
-
-    } catch (error) {
-        console.error('❌ Partner update test failed:', error);
-        toast.add({
-            severity: 'error',
-            summary: 'Test Failed',
-            detail: error.message || 'Partner update test failed',
-            life: 5000
-        });
-    }
-};
 </script>
 
 <style scoped>

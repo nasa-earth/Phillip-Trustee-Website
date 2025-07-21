@@ -24,7 +24,7 @@
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`first-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4"
+                    <img :src="partner.logo || partner.image" :alt="'Partner logo'" class="h-full object-contain px-4"
                         @error="onImageError" />
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`second-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.image" :alt="partner.name" class="h-full object-contain px-4"
+                    <img :src="partner.logo || partner.image" :alt="'Partner logo'" class="h-full object-contain px-4"
                         @error="onImageError" />
                 </div>
             </div>
@@ -49,7 +49,8 @@ export default {
             type: Array,
             required: true,
             default: () => []
-            // Expected format: [{ name: 'Partner Name', image: '/path/to/image.jpg' }]
+            // Expected format: [{ logo: '/path/to/image.jpg' }] or [{ image: '/path/to/image.jpg' }] 
+            // Component will try to use 'logo' field first, then fall back to 'image'
         },
         speed: {
             type: Number,

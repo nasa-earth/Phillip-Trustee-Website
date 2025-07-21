@@ -10,7 +10,7 @@ export default defineNuxtConfig({
   },
   plugins: [
     "~/plugins/primevue.js",
-    "~/plugins/auth.js",
+    "~/plugins/auth.ts",
     "~/plugins/motion.js",
   ],
   modules: ["@pinia/nuxt", "@primevue/nuxt-module"],

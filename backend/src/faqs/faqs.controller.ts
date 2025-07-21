@@ -12,6 +12,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Public } from '../auth/decorators/public.decorator';
 import { Request as ExpressRequest } from 'express';
 import { FaqsService } from './faqs.service';
 import { AuditService } from '../common/services/audit.service';
@@ -35,6 +36,7 @@ export class FaqsController {
   ) {}
 
   @Get()
+  @Public()
   @ApiOperation({ summary: 'Get all FAQs' })
   @ApiResponse({
     status: 200,
@@ -46,7 +48,6 @@ export class FaqsController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new FAQ' })
   @ApiResponse({
@@ -81,7 +82,6 @@ export class FaqsController {
   }
 
   @Put(':id')
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a FAQ' })
   @ApiResponse({
@@ -121,7 +121,6 @@ export class FaqsController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a FAQ' })
   @ApiResponse({
@@ -156,7 +155,6 @@ export class FaqsController {
   }
 
   @Put('reorder')
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Reorder FAQs' })
   @ApiResponse({

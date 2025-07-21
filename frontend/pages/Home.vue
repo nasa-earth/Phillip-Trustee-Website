@@ -7,7 +7,7 @@
           class="absolute inset-0 w-full h-screen object-cover object-center z-0" />
 
         <!-- Overlay Gradient -->
-        <div class="absolute inset-0 bg-gradient-to-l from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-10"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-10"></div>
 
         <!-- Text Content -->
         <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24 mt-[-100px] ml-[100px]">

@@ -1,20 +1,10 @@
 <template>
     <!-- Hero Section -->
     <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
-        backgroundImage: 'url(/images/Services/client-services.jpg)',
+        backgroundImage: 'url(/images/Services/service_header.jpg)',
     }">
         <!-- Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-0"></div>
-
-        <!-- Content -->
-        <div class="relative z-10 text-center text-white px-6 max-w-3xl" data-aos="fade-up" data-aos-duration="1200">
-            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                <span class="text-[#f15a22]">Fund</span>
-                Retention
-                <span class="text-[#f15a22]">Services</span>
-            </h1>
->
-        </div>
+        <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
     </section>
 
     <!-- Section Title -->

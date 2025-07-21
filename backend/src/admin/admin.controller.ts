@@ -3,7 +3,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('admin')
-@UseGuards(JwtAuthGuard)
+
 export class AdminController {
   constructor(private prisma: PrismaService) {}
   @Get('dashboard')

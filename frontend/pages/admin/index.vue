@@ -14,10 +14,7 @@ definePageMeta({
 // Redirect to dashboard on mount
 onMounted(() => {
   console.log('Admin index page redirecting to dashboard');
-  
-  // Try multiple approaches to ensure navigation works
-  try {
-    // First try Nuxt's navigateTo
+    try {
     navigateTo('/admin/dashboard');
     
     // In case navigateTo doesn't work, use the Vue Router after a short delay

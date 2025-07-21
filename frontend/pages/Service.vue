@@ -3,12 +3,12 @@
         <section
             class="relative h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{
-                backgroundImage: 'url(/images/Services/client-value.jpg)',
+                backgroundImage: 'url(/images/Services/service_header.jpg)',
             }">
             <div class="absolute inset-0 z-0">
                 <!-- Glass Gradient Overlay -->
                 <div
-                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30">
+                    class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10">
                 </div>                
             </div>
             <!-- Content -->
@@ -339,12 +339,6 @@
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-[#081f42]/70 via-transparent to-transparent opacity-80">
                                 </div>
-
-                                <!-- Feature Badge -->
-                                <!-- <div
-                                    class="absolute top-4 right-4 bg-[#f15a22] text-[#e6eaf0] text-sm font-medium px-4 py-1 rounded-full shadow-lg animate-pulse-slow">
-                                    Expert Management
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -395,17 +389,11 @@
             <div class="container mx-auto relative z-10">
                 <!-- Header -->
                 <div class="flex flex-col items-center mb-20" v-motion-fade-visible-once>
-                    <!-- <span class="text-[#f15a22] text-lg font-medium tracking-wider uppercase mb-3">Trust
-                        Categories</span> -->
                     <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 t ext-center">
                         Types of Trust in <span class="text-[#f15a22]">Cambodia</span>
                     </h2>
-                    <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
-                    <!-- <p class="text-xl text-[#e6eaf0]/80 max-w-3xl mx-auto text-center leading-relaxed">
-                        Under Cambodia's Trust Law, there are several types of trusts designed to serve different
-                        purposes and meet various needs of individuals and organizations.
-                    </p> -->
-                </div> <!-- Enhanced Slider with 3D effects and better interaction -->
+                </div> 
+                <!-- Enhanced Slider with 3D effects and better interaction -->
                 <div class="relative px-4 md:px-10" v-motion-fade-visible-once>
                     <!-- Glass Effect Background Panel -->
                     <div

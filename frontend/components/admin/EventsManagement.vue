@@ -5,7 +5,6 @@
             <div class="flex justify-between items-center">
                 <div>
                     <h3 class="text-2xl font-bold text-gray-800">Events Management</h3>
-                    <p class="text-gray-600 mt-1">Manage all events in your system</p>
                 </div>
                 <Button label="Add New Event" icon="pi pi-plus" severity="success" @click="openEventDialog()"
                     class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
@@ -18,7 +17,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 flex-1">
                     <div class="flex-1 max-w-md">
                         <span class="p-input-icon-left w-full">
-                            <i class="pi pi-search" />
+                            <!-- <i class="pi pi-search" /> -->
                             <InputText v-model="searchQuery" placeholder="Search events..." @input="debounceSearch"
                                 class="w-full" />
                         </span>
@@ -28,81 +27,134 @@
                             :icon="viewMode === 'table' ? 'pi pi-th-large' : 'pi pi-list'" outlined
                             @click="toggleViewMode"
                             class="text-[#f15a22] border-[#f15a22] hover:bg-[#f15a22] hover:text-white" />
+                        <!-- <Button icon="pi pi-refresh" outlined @click="loadEvents" :loading="loading"
+                            v-tooltip="'Refresh Data'"
+                            class="text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white" /> -->
                     </div>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center gap-2 text-sm">
+                    <div class="flex items-center" v-if="!loading">
+                        <span class="inline-block w-2 h-2 rounded-full mr-2"
+                            :class="{ 'bg-green-500': databaseConnected && totalRecords > 0, 'bg-red-500': !databaseConnected || totalRecords === 0 }"></span>
+                        <span class="text-gray-600">{{ totalRecords }} events in database</span>
+                    </div>
+                    <div class="text-gray-500 italic" v-else>Loading from database...</div>
+                    <!-- <div class="text-gray-500 text-xs" v-if="lastRefresh">
+                        <i class="pi pi-clock mr-1"></i>Last updated: {{ formatTime(lastRefresh) }}
+                    </div> -->
                 </div>
             </div>
         </div>
 
         <!-- Table View -->
-        <div v-if="viewMode === 'table'" class="bg-white rounded-lg shadow-sm overflow-hidden">
-            <DataTable :value="filteredEvents" :loading="loading" :paginator="true" :rows="rowsPerPage"
-                :rowsPerPageOptions="[5, 10, 20, 50]" :totalRecords="totalRecords" :lazy="false"
-                responsiveLayout="scroll" stripedRows @page="onPage" class="events-table"
-                :globalFilterFields="['title', 'description', 'slug']">
-                <template #empty>
-                    <div class="text-center py-8">
-                        <i class="pi pi-calendar text-4xl text-gray-300 mb-4"></i>
-                        <h3 class="text-lg text-gray-600 mb-2">No Events Found</h3>
-                        <p class="text-gray-500 mb-4">Get started by creating your first event</p>
-                        <Button label="Create Event" icon="pi pi-plus" @click="openEventDialog()"
-                            class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
-                    </div>
-                </template>
+<div v-if="viewMode === 'table'" class="bg-white rounded-lg shadow-sm overflow-hidden">
+    <DataTable 
+        :value="filteredEvents" 
+        :loading="loading" 
+        :paginator="true" 
+        :rows="rowsPerPage"
+        :rowsPerPageOptions="[5, 10, 20, 50]" 
+        :totalRecords="totalRecords" 
+        :lazy="true"
+        responsiveLayout="scroll" 
+        stripedRows 
+        @page="onPage" 
+        class="events-table"
+        :globalFilterFields="['title', 'description', 'slug']"
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        :currentPageReportTemplate="'Showing {first} to {last} of {totalRecords} events'">
+        
+        <template #empty>
+            <div class="text-center py-8">
+                <i class="pi pi-calendar text-4xl text-gray-300 mb-4"></i>
+                <h3 class="text-lg text-gray-600 mb-2">No Events Found</h3>
+                <p class="text-gray-500 mb-4">Get started by creating your first event</p>
+                <Button 
+                    label="Create Event" 
+                    icon="pi pi-plus" 
+                    @click="openEventDialog()"
+                    class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
+            </div>
+        </template>
 
-                <Column field="thumbnail" header="Image" :style="{ width: '80px' }">
-                    <template #body="slotProps">
-                        <img :src="slotProps.data.thumbnail || '/images/event/default.jpg'" :alt="slotProps.data.title"
-                            class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
-                    </template>
-                </Column>
+        <!-- Thumbnail Column -->
+        <Column field="thumbnail" header="Image" :style="{ width: '80px' }">
+            <template #body="slotProps">
+                <img 
+                    :src="slotProps.data.thumbnail || '/images/event/default.jpg'" 
+                    :alt="slotProps.data.title"
+                    class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
+            </template>
+        </Column>
 
-                <Column field="title" header="Title" sortable class="min-w-48">
-                    <template #body="slotProps">
-                        <div>
-                            <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.title }}</h4>
-                            <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.slug }}</p>
-                        </div>
-                    </template>
-                </Column>
+        <!-- Title Column -->
+        <Column field="title" header="Title" sortable class="min-w-48">
+            <template #body="slotProps">
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.title }}</h4>
+                    <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.slug }}</p>
+                </div>
+            </template>
+        </Column>
 
-                <Column field="description" header="Description" sortable class="min-w-64">
-                    <template #body="slotProps">
-                        <div>
-                            <p class="text-sm text-gray-700 line-clamp-2">{{ slotProps.data.description }}</p>
-                        </div>
-                    </template>
-                </Column>
+        <!-- Description Column -->
+        <Column field="description" header="Description" sortable class="min-w-64">
+            <template #body="slotProps">
+                <div>
+                    <p class="text-sm text-gray-700 line-clamp-2">{{ slotProps.data.description }}</p>
+                </div>
+            </template>
+        </Column>
 
-                <Column field="status" header="Status" :style="{ width: '100px' }">
-                    <template #body="slotProps">
-                        <Tag :value="slotProps.data.published ? 'Published' : 'Draft'"
-                            :severity="slotProps.data.published ? 'success' : 'warning'" />
-                    </template>
-                </Column>
+        <!-- Status Column -->
+        <Column field="status" header="Status" :style="{ width: '100px' }">
+            <template #body="slotProps">
+                <Tag 
+                    :value="slotProps.data.published ? 'Published' : 'Draft'"
+                    :severity="slotProps.data.published ? 'success' : 'warning'" />
+            </template>
+        </Column>
 
-                <Column field="createdAt" header="Created" sortable>
-                    <template #body="slotProps">
-                        <div class="text-sm">
-                            <div class="text-gray-900">{{ formatDate(slotProps.data.createdAt) }}</div>
-                            <div class="text-gray-500">{{ formatTime(slotProps.data.createdAt) }}</div>
-                        </div>
-                    </template>
-                </Column>
+        <!-- Created Date Column -->
+        <Column field="createdAt" header="Created" sortable>
+            <template #body="slotProps">
+                <div class="text-sm">
+                    <div class="text-gray-900">{{ formatDate(slotProps.data.createdAt) }}</div>
+                    <div class="text-gray-500">{{ formatTime(slotProps.data.createdAt) }}</div>
+                </div>
+            </template>
+        </Column>
 
-                <Column header="Actions" :style="{ width: '180px' }">
-                    <template #body="slotProps">
-                        <div class="flex gap-1">
-                            <Button icon="pi pi-external-link" size="small" text severity="info"
-                                @click="previewEvent(slotProps.data)" v-tooltip="'Preview'" />
-                            <Button icon="pi pi-pencil" size="small" text severity="warning"
-                                @click="editEvent(slotProps.data)" v-tooltip="'Edit'" />
-                            <Button icon="pi pi-trash" size="small" text severity="danger"
-                                @click="confirmDeleteEvent(slotProps.data)" v-tooltip="'Delete'" />
-                        </div>
-                    </template>
-                </Column>
-            </DataTable>
-        </div>
+        <!-- Actions Column -->
+        <Column header="Actions" :style="{ width: '180px' }">
+            <template #body="slotProps">
+                <div class="flex gap-1">
+                    <Button 
+                        icon="pi pi-external-link" 
+                        size="small" 
+                        text 
+                        severity="info"
+                        @click="previewEvent(slotProps.data)" 
+                        v-tooltip="'Preview'" />
+                    <Button 
+                        icon="pi pi-pencil" 
+                        size="small" 
+                        text 
+                        severity="warning"
+                        @click="editEvent(slotProps.data)" 
+                        v-tooltip="'Edit'" />
+                    <Button 
+                        icon="pi pi-trash" 
+                        size="small" 
+                        text 
+                        severity="danger"
+                        @click="confirmDeleteEvent(slotProps.data)" 
+                        v-tooltip="'Delete'" />
+                </div>
+            </template>
+        </Column>
+    </DataTable>
+</div>
 
         <!-- Grid View -->
         <div v-else class="bg-white rounded-lg shadow-sm p-6">
@@ -110,6 +162,18 @@
             <div v-if="loading" class="flex justify-center items-center py-20">
                 <div
                     class="w-16 h-16 border-4 border-t-[#f15a22] border-r-[#f15a22]/50 border-b-[#f15a22]/30 border-l-[#f15a22]/10 rounded-full animate-spin">
+                </div>
+                <p class="mt-4 text-gray-600">Fetching events from database...</p>
+            </div>
+
+            <!-- Database Status -->
+            <div v-if="!loading && displayedEvents.length > 0" class="mb-4 flex items-center justify-between">
+                <div class="text-sm text-gray-600 flex items-center">
+                    <span class="inline-block w-2 h-2 rounded-full mr-2 bg-green-500"></span>
+                    <span>Connected to database</span>
+                </div>
+                <div class="text-sm text-gray-500">
+                    Showing {{ displayedEvents.length }} of {{ totalRecords }} total events
                 </div>
             </div>
 
@@ -148,8 +212,13 @@
 
                         <div class="space-y-2 text-xs text-gray-500">
                             <div class="flex items-center">
-                                <i class="pi pi-clock mr-1"></i>
+                                <i class="pi pi-calendar mr-1"></i>
                                 <span>Created: {{ formatDate(event.createdAt) }}</span>
+                            </div>
+                            <div class="flex items-center"
+                                v-if="event.updatedAt && event.updatedAt !== event.createdAt">
+                                <i class="pi pi-clock mr-1"></i>
+                                <span>Updated: {{ formatDate(event.updatedAt) }}</span>
                             </div>
                         </div>
 
@@ -184,19 +253,28 @@
                     <div class="field">
                         <label for="title" class="font-medium">Title *</label>
                         <InputText id="title" v-model="eventForm.title" required placeholder="Enter event title"
-                            class="w-full" />
+                            class="w-full" @input="validateTitle" />
+                        <small class="text-red-500" v-if="titleError">{{ titleError }}</small>
                     </div>
 
                     <div class="field">
                         <label for="slug" class="font-medium">Slug *</label>
-                        <InputText id="slug" v-model="eventForm.slug" required placeholder="event-slug"
-                            class="w-full" />
+                        <div class="flex gap-2">
+                            <InputText id="slug" v-model="eventForm.slug" required placeholder="event-slug"
+                                class="w-full" @input="validateSlug" />
+                            <Button type="button" icon="pi pi-refresh" class="p-button-outlined"
+                                @click="generateSlugFromTitle" v-tooltip="'Generate slug from title'" />
+                        </div>
+                        <small class="text-gray-600">This will be used in the URL (e.g., /events/your-slug)</small>
+                        <small class="text-red-500" v-if="slugError">{{ slugError }}</small>
                     </div>
 
                     <div class="field">
                         <label for="description" class="font-medium">Description *</label>
                         <Textarea id="description" v-model="eventForm.description" required
-                            placeholder="Detailed description of the event" rows="6" class="w-full" />
+                            placeholder="Detailed description of the event" rows="6" class="w-full"
+                            @input="validateDescription" />
+                        <small class="text-red-500" v-if="descriptionError">{{ descriptionError }}</small>
                     </div>
 
                     <div class="field">
@@ -250,9 +328,10 @@
                 <!-- Form Actions -->
                 <div class="col-span-full flex justify-end gap-3 pt-4 border-t">
                     <Button label="Cancel" icon="pi pi-times" severity="secondary" @click="eventDialog = false"
-                        type="button" />
+                        type="button" :disabled="saving" />
                     <Button :label="editingEvent ? 'Update' : 'Create'" icon="pi pi-check" type="submit"
-                        :loading="saving" class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
+                        :loading="saving" :disabled="saving || !validateForm()"
+                        class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
                 </div>
             </form>
         </Dialog>
@@ -266,9 +345,8 @@
 </template>
 
 <script>
-import { useEventService } from '@/composables/useEventService'
+import { useEventService } from '~/composables/useEvent'
 import { useFileUpload } from '@/composables/useFileUpload'
-import { useDebug } from '@/composables/useDebug'
 import { useAuthStore } from '@/stores/auth'
 import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
@@ -308,14 +386,12 @@ export default {
         const confirm = useConfirm()
         const eventService = useEventService()
         const fileUpload = useFileUpload()
-        const debug = useDebug()
 
         return {
             toast,
             confirm,
             eventService,
-            fileUpload,
-            debug
+            fileUpload
         }
     },
     data() {
@@ -333,6 +409,8 @@ export default {
             currentPage: 1,
             rowsPerPage: 10,
             totalRecords: 0,
+            databaseConnected: false,
+            lastRefresh: null,
             eventForm: {
                 title: '',
                 slug: '',
@@ -344,11 +422,21 @@ export default {
                 imagePreviews: []
             },
             uploadedThumbnail: null,
-            uploadedImages: []
+            uploadedImages: [],
+            titleError: '',
+            slugError: '',
+            descriptionError: ''
         }
     },
     async mounted() {
-        await this.loadEvents()
+        // Set default view mode from localStorage if available
+        const savedViewMode = localStorage.getItem('events-view-mode');
+        if (savedViewMode) {
+            this.viewMode = savedViewMode;
+        }
+
+        // Load events data
+        await this.loadEvents();
     },
     computed: {
         displayedEvents() {
@@ -363,12 +451,17 @@ export default {
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, '-')
                     .replace(/(^-|-$)/g, '')
+
+                // Validate slug after generation
+                this.validateSlug()
             }
         }
     },
     methods: {
         async loadEvents() {
-            this.loading = true
+            this.loading = true;
+            let shouldRedirect = false;
+
             try {
                 // Check authentication state first
                 const authStore = useAuthStore();
@@ -387,8 +480,8 @@ export default {
                         detail: 'Please log in to access the admin panel',
                         life: 5000
                     });
-                    await navigateTo('/login');
-                    return;
+                    shouldRedirect = true;
+                    return; // Exit early
                 }
 
                 // Try to refresh token if it might be expired
@@ -404,19 +497,74 @@ export default {
                             life: 5000
                         });
                         await authStore.logout();
-                        await navigateTo('/login');
-                        return;
+                        shouldRedirect = true;
+                        return; // Exit early
                     }
                 }
 
-                this.events = await this.eventService.getAdminEvents()
-                this.totalRecords = this.events.length
+                // Set up pagination parameters for the API request
+                const params = {
+                    page: this.currentPage,
+                    limit: this.rowsPerPage,
+                    search: this.searchQuery || undefined
+                };
+
+                console.log('Fetching events with params:', params);
+                const response = await this.eventService.getAdminEvents(params)
+
+                // Process API response
+                if (response && typeof response === 'object') {
+                    // Handle paginated response structure (from backend)
+                    if (Array.isArray(response.events)) {
+                        this.events = response.events;
+                        this.totalRecords = response.total || this.events.length;
+                        console.log(`Loaded ${this.events.length} events out of ${this.totalRecords} total events`);
+                    }
+                    // Handle direct array response
+                    else if (Array.isArray(response)) {
+                        this.events = response;
+                        this.totalRecords = response.length;
+                        console.log(`Loaded ${this.events.length} events from admin API`);
+                    }
+                    // Handle other common response patterns
+                    else if (Array.isArray(response.data)) {
+                        this.events = response.data;
+                        this.totalRecords = response.total || response.count || this.events.length;
+                    }
+                    // Fallback for unexpected format
+                    else {
+                        console.warn('API returned object but no recognizable events array:', response);
+                        this.events = [];
+                        this.totalRecords = 0;
+                    }
+                } else {
+                    console.warn('Unexpected API response format:', response);
+                    this.events = [];
+                    this.totalRecords = 0;
+                }
+
+                // Enrich data with additional display properties
+                this.events = this.events.map(event => ({
+                    ...event,
+                    formattedCreatedAt: this.formatDate(event.createdAt),
+                    formattedUpdatedAt: this.formatDate(event.updatedAt),
+                    imageCount: event.images?.length || 0,
+                    statusLabel: event.published ? 'Published' : 'Draft',
+                    statusSeverity: event.published ? 'success' : 'warning'
+                }));
+
+                // Update status information
+                this.databaseConnected = true
+                this.lastRefresh = new Date()
+
+                // Apply any filters if needed (for client-side filtering)
                 this.applySearch()
             } catch (error) {
                 console.error('Load events error:', error);
+                let needsRedirect = false;
 
                 // Handle specific error cases
-                if (error.status === 401 || error.statusCode === 401) {
+                if (error.status === 401 || error.statusCode === 401 || error.message.includes('Authentication required')) {
                     this.toast.add({
                         severity: 'error',
                         summary: 'Authentication Error',
@@ -425,56 +573,76 @@ export default {
                     });
                     const authStore = useAuthStore();
                     await authStore.logout();
-                    await navigateTo('/login');
+                    shouldRedirect = true;
+                } else if (error.status === 403 || error.statusCode === 403 || error.message.includes('Access denied')) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Access Denied',
+                        detail: 'You do not have permission to access this resource.',
+                        life: 5000
+                    });
                 } else {
                     this.toast.add({
                         severity: 'error',
                         summary: 'Error',
-                        detail: 'Failed to load events. Please try again.',
+                        detail: error.message || 'Failed to load events. Please try again.',
                         life: 3000
-                    })
+                    });
                 }
 
                 // Set empty array as fallback
-                this.events = []
-                this.totalRecords = 0
-                this.applySearch()
+                this.events = [];
+                this.totalRecords = 0;
+                this.applySearch();
             } finally {
-                this.loading = false
+                this.loading = false;
+
+                // Handle redirection after everything else is done
+                if (shouldRedirect) {
+                    // Use window.location instead of navigateTo to avoid promise channel issues
+                    window.location.href = '/login';
+                }
             }
         },
 
         toggleViewMode() {
-            this.viewMode = this.viewMode === 'table' ? 'grid' : 'table'
+            this.viewMode = this.viewMode === 'table' ? 'grid' : 'table';
+            // Save view mode preference to localStorage
+            localStorage.setItem('events-view-mode', this.viewMode);
         },
 
         debounceSearch() {
             if (this.searchTimeout) clearTimeout(this.searchTimeout)
             this.searchTimeout = setTimeout(() => {
-                this.applySearch()
+                // Reset to first page when searching
+                this.currentPage = 1
+                // Fetch new results from server with search parameter
+                this.loadEvents()
             }, 300)
         },
 
         applySearch() {
-            let filtered = [...this.events]
+            // If we're doing server-side filtering, this is just a backup
+            // for any additional client-side filtering if needed
 
-            // Apply search filter
-            if (this.searchQuery.trim()) {
-                const query = this.searchQuery.toLowerCase()
-                filtered = filtered.filter(event =>
-                    event.title?.toLowerCase().includes(query) ||
-                    event.description?.toLowerCase().includes(query) ||
-                    event.slug?.toLowerCase().includes(query)
-                )
+            // Make sure this.events is an array before trying to spread it
+            if (!Array.isArray(this.events)) {
+                console.warn('Events is not an array:', this.events)
+                this.filteredEvents = []
+                return
             }
 
-            this.filteredEvents = filtered
-            this.totalRecords = this.filteredEvents.length
+            // In most cases, this will just pass through the server-filtered events
+            this.filteredEvents = this.events
+            console.log(`Using ${this.filteredEvents.length} events after filtering`);
         },
 
         onPage(event) {
             this.currentPage = event.page + 1
             this.rowsPerPage = event.rows
+
+            // Load the new page of data from the server
+            this.loadEvents()
         },
 
         formatDate(dateString) {
@@ -496,6 +664,12 @@ export default {
 
         openEventDialog(event = null) {
             this.editingEvent = event
+
+            // Clear validation errors
+            this.titleError = ''
+            this.slugError = ''
+            this.descriptionError = ''
+
             if (event) {
                 // Edit mode
                 this.eventForm = {
@@ -528,6 +702,88 @@ export default {
             }
             this.uploadedThumbnail = null
             this.uploadedImages = []
+            this.titleError = ''
+            this.slugError = ''
+            this.descriptionError = ''
+        },
+
+        generateSlugFromTitle() {
+            if (this.eventForm.title) {
+                this.eventForm.slug = this.eventForm.title
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, '-')  // Replace non-alphanumeric characters with hyphens
+                    .replace(/(^-|-$)/g, '')      // Remove leading/trailing hyphens
+                    .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
+
+                this.validateSlug();
+
+                this.toast.add({
+                    severity: 'info',
+                    summary: 'Slug Generated',
+                    detail: `Slug created from title: ${this.eventForm.slug}`,
+                    life: 3000
+                });
+            } else {
+                this.toast.add({
+                    severity: 'warn',
+                    summary: 'No Title',
+                    detail: 'Please enter a title first to generate a slug',
+                    life: 3000
+                });
+            }
+        },
+
+        validateTitle() {
+            this.titleError = ''
+            if (!this.eventForm.title || this.eventForm.title.trim().length < 3) {
+                this.titleError = 'Title must be at least 3 characters long'
+                return false
+            }
+            if (this.eventForm.title.trim().length > 200) {
+                this.titleError = 'Title must be less than 200 characters'
+                return false
+            }
+            return true
+        },
+
+        validateSlug() {
+            this.slugError = ''
+            if (!this.eventForm.slug || this.eventForm.slug.trim().length < 3) {
+                this.slugError = 'Slug must be at least 3 characters long'
+                return false
+            }
+            if (this.eventForm.slug.trim().length > 100) {
+                this.slugError = 'Slug must be less than 100 characters'
+                return false
+            }
+            // Check for valid slug format
+            const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+            if (!slugRegex.test(this.eventForm.slug)) {
+                this.slugError = 'Slug can only contain lowercase letters, numbers, and hyphens'
+                return false
+            }
+            return true
+        },
+
+        validateDescription() {
+            this.descriptionError = ''
+            if (!this.eventForm.description || this.eventForm.description.trim().length < 10) {
+                this.descriptionError = 'Description must be at least 10 characters long'
+                return false
+            }
+            if (this.eventForm.description.trim().length > 5000) {
+                this.descriptionError = 'Description must be less than 5000 characters'
+                return false
+            }
+            return true
+        },
+
+        validateForm() {
+            const titleValid = this.validateTitle()
+            const slugValid = this.validateSlug()
+            const descriptionValid = this.validateDescription()
+
+            return titleValid && slugValid && descriptionValid
         },
 
         async saveEvent() {
@@ -544,6 +800,17 @@ export default {
                     });
                     await authStore.logout();
                     await navigateTo('/login');
+                    return;
+                }
+
+                // Validate required fields
+                if (!this.validateForm()) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Validation Error',
+                        detail: 'Please fix the errors in the form before submitting.',
+                        life: 5000
+                    });
                     return;
                 }
 
@@ -583,12 +850,14 @@ export default {
                     }
                 }
 
+                // Prepare event data to match database schema
                 const eventData = {
-                    title: this.eventForm.title,
-                    slug: this.eventForm.slug,
-                    description: this.eventForm.description,
+                    title: this.eventForm.title.trim(),
+                    slug: this.eventForm.slug.trim(),
+                    description: this.eventForm.description.trim(),
                     published: this.eventForm.published,
-                    thumbnail: thumbnailUrl
+                    thumbnail: thumbnailUrl || null,
+                    // Don't include id, createdAt, or updatedAt as these are managed by the backend
                 }
 
                 let savedEvent
@@ -629,12 +898,14 @@ export default {
                 }
 
                 this.eventDialog = false
-                await this.loadEvents()
+                // Force refresh the events cache to ensure UI consistency
+                await eventService.refreshEventsCache();
+                await this.loadEvents();
             } catch (error) {
                 console.error('Save event error:', error);
 
                 // Handle specific error cases
-                if (error.status === 401 || error.statusCode === 401) {
+                if (error.status === 401 || error.statusCode === 401 || error.message.includes('Authentication')) {
                     this.toast.add({
                         severity: 'error',
                         summary: 'Authentication Error',
@@ -651,6 +922,13 @@ export default {
                         detail: 'You do not have permission to perform this action.',
                         life: 5000
                     });
+                } else if (error.status === 409 || error.statusCode === 409) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Conflict Error',
+                        detail: 'An event with this slug already exists. Please choose a different slug.',
+                        life: 5000
+                    });
                 } else if (error.status === 500 || error.statusCode === 500) {
                     this.toast.add({
                         severity: 'error',
@@ -662,7 +940,7 @@ export default {
                     this.toast.add({
                         severity: 'error',
                         summary: 'Error',
-                        detail: this.editingEvent ? 'Failed to update event' : 'Failed to create event',
+                        detail: error.message || (this.editingEvent ? 'Failed to update event' : 'Failed to create event'),
                         life: 3000
                     })
                 }
@@ -676,26 +954,50 @@ export default {
                 // Check authentication before attempting upload
                 const authStore = useAuthStore();
                 if (!authStore.isAuthenticated || !authStore.accessToken) {
-                    throw new Error('Not authenticated');
+                    throw new Error('Authentication required. Please log in again.');
                 }
 
                 // Use the fileUpload service
-                return await this.fileUpload.uploadFile(file, type)
+                const result = await this.fileUpload.uploadFile(file, type);
+
+                // Handle the response - it might be a URL string or an object with url property
+                if (typeof result === 'string') {
+                    return result;
+                } else if (result && result.url) {
+                    return result.url;
+                } else {
+                    throw new Error('Invalid upload response format');
+                }
             } catch (error) {
                 console.error('Upload failed:', error);
 
                 // If authentication error, handle it specifically
-                if (error.message === 'Not authenticated' || error.status === 401 || error.statusCode === 401) {
-                    throw new Error('Authentication required for file upload');
+                if (error.message.includes('Authentication') || error.status === 401 || error.statusCode === 401) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Authentication Error',
+                        detail: 'Please log in again to upload files.',
+                        life: 5000
+                    });
+                    throw error; // Re-throw to be handled by caller
                 }
 
-                console.warn('Upload failed, using preview as fallback:', error)
-                // Fallback to creating a data URL for preview purposes
+                // If it's a server error, throw it up
+                if (error.status >= 500 || error.statusCode >= 500) {
+                    throw new Error('Server error during file upload. Please try again.');
+                }
+
+                console.warn('Upload failed, using preview as fallback:', error);
+                // Create a data URL synchronously instead of using a Promise
+                const reader = new FileReader();
                 return new Promise((resolve) => {
-                    const reader = new FileReader()
-                    reader.onload = (e) => resolve(e.target.result)
-                    reader.readAsDataURL(file)
-                })
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.onerror = () => {
+                        console.error('FileReader failed');
+                        resolve(''); // Return empty string on error
+                    };
+                    reader.readAsDataURL(file);
+                });
             }
         },
 
@@ -723,13 +1025,18 @@ export default {
         },
 
         async onThumbnailSelect(event) {
-            const file = event.files[0]
+            if (!event || !event.files || !event.files.length) {
+                console.warn('Invalid file selection in onThumbnailSelect');
+                return;
+            }
+
+            const file = event.files[0];
             if (file) {
                 // Validate file
                 const validation = this.fileUpload.validateFile(file, {
                     maxSize: 5 * 1024 * 1024, // 5MB
                     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-                })
+                });
 
                 if (!validation.isValid) {
                     this.toast.add({
@@ -737,16 +1044,33 @@ export default {
                         summary: 'Invalid File',
                         detail: validation.errors.join(', '),
                         life: 5000
-                    })
-                    return
+                    });
+                    return;
                 }
 
-                this.eventForm.thumbnailFile = file
-                // Create preview
+                // Set the file first so UI can be updated
+                this.eventForm.thumbnailFile = file;
+
+                // Create preview safely
                 try {
-                    this.eventForm.thumbnailPreview = await this.fileUpload.createImagePreview(file)
+                    // Set a placeholder first to avoid UI delay
+                    this.eventForm.thumbnailPreview = '';
+
+                    // Generate the preview
+                    const preview = await this.fileUpload.createImagePreview(file);
+
+                    // Only update if component is still mounted and the same file is selected
+                    if (this.eventForm.thumbnailFile === file) {
+                        this.eventForm.thumbnailPreview = preview;
+                    }
                 } catch (error) {
-                    console.error('Failed to create preview:', error)
+                    console.error('Failed to create thumbnail preview:', error);
+                    this.toast.add({
+                        severity: 'warn',
+                        summary: 'Preview Warning',
+                        detail: 'Could not generate thumbnail preview',
+                        life: 3000
+                    });
                 }
             }
         },
@@ -757,15 +1081,21 @@ export default {
         },
 
         async onImagesSelect(event) {
-            const files = Array.from(event.files)
-            const validFiles = []
+            if (!event || !event.files || !Array.isArray(event.files)) {
+                console.warn('Invalid files received in onImagesSelect');
+                return;
+            }
 
+            const files = Array.from(event.files);
+            const validFiles = [];
+
+            // Validate all files first
             for (const file of files) {
                 // Validate each file
                 const validation = this.fileUpload.validateFile(file, {
                     maxSize: 5 * 1024 * 1024, // 5MB
                     allowedTypes: ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-                })
+                });
 
                 if (!validation.isValid) {
                     this.toast.add({
@@ -773,23 +1103,38 @@ export default {
                         summary: 'Invalid File',
                         detail: `${file.name}: ${validation.errors.join(', ')}`,
                         life: 5000
-                    })
-                    continue
+                    });
+                    continue;
                 }
 
-                validFiles.push(file)
+                validFiles.push(file);
             }
 
-            this.eventForm.imageFiles = [...this.eventForm.imageFiles, ...validFiles]
+            // Update file list first
+            this.eventForm.imageFiles = [...this.eventForm.imageFiles, ...validFiles];
 
-            // Create previews for valid files
-            for (const file of validFiles) {
-                try {
-                    const preview = await this.fileUpload.createImagePreview(file)
-                    this.eventForm.imagePreviews.push(preview)
-                } catch (error) {
-                    console.error('Failed to create preview for', file.name, error)
-                }
+            // Process all previews in parallel to avoid sequential async issues
+            try {
+                const previews = await Promise.all(
+                    validFiles.map(file => this.fileUpload.createImagePreview(file)
+                        .catch(error => {
+                            console.error('Failed to create preview for', file.name, error);
+                            return null; // Return null for failed previews
+                        })
+                    )
+                );
+
+                // Add only successful previews
+                const validPreviews = previews.filter(preview => preview !== null);
+                this.eventForm.imagePreviews = [...this.eventForm.imagePreviews, ...validPreviews];
+            } catch (error) {
+                console.error('Error creating image previews:', error);
+                this.toast.add({
+                    severity: 'warn',
+                    summary: 'Preview Warning',
+                    detail: 'Some image previews could not be generated',
+                    life: 3000
+                });
             }
         },
 
@@ -829,35 +1174,133 @@ export default {
 
         async deleteEvent(eventId) {
             try {
-                await this.eventService.deleteEvent(eventId)
+                // Check authentication before attempting delete
+                const authStore = useAuthStore();
+                if (!authStore.isAuthenticated || !authStore.accessToken) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Authentication Error',
+                        detail: 'Please log in again to delete events.',
+                        life: 5000
+                    });
+                    // Do logout first before navigation
+                    await authStore.logout();
+                    // Use window.location for reliable navigation that doesn't create promise issues
+                    window.location.href = '/login';
+                    return;
+                }
+
+                // Delete the event
+                await this.eventService.deleteEvent(eventId);
+
+                // Show success message
                 this.toast.add({
                     severity: 'success',
                     summary: 'Success',
                     detail: 'Event deleted successfully',
                     life: 3000
-                })
-                await this.loadEvents()
+                });
+
+                // Force refresh the events cache to ensure UI consistency
+                try {
+                    await this.eventService.refreshEventsCache();
+                    await this.loadEvents();
+                } catch (refreshError) {
+                    console.error('Error refreshing events after delete:', refreshError);
+                    // Still considered successful even if refresh fails
+                }
             } catch (error) {
+                console.error('Delete event error:', error);
+
+                // Handle specific error cases
+                if (error.status === 401 || error.statusCode === 401 || error.message.includes('Authentication')) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Authentication Error',
+                        detail: 'Your session has expired. Please log in again.',
+                        life: 5000
+                    });
+                    const authStore = useAuthStore();
+                    await authStore.logout();
+                    await navigateTo('/login');
+                } else if (error.status === 403 || error.statusCode === 403) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Permission Error',
+                        detail: 'You do not have permission to delete this event.',
+                        life: 5000
+                    });
+                } else if (error.status === 404 || error.statusCode === 404) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Not Found',
+                        detail: 'Event not found. It may have been already deleted.',
+                        life: 3000
+                    });
+                } else {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Error',
+                        detail: error.message || 'Failed to delete event',
+                        life: 3000
+                    })
+                }
+            }
+        },
+
+        exportEventsData() {
+            try {
+                // Prepare the data for export (clean up sensitive or unnecessary fields)
+                const exportData = this.events.map(event => ({
+                    id: event.id,
+                    title: event.title,
+                    slug: event.slug,
+                    description: event.description,
+                    thumbnail: event.thumbnail,
+                    published: event.published,
+                    createdAt: event.createdAt,
+                    updatedAt: event.updatedAt,
+                    imagesCount: event.images ? event.images.length : 0
+                }));
+
+                // Create a JSON blob and download link
+                const dataStr = JSON.stringify(exportData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+
+                // Create download link
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `events-data-${new Date().toISOString().split('T')[0]}.json`;
+
+                // Trigger download and cleanup
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+
+                this.toast.add({
+                    severity: 'success',
+                    summary: 'Export Successful',
+                    detail: `Exported ${exportData.length} events`,
+                    life: 3000
+                });
+            } catch (error) {
+                console.error('Error exporting events data:', error);
                 this.toast.add({
                     severity: 'error',
-                    summary: 'Error',
-                    detail: 'Failed to delete event',
+                    summary: 'Export Failed',
+                    detail: error.message || 'Failed to export events data',
                     life: 3000
-                })
+                });
             }
         },
 
         previewEvent(event) {
             // Open event details in new tab using the event slug
-            const url = `/EventDetails?slug=${event.slug}`
+            // Add preview=true parameter to allow viewing unpublished events
+            const url = `/EventDetails?slug=${event.slug}&preview=true`
             window.open(url, '_blank')
-        },
-
-        debugAuth() {
-            this.debug.logAuthState();
-            // Test both upload and events endpoints
-            this.debug.testApiCall('/api/upload', 'GET');
-            this.debug.testApiCall('/api/events', 'GET');
         },
 
         formatDate(dateString) {
@@ -875,6 +1318,60 @@ export default {
                 hour: '2-digit',
                 minute: '2-digit'
             })
+        },
+
+        // Form validation methods
+        validateTitle() {
+            this.titleError = ''
+            if (!this.eventForm.title || this.eventForm.title.trim().length < 3) {
+                this.titleError = 'Title must be at least 3 characters long'
+                return false
+            }
+            if (this.eventForm.title.trim().length > 200) {
+                this.titleError = 'Title must be less than 200 characters'
+                return false
+            }
+            return true
+        },
+
+        validateSlug() {
+            this.slugError = ''
+            if (!this.eventForm.slug || this.eventForm.slug.trim().length < 3) {
+                this.slugError = 'Slug must be at least 3 characters long'
+                return false
+            }
+            if (this.eventForm.slug.trim().length > 100) {
+                this.slugError = 'Slug must be less than 100 characters'
+                return false
+            }
+            // Check for valid slug format
+            const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+            if (!slugRegex.test(this.eventForm.slug)) {
+                this.slugError = 'Slug can only contain lowercase letters, numbers, and hyphens'
+                return false
+            }
+            return true
+        },
+
+        validateDescription() {
+            this.descriptionError = ''
+            if (!this.eventForm.description || this.eventForm.description.trim().length < 10) {
+                this.descriptionError = 'Description must be at least 10 characters long'
+                return false
+            }
+            if (this.eventForm.description.trim().length > 5000) {
+                this.descriptionError = 'Description must be less than 5000 characters'
+                return false
+            }
+            return true
+        },
+
+        validateForm() {
+            const titleValid = this.validateTitle()
+            const slugValid = this.validateSlug()
+            const descriptionValid = this.validateDescription()
+
+            return titleValid && slugValid && descriptionValid
         }
     }
 }

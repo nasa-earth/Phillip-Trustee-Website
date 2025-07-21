@@ -22,6 +22,7 @@ import { UpdatePartnerDto } from './dto/update-partner.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 import { Role } from '@prisma/client';
 
 @ApiTags('partners')
@@ -32,7 +33,6 @@ export class PartnersController {
   constructor(private readonly partnersService: PartnersService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new partner' })
@@ -40,8 +40,15 @@ export class PartnersController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   create(@Body() createPartnerDto: CreatePartnerDto, @Request() req) {
-    this.logger.debug(`Creating partner - User: ${JSON.stringify(req.user)}`);
+    this.logger.debug(`Creating partner - Request received`);
+    this.logger.debug(`User from request: ${JSON.stringify(req.user)}`);
     this.logger.debug(`Partner data: ${JSON.stringify(createPartnerDto)}`);
+
+    if (!req.user) {
+      this.logger.error('No user found in request');
+      throw new Error('No user found in request');
+    }
+
     return this.partnersService.create(createPartnerDto);
   }
 
@@ -55,6 +62,7 @@ export class PartnersController {
   }
 
   @Get()
+  @Public()
   @ApiOperation({ summary: 'Get all partners' })
   @ApiResponse({ status: 200, description: 'Returns all partners.' })
   findAll() {
@@ -62,6 +70,7 @@ export class PartnersController {
   }
 
   @Get(':id')
+  @Public()
   @ApiOperation({ summary: 'Get a partner by ID' })
   @ApiResponse({ status: 200, description: 'Returns the partner.' })
   @ApiResponse({ status: 404, description: 'Partner not found.' })
@@ -70,7 +79,6 @@ export class PartnersController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update a partner' })
@@ -83,7 +91,6 @@ export class PartnersController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete a partner' })

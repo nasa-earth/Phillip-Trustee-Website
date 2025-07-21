@@ -23,6 +23,7 @@ import {
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
+import { Public } from '../auth/decorators/public.decorator';
 import { Role } from '@prisma/client';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-events.dto';
@@ -38,7 +39,6 @@ export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Create a new event' })
@@ -65,6 +65,7 @@ export class EventsController {
   }
 
   @Get()
+  @Public()
   @ApiOperation({ summary: 'Get all published events (public)' })
   @ApiResponse({ status: 200, description: 'Returns all published events.' })
   findPublished() {
@@ -72,7 +73,6 @@ export class EventsController {
   }
 
   @Get('admin/all')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all events (admin only)' })
@@ -87,6 +87,7 @@ export class EventsController {
   }
 
   @Get('recent')
+  @Public()
   @ApiOperation({ summary: 'Get recent events' })
   @ApiResponse({
     status: 200,
@@ -105,6 +106,7 @@ export class EventsController {
   }
 
   @Get('by-slug/:slug')
+  @Public()
   @ApiOperation({ summary: 'Get an event by slug' })
   @ApiResponse({ status: 200, description: 'Returns the event.' })
   @ApiResponse({ status: 404, description: 'Event not found.' })
@@ -113,6 +115,7 @@ export class EventsController {
   }
 
   @Get(':id')
+  @Public()
   @ApiOperation({ summary: 'Get an event by id' })
   @ApiResponse({ status: 200, description: 'Returns the event.' })
   @ApiResponse({ status: 404, description: 'Event not found.' })
@@ -121,7 +124,6 @@ export class EventsController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Update an event' })
@@ -150,7 +152,6 @@ export class EventsController {
   }
 
   @Delete(':id')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete an event' })
@@ -171,7 +172,6 @@ export class EventsController {
   }
 
   @Post(':id/images')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Add an image to an event' })
@@ -200,7 +200,6 @@ export class EventsController {
   }
 
   @Delete(':id/images/:imageId')
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Remove an image from an event' })

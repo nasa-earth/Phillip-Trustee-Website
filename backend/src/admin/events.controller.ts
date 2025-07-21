@@ -29,7 +29,7 @@ import { Request as ExpressRequest } from 'express';
 
 @ApiTags('admin/events')
 @Controller('admin/events')
-@UseGuards(JwtAuthGuard, RolesGuard)
+
 @Roles(Role.ADMIN, Role.EDITOR)
 @ApiBearerAuth()
 export class AdminEventsController {

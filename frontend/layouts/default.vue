@@ -1,10 +1,10 @@
 <template>
   <div class="relative min-h-screen">
-    <Header v-if="!isLoginPage" />
+    <Header v-if="!isLoginPage && !isAdminPage" />
     <div class="page-content">
       <NuxtPage />
     </div>
-    <Footer v-if="!isLoginPage" />
+    <Footer v-if="!isLoginPage && !isAdminPage" />
   </div>
 </template>
 
@@ -22,4 +22,5 @@ import Footer from '~/components/Footer.vue';
 
 const route = useRoute();
 const isLoginPage = computed(() => route.path === '/login');
+const isAdminPage = computed(() => route.path.startsWith('/admin'));
 </script>

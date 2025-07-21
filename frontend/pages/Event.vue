@@ -2,10 +2,10 @@
   <div class="min-h-screen bg-lightgray">
     <!-- Hero Section -->
     <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
-      backgroundImage: 'url(/images/Services/Beneficiaries-rights.jpg)',
+      backgroundImage: 'url(/images/event/event_header.jpg)',
     }">
       <!-- Overlay -->
-      <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-0"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
     </section>
 
     <!-- Events Section -->
@@ -45,10 +45,27 @@
           </div>
         </div>
 
-        <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-[150px]">
+        <!-- Error State -->
+        <div v-else-if="error" class="text-center py-20">
+          <i class="pi pi-exclamation-triangle text-6xl text-red-400 mb-4"></i>
+          <h3 class="text-xl text-[#e6eaf0] mb-2">Error Loading Events</h3>
+          <p class="text-[#e6eaf0]/70 mb-6">{{ error }}</p>
+          <button @click="loadEvents"
+            class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg transition-all duration-300">
+            Try Again
+          </button>
+        </div>
+
+        <!-- Events Grid -->
+        <div v-else-if="events.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mx-[150px]">
           <div v-for="event in events" :key="event.id"
             class="group bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20 animate-card">
+            <!-- Status Badge (Only display if needed) -->
+            <div v-if="event.published !== undefined" class="absolute top-3 right-3 z-10">
+              <span class="bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">Published</span>
+            </div>
+
             <div class="h-56 w-full overflow-hidden relative">
               <img :src="event.thumbnail || '/images/event/default.jpg'" :alt="event.title"
                 class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
@@ -61,12 +78,17 @@
               </h3>
               <p class="text-[#e6eaf0]/90 mb-4 line-clamp-3">{{ event.description }}</p>
               <div class="text-sm text-[#e6eaf0]/70 mb-6">
-                <p v-if="event.createdAt">
-                  <i class="pi pi-calendar mr-2"></i>{{ formatDate(event.createdAt) }}
-                </p>
+                <div class="flex flex-col gap-1">
+                  <p v-if="event.createdAt">
+                    <i class="pi pi-calendar mr-2"></i>Created: {{ formatDate(event.createdAt) }}
+                  </p>
+                  <p v-if="event.updatedAt && event.updatedAt !== event.createdAt">
+                    <i class="pi pi-clock mr-2"></i>Updated: {{ formatDate(event.updatedAt) }}
+                  </p>
+                </div>
               </div>
               <div class="flex justify-between items-center">
-                <NuxtLink :to="`/EventDetails?slug=${event.slug}`"
+                <NuxtLink :to="`/EventDetails?slug=${event.slug}`" @click="trackEventClick(event)"
                   class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">
                   <span>Read More</span>
                   <svg xmlns="http://www.w3.org/2000/svg"
@@ -82,10 +104,14 @@
           </div>
 
           <!-- Empty State -->
-          <div v-if="!loading && events.length === 0" class="col-span-full text-center py-20">
+          <div v-if="!loading && !error && events.length === 0" class="col-span-full text-center py-20">
             <i class="pi pi-calendar text-6xl text-[#e6eaf0]/30 mb-4"></i>
             <h3 class="text-xl text-[#e6eaf0] mb-2">No Events Available</h3>
-            <p class="text-[#e6eaf0]/70">Check back soon for upcoming events</p>
+            <p class="text-[#e6eaf0]/70 mb-6">Check back soon for upcoming events</p>
+            <button @click="loadEvents"
+              class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg transition-all duration-300">
+              Refresh
+            </button>
           </div>
         </div>
       </div>
@@ -111,7 +137,8 @@ export default {
   data() {
     return {
       events: [],
-      loading: true
+      loading: true,
+      error: null
     }
   },
   async mounted() {
@@ -120,13 +147,33 @@ export default {
   methods: {
     async loadEvents() {
       this.loading = true
+      this.error = null
       try {
-        const { useEventService } = await import('@/composables/useEventService')
+        const { useEventService } = await import('~/composables/useEvent')
         const eventService = useEventService()
-        this.events = await eventService.getEvents()
+
+        // Get all events, with option to force refresh if needed
+        this.events = await eventService.getEvents(true)
+
+        // Ensure events is always an array
+        if (!Array.isArray(this.events)) {
+          console.warn('Events data is not an array:', this.events)
+          this.events = []
+        }
+
+        // Filter only published events (additional safety)
+        this.events = this.events.filter(event => event.published !== false)
+
+        // Sort events by created date, newest first
+        this.events = this.events.sort((a, b) => {
+          return new Date(b.createdAt) - new Date(a.createdAt)
+        })
+
+        console.log(`Loaded ${this.events.length} published events`)
+
       } catch (error) {
         console.error('Error loading events:', error)
-        // Fallback to empty array if API fails
+        this.error = error.message || 'Failed to load events'
         this.events = []
       } finally {
         this.loading = false
@@ -139,6 +186,25 @@ export default {
         month: 'long',
         day: 'numeric'
       })
+    },
+
+    // Track event clicks for analytics or other purposes
+    trackEventClick(event) {
+      console.log(`Event clicked: ${event.title} (${event.slug})`)
+      // You could add analytics tracking here in the future
+      // localStorage can be used to remember recently viewed events
+      try {
+        // Store the recent event in localStorage for possible use later
+        const recentEvents = JSON.parse(localStorage.getItem('recentEvents') || '[]')
+        // Add this event to the front of the array (most recent first)
+        const updatedEvents = [
+          { id: event.id, slug: event.slug, title: event.title, timestamp: new Date().toISOString() },
+          ...recentEvents.filter(e => e.id !== event.id).slice(0, 4) // Keep only the 5 most recent unique events
+        ]
+        localStorage.setItem('recentEvents', JSON.stringify(updatedEvents))
+      } catch (error) {
+        console.error('Error storing recent event:', error)
+      }
     }
   }
 }

@@ -12,6 +12,7 @@ import { PartnersModule } from './partners/partners.module';
 import { FaqsModule } from './faqs/faqs.module';
 import { EventsModule } from './events/events.module';
 import { UploadModule } from './upload/upload.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { RolesGuard } from './common/guards/roles.guard';
 import { HealthModule } from './health/health.module';
 
@@ -34,6 +35,10 @@ import { HealthModule } from './health/health.module';
   controllers: [AppController],
   providers: [
     AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
     {
       provide: APP_GUARD,
       useClass: RolesGuard,

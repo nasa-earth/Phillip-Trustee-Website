@@ -29,16 +29,9 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const { user } = request;
 
-    this.logger.debug(
-      `User from request: ${user ? JSON.stringify(user) : 'No user'}`,
-    );
-    this.logger.debug(
-      `Auth header: ${request.headers.authorization ? 'Present' : 'Missing'}`,
-    );
-
     if (!user) {
       this.logger.error(
-        'No user found in request - JWT authentication may have failed',
+        `ROLES GUARD - No user found in request for ${request.method} ${request.url} - JWT authentication may have failed`,
       );
       throw new UnauthorizedException('No user found in request');
     }

@@ -24,12 +24,18 @@
             <!-- Content -->
             <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-4xl mx-[300px]" data-aos="fade-up"
                 data-aos-duration="1000">
+                <!-- Preview Mode Banner -->
+                <div v-if="$route.query.preview && !event.published"
+                    class="bg-yellow-600/90 text-white py-2 px-4 rounded-lg mb-4 inline-flex items-center">
+                    <i class="pi pi-eye mr-2"></i>
+                    <span>Preview Mode - This event is not published</span>
+                </div>
 
                 <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-6">
                     {{ event.title }}
                 </h1>
                 <p class="text-lg md:text-lg text-[#e6eaf0]/90">
-                    <span v-if="event.location">{{ event.location }}</span>
+                    <!-- Location removed since it's not in the current model -->
                 </p>
             </div>
 
@@ -109,20 +115,26 @@
         </div>
 
         <!-- Event Not Found -->
-        <div v-else-if="!event" class="h-screen w-full flex items-center justify-center bg-[#081d3f]">
+        <div v-else-if="!event || error" class="h-screen w-full flex items-center justify-center bg-[#081d3f]">
             <div class="text-center">
                 <i class="pi pi-exclamation-triangle text-6xl text-red-400 mb-4"></i>
-                <h2 class="text-2xl text-[#e6eaf0] mb-4">Event Not Found</h2>
-                <p class="text-[#e6eaf0]/70 mb-6">The event you're looking for doesn't exist or has been removed.</p>
-                <NuxtLink to="/Event"
-                    class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                    <span>Back to Events</span>
-                </NuxtLink>
+                <h2 class="text-2xl text-[#e6eaf0] mb-4">{{ error || 'Event Not Found' }}</h2>
+                <p class="text-[#e6eaf0]/70 mb-6">{{ error ? 'Please try again later.' : "The event you're looking for doesn't exist or has been removed." }}</p>
+                <div class="flex gap-4 justify-center">
+                    <button v-if="error" @click="loadEvent"
+                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg transition-all duration-300">
+                        Try Again
+                    </button>
+                    <NuxtLink to="/Event"
+                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span>Back to Events</span>
+                    </NuxtLink>
+                </div>
             </div>
         </div>
     </div>
@@ -160,16 +172,56 @@ export default {
             try {
                 const slug = this.$route.query.slug
                 if (!slug) {
-                    throw new Error('No slug provided')
+                    this.error = 'No event slug provided'
+                    this.event = null
+                    return
                 }
 
-                const { useEventService } = await import('@/composables/useEventService')
+                const { useEventService } = await import('~/composables/useEvent')
                 const eventService = useEventService()
-                this.event = await eventService.getEventBySlug(slug)
 
-                if (!this.event) {
-                    throw new Error('Event not found')
+                // Check if this is preview mode (admin previewing event)
+                const isPreviewMode = !!this.$route.query.preview;
+
+                if (isPreviewMode) {
+                    try {
+                        // Try to use the preview endpoint which should work for unpublished events too
+                        this.event = await eventService.previewEventBySlug(slug);
+                        if (!this.event) {
+                            this.error = 'Event not found';
+                            return;
+                        }
+                    } catch (previewError) {
+                        console.error('Preview failed, falling back to regular endpoint:', previewError);
+                        // Fall back to regular endpoint
+                        this.event = await eventService.getEventBySlug(slug);
+                        if (!this.event) {
+                            this.error = 'Event not found';
+                            return;
+                        }
+                    }
+                } else {
+                    // Regular public view - only published events
+                    this.event = await eventService.getEventBySlug(slug);
+
+                    // If event not found, show error
+                    if (!this.event) {
+                        this.error = 'Event not found';
+                        return;
+                    }
+
+                    // Ensure the event is published for public viewing
+                    if (!this.event.published) {
+                        this.error = 'This event is not currently published';
+                        this.event = null;
+                        return;
+                    }
                 }
+
+                // Track the event view for analytics purposes
+                this.trackEventView(this.event)
+
+                console.log('Event loaded successfully:', this.event.title)
             } catch (error) {
                 console.error('Error loading event:', error)
                 this.error = error.message || 'Failed to load event'
@@ -192,6 +244,26 @@ export default {
             // Simple image modal - you can enhance this with a proper modal component
             const imageUrl = image.url || image
             window.open(imageUrl, '_blank')
+        },
+
+        // Track event views for analytics purposes
+        trackEventView(event) {
+            console.log(`Event viewed: ${event.title} (${event.slug})`)
+            // Add analytics tracking here in the future
+
+            try {
+                // Store viewed event in localStorage
+                const viewedEvents = JSON.parse(localStorage.getItem('viewedEvents') || '{}')
+                viewedEvents[event.id] = {
+                    lastViewed: new Date().toISOString(),
+                    title: event.title,
+                    slug: event.slug,
+                    viewCount: (viewedEvents[event.id]?.viewCount || 0) + 1
+                }
+                localStorage.setItem('viewedEvents', JSON.stringify(viewedEvents))
+            } catch (error) {
+                console.error('Error storing viewed event:', error)
+            }
         }
     }
 }

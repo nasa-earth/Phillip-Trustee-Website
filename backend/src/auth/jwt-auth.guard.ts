@@ -17,6 +17,8 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
   }
 
   canActivate(context: ExecutionContext) {
+    this.logger.debug('JWT AUTH GUARD - canActivate method called');
+
     // Check if the route is marked as public
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
@@ -24,11 +26,49 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
     ]);
 
     if (isPublic) {
+      this.logger.debug('JWT AUTH GUARD - Route is public, skipping auth');
       return true;
     }
 
-    // Continue with JWT validation
-    return super.canActivate(context);
+    const request = context.switchToHttp().getRequest();
+    const authHeader = request.headers.authorization;
+
+    this.logger.debug('JWT AUTH GUARD - Processing protected route');
+    this.logger.debug(
+      `JWT AUTH GUARD - Auth header: ${authHeader ? 'Present' : 'Missing'}`,
+    );
+    this.logger.debug(
+      `JWT AUTH GUARD - Request: ${request.method} ${request.url}`,
+    );
+
+    try {
+      // Continue with JWT validation
+      const result = super.canActivate(context);
+      this.logger.debug(
+        `JWT AUTH GUARD - super.canActivate result: ${result instanceof Promise ? 'Promise' : result}`,
+      );
+
+      if (result instanceof Promise) {
+        return result
+          .then((res) => {
+            this.logger.debug(`JWT AUTH GUARD - Promise resolved with: ${res}`);
+            return res;
+          })
+          .catch((err) => {
+            this.logger.error(
+              `JWT AUTH GUARD - Promise rejected with: ${err.message}`,
+            );
+            throw err;
+          });
+      }
+
+      return result;
+    } catch (error) {
+      this.logger.error(
+        `JWT AUTH GUARD - Exception in canActivate: ${error.message}`,
+      );
+      throw error;
+    }
   }
 
   handleRequest(err: any, user: any, info: any, context: ExecutionContext) {
@@ -40,14 +80,16 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       const authHeader = request.headers.authorization;
 
       // Log auth failures with context
-      this.logger.warn(`Authentication failed for ${method} ${url}`);
-      this.logger.warn(`Auth header present: ${!!authHeader}`);
-      this.logger.warn(
-        `Auth header format: ${authHeader ? authHeader.substring(0, 20) + '...' : 'None'}`,
+      this.logger.error(
+        `JWT AUTH GUARD - Authentication failed for ${method} ${url}`,
       );
-      this.logger.warn(`Error: ${err?.message || 'No error'}`);
-      this.logger.warn(`Info: ${info?.message || 'No info'}`);
-      this.logger.warn(`User: ${user ? 'User found' : 'No user'}`);
+      this.logger.error(
+        `JWT AUTH GUARD - Auth header present: ${!!authHeader}`,
+      );
+      this.logger.error(
+        `JWT AUTH GUARD - Error: ${err?.message || 'No error'}`,
+      );
+      this.logger.error(`JWT AUTH GUARD - Info: ${info?.message || 'No info'}`);
 
       if (info?.name === 'TokenExpiredError') {
         throw new UnauthorizedException('Token has expired');
@@ -60,7 +102,9 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       throw err || new UnauthorizedException('Authentication required');
     }
 
-    this.logger.debug(`Authentication successful for user: ${user.email}`);
+    this.logger.debug(
+      `JWT AUTH GUARD - Authentication successful for user: ${user.email}`,
+    );
     return user;
   }
 }

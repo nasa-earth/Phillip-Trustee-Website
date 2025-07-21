@@ -3,13 +3,10 @@ import {
   Post,
   UseInterceptors,
   UploadedFile,
-  UseGuards,
   Body,
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '@prisma/client';
 import { UploadService } from './upload.service';
@@ -26,7 +23,6 @@ export class UploadController {
   constructor(private readonly uploadService: UploadService) {}
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN, Role.EDITOR)
   @ApiBearerAuth()
   @UseInterceptors(FileInterceptor('file'))

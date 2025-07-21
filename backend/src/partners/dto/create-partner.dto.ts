@@ -12,11 +12,9 @@ export class CreatePartnerDto {
   @ApiProperty({
     description: 'URL to the partner logo image',
     example: 'https://example.com/logo.png',
-    required: false,
   })
-  @IsOptional()
   @IsString()
-  logo?: string;
+  logo: string;
 
   @ApiProperty({
     description: 'Partner website URL',

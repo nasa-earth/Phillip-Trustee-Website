@@ -169,7 +169,7 @@ export class AuthService {
       secret: this.configService.get('app.jwt.secret'),
       expiresIn: this.configService.get('app.jwt.expiresIn'),
     });
-
+    console.log('access_token', access_token);
     // Generate refresh token (long-lived)
     const refresh_token = this.jwtService.sign(refreshPayload, {
       secret:
@@ -208,9 +208,14 @@ export class AuthService {
       }
 
       // Get user information
-      const user = await this.usersService.findOne(payload.sub);
-      if (!user) {
-        throw new UnauthorizedException('User not found');
+      let user;
+      try {
+        user = await this.usersService.findOne(payload.sub);
+      } catch (error) {
+        if (error.constructor.name === 'NotFoundException') {
+          throw new UnauthorizedException('User not found');
+        }
+        throw error;
       }
 
       // Revoke the used refresh token (optional but recommended for security)

@@ -26,29 +26,29 @@ model RefreshToken {
   revoked   Boolean  @default(false)
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@index([userId])
 }
 
 model Partner {
   id          String   @id @default(uuid())
   name        String
-  logo        String?
-  website     String?
-  description String?
+  logo        String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  description String?
+  website     String?
 }
 
 model FAQ {
   id        String   @id @default(uuid())
-  category  String
   question  String
   answer    String
   order     Int      @default(0)
-  isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  category  String
+  isActive  Boolean  @default(true)
 }
 
 model Event {
@@ -57,17 +57,17 @@ model Event {
   slug        String       @unique
   description String
   thumbnail   String?
-  published   Boolean      @default(false)
-  images      EventImage[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  published   Boolean      @default(false)
+  images      EventImage[]
 }
 
 model EventImage {
-  id       String  @id @default(uuid())
-  url      String  
-  eventId  String
-  event    Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  id      String @id @default(uuid())
+  url     String
+  eventId String
+  event   Event  @relation(fields: [eventId], references: [id], onDelete: Cascade)
 }
 
 enum Role {

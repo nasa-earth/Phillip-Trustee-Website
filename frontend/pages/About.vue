@@ -6,9 +6,8 @@
             backgroundImage: 'url(/images/about/2_about.jpg)',
         }">
             <!-- Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
         </section>
-
 
         <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
@@ -35,16 +34,16 @@
                         <!-- Back Image -->
                         <div class="w-[300px] md:w-[350px] lg:w-[400px] rounded-xl overflow-hidden shadow-xl z-10 
                       transform hover:translate-y-2 transition-all duration-500 hover:shadow-orange-500/30">
-                            <img src="~/assets/images/about/1-phillip-bank.jpg" alt="Phillip Trustee Office"
-                                class="w-full h-auto object-cover" />
+                            <img src="~/assets/images/about/2-phillip-bank.jpg" alt="Phillip Trustee Office"
+                                class="w-full h-auto object-cover border-3 border-white rounded-xl" />
                         </div>
 
                         <!-- Front Image (Overlap) -->
                         <div
                             class="absolute top-1/2 left-1/2 translate-x-[-20%] translate-y-[5%] w-[300px] md:w-[350px] lg:w-[400px] 
-                      rounded-xl overflow-hidden shadow-xl z-20 border-4 border-white
+                      rounded-xl overflow-hidden shadow-xl z-20 border-3 border-white
                       transform hover:-translate-y-2 hover:translate-x-[-15%] transition-all duration-500 hover:shadow-orange-500/30">
-                            <img src="~/assets/images/about/2-phillip-bank.jpg" alt="Phillip Trustee Reception"
+                            <img src="~/assets/images/about/1-phillip-bank.jpg" alt="Phillip Trustee Reception"
                                 class="w-full h-auto object-cover" />
                         </div>
                     </div>
@@ -125,21 +124,11 @@
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
                             <div class="p-6">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                                            <path fill-rule="evenodd"
-                                                d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip Bank</h3>
+                                <div class="mb-4">
+                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip Bank</h3>
                                 </div>
                                 <p class="text-[#e6eaf0] text-lg">
-                                    One of the medium-sized commercial banks in Cambodia, providing
+                                    One of the commercial banks in Cambodia, providing
                                     comprehensive banking services to individuals and businesses.
                                 </p>
 
@@ -157,17 +146,9 @@
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
                             <div class="p-6">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd"
-                                                d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip General Insurance</h3>
+                                <div class="mb-4">
+                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip General Insurance
+                                    </h3>
                                 </div>
                                 <p class="text-[#e6eaf0] text-lg">
                                     Offering a wide range of insurance products designed to protect individuals
@@ -187,16 +168,8 @@
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
                             <div class="p-6">
-                                <div class="flex items-center gap-3 mb-4">
-                                    <div
-                                        class="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#f15a22]"
-                                            viewBox="0 0 20 20" fill="currentColor">
-                                            <path
-                                                d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
-                                        </svg>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-[#f15a22]">Phillip Trustee</h3>
+                                <div class="mb-4">
+                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip Trustee</h3>
                                 </div>
                                 <p class="text-[#e6eaf0] text-lg">
                                     Providing comprehensive trust services enabling foreign investors
@@ -298,17 +271,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
-import Header from '~/components/Header.vue';
-import Footer from '~/components/Footer.vue';
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
+// import Header from '~/components/Header.vue';
+// import Footer from '~/components/Footer.vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
 import { usePartners } from '~/composables/usePartners';
 
-const { partnersForSlider, loading, error, fetchPartners, onPartnerChange, isDataFresh } = usePartners();
+const { partners, loading, error, getPartners: fetchPartners, onPartnerChange } = usePartners();
+
+// Create a computed ref for partners to ensure reactivity
+const partnersForSlider = computed(() => partners.value || []);
 
 // Watch for changes in partners data to ensure reactivity
 watch(partnersForSlider, (newPartners) => {
-    console.log('Partners data updated:', newPartners.length);
+    console.log('Partners data updated:', newPartners?.length || 0);
 }, { immediate: true });
 
 const goals = [

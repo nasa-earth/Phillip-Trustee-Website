@@ -2,10 +2,10 @@
     <div class="min-h-screen bg-[#e6eaf0]"> <!-- Hero Section -->
         <!-- Hero Section -->
         <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
-            backgroundImage: 'url(/images/Services/client-services.jpg)',
+            backgroundImage: 'url(/images/profile/profile_header.jpg)',
         }">
             <!-- Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30 z-0"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
 
         </section>
 
@@ -145,15 +145,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import PartnersSlider from '~/components/PartnersSlider.vue';
 import { usePartners } from '~/composables/usePartners';
 
-const { partnersForSlider, loading, error, fetchPartners, onPartnerChange, isDataFresh } = usePartners();
+const { partners, loading, error, getPartners: fetchPartners, onPartnerChange } = usePartners();
+
+// Create a computed ref for partners to ensure reactivity
+const partnersForSlider = computed(() => partners.value || []);
 
 // Watch for changes in partners data to ensure reactivity
 watch(partnersForSlider, (newPartners) => {
-    console.log('Partners data updated in Profile:', newPartners.length);
+    console.log('Partners data updated in Profile:', newPartners?.length || 0);
 }, { immediate: true });
 
 const managers = ref([

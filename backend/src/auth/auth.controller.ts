@@ -114,7 +114,6 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(JwtAuthGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Logout user' })
   @ApiResponse({
@@ -134,6 +133,7 @@ export class AuthController {
   }
 
   @Post('debug-login')
+  @Public()
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Debug login response' })
   async debugLogin(@Body() loginDto: LoginDto) {

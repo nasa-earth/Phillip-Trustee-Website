@@ -20,12 +20,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.9.0
- * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+ * Prisma Client JS version: 6.12.0
+ * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
  */
 Prisma.prismaVersion = {
-  client: "6.9.0",
-  engine: "81e4af48011447c3cc503a190e86995b66d2a28e"
+  client: "6.12.0",
+  engine: "8047c96bbd92db98a2abc7c9323ce77c02c89dbc"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -142,21 +142,21 @@ exports.Prisma.PartnerScalarFieldEnum = {
   id: 'id',
   name: 'name',
   logo: 'logo',
-  website: 'website',
-  description: 'description',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  description: 'description',
+  website: 'website'
 };
 
 exports.Prisma.FAQScalarFieldEnum = {
   id: 'id',
-  category: 'category',
   question: 'question',
   answer: 'answer',
   order: 'order',
-  isActive: 'isActive',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  category: 'category',
+  isActive: 'isActive'
 };
 
 exports.Prisma.EventScalarFieldEnum = {
@@ -165,9 +165,9 @@ exports.Prisma.EventScalarFieldEnum = {
   slug: 'slug',
   description: 'description',
   thumbnail: 'thumbnail',
-  published: 'published',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  published: 'published'
 };
 
 exports.Prisma.EventImageScalarFieldEnum = {

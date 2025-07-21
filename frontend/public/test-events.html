@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Events Integration Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .event {
+        border: 1px solid #ddd;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+      }
+      .error {
+        color: red;
+      }
+      .success {
+        color: green;
+      }
+      .loading {
+        color: blue;
+      }
+      button {
+        padding: 10px 15px;
+        margin: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🧪 Events Integration Test</h1>
+    <div id="status" class="loading">Loading...</div>
+
+    <h2>📋 Events List</h2>
+    <div id="events-container"></div>
+
+    <h2>🔍 Test Event Details</h2>
+    <div>
+      <button onclick="testEventDetails('investment-workshop-beginners')">
+        Test Investment Workshop
+      </button>
+      <button onclick="testEventDetails('annual-finance-summit-2025')">
+        Test Finance Summit
+      </button>
+      <button onclick="testEventDetails('business-networking-evening')">
+        Test Networking Event
+      </button>
+      <button onclick="testEventDetails('invalid-slug-test')">
+        Test Invalid Slug
+      </button>
+    </div>
+    <div id="event-details"></div>
+
+    <script>
+      const API_BASE = "http://localhost:3005/api/events";
+
+      async function loadEvents() {
+        try {
+          document.getElementById("status").textContent = "Loading events...";
+
+          const response = await fetch(API_BASE);
+          const data = await response.json();
+
+          if (data.data && Array.isArray(data.data)) {
+            displayEvents(data.data);
+            document.getElementById(
+              "status"
+            ).innerHTML = `<span class="success">✅ Loaded ${data.data.length} events successfully!</span>`;
+          } else {
+            throw new Error("Invalid response format");
+          }
+        } catch (error) {
+          document.getElementById(
+            "status"
+          ).innerHTML = `<span class="error">❌ Error: ${error.message}</span>`;
+        }
+      }
+
+      function displayEvents(events) {
+        const container = document.getElementById("events-container");
+        container.innerHTML = events
+          .map(
+            (event) => `
+                <div class="event">
+                    <h3>${event.title}</h3>
+                    <p><strong>Slug:</strong> ${event.slug}</p>
+                    <p><strong>Description:</strong> ${event.description}</p>
+                    <p><strong>Published:</strong> ${
+                      event.published ? "Yes" : "No"
+                    }</p>
+                    <p><strong>Created:</strong> ${new Date(
+                      event.createdAt
+                    ).toLocaleDateString()}</p>
+                    <button onclick="testEventDetails('${
+                      event.slug
+                    }')">View Details</button>
+                </div>
+            `
+          )
+          .join("");
+      }
+
+      async function testEventDetails(slug) {
+        const detailsDiv = document.getElementById("event-details");
+        detailsDiv.innerHTML =
+          '<div class="loading">Loading event details...</div>';
+
+        try {
+          const response = await fetch(`${API_BASE}/by-slug/${slug}`);
+
+          if (response.status === 404) {
+            detailsDiv.innerHTML = `<div class="error">❌ Event not found: ${slug}</div>`;
+            return;
+          }
+
+          const data = await response.json();
+
+          if (data.data) {
+            detailsDiv.innerHTML = `
+                        <div class="event">
+                            <h3>✅ Event Details Loaded</h3>
+                            <h4>${data.data.title}</h4>
+                            <p><strong>Slug:</strong> ${data.data.slug}</p>
+                            <p><strong>ID:</strong> ${data.data.id}</p>
+                            <p><strong>Description:</strong> ${
+                              data.data.description
+                            }</p>
+                            <p><strong>Published:</strong> ${
+                              data.data.published ? "Yes" : "No"
+                            }</p>
+                            <p><strong>Created:</strong> ${new Date(
+                              data.data.createdAt
+                            ).toLocaleDateString()}</p>
+                            <p><strong>Updated:</strong> ${new Date(
+                              data.data.updatedAt
+                            ).toLocaleDateString()}</p>
+                            <p><strong>Images:</strong> ${
+                              data.data.images ? data.data.images.length : 0
+                            } images</p>
+                        </div>
+                    `;
+          } else {
+            throw new Error("Invalid response format");
+          }
+        } catch (error) {
+          detailsDiv.innerHTML = `<div class="error">❌ Error loading details: ${error.message}</div>`;
+        }
+      }
+
+      // Load events when page loads
+      loadEvents();
+    </script>
+  </body>
+</html>

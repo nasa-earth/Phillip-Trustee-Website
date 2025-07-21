@@ -9,7 +9,7 @@
         <div class="flex items-center space-x-3">
           <NuxtLink to="/" class="flex items-center space-x-3 group">
             <div class="relative">
-              <img src="~/assets/images/logo.svg" alt="Phillip Trustee Logo"
+              <img src="~/assets/images/logo.png" alt="Phillip Trustee Logo"
                 class="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
             <div class="hidden sm:block">

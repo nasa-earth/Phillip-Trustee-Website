@@ -303,8 +303,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.9.0
-   * Query Engine version: 81e4af48011447c3cc503a190e86995b66d2a28e
+   * Prisma Client JS version: 6.12.0
+   * Query Engine version: 8047c96bbd92db98a2abc7c9323ce77c02c89dbc
    */
   export type PrismaVersion = {
     client: string
@@ -3570,30 +3570,30 @@ export namespace Prisma {
     id: string | null
     name: string | null
     logo: string | null
-    website: string | null
-    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    description: string | null
+    website: string | null
   }
 
   export type PartnerMaxAggregateOutputType = {
     id: string | null
     name: string | null
     logo: string | null
-    website: string | null
-    description: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    description: string | null
+    website: string | null
   }
 
   export type PartnerCountAggregateOutputType = {
     id: number
     name: number
     logo: number
-    website: number
-    description: number
     createdAt: number
     updatedAt: number
+    description: number
+    website: number
     _all: number
   }
 
@@ -3602,30 +3602,30 @@ export namespace Prisma {
     id?: true
     name?: true
     logo?: true
-    website?: true
-    description?: true
     createdAt?: true
     updatedAt?: true
+    description?: true
+    website?: true
   }
 
   export type PartnerMaxAggregateInputType = {
     id?: true
     name?: true
     logo?: true
-    website?: true
-    description?: true
     createdAt?: true
     updatedAt?: true
+    description?: true
+    website?: true
   }
 
   export type PartnerCountAggregateInputType = {
     id?: true
     name?: true
     logo?: true
-    website?: true
-    description?: true
     createdAt?: true
     updatedAt?: true
+    description?: true
+    website?: true
     _all?: true
   }
 
@@ -3704,11 +3704,11 @@ export namespace Prisma {
   export type PartnerGroupByOutputType = {
     id: string
     name: string
-    logo: string | null
-    website: string | null
-    description: string | null
+    logo: string
     createdAt: Date
     updatedAt: Date
+    description: string | null
+    website: string | null
     _count: PartnerCountAggregateOutputType | null
     _min: PartnerMinAggregateOutputType | null
     _max: PartnerMaxAggregateOutputType | null
@@ -3732,43 +3732,43 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     logo?: boolean
-    website?: boolean
-    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    description?: boolean
+    website?: boolean
   }, ExtArgs["result"]["partner"]>
 
   export type PartnerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     logo?: boolean
-    website?: boolean
-    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    description?: boolean
+    website?: boolean
   }, ExtArgs["result"]["partner"]>
 
   export type PartnerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     logo?: boolean
-    website?: boolean
-    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    description?: boolean
+    website?: boolean
   }, ExtArgs["result"]["partner"]>
 
   export type PartnerSelectScalar = {
     id?: boolean
     name?: boolean
     logo?: boolean
-    website?: boolean
-    description?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    description?: boolean
+    website?: boolean
   }
 
-  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "logo" | "website" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["partner"]>
+  export type PartnerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "logo" | "createdAt" | "updatedAt" | "description" | "website", ExtArgs["result"]["partner"]>
 
   export type $PartnerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Partner"
@@ -3776,11 +3776,11 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      logo: string | null
-      website: string | null
-      description: string | null
+      logo: string
       createdAt: Date
       updatedAt: Date
+      description: string | null
+      website: string | null
     }, ExtArgs["result"]["partner"]>
     composites: {}
   }
@@ -4207,10 +4207,10 @@ export namespace Prisma {
     readonly id: FieldRef<"Partner", 'String'>
     readonly name: FieldRef<"Partner", 'String'>
     readonly logo: FieldRef<"Partner", 'String'>
-    readonly website: FieldRef<"Partner", 'String'>
-    readonly description: FieldRef<"Partner", 'String'>
     readonly createdAt: FieldRef<"Partner", 'DateTime'>
     readonly updatedAt: FieldRef<"Partner", 'DateTime'>
+    readonly description: FieldRef<"Partner", 'String'>
+    readonly website: FieldRef<"Partner", 'String'>
   }
     
 
@@ -4599,35 +4599,35 @@ export namespace Prisma {
 
   export type FAQMinAggregateOutputType = {
     id: string | null
-    category: string | null
     question: string | null
     answer: string | null
     order: number | null
-    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    category: string | null
+    isActive: boolean | null
   }
 
   export type FAQMaxAggregateOutputType = {
     id: string | null
-    category: string | null
     question: string | null
     answer: string | null
     order: number | null
-    isActive: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    category: string | null
+    isActive: boolean | null
   }
 
   export type FAQCountAggregateOutputType = {
     id: number
-    category: number
     question: number
     answer: number
     order: number
-    isActive: number
     createdAt: number
     updatedAt: number
+    category: number
+    isActive: number
     _all: number
   }
 
@@ -4642,35 +4642,35 @@ export namespace Prisma {
 
   export type FAQMinAggregateInputType = {
     id?: true
-    category?: true
     question?: true
     answer?: true
     order?: true
-    isActive?: true
     createdAt?: true
     updatedAt?: true
+    category?: true
+    isActive?: true
   }
 
   export type FAQMaxAggregateInputType = {
     id?: true
-    category?: true
     question?: true
     answer?: true
     order?: true
-    isActive?: true
     createdAt?: true
     updatedAt?: true
+    category?: true
+    isActive?: true
   }
 
   export type FAQCountAggregateInputType = {
     id?: true
-    category?: true
     question?: true
     answer?: true
     order?: true
-    isActive?: true
     createdAt?: true
     updatedAt?: true
+    category?: true
+    isActive?: true
     _all?: true
   }
 
@@ -4762,13 +4762,13 @@ export namespace Prisma {
 
   export type FAQGroupByOutputType = {
     id: string
-    category: string
     question: string
     answer: string
     order: number
-    isActive: boolean
     createdAt: Date
     updatedAt: Date
+    category: string
+    isActive: boolean
     _count: FAQCountAggregateOutputType | null
     _avg: FAQAvgAggregateOutputType | null
     _sum: FAQSumAggregateOutputType | null
@@ -4792,62 +4792,62 @@ export namespace Prisma {
 
   export type FAQSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
-    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    category?: boolean
+    isActive?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
-    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    category?: boolean
+    isActive?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
-    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    category?: boolean
+    isActive?: boolean
   }, ExtArgs["result"]["fAQ"]>
 
   export type FAQSelectScalar = {
     id?: boolean
-    category?: boolean
     question?: boolean
     answer?: boolean
     order?: boolean
-    isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    category?: boolean
+    isActive?: boolean
   }
 
-  export type FAQOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "category" | "question" | "answer" | "order" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["fAQ"]>
+  export type FAQOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "question" | "answer" | "order" | "createdAt" | "updatedAt" | "category" | "isActive", ExtArgs["result"]["fAQ"]>
 
   export type $FAQPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "FAQ"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      category: string
       question: string
       answer: string
       order: number
-      isActive: boolean
       createdAt: Date
       updatedAt: Date
+      category: string
+      isActive: boolean
     }, ExtArgs["result"]["fAQ"]>
     composites: {}
   }
@@ -5272,13 +5272,13 @@ export namespace Prisma {
    */
   interface FAQFieldRefs {
     readonly id: FieldRef<"FAQ", 'String'>
-    readonly category: FieldRef<"FAQ", 'String'>
     readonly question: FieldRef<"FAQ", 'String'>
     readonly answer: FieldRef<"FAQ", 'String'>
     readonly order: FieldRef<"FAQ", 'Int'>
-    readonly isActive: FieldRef<"FAQ", 'Boolean'>
     readonly createdAt: FieldRef<"FAQ", 'DateTime'>
     readonly updatedAt: FieldRef<"FAQ", 'DateTime'>
+    readonly category: FieldRef<"FAQ", 'String'>
+    readonly isActive: FieldRef<"FAQ", 'Boolean'>
   }
     
 
@@ -5661,9 +5661,9 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     thumbnail: string | null
-    published: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    published: boolean | null
   }
 
   export type EventMaxAggregateOutputType = {
@@ -5672,9 +5672,9 @@ export namespace Prisma {
     slug: string | null
     description: string | null
     thumbnail: string | null
-    published: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
+    published: boolean | null
   }
 
   export type EventCountAggregateOutputType = {
@@ -5683,9 +5683,9 @@ export namespace Prisma {
     slug: number
     description: number
     thumbnail: number
-    published: number
     createdAt: number
     updatedAt: number
+    published: number
     _all: number
   }
 
@@ -5696,9 +5696,9 @@ export namespace Prisma {
     slug?: true
     description?: true
     thumbnail?: true
-    published?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
   }
 
   export type EventMaxAggregateInputType = {
@@ -5707,9 +5707,9 @@ export namespace Prisma {
     slug?: true
     description?: true
     thumbnail?: true
-    published?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
   }
 
   export type EventCountAggregateInputType = {
@@ -5718,9 +5718,9 @@ export namespace Prisma {
     slug?: true
     description?: true
     thumbnail?: true
-    published?: true
     createdAt?: true
     updatedAt?: true
+    published?: true
     _all?: true
   }
 
@@ -5802,9 +5802,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail: string | null
-    published: boolean
     createdAt: Date
     updatedAt: Date
+    published: boolean
     _count: EventCountAggregateOutputType | null
     _min: EventMinAggregateOutputType | null
     _max: EventMaxAggregateOutputType | null
@@ -5830,9 +5830,9 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     thumbnail?: boolean
-    published?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
     images?: boolean | Event$imagesArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["event"]>
@@ -5843,9 +5843,9 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     thumbnail?: boolean
-    published?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5854,9 +5854,9 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     thumbnail?: boolean
-    published?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
   }, ExtArgs["result"]["event"]>
 
   export type EventSelectScalar = {
@@ -5865,12 +5865,12 @@ export namespace Prisma {
     slug?: boolean
     description?: boolean
     thumbnail?: boolean
-    published?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    published?: boolean
   }
 
-  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnail" | "published" | "createdAt" | "updatedAt", ExtArgs["result"]["event"]>
+  export type EventOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "description" | "thumbnail" | "createdAt" | "updatedAt" | "published", ExtArgs["result"]["event"]>
   export type EventInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     images?: boolean | Event$imagesArgs<ExtArgs>
     _count?: boolean | EventCountOutputTypeDefaultArgs<ExtArgs>
@@ -5889,9 +5889,9 @@ export namespace Prisma {
       slug: string
       description: string
       thumbnail: string | null
-      published: boolean
       createdAt: Date
       updatedAt: Date
+      published: boolean
     }, ExtArgs["result"]["event"]>
     composites: {}
   }
@@ -6321,9 +6321,9 @@ export namespace Prisma {
     readonly slug: FieldRef<"Event", 'String'>
     readonly description: FieldRef<"Event", 'String'>
     readonly thumbnail: FieldRef<"Event", 'String'>
-    readonly published: FieldRef<"Event", 'Boolean'>
     readonly createdAt: FieldRef<"Event", 'DateTime'>
     readonly updatedAt: FieldRef<"Event", 'DateTime'>
+    readonly published: FieldRef<"Event", 'Boolean'>
   }
     
 
@@ -7828,10 +7828,10 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     logo: 'logo',
-    website: 'website',
-    description: 'description',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    description: 'description',
+    website: 'website'
   };
 
   export type PartnerScalarFieldEnum = (typeof PartnerScalarFieldEnum)[keyof typeof PartnerScalarFieldEnum]
@@ -7839,13 +7839,13 @@ export namespace Prisma {
 
   export const FAQScalarFieldEnum: {
     id: 'id',
-    category: 'category',
     question: 'question',
     answer: 'answer',
     order: 'order',
-    isActive: 'isActive',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    category: 'category',
+    isActive: 'isActive'
   };
 
   export type FAQScalarFieldEnum = (typeof FAQScalarFieldEnum)[keyof typeof FAQScalarFieldEnum]
@@ -7857,9 +7857,9 @@ export namespace Prisma {
     slug: 'slug',
     description: 'description',
     thumbnail: 'thumbnail',
-    published: 'published',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    published: 'published'
   };
 
   export type EventScalarFieldEnum = (typeof EventScalarFieldEnum)[keyof typeof EventScalarFieldEnum]
@@ -8109,21 +8109,21 @@ export namespace Prisma {
     NOT?: PartnerWhereInput | PartnerWhereInput[]
     id?: StringFilter<"Partner"> | string
     name?: StringFilter<"Partner"> | string
-    logo?: StringNullableFilter<"Partner"> | string | null
-    website?: StringNullableFilter<"Partner"> | string | null
-    description?: StringNullableFilter<"Partner"> | string | null
+    logo?: StringFilter<"Partner"> | string
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
+    description?: StringNullableFilter<"Partner"> | string | null
+    website?: StringNullableFilter<"Partner"> | string | null
   }
 
   export type PartnerOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    logo?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
+    logo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    description?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
   }
 
   export type PartnerWhereUniqueInput = Prisma.AtLeast<{
@@ -8132,21 +8132,21 @@ export namespace Prisma {
     OR?: PartnerWhereInput[]
     NOT?: PartnerWhereInput | PartnerWhereInput[]
     name?: StringFilter<"Partner"> | string
-    logo?: StringNullableFilter<"Partner"> | string | null
-    website?: StringNullableFilter<"Partner"> | string | null
-    description?: StringNullableFilter<"Partner"> | string | null
+    logo?: StringFilter<"Partner"> | string
     createdAt?: DateTimeFilter<"Partner"> | Date | string
     updatedAt?: DateTimeFilter<"Partner"> | Date | string
+    description?: StringNullableFilter<"Partner"> | string | null
+    website?: StringNullableFilter<"Partner"> | string | null
   }, "id">
 
   export type PartnerOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    logo?: SortOrderInput | SortOrder
-    website?: SortOrderInput | SortOrder
-    description?: SortOrderInput | SortOrder
+    logo?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    description?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
     _count?: PartnerCountOrderByAggregateInput
     _max?: PartnerMaxOrderByAggregateInput
     _min?: PartnerMinOrderByAggregateInput
@@ -8158,11 +8158,11 @@ export namespace Prisma {
     NOT?: PartnerScalarWhereWithAggregatesInput | PartnerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Partner"> | string
     name?: StringWithAggregatesFilter<"Partner"> | string
-    logo?: StringNullableWithAggregatesFilter<"Partner"> | string | null
-    website?: StringNullableWithAggregatesFilter<"Partner"> | string | null
-    description?: StringNullableWithAggregatesFilter<"Partner"> | string | null
+    logo?: StringWithAggregatesFilter<"Partner"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Partner"> | Date | string
+    description?: StringNullableWithAggregatesFilter<"Partner"> | string | null
+    website?: StringNullableWithAggregatesFilter<"Partner"> | string | null
   }
 
   export type FAQWhereInput = {
@@ -8170,24 +8170,24 @@ export namespace Prisma {
     OR?: FAQWhereInput[]
     NOT?: FAQWhereInput | FAQWhereInput[]
     id?: StringFilter<"FAQ"> | string
-    category?: StringFilter<"FAQ"> | string
     question?: StringFilter<"FAQ"> | string
     answer?: StringFilter<"FAQ"> | string
     order?: IntFilter<"FAQ"> | number
-    isActive?: BoolFilter<"FAQ"> | boolean
     createdAt?: DateTimeFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeFilter<"FAQ"> | Date | string
+    category?: StringFilter<"FAQ"> | string
+    isActive?: BoolFilter<"FAQ"> | boolean
   }
 
   export type FAQOrderByWithRelationInput = {
     id?: SortOrder
-    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
-    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    category?: SortOrder
+    isActive?: SortOrder
   }
 
   export type FAQWhereUniqueInput = Prisma.AtLeast<{
@@ -8195,24 +8195,24 @@ export namespace Prisma {
     AND?: FAQWhereInput | FAQWhereInput[]
     OR?: FAQWhereInput[]
     NOT?: FAQWhereInput | FAQWhereInput[]
-    category?: StringFilter<"FAQ"> | string
     question?: StringFilter<"FAQ"> | string
     answer?: StringFilter<"FAQ"> | string
     order?: IntFilter<"FAQ"> | number
-    isActive?: BoolFilter<"FAQ"> | boolean
     createdAt?: DateTimeFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeFilter<"FAQ"> | Date | string
+    category?: StringFilter<"FAQ"> | string
+    isActive?: BoolFilter<"FAQ"> | boolean
   }, "id">
 
   export type FAQOrderByWithAggregationInput = {
     id?: SortOrder
-    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
-    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    category?: SortOrder
+    isActive?: SortOrder
     _count?: FAQCountOrderByAggregateInput
     _avg?: FAQAvgOrderByAggregateInput
     _max?: FAQMaxOrderByAggregateInput
@@ -8225,13 +8225,13 @@ export namespace Prisma {
     OR?: FAQScalarWhereWithAggregatesInput[]
     NOT?: FAQScalarWhereWithAggregatesInput | FAQScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"FAQ"> | string
-    category?: StringWithAggregatesFilter<"FAQ"> | string
     question?: StringWithAggregatesFilter<"FAQ"> | string
     answer?: StringWithAggregatesFilter<"FAQ"> | string
     order?: IntWithAggregatesFilter<"FAQ"> | number
-    isActive?: BoolWithAggregatesFilter<"FAQ"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"FAQ"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FAQ"> | Date | string
+    category?: StringWithAggregatesFilter<"FAQ"> | string
+    isActive?: BoolWithAggregatesFilter<"FAQ"> | boolean
   }
 
   export type EventWhereInput = {
@@ -8243,9 +8243,9 @@ export namespace Prisma {
     slug?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     thumbnail?: StringNullableFilter<"Event"> | string | null
-    published?: BoolFilter<"Event"> | boolean
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    published?: BoolFilter<"Event"> | boolean
     images?: EventImageListRelationFilter
   }
 
@@ -8255,9 +8255,9 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
-    published?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
     images?: EventImageOrderByRelationAggregateInput
   }
 
@@ -8270,9 +8270,9 @@ export namespace Prisma {
     title?: StringFilter<"Event"> | string
     description?: StringFilter<"Event"> | string
     thumbnail?: StringNullableFilter<"Event"> | string | null
-    published?: BoolFilter<"Event"> | boolean
     createdAt?: DateTimeFilter<"Event"> | Date | string
     updatedAt?: DateTimeFilter<"Event"> | Date | string
+    published?: BoolFilter<"Event"> | boolean
     images?: EventImageListRelationFilter
   }, "id" | "slug">
 
@@ -8282,9 +8282,9 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrderInput | SortOrder
-    published?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
     _count?: EventCountOrderByAggregateInput
     _max?: EventMaxOrderByAggregateInput
     _min?: EventMinOrderByAggregateInput
@@ -8299,9 +8299,9 @@ export namespace Prisma {
     slug?: StringWithAggregatesFilter<"Event"> | string
     description?: StringWithAggregatesFilter<"Event"> | string
     thumbnail?: StringNullableWithAggregatesFilter<"Event"> | string | null
-    published?: BoolWithAggregatesFilter<"Event"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Event"> | Date | string
+    published?: BoolWithAggregatesFilter<"Event"> | boolean
   }
 
   export type EventImageWhereInput = {
@@ -8481,148 +8481,148 @@ export namespace Prisma {
   export type PartnerCreateInput = {
     id?: string
     name: string
-    logo?: string | null
-    website?: string | null
-    description?: string | null
+    logo: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    description?: string | null
+    website?: string | null
   }
 
   export type PartnerUncheckedCreateInput = {
     id?: string
     name: string
-    logo?: string | null
-    website?: string | null
-    description?: string | null
+    logo: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    description?: string | null
+    website?: string | null
   }
 
   export type PartnerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PartnerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PartnerCreateManyInput = {
     id?: string
     name: string
-    logo?: string | null
-    website?: string | null
-    description?: string | null
+    logo: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    description?: string | null
+    website?: string | null
   }
 
   export type PartnerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PartnerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    logo?: NullableStringFieldUpdateOperationsInput | string | null
-    website?: NullableStringFieldUpdateOperationsInput | string | null
-    description?: NullableStringFieldUpdateOperationsInput | string | null
+    logo?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FAQCreateInput = {
     id?: string
-    category: string
     question: string
     answer: string
     order?: number
-    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    category: string
+    isActive?: boolean
   }
 
   export type FAQUncheckedCreateInput = {
     id?: string
-    category: string
     question: string
     answer: string
     order?: number
-    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    category: string
+    isActive?: boolean
   }
 
   export type FAQUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FAQUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FAQCreateManyInput = {
     id?: string
-    category: string
     question: string
     answer: string
     order?: number
-    isActive?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    category: string
+    isActive?: boolean
   }
 
   export type FAQUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type FAQUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    category?: StringFieldUpdateOperationsInput | string
     question?: StringFieldUpdateOperationsInput | string
     answer?: StringFieldUpdateOperationsInput | string
     order?: IntFieldUpdateOperationsInput | number
-    isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: StringFieldUpdateOperationsInput | string
+    isActive?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type EventCreateInput = {
@@ -8631,9 +8631,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail?: string | null
-    published?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
     images?: EventImageCreateNestedManyWithoutEventInput
   }
 
@@ -8643,9 +8643,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail?: string | null
-    published?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
     images?: EventImageUncheckedCreateNestedManyWithoutEventInput
   }
 
@@ -8655,9 +8655,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
     images?: EventImageUpdateManyWithoutEventNestedInput
   }
 
@@ -8667,9 +8667,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
     images?: EventImageUncheckedUpdateManyWithoutEventNestedInput
   }
 
@@ -8679,9 +8679,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail?: string | null
-    published?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
   }
 
   export type EventUpdateManyMutationInput = {
@@ -8690,9 +8690,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type EventUncheckedUpdateManyInput = {
@@ -8701,9 +8701,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type EventImageCreateInput = {
@@ -8928,30 +8928,30 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
-    website?: SortOrder
-    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    description?: SortOrder
+    website?: SortOrder
   }
 
   export type PartnerMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
-    website?: SortOrder
-    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    description?: SortOrder
+    website?: SortOrder
   }
 
   export type PartnerMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     logo?: SortOrder
-    website?: SortOrder
-    description?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    description?: SortOrder
+    website?: SortOrder
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8985,13 +8985,13 @@ export namespace Prisma {
 
   export type FAQCountOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
-    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    category?: SortOrder
+    isActive?: SortOrder
   }
 
   export type FAQAvgOrderByAggregateInput = {
@@ -9000,24 +9000,24 @@ export namespace Prisma {
 
   export type FAQMaxOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
-    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    category?: SortOrder
+    isActive?: SortOrder
   }
 
   export type FAQMinOrderByAggregateInput = {
     id?: SortOrder
-    category?: SortOrder
     question?: SortOrder
     answer?: SortOrder
     order?: SortOrder
-    isActive?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    category?: SortOrder
+    isActive?: SortOrder
   }
 
   export type FAQSumOrderByAggregateInput = {
@@ -9056,9 +9056,9 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
-    published?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
   }
 
   export type EventMaxOrderByAggregateInput = {
@@ -9067,9 +9067,9 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
-    published?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
   }
 
   export type EventMinOrderByAggregateInput = {
@@ -9078,9 +9078,9 @@ export namespace Prisma {
     slug?: SortOrder
     description?: SortOrder
     thumbnail?: SortOrder
-    published?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    published?: SortOrder
   }
 
   export type EventScalarRelationFilter = {
@@ -9570,9 +9570,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail?: string | null
-    published?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
   }
 
   export type EventUncheckedCreateWithoutImagesInput = {
@@ -9581,9 +9581,9 @@ export namespace Prisma {
     slug: string
     description: string
     thumbnail?: string | null
-    published?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    published?: boolean
   }
 
   export type EventCreateOrConnectWithoutImagesInput = {
@@ -9608,9 +9608,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type EventUncheckedUpdateWithoutImagesInput = {
@@ -9619,9 +9619,9 @@ export namespace Prisma {
     slug?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
-    published?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    published?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type RefreshTokenCreateManyUserInput = {

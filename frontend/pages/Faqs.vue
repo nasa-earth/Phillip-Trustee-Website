@@ -2,9 +2,9 @@
     <div class="faqs-page relative">
         <!-- Hero Section with Particles -->
         <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
-            :style="{ backgroundImage: 'url(/images/Services/client-value.jpg)' }">
+            :style="{ backgroundImage: 'url(/images/faq/faq_header.jpg)' }">
             <div class="absolute inset-0 z-0">
-                <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/60 via-[#0e2a52]/30 to-[#001a4d]/30">
+                <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10">
                 </div>
             </div>
         </section>
@@ -105,7 +105,7 @@
                         <div class="flex flex-wrap gap-2 mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-3 rounded-2xl backdrop-blur-sm border border-white/10"
                             v-motion-slide-visible-once-bottom>
                             <button @click="selectedCategory = null"
-                                :class="['category-btn', !selectedCategory ? 'active' : '']">
+                                :class="['category-btn cursor-pointer', !selectedCategory ? 'active' : '']">
                                 <span class="flex items-center gap-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
@@ -116,7 +116,7 @@
                                 </span>
                             </button>
                             <button v-for="category in categories" :key="category" @click="selectedCategory = category"
-                                :class="['category-btn', selectedCategory === category ? 'active' : '']">
+                                :class="['category-btn cursor-pointer', selectedCategory === category ? 'active' : '']">
                                 {{ category }}
                             </button>
                         </div>
@@ -141,7 +141,7 @@
                                 class="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-xl shadow-md border border-white/10 transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/30"
                                 v-motion-slide-visible-once-bottom :style="{ animationDelay: `${idx * 100}ms` }">
                                 <button
-                                    class="w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none"
+                                    class="w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none cursor-pointer"
                                     @click="toggle(getFaqIndex(faq))">
                                     <span class="flex-1 pr-4">
                                         <span v-if="searchQuery" v-html="highlightSearch(faq.question)"

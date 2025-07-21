@@ -12,25 +12,49 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     private configService: ConfigService,
     private usersService: UsersService,
   ) {
+    const jwtSecret = configService.get('app.jwt.secret');
+    console.log('JWT STRATEGY - JWT Secret configured:', !!jwtSecret);
+    console.log('JWT STRATEGY - JWT Secret length:', jwtSecret?.length || 0);
+
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: configService.get('app.jwt.secret'),
+      secretOrKey: jwtSecret,
       ignoreExpiration: false, // Ensure expired tokens are rejected
     });
+
+    this.logger.debug('JWT STRATEGY - Strategy initialized successfully');
   }
 
   async validate(payload: any) {
     try {
       this.logger.debug(
-        `JWT validation - Payload received: ${JSON.stringify(payload)}`,
+        `JWT VALIDATION START - User ID: ${payload.sub}, Email: ${payload.email}`,
       );
 
       // Check if user still exists and is active
-      const user = await this.usersService.findOne(payload.sub);
+      let user;
+      try {
+        user = await this.usersService.findOne(payload.sub);
+        this.logger.debug(`JWT validation - User found: ${user.email}`);
+      } catch (error) {
+        // Check if it's a NotFoundException (user not found)
+        if (error.constructor.name === 'NotFoundException') {
+          this.logger.warn(
+            `JWT validation failed: User ${payload.sub} not found in database`,
+          );
+          throw new UnauthorizedException('User no longer exists');
+        }
+        // Re-throw other errors
+        this.logger.error(
+          `JWT validation - Database error: ${error.message}`,
+          error.stack,
+        );
+        throw new UnauthorizedException('Database error during validation');
+      }
 
       if (!user) {
-        this.logger.warn(
-          `JWT validation failed: User ${payload.sub} not found`,
+        this.logger.error(
+          `JWT validation failed: User ${payload.sub} returned null`,
         );
         throw new UnauthorizedException('User no longer exists');
       }
@@ -45,14 +69,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         name: user.name, // Include name from database
       };
 
-      this.logger.debug(
-        `Returning validated user: ${JSON.stringify(validatedUser)}`,
-      );
-
       return validatedUser;
     } catch (error) {
-      this.logger.error(`JWT validation error: ${error.message}`, error.stack);
-      throw new UnauthorizedException('Invalid token');
+      this.logger.error(`JWT validation error: ${error.message}`);
+      throw error instanceof UnauthorizedException
+        ? error
+        : new UnauthorizedException('Invalid token');
     }
   }
 }

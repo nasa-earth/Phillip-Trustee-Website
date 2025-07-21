@@ -28,7 +28,7 @@ import * as bcrypt from 'bcrypt';
 
 @ApiTags('users')
 @Controller('users')
-@UseGuards(JwtAuthGuard, RolesGuard)
+
 @Roles(Role.ADMIN, Role.EDITOR)
 @ApiBearerAuth()
 export class UsersController {

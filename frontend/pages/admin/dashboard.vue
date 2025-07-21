@@ -66,73 +66,219 @@
                             <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-indigo-400 rounded-full animate-spin mx-auto"
                                 style="animation-delay: 0.3s;"></div>
                         </div>
-                        <span class="mt-4 block text-lg font-medium text-slate-600">Loading content...</span>
+                        <span class="mt-4 block text-lg font-medium text-slate-600">Loading {{
+                            getSectionDisplayName(activeSection) }}...</span>
                         <span class="text-sm text-slate-400">Please wait a moment</span>
+
+                        <!-- Emergency reset button after 5 seconds -->
+                        <div class="mt-6" v-if="showEmergencyReset">
+                            <Button label="Something stuck? Click here to reset" icon="pi pi-refresh"
+                                @click="emergencyResetLoading"
+                                class="p-button-text p-button-sm text-red-600 hover:text-red-700" />
+                        </div>
                     </div>
                 </div>
 
                 <!-- Users Section -->
                 <div v-else-if="activeSection === 'users'" class="h-full">
                     <Transition name="fade" mode="out-in">
-                        <UserManagement key="users-management" />
+                        <Suspense>
+                            <template #default>
+                                <UserManagement key="users-management" />
+                            </template>
+                            <template #fallback>
+                                <div class="h-full flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                        </div>
+                                        <p class="text-gray-600">Loading Users Management...</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </Suspense>
                     </Transition>
                 </div>
 
                 <!-- Events Section -->
                 <div v-else-if="activeSection === 'events'" class="h-full">
                     <Transition name="fade" mode="out-in">
-                        <EventsManagement key="events-management" />
+                        <Suspense>
+                            <template #default>
+                                <EventsManagement key="events-management" />
+                            </template>
+                            <template #fallback>
+                                <div class="h-full flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                        </div>
+                                        <p class="text-gray-600">Loading Events Management...</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </Suspense>
                     </Transition>
                 </div>
 
                 <!-- Partners Section -->
                 <div v-else-if="activeSection === 'partners'" class="h-full">
                     <Transition name="fade" mode="out-in">
-                        <PartnersManagement key="partners-management" />
+                        <Suspense>
+                            <template #default>
+                                <PartnersManagement key="partners-management" />
+                            </template>
+                            <template #fallback>
+                                <div class="h-full flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                        </div>
+                                        <p class="text-gray-600">Loading Partners Management...</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </Suspense>
                     </Transition>
                 </div>
 
                 <!-- FAQs Section -->
                 <div v-else-if="activeSection === 'faq'" class="h-full">
                     <Transition name="fade" mode="out-in">
-                        <FaqsManagement key="faqs-management" />
+                        <Suspense>
+                            <template #default>
+                                <FaqsManagement key="faqs-management" />
+                            </template>
+                            <template #fallback>
+                                <div class="h-full flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                        </div>
+                                        <p class="text-gray-600">Loading FAQs Management...</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </Suspense>
                     </Transition>
                 </div>
 
                 <!-- Settings Section -->
                 <div v-else-if="activeSection === 'settings'" class="h-full">
                     <Transition name="fade" mode="out-in">
-                        <SettingsManagement key="settings-management" />
+                        <Suspense>
+                            <template #default>
+                                <SettingsManagement key="settings-management" />
+                            </template>
+                            <template #fallback>
+                                <div class="h-full flex items-center justify-center">
+                                    <div class="text-center">
+                                        <div
+                                            class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                        </div>
+                                        <p class="text-gray-600">Loading Settings...</p>
+                                    </div>
+                                </div>
+                            </template>
+                        </Suspense>
                     </Transition>
                 </div>
 
                 <!-- Dashboard View -->
-                <div v-else-if="activeSection === 'dashboard'"
-                    class="h-full flex flex-col items-center justify-center p-8 text-center">
-                    <div class="w-full max-w-2xl">
-                        <div class="mb-8">
-                            <div
-                                class="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl">
-                                <i class="pi pi-chart-line text-3xl text-white"></i>
+                <div v-else-if="activeSection === 'dashboard'" class="h-full overflow-y-auto">
+                    <div class="max-w-7xl mx-auto">
+                        <!-- Dashboard Header -->
+                        <div class="flex justify-between items-center mb-6">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
                             </div>
-                            <h2
-                                class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent mb-4">
-                                Admin Dashboard
-                            </h2>
-                            <p class="text-slate-600 text-lg">Select a section from the sidebar to manage your website
-                                content.</p>
+                            <Button label="Refresh Data" icon="pi pi-refresh" @click="refreshDashboardData"
+                                :loading="dashboardLoading" class="bg-blue-600 hover:bg-blue-700" />
                         </div>
-                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mt-8">
-                            <div v-for="(item, idx) in dashboardMenuItems.slice(0, 6)" :key="idx"
-                                @click="selectSection(item.key)"
-                                class="group bg-gradient-to-br from-white to-slate-50 p-6 rounded-xl shadow-lg border border-slate-200/50 hover:shadow-2xl transition-all duration-300 cursor-pointer hover:transform hover:scale-105 hover:border-blue-300">
-                                <i
-                                    :class="[item.icon, 'text-3xl mb-3 block text-blue-600 group-hover:text-indigo-600 transition-colors']"></i>
-                                <h3 class="font-semibold text-slate-800 group-hover:text-slate-900">{{ item.label }}
-                                </h3>
-                                <p class="text-xs text-slate-500 mt-1 group-hover:text-slate-600">Manage {{
-                                    item.label.toLowerCase() }}</p>
+
+                        <!-- Loading State -->
+                        <div v-if="dashboardLoading" class="flex justify-center items-center h-64">
+                            <div class="text-center">
+                                <div
+                                    class="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-4">
+                                </div>
+                                <p class="text-gray-600">Loading dashboard data...</p>
                             </div>
+                        </div>
+
+                        <!-- Dashboard Content -->
+                        <div v-else class="space-y-6">
+                            <!-- Stats Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                <!-- Events Card -->
+                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">Events</p>
+                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.events.total
+                                                }}</p>
+                                        </div>
+                                        <div class="p-3 bg-blue-100 rounded-full">
+                                            <i class="pi pi-calendar text-blue-600 text-xl"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- Users Card -->
+                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">Users</p>
+                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.users.total }}
+                                            </p>
+                                        </div>
+                                        <div class="p-3 bg-green-100 rounded-full">
+                                            <i class="pi pi-users text-green-600 text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <span class="text-sm text-blue-600">{{ dashboardStats.users.admins }}
+                                            admins</span>
+                                        <span class="text-sm text-gray-500 ml-2">{{ dashboardStats.users.editors }}
+                                            editors</span>
+                                    </div>
+                                </div>
+
+                                <!-- Partners Card -->
+                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">Partners</p>
+                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.partners.total
+                                                }}</p>
+                                        </div>
+                                        <div class="p-3 bg-purple-100 rounded-full">
+                                            <i class="pi pi-briefcase text-purple-600 text-xl"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!-- FAQs Card -->
+                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">FAQs</p>
+                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.faqs.total }}
+                                            </p>
+                                        </div>
+                                        <div class="p-3 bg-yellow-100 rounded-full">
+                                            <i class="pi pi-question-circle text-yellow-600 text-xl"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <span class="text-sm text-blue-600">{{ dashboardStats.faqs.categories }}
+                                            categories</span>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -169,11 +315,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, nextTick } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
+import { useDashboardService } from '~/composables/useDashboardService';
 import UserManagement from '~/components/admin/UserManagement.vue';
 import EventsManagement from '~/components/admin/EventsManagement.vue';
 import FaqsManagement from '~/components/admin/FaqsManagement.vue';
@@ -182,7 +329,7 @@ import SettingsManagement from '~/components/admin/SettingsManagement.vue';
 
 // Define layout and middleware for this page
 definePageMeta({
-    layout: 'admin/default',
+    layout: 'default',
     middleware: ['admin']
 });
 
@@ -190,12 +337,34 @@ const router = useRouter();
 const authStore = useAuthStore();
 const toast = useToast();
 const confirm = useConfirm();
+const dashboardService = useDashboardService();
+
 const user = computed(() => authStore.user);
 const loading = ref(false);
 const componentLoading = ref(false);
+const dashboardLoading = ref(false);
+const showEmergencyReset = ref(false);
+let loadingTimeout = null; // Add timeout reference
+let emergencyTimeout = null; // Emergency reset timeout
+
+// Dashboard data
+const dashboardStats = ref({
+    events: { total: 0 },
+    users: { total: 0, admins: 0, editors: 0 },
+    partners: { total: 0 },
+    faqs: { total: 0, categories: 0 }
+});
+
+const recentActivities = ref([]);
+const systemHealth = ref({
+    database: 'unknown',
+    api: 'unknown',
+    uptime: 0,
+    memoryUsage: { used: 0, total: 0 }
+});
 
 // Dashboard menu state
-const activeSection = ref('welcome');
+const activeSection = ref('dashboard');
 
 // Format the current date
 const currentDate = computed(() => {
@@ -244,25 +413,95 @@ const dashboardMenuItems = ref([
 
 // Function to select dashboard section
 const selectSection = async (sectionKey) => {
+    // Prevent switching if already loading and clicking same section
+    if (componentLoading.value && activeSection.value === sectionKey) {
+        return;
+    }
+
+    // Clear any existing timeout
+    if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+    }
+
+    // Clear emergency timeout
+    if (emergencyTimeout) {
+        clearTimeout(emergencyTimeout);
+        emergencyTimeout = null;
+    }
+
     componentLoading.value = true;
+    showEmergencyReset.value = false;
+
+    // Show emergency reset button after 5 seconds
+    emergencyTimeout = setTimeout(() => {
+        if (componentLoading.value) {
+            showEmergencyReset.value = true;
+        }
+    }, 5000);
+
+    // Set a safety timeout to prevent infinite loading
+    loadingTimeout = setTimeout(() => {
+        if (componentLoading.value) {
+            console.warn(`Loading timeout for section: ${sectionKey}`);
+            componentLoading.value = false;
+            toast.add({
+                severity: 'warn',
+                summary: 'Loading Timeout',
+                detail: `${getSectionDisplayName(sectionKey)} took too long to load`,
+                life: 3000
+            });
+        }
+    }, 8000); // 8 second timeout to account for async component loading
 
     try {
-        // Add delay to show loading spinner (remove in production if not needed)
-        await new Promise(resolve => setTimeout(resolve, 300));
-
-        // Update the active section
+        // Update the active section immediately
         activeSection.value = sectionKey;
 
         // Log section change for debugging
-        console.log(`Switched to section: ${sectionKey}`);
+        console.log(`Switching to section: ${sectionKey}`);
+
+        // For Partners section, add extra safeguards
+        if (sectionKey === 'partners') {
+            // Force reset loading after component should be mounted
+            setTimeout(() => {
+                if (componentLoading.value) {
+                    console.log('Force resetting Partners component loading state');
+                    componentLoading.value = false;
+                }
+            }, 3000);
+        }
+
+        // Add a small delay to show loading spinner
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         // Allow the component to render fully before hiding loading spinner
         await nextTick();
+
+        console.log(`Successfully switched to section: ${sectionKey}`);
     } catch (error) {
         console.error(`Error changing to section ${sectionKey}:`, error);
-        toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to load section', life: 3000 });
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: `Failed to load ${getSectionDisplayName(sectionKey)}`,
+            life: 5000
+        });
+
+        // If there's an error, revert to dashboard
+        activeSection.value = 'dashboard';
     } finally {
+        // Clear timeout and ensure loading is turned off
+        if (loadingTimeout) {
+            clearTimeout(loadingTimeout);
+            loadingTimeout = null;
+        }
+        if (emergencyTimeout) {
+            clearTimeout(emergencyTimeout);
+            emergencyTimeout = null;
+        }
         componentLoading.value = false;
+        showEmergencyReset.value = false;
     }
 };
 const refreshData = () => {
@@ -274,6 +513,144 @@ const refreshData = () => {
         loading.value = false;
         toast.add({ severity: 'success', summary: 'Updated', detail: 'Dashboard data refreshed', life: 3000 });
     }, 1000);
+};
+
+// Fetch dashboard data
+const fetchDashboardData = async () => {
+    try {
+        dashboardLoading.value = true;
+
+        const summaryData = await dashboardService.getSummaryData();
+
+        if (summaryData.stats) {
+            dashboardStats.value = summaryData.stats;
+        }
+
+        if (summaryData.activities) {
+            recentActivities.value = summaryData.activities;
+        }
+
+        if (summaryData.health) {
+            systemHealth.value = summaryData.health;
+        }
+
+        console.log('Dashboard data loaded successfully');
+    } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Failed to load dashboard data',
+            life: 3000
+        });
+    } finally {
+        dashboardLoading.value = false;
+    }
+};
+
+// Refresh dashboard data
+const refreshDashboardData = async () => {
+    await fetchDashboardData();
+    toast.add({
+        severity: 'success',
+        summary: 'Refreshed',
+        detail: 'Dashboard data has been updated',
+        life: 3000
+    });
+};
+
+// Utility functions
+const getActivityIcon = (action) => {
+    const icons = {
+        'create': 'pi pi-plus',
+        'update': 'pi pi-pencil',
+        'delete': 'pi pi-trash',
+        'login': 'pi pi-sign-in',
+        'logout': 'pi pi-sign-out'
+    };
+    return icons[action] || 'pi pi-circle';
+};
+
+const getHealthStatusClass = (status) => {
+    const classes = {
+        'healthy': 'bg-green-100 text-green-800',
+        'warning': 'bg-yellow-100 text-yellow-800',
+        'error': 'bg-red-100 text-red-800',
+        'unknown': 'bg-gray-100 text-gray-800'
+    };
+    return classes[status] || 'bg-gray-100 text-gray-800';
+};
+
+const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+};
+
+const formatUptime = (seconds) => {
+    if (!seconds) return 'Unknown';
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    return `${hours}h ${minutes}m`;
+};
+
+const formatMemoryUsage = (memory) => {
+    if (!memory || !memory.total) return 'Unknown';
+    const usedMB = Math.round(memory.used / 1024 / 1024);
+    const totalMB = Math.round(memory.total / 1024 / 1024);
+    return `${usedMB}MB / ${totalMB}MB`;
+};
+
+// Helper function to get section display name
+const getSectionDisplayName = (sectionKey) => {
+    const sectionNames = {
+        'dashboard': 'Dashboard',
+        'users': 'Users Management',
+        'events': 'Events Management',
+        'partners': 'Partners Management',
+        'faq': 'FAQs Management',
+        'settings': 'Settings',
+        'welcome': 'Welcome'
+    };
+    return sectionNames[sectionKey] || 'Content';
+};
+
+// Force reset loading state (for debugging)
+const forceResetLoading = () => {
+    console.log('Force resetting loading state');
+    if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+    }
+    if (emergencyTimeout) {
+        clearTimeout(emergencyTimeout);
+        emergencyTimeout = null;
+    }
+    componentLoading.value = false;
+    showEmergencyReset.value = false;
+    toast.add({
+        severity: 'info',
+        summary: 'Reset',
+        detail: 'Loading state has been reset',
+        life: 2000
+    });
+};
+
+// Emergency reset loading (user-triggered)
+const emergencyResetLoading = () => {
+    console.log('Emergency reset triggered by user');
+    forceResetLoading();
+    toast.add({
+        severity: 'warn',
+        summary: 'Emergency Reset',
+        detail: 'Loading was manually reset. If this keeps happening, please refresh the page.',
+        life: 5000
+    });
 };
 
 // Function to handle logout with confirmation
@@ -309,9 +686,66 @@ const handleLogout = () => {
 };
 
 // Check authentication and fetch data on mount
-onMounted(() => {
+onMounted(async () => {
+    console.log('Dashboard component mounted');
     activeSection.value = 'dashboard';
-    refreshData();
+
+    try {
+        await fetchDashboardData();
+    } catch (error) {
+        console.error('Failed to fetch dashboard data:', error);
+        // Don't block the dashboard if data fetch fails
+        toast.add({
+            severity: 'warn',
+            summary: 'Warning',
+            detail: 'Some dashboard data could not be loaded',
+            life: 3000
+        });
+    }
+});
+
+// Watch for activeSection changes to ensure loading state is properly managed
+watch(activeSection, (newSection, oldSection) => {
+    console.log(`Section changed from ${oldSection} to ${newSection}`);
+
+    // If section changed but componentLoading is still true after a delay, reset it
+    setTimeout(() => {
+        if (componentLoading.value) {
+            console.warn(`Resetting stuck loading state for section: ${newSection}`);
+            componentLoading.value = false;
+        }
+    }, 6000); // Increased timeout for Suspense
+});
+
+// Watch componentLoading to debug loading issues
+watch(componentLoading, (newValue, oldValue) => {
+    console.log(`Component loading changed: ${oldValue} -> ${newValue}`);
+});
+
+// Handle Suspense component errors
+const handleComponentError = (error, sectionName) => {
+    console.error(`Error in ${sectionName} component:`, error);
+    componentLoading.value = false;
+    toast.add({
+        severity: 'error',
+        summary: 'Component Error',
+        detail: `Failed to load ${sectionName}. Please try again.`,
+        life: 5000
+    });
+    // Revert to dashboard on error
+    activeSection.value = 'dashboard';
+};
+
+// Cleanup on unmount
+onUnmounted(() => {
+    if (loadingTimeout) {
+        clearTimeout(loadingTimeout);
+        loadingTimeout = null;
+    }
+    if (emergencyTimeout) {
+        clearTimeout(emergencyTimeout);
+        emergencyTimeout = null;
+    }
 });
 
 </script>

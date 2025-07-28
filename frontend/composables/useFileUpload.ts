@@ -267,14 +267,33 @@ export const useFileUpload = () => {
       const result = await response.json();
       console.log("Upload successful:", result);
 
-      // Return the URL directly if response is a string, otherwise extract the URL
+      // Handle different response formats
       if (typeof result === "string") {
+        // Direct URL string
         return result;
-      } else if (result && result.url) {
-        return result.url;
-      } else {
-        throw new Error("Invalid response format from upload service");
+      } else if (result && typeof result === "object") {
+        // Object response - check for URL in various properties
+        if (result.url) {
+          return result.url;
+        } else if (result.fileUrl) {
+          return result.fileUrl;
+        } else if (result.path) {
+          return result.path;
+        } else if (result.data && result.data.url) {
+          return result.data.url;
+        }
       }
+
+      // If we get here, log the actual response for debugging
+      console.error("Unexpected response format:", result);
+      console.error("Response type:", typeof result);
+      console.error("Response keys:", result ? Object.keys(result) : "null");
+
+      throw new Error(
+        `Invalid response format from upload service. Got: ${JSON.stringify(
+          result
+        )}`
+      );
     } catch (error) {
       console.error("Upload failed:", error);
 

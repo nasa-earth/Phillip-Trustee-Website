@@ -66,14 +66,38 @@ export interface DashboardApiResponse {
   stats?: {
     events?: number;
     publishedEvents?: number;
+    draftEvents?: number;
     users?: number;
+    usersByRole?: {
+      admins?: number;
+      editors?: number;
+      users?: number;
+    };
     partners?: number;
     faqs?: number;
+    faqCategories?: number;
   };
   recentActivity?: RecentActivity[];
+  timestamp?: string;
 }
 
 export interface EventsStatsResponse {
+  total?: number;
+  data?: any[];
+}
+
+export interface PartnersResponse {
+  data?: any[];
+  total?: number;
+}
+
+export interface FaqsResponse {
+  data?: any[];
+  total?: number;
+}
+
+export interface UsersResponse {
+  users?: any[];
   total?: number;
 }
 
@@ -87,6 +111,55 @@ export const useDashboardService = () => {
     return config.public.apiBase || "http://localhost:3005";
   };
 
+  // Helper function to get user role counts
+  const getUserRoleCounts = async (
+    headers: any
+  ): Promise<{ admins: number; editors: number }> => {
+    try {
+      // Try to get users with role breakdown
+      const usersResponse = await $fetch<any>(`${getApiBase()}/api/users`, {
+        headers,
+        query: { limit: 1000 }, // Get all users to count roles
+      });
+
+      if (usersResponse && usersResponse.users) {
+        const admins = usersResponse.users.filter(
+          (user: any) => user.role === "ADMIN"
+        ).length;
+        const editors = usersResponse.users.filter(
+          (user: any) => user.role === "EDITOR"
+        ).length;
+        return { admins, editors };
+      }
+    } catch (error) {
+      console.warn("Failed to get user role counts:", error);
+    }
+
+    return { admins: 0, editors: 0 };
+  };
+
+  // Helper function to get FAQ categories count
+  const getFaqCategoriesCount = async (headers: any): Promise<number> => {
+    try {
+      // Try to get FAQs and count unique categories
+      const faqsResponse = await $fetch<any>(`${getApiBase()}/api/faqs`, {
+        headers,
+        query: { limit: 1000 }, // Get all FAQs to count categories
+      });
+
+      if (faqsResponse && faqsResponse.data) {
+        const categories = new Set(
+          faqsResponse.data.map((faq: any) => faq.category)
+        );
+        return categories.size;
+      }
+    } catch (error) {
+      console.warn("Failed to get FAQ categories count:", error);
+    }
+
+    return 0;
+  };
+
   // Get dashboard statistics
   const getDashboardStats = async (): Promise<DashboardStats> => {
     try {
@@ -95,7 +168,7 @@ export const useDashboardService = () => {
 
       // Try main dashboard endpoint first
       try {
-        const response = await $fetch<DashboardApiResponse>(
+        const response = await $fetch<any>(
           `${getApiBase()}/api/admin/dashboard`,
           {
             headers,
@@ -103,68 +176,104 @@ export const useDashboardService = () => {
         );
         console.log("Dashboard response:", response);
 
-        if (response && response.stats) {
+        // Handle the actual API response structure: { data: { stats: {...} } }
+        const stats = response?.data?.stats || response?.stats;
+
+        if (stats) {
           return {
             events: {
-              total: response.stats.events || 0,
-              published: response.stats.publishedEvents || 0,
+              total: stats.events || 0,
+              published: stats.publishedEvents || 0,
               draft:
-                (response.stats.events || 0) -
-                (response.stats.publishedEvents || 0),
+                stats.draftEvents ||
+                (stats.events || 0) - (stats.publishedEvents || 0),
               recent: [],
             },
             users: {
-              total: response.stats.users || 0,
-              admins: 0,
-              editors: 0,
+              total: stats.users || 0,
+              admins: stats.usersByRole?.admins || 0,
+              editors: stats.usersByRole?.editors || 0,
               recent: [],
             },
             partners: {
-              total: response.stats.partners || 0,
-              active: response.stats.partners || 0,
+              total: stats.partners || 0,
+              active: stats.partners || 0,
               recent: [],
             },
             faqs: {
-              total: response.stats.faqs || 0,
-              categories: 0,
+              total: stats.faqs || 0,
+              categories: stats.faqCategories || 0,
               recent: [],
             },
           };
         }
       } catch (dashboardError) {
         console.warn(
-          "Main dashboard endpoint failed, trying events stats:",
+          "Main dashboard endpoint failed, trying individual endpoints:",
           dashboardError
         );
       }
 
-      // Fallback to available endpoints
+      // Fallback to individual endpoints
       try {
-        const eventsStats = await $fetch<EventsStatsResponse>(
-          `${getApiBase()}/api/admin/events/stats`,
-          { headers }
-        );
+        const [eventsData, usersData, partnersData, faqsData] =
+          await Promise.allSettled([
+            $fetch<any>(`${getApiBase()}/api/events`, { headers }),
+            $fetch<UsersResponse>(`${getApiBase()}/api/users`, {
+              headers,
+              query: { limit: 1000 },
+            }),
+            $fetch<PartnersResponse>(`${getApiBase()}/api/partners`, {
+              headers,
+            }),
+            $fetch<FaqsResponse>(`${getApiBase()}/api/faqs`, { headers }),
+          ]);
+
+        // Get user role counts
+        const userRoleCounts = await getUserRoleCounts(headers);
+
+        // Get FAQ categories count
+        const faqCategoriesCount = await getFaqCategoriesCount(headers);
+
         return {
           events: {
-            total: eventsStats.total || 0,
-            published: 0,
-            draft: eventsStats.total || 0,
+            total:
+              eventsData.status === "fulfilled"
+                ? eventsData.value?.data?.length || 0
+                : 0,
+            published:
+              eventsData.status === "fulfilled"
+                ? eventsData.value?.data?.length || 0
+                : 0,
+            draft: 0,
             recent: [],
           },
           users: {
-            total: 0,
-            admins: 0,
-            editors: 0,
+            total:
+              usersData.status === "fulfilled"
+                ? usersData.value?.total || usersData.value?.users?.length || 0
+                : 0,
+            admins: userRoleCounts.admins,
+            editors: userRoleCounts.editors,
             recent: [],
           },
           partners: {
-            total: 0,
-            active: 0,
+            total:
+              partnersData.status === "fulfilled"
+                ? partnersData.value?.data?.length || 0
+                : 0,
+            active:
+              partnersData.status === "fulfilled"
+                ? partnersData.value?.data?.length || 0
+                : 0,
             recent: [],
           },
           faqs: {
-            total: 0,
-            categories: 0,
+            total:
+              faqsData.status === "fulfilled"
+                ? faqsData.value?.data?.length || 0
+                : 0,
+            categories: faqCategoriesCount,
             recent: [],
           },
         };

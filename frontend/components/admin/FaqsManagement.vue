@@ -1,22 +1,43 @@
 <template>
-    <div class="faqs-management space-y-6 p-2">
+    <div class="space-y-6 p-2">
         <!-- Header Section -->
-        <div class="p-6 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-xl border border-purple-200/50 shadow-lg">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div class="">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
                 <div>
                     <h3
-                        class="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
-                        <i class="pi pi-question-circle text-purple-600"></i>
+                        class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
                         FAQ Management
                     </h3>
                 </div>
                 <Button label="Add New FAQ" icon="pi pi-plus" @click="openFaqDialog()"
-                    class="bg-gradient-to-r from-purple-500 to-indigo-500 hover:from-purple-600 hover:to-indigo-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 font-semibold" />
+                    class="bg-gradient-to-r from-blue-500 to-blue-500 hover:from-blue-600 hover:to-indigo-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 font-semibold" />
             </div>
         </div>
-
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 justify-between">
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-black text-xl font-medium">Total FAQs</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{ filteredFaqs.length }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-black text-xl font-medium">Total Category</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{ categoryOptions.length }}
+                    </p>
+                </div>
+            </div>
+        </div>
+        </div>
         <!-- Filters and Search -->
-        <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-white/20 p-6">
+        <div class="">
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div class="flex flex-col sm:flex-row gap-4 flex-1">
                     <div class="flex-1 max-w-md">
@@ -25,20 +46,12 @@
                                 <!-- <i class="pi pi-search text-slate-400"></i> -->
                             </div>
                             <InputText v-model="searchQuery" placeholder="Search"
-                                class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
+                                class="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
                                 @input="debouncedSearch" />
                         </div>
                     </div>
                 </div>
-                <div class="flex items-center gap-3">
-                    <div class="flex items-center gap-2 text-sm text-slate-500 bg-slate-100 px-3 py-2 rounded-lg">
-                        <i class="pi pi-info-circle"></i>
-                        <span>{{ filteredFaqs.length }} FAQs</span>
-                    </div>
-                    <!-- <Button icon="pi pi-refresh" @click="loadFaqs" :loading="loading"
-                        class="w-10 h-10 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
-                        v-tooltip.top="'Refresh FAQs'" /> -->
-                </div>
+
             </div>
         </div>
 
@@ -74,18 +87,7 @@
         <!-- FAQs Table -->
         <div v-else-if="filteredFaqs.length > 0"
             class="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 overflow-hidden">
-            <div class="p-6 border-b border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <div>
-                        <h4 class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <i class="pi pi-table text-purple-600"></i>
-                            FAQ Library
-                        </h4>
-                        <!-- <p class="text-slate-600 text-sm mt-1">{{ filteredFaqs.length }} questions available</p> -->
-                    </div>
-                </div>
-            </div>
-
+            
             <DataTable :value="filteredFaqs" :loading="loading" :paginator="true" :rows="10"
                 :rowsPerPageOptions="[5, 10, 20, 50]" filterDisplay="menu" responsiveLayout="scroll" stripedRows
                 class="faq-table" :expandedRows="expandedRows" v-model:expandedRows="expandedRows" dataKey="id">
@@ -98,7 +100,7 @@
                     <template #body="{ data }">
                         <div class="flex items-center justify-center">
                             <span
-                                class="w-8 h-8 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                                class="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full flex items-center justify-center text-sm font-semibold">
                                 {{ data.order || 0 }}
                             </span>
                         </div>
@@ -112,7 +114,7 @@
                             <div class="font-semibold text-slate-800 line-clamp-2">{{ data.question }}</div>
                             <div class="flex items-center gap-2">
                                 <span
-                                    class="text-xs px-3 py-1.5 bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-full font-semibold shadow-md">
+                                    class="text-xs px-3 py-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-full font-semibold shadow-md">
                                     {{ data.category || 'General' }}
                                 </span>
                             </div>
@@ -125,7 +127,7 @@
                     <template #body="{ data }">
                         <div class="text-slate-600 text-sm line-clamp-3 max-w-xs">
                             {{ stripHtml(data.answer).substring(0, 150) }}{{ stripHtml(data.answer).length > 150 ? '...'
-                                : '' }}
+                            : '' }}
                         </div>
                     </template>
                 </Column>
@@ -138,11 +140,11 @@
                                 <i class="pi pi-calendar text-blue-500"></i>
                                 <span class="font-medium text-slate-700 text-sm">{{ formatDate(data.createdAt) }}</span>
                             </div>
-                            <span v-if="data.updatedAt !== data.createdAt"
+                            <!-- <span v-if="data.updatedAt !== data.createdAt"
                                 class="text-xs text-slate-500 flex items-center gap-1">
                                 <i class="pi pi-clock text-green-500"></i>
                                 Updated: {{ formatDateShort(data.updatedAt) }}
-                            </span>
+                            </span> -->
                         </div>
                     </template>
                 </Column>
@@ -154,9 +156,9 @@
                             <Button icon="pi pi-pencil" @click="editFaq(data)"
                                 class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'Edit FAQ'" />
-                            <Button icon="pi pi-arrows-v" @click="openReorderDialog"
+                            <!-- <Button icon="pi pi-arrows-v" @click="openReorderDialog"
                                 class="w-8 h-8 bg-purple-500 hover:bg-purple-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
-                                size="small" v-tooltip.top="'Reorder FAQs'" />
+                                size="small" v-tooltip.top="'Reorder FAQs'" /> -->
                             <Button icon="pi pi-trash" @click="confirmDeleteFaq(data)"
                                 class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'Delete FAQ'" />
@@ -170,7 +172,7 @@
                         <div class="space-y-4">
                             <div>
                                 <h5 class="text-lg font-semibold text-slate-800 mb-3 flex items-center gap-2">
-                                    <i class="pi pi-file-edit text-purple-500"></i>
+                                    <!-- <i class="pi pi-file-edit text-purple-500"></i> -->
                                     Full Answer
                                 </h5>
                                 <div class="prose max-w-none">
@@ -182,13 +184,13 @@
 
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-200">
                                 <div class="flex items-center gap-2">
-                                    <i class="pi pi-tag text-purple-500"></i>
+                                    <!-- <i class="pi pi-tag text-purple-500"></i> -->
                                     <div>
                                         <p class="text-xs font-medium text-slate-500 uppercase">Category</p>
                                         <p class="font-semibold text-slate-800">{{ data.category || 'General' }}</p>
                                     </div>
                                 </div>
-                                <div class="flex items-center gap-2">
+                                <!-- <div class="flex items-center gap-2">
                                     <i class="pi pi-calendar text-blue-500"></i>
                                     <div>
                                         <p class="text-xs font-medium text-slate-500 uppercase">Created</p>
@@ -201,7 +203,7 @@
                                         <p class="text-xs font-medium text-slate-500 uppercase">Last Updated</p>
                                         <p class="font-semibold text-slate-800">{{ formatDate(data.updatedAt) }}</p>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -219,7 +221,7 @@
                 <h3 class="text-2xl font-bold text-slate-800 mb-3">No FAQs Found</h3>
                 <p class="text-slate-600 mb-6 max-w-md mx-auto">
                     {{ searchQuery ? 'No FAQs match your search criteria. Try adjusting your filters or search terms.' :
-                        'Get started by creating your first FAQ to help users find answers quickly.' }}
+                    'Get started by creating your first FAQ to help users find answers quickly.' }}
                 </p>
                 <div class="flex justify-center gap-3">
                     <Button v-if="!searchQuery" label="Add First FAQ" icon="pi pi-plus" @click="openFaqDialog()"
@@ -323,7 +325,7 @@
         </Dialog>
 
         <!-- Reorder Dialog -->
-        <Dialog v-model:visible="reorderDialog" header="Reorder FAQs" modal class="max-w-3xl">
+        <!-- <Dialog v-model:visible="reorderDialog" header="Reorder FAQs" modal class="max-w-3xl">
             <template #header>
                 <div class="flex items-center gap-3">
                     <div
@@ -379,7 +381,7 @@
                         class="px-6 py-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-none rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-semibold" />
                 </div>
             </div>
-        </Dialog>
+        </Dialog> -->
 
         <!-- Delete Confirmation Dialog -->
         <ConfirmDialog />
@@ -696,9 +698,6 @@ watch(() => props.activeSection, (newSection) => {
 
 <style scoped>
 /* Enhanced Tailwind custom styles */
-.faqs-management {
-    padding: 0;
-}
 
 /* Custom animations */
 @keyframes fadeInUp {

@@ -32,6 +32,11 @@ import { Request as ExpressRequest } from 'express';
 
 @Roles(Role.ADMIN, Role.EDITOR)
 @ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.ADMIN, Role.EDITOR)
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Controller('admin/events')
 export class AdminEventsController {
   private readonly logger = new Logger(AdminEventsController.name);
 

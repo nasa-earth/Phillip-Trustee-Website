@@ -3,26 +3,41 @@
         <Toast />
         <ConfirmDialog />
         <!-- Welcome Header Section -->
-        <div
-            class="flex justify-between items-center p-6 bg-white/80 backdrop-blur-sm shadow-lg rounded-xl m-4 border border-white/20">
-            <div class="space-y-2">
-                <h2
-                    class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                    Welcome back, {{ user?.name || 'User' }}
-                </h2>
-                <p class="text-slate-600 font-medium">{{ currentDate }}</p>
-                <div class="flex items-center gap-3">
-                    <Chip :label="user?.role || 'USER'" :class="{
-                        'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': user?.role === 'ADMIN',
-                        'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': user?.role === 'EDITOR'
-                    }" class="text-xs font-semibold px-3 py-1 rounded-full" />
-
+        <div class="bg-white/90 backdrop-blur-sm shadow-xl rounded-xl m-4 border border-white/20 overflow-hidden">
+            <div class="flex items-center justify-between p-6 gap-6">
+                <!-- Left Side - Company Logo -->
+                <div class="flex-shrink-0">
+                    <img src="/images/logo/phillip trustee.png" alt="Phillip Trustee Logo"
+                        class="h-16 w-auto object-contain" />
                 </div>
-            </div>
-            <div class="flex gap-3">
-                <Button icon="pi pi-sign-out" @click="handleLogout"
-                    class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
-                    rounded aria-label="Logout" />
+
+                <!-- Center - User Welcome, Date & Role -->
+                <div class="flex-1 text-center space-y-3">
+                    <!-- User Welcome -->
+                    <h2
+                        class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                        Welcome back, {{ user?.name || 'User' }}
+                    </h2>
+
+                    <!-- Current Date -->
+                    <p class="text-slate-600 font-medium text-lg">{{ currentDate }}</p>
+
+                    <!-- User Role Badge -->
+                    <div class="flex justify-center">
+                        <Chip :label="user?.role || 'USER'" :class="{
+                            'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': user?.role === 'ADMIN',
+                            'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': user?.role === 'EDITOR',
+                            // 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg': user?.role === 'USER'
+                        }" class="text-xs font-semibold px-4 py-2 rounded-full shadow-md" />
+                    </div>
+                </div>
+
+                <!-- Right Side - Logout Button -->
+                <div class="flex-shrink-0">
+                    <Button icon="pi pi-sign-out" @click="handleLogout"
+                        class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                        rounded aria-label="Logout" v-tooltip="'Logout'" />
+                </div>
             </div>
         </div>
 
@@ -35,7 +50,7 @@
                         <i class="pi pi-th-large text-blue-600"></i>
                         Admin Controls
                     </h3>
-                    <p class="text-sm text-slate-500 mt-1">Manage your website content</p>
+                    <!-- <p class="text-sm text-slate-500 mt-1">Manage your website content</p> -->
                 </div>
                 <ul class="mt-6 space-y-2">
                     <li v-for="(item, idx) in dashboardMenuItems" :key="idx" :class="[
@@ -214,9 +229,10 @@
                                 <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-sm font-medium text-gray-600">Events</p>
+                                            <p class="text-xl font-medium text-black">Events</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.events.total
-                                                }}</p>
+                                            }}
+                                            </p>
                                         </div>
                                         <div class="p-3 bg-blue-100 rounded-full">
                                             <i class="pi pi-calendar text-blue-600 text-xl"></i>
@@ -229,7 +245,7 @@
                                 <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-sm font-medium text-gray-600">Users</p>
+                                            <p class="text-xl font-medium text-black">Users</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.users.total }}
                                             </p>
                                         </div>
@@ -238,9 +254,9 @@
                                         </div>
                                     </div>
                                     <div class="mt-4">
-                                        <span class="text-sm text-blue-600">{{ dashboardStats.users.admins }}
+                                        <span class="text-lg text-blue-600">{{ dashboardStats.users.admins }}
                                             admins</span>
-                                        <span class="text-sm text-gray-500 ml-2">{{ dashboardStats.users.editors }}
+                                        <span class="text-lg text-gray-800 ml-2">{{ dashboardStats.users.editors }}
                                             editors</span>
                                     </div>
                                 </div>
@@ -249,9 +265,9 @@
                                 <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-sm font-medium text-gray-600">Partners</p>
+                                            <p class="text-xl font-medium text-black">Partners</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.partners.total
-                                                }}</p>
+                                            }}</p>
                                         </div>
                                         <div class="p-3 bg-purple-100 rounded-full">
                                             <i class="pi pi-briefcase text-purple-600 text-xl"></i>
@@ -264,7 +280,7 @@
                                 <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-sm font-medium text-gray-600">FAQs</p>
+                                            <p class="text-xl font-medium text-black">FAQs</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.faqs.total }}
                                             </p>
                                         </div>
@@ -273,7 +289,7 @@
                                         </div>
                                     </div>
                                     <div class="mt-4">
-                                        <span class="text-sm text-blue-600">{{ dashboardStats.faqs.categories }}
+                                        <span class="text-lg text-blue-600">{{ dashboardStats.faqs.categories }}
                                             categories</span>
                                     </div>
                                 </div>
@@ -321,6 +337,7 @@ import { useRouter } from 'vue-router';
 import { useToast } from 'primevue/usetoast';
 import { useConfirm } from 'primevue/useconfirm';
 import { useDashboardService } from '~/composables/useDashboardService';
+import { useDashboardEvents } from '~/composables/useDashboardEvents';
 import UserManagement from '~/components/admin/UserManagement.vue';
 import EventsManagement from '~/components/admin/EventsManagement.vue';
 import FaqsManagement from '~/components/admin/FaqsManagement.vue';
@@ -338,14 +355,18 @@ const authStore = useAuthStore();
 const toast = useToast();
 const confirm = useConfirm();
 const dashboardService = useDashboardService();
+const dashboardEvents = useDashboardEvents();
 
 const user = computed(() => authStore.user);
 const loading = ref(false);
 const componentLoading = ref(false);
 const dashboardLoading = ref(false);
 const showEmergencyReset = ref(false);
+const autoRefreshEnabled = ref(true);
+const refreshInterval = ref(30000); // 30 seconds
 let loadingTimeout = null; // Add timeout reference
 let emergencyTimeout = null; // Emergency reset timeout
+let autoRefreshTimer = null; // Auto refresh timer
 
 // Dashboard data
 const dashboardStats = ref({
@@ -401,11 +422,11 @@ const dashboardMenuItems = ref([
         label: 'FAQs',
         icon: 'pi pi-question-circle'
     },
-    {
-        key: 'settings',
-        label: 'Settings',
-        icon: 'pi pi-cog'
-    },
+    // {
+    //     key: 'settings',
+    //     label: 'Settings',
+    //     icon: 'pi pi-cog'
+    // },
 
 ]);
 
@@ -559,6 +580,80 @@ const refreshDashboardData = async () => {
     });
 };
 
+// Auto-refresh functionality
+const startAutoRefresh = () => {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+    }
+
+    if (autoRefreshEnabled.value) {
+        autoRefreshTimer = setInterval(async () => {
+            console.log('Auto-refreshing dashboard data...');
+            try {
+                await fetchDashboardData();
+                console.log('Dashboard auto-refresh completed');
+            } catch (error) {
+                console.error('Auto-refresh failed:', error);
+            }
+        }, refreshInterval.value);
+        console.log(`Auto-refresh started with ${refreshInterval.value}ms interval`);
+    }
+};
+
+const stopAutoRefresh = () => {
+    if (autoRefreshTimer) {
+        clearInterval(autoRefreshTimer);
+        autoRefreshTimer = null;
+        console.log('Auto-refresh stopped');
+    }
+};
+
+const toggleAutoRefresh = () => {
+    autoRefreshEnabled.value = !autoRefreshEnabled.value;
+    if (autoRefreshEnabled.value) {
+        startAutoRefresh();
+        toast.add({
+            severity: 'info',
+            summary: 'Auto-refresh enabled',
+            detail: 'Dashboard will update every 30 seconds',
+            life: 3000
+        });
+    } else {
+        stopAutoRefresh();
+        toast.add({
+            severity: 'info',
+            summary: 'Auto-refresh disabled',
+            detail: 'Dashboard will only update manually',
+            life: 3000
+        });
+    }
+};
+
+// Force refresh - useful when content is created/updated
+const forceRefresh = async () => {
+    console.log('Force refreshing dashboard...');
+    dashboardLoading.value = true;
+    try {
+        await fetchDashboardData();
+        toast.add({
+            severity: 'success',
+            summary: 'Updated',
+            detail: 'Dashboard refreshed with latest data',
+            life: 2000
+        });
+    } catch (error) {
+        console.error('Force refresh failed:', error);
+        toast.add({
+            severity: 'error',
+            summary: 'Refresh Failed',
+            detail: 'Could not update dashboard data',
+            life: 3000
+        });
+    } finally {
+        dashboardLoading.value = false;
+    }
+};
+
 // Utility functions
 const getActivityIcon = (action) => {
     const icons = {
@@ -604,6 +699,21 @@ const formatMemoryUsage = (memory) => {
     const usedMB = Math.round(memory.used / 1024 / 1024);
     const totalMB = Math.round(memory.total / 1024 / 1024);
     return `${usedMB}MB / ${totalMB}MB`;
+};
+
+const formatSessionTime = () => {
+    // Calculate session time since login or page load
+    const sessionStart = authStore.loginTime || Date.now() - (1000 * 60 * 30); // fallback to 30 min ago
+    const now = Date.now();
+    const sessionDuration = Math.floor((now - sessionStart) / 1000 / 60); // minutes
+
+    if (sessionDuration < 60) {
+        return `${sessionDuration}m`;
+    } else {
+        const hours = Math.floor(sessionDuration / 60);
+        const minutes = sessionDuration % 60;
+        return `${hours}h ${minutes}m`;
+    }
 };
 
 // Helper function to get section display name
@@ -692,6 +802,15 @@ onMounted(async () => {
 
     try {
         await fetchDashboardData();
+        // Start auto-refresh after initial load
+        startAutoRefresh();
+
+        // Listen for dashboard refresh events from other components
+        dashboardEvents.onDashboardRefresh(() => {
+            console.log('Received dashboard refresh event');
+            forceRefresh();
+        });
+
     } catch (error) {
         console.error('Failed to fetch dashboard data:', error);
         // Don't block the dashboard if data fetch fails
@@ -700,6 +819,14 @@ onMounted(async () => {
             summary: 'Warning',
             detail: 'Some dashboard data could not be loaded',
             life: 3000
+        });
+        // Still start auto-refresh even if initial load fails
+        startAutoRefresh();
+
+        // Still setup event listeners
+        dashboardEvents.onDashboardRefresh(() => {
+            console.log('Received dashboard refresh event');
+            forceRefresh();
         });
     }
 });
@@ -746,6 +873,11 @@ onUnmounted(() => {
         clearTimeout(emergencyTimeout);
         emergencyTimeout = null;
     }
+    // Stop auto-refresh when component unmounts
+    stopAutoRefresh();
+
+    // Remove event listeners
+    dashboardEvents.offDashboardRefresh(forceRefresh);
 });
 
 </script>

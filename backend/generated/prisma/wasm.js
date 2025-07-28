@@ -176,6 +176,18 @@ exports.Prisma.EventImageScalarFieldEnum = {
   eventId: 'eventId'
 };
 
+exports.Prisma.ProfileScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  title: 'title',
+  image: 'image',
+  desc: 'desc',
+  order: 'order',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -201,7 +213,8 @@ exports.Prisma.ModelName = {
   Partner: 'Partner',
   FAQ: 'FAQ',
   Event: 'Event',
-  EventImage: 'EventImage'
+  EventImage: 'EventImage',
+  Profile: 'Profile'
 };
 
 /**

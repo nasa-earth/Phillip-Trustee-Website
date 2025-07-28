@@ -3,8 +3,8 @@
         <!-- Hero Section -->
         <section v-if="event" class="relative h-screen w-full flex items-center justify-center bg-cover bg-center"
             :style="{ backgroundImage: `url(${event.thumbnail || '/images/event/default.jpg'})` }">
-            <!-- Overlay -->
-            <div class="absolute inset-0 z-0"></div>
+            <!-- Enhanced Overlay with better gradient -->
+            <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/10 z-0"></div>
         </section>
 
         <!-- Event Details Section -->
@@ -48,54 +48,67 @@
             </div>
 
             <div class="container mx-auto relative z-10">
-                <div class=" rounded-2xl shadow-2xl overflow-hidden mx-[60px]">
+                <div class="rounded-2xl shadow-2xl overflow-hidden max-w-6xl mx-auto">
                     <div class="p-8 md:p-12">
                         <!-- Event Details -->
-                        <div class="flex flex-col md:flex-row gap-8 mb-8">
-                            <div class="w-full md:w-2/3 mx-[200px]">
-                                <p class="text-[#e6eaf0]/90 mb-8 text-lg leading-relaxed whitespace-pre-line">{{
-                                    event.description }}</p>
+                        <div class="flex flex-col gap-8 mb-8">
+                            <div class="w-full max-w-4xl mx-auto">
+                                <div class="mb-8">
+                                    <p class="text-[#e6eaf0]/90 mb-8 text-lg leading-relaxed whitespace-pre-line">{{
+                                        event.description }}</p>
+                                </div>
 
                                 <!-- Event Images Gallery -->
                                 <div v-if="event.images && event.images.length > 0" class="mb-8">
-                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-4">Event Gallery</h4>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-6">Event Gallery</h4>
+
+                                    <!-- Full-width images displayed vertically -->
+                                    <div class="space-y-6">
                                         <div v-for="(image, index) in event.images" :key="index"
-                                            class="rounded-lg overflow-hidden shadow-lg border border-white/10 cursor-pointer"
+                                            class="relative rounded-sm overflow-hidden shadow-2xl border border-white/10 cursor-pointer group"
                                             @click="openImageModal(image)">
                                             <img :src="image.url || image" :alt="`${event.title} - Image ${index + 1}`"
-                                                class="w-full h-64 object-cover hover:scale-105 transition-transform duration-300">
+                                                class="w-full h-full object-cover">
+
+                                            <!-- Image overlay with number and zoom indicator -->
+                                            <div
+                                                class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+                                                <div class="absolute top-4 right-4">
+                                                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-2">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                stroke-width="2"
+                                                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    <!-- Gallery info -->
+                                    <div class="mt-4 text-center">
+                                        <p class="text-[#e6eaf0]/70 text-sm">
+                                            Click on any image to view it in full size
+                                        </p>
                                     </div>
                                 </div>
 
-                                <!-- Event Meta Information -->
-                                <div class="bg-white/5 rounded-lg p-6 mb-8">
-                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-4">Event Details</h4>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                        <div class="flex items-center">
-                                            <i class="pi pi-calendar mr-2 text-[#f15a22]"></i>
-                                            <span>Created: {{ formatDate(event.createdAt) }}</span>
-                                        </div>
-                                        <div class="flex items-center">
-                                            <i class="pi pi-clock mr-2 text-[#f15a22]"></i>
-                                            <span>Updated: {{ formatDate(event.updatedAt) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="flex flex-wrap gap-4">
+                                <!-- Navigation -->
+                                <div class="flex flex-wrap justify-center gap-4 pt-8">
                                     <NuxtLink to="/Event"
-                                        class="bg-white/10 hover:bg-white/20 text-[#e6eaf0] px-6 py-3 rounded-lg flex items-center gap-2 transition-all duration-300 border border-white/20">
+                                        class="bg-[#f15a22] hover:bg-[#f15a22]/90 text-white px-8 py-4 rounded-xl flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl font-medium">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                             fill="currentColor">
                                             <path fill-rule="evenodd"
                                                 d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
                                                 clip-rule="evenodd" />
                                         </svg>
-                                        <span>Back to Events</span>
+                                        <span>Back to All Events</span>
                                     </NuxtLink>
-
                                 </div>
                             </div>
                         </div>
@@ -241,9 +254,129 @@ export default {
         },
 
         openImageModal(image) {
-            // Simple image modal - you can enhance this with a proper modal component
+            // Enhanced image modal with better full-screen experience
             const imageUrl = image.url || image
-            window.open(imageUrl, '_blank')
+
+            // Create a full-screen modal overlay
+            const modalOverlay = document.createElement('div')
+            modalOverlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0, 0, 0, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                cursor: pointer;
+                backdrop-filter: blur(10px);
+            `
+
+            // Create the image element
+            const modalImage = document.createElement('img')
+            modalImage.src = imageUrl
+            modalImage.style.cssText = `
+                max-width: 95vw;
+                max-height: 95vh;
+                object-fit: contain;
+                border-radius: 8px;
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+                transition: transform 0.3s ease;
+            `
+
+            // Create close button
+            const closeButton = document.createElement('button')
+            closeButton.innerHTML = '✕'
+            closeButton.style.cssText = `
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: rgba(255, 255, 255, 0.2);
+                border: none;
+                color: white;
+                font-size: 24px;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                backdrop-filter: blur(10px);
+                transition: background 0.3s ease;
+            `
+
+            closeButton.addEventListener('mouseenter', () => {
+                closeButton.style.background = 'rgba(255, 255, 255, 0.3)'
+            })
+
+            closeButton.addEventListener('mouseleave', () => {
+                closeButton.style.background = 'rgba(255, 255, 255, 0.2)'
+            })
+
+            // Create image counter if multiple images
+            if (this.event.images && this.event.images.length > 1) {
+                const currentIndex = this.event.images.findIndex(img => (img.url || img) === imageUrl) + 1
+                const counter = document.createElement('div')
+                counter.textContent = `${currentIndex} / ${this.event.images.length}`
+                counter.style.cssText = `
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background: rgba(0, 0, 0, 0.7);
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 14px;
+                    backdrop-filter: blur(10px);
+                `
+                modalOverlay.appendChild(counter)
+            }
+
+            // Close modal function
+            const closeModal = () => {
+                document.body.removeChild(modalOverlay)
+                document.body.style.overflow = 'auto'
+            }
+
+            // Event listeners
+            closeButton.addEventListener('click', closeModal)
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal()
+                }
+            })
+
+            // Keyboard event listener for ESC key
+            const handleKeyDown = (e) => {
+                if (e.key === 'Escape') {
+                    closeModal()
+                    document.removeEventListener('keydown', handleKeyDown)
+                }
+            }
+            document.addEventListener('keydown', handleKeyDown)
+
+            // Assemble modal
+            modalOverlay.appendChild(modalImage)
+            modalOverlay.appendChild(closeButton)
+
+            // Add to DOM
+            document.body.appendChild(modalOverlay)
+            document.body.style.overflow = 'hidden'
+
+            // Add entrance animation
+            modalOverlay.style.opacity = '0'
+            modalImage.style.transform = 'scale(0.8)'
+
+            requestAnimationFrame(() => {
+                modalOverlay.style.transition = 'opacity 0.3s ease'
+                modalImage.style.transition = 'transform 0.3s ease'
+                modalOverlay.style.opacity = '1'
+                modalImage.style.transform = 'scale(1)'
+            })
         },
 
         // Track event views for analytics purposes

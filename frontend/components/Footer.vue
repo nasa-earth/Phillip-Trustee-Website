@@ -8,10 +8,10 @@
           <!-- Company Info -->
           <div>
             <h2 class="text-2xl font-bold text-[#f15a22] mb-4">Phillip Trustee</h2>
-            <p class="text-slate-300 leading-relaxed max-w-md">
+            <!-- <p class="text-slate-300 leading-relaxed max-w-md">
               Your trusted partner in Cambodia, providing comprehensive services and solutions for your business
               needs.
-            </p>
+            </p> -->
           </div>
 
           <!-- Social Media -->

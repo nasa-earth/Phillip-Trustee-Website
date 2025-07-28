@@ -27,6 +27,17 @@ export default defineNuxtConfig({
       apiBase: process.env.API_BASE || "http://localhost:3005",
     },
   },
+
+  // Configure API proxy
+  nitro: {
+    devProxy: {
+      "/api": {
+        target: process.env.API_BASE || "http://localhost:3005",
+        changeOrigin: true,
+      },
+    },
+  },
+
   // Explicitly configure router options
   router: {
     options: {

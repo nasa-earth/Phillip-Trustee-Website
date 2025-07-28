@@ -250,7 +250,11 @@ export const usePartners = () => {
         return globalPartners.value;
       }
 
-      console.log("Fetching fresh partners data from API");
+      console.log(
+        "Fetching fresh partners data from API (forceRefresh:",
+        forceRefresh,
+        ")"
+      );
       console.log("API URL:", apiUrls.partners.list);
       globalLoading.value = true;
       globalError.value = null;
@@ -279,14 +283,34 @@ export const usePartners = () => {
       console.log("Processed partners data:", partnersData);
       console.log("Partners data length:", partnersData.length);
 
+      // Convert relative URLs to absolute URLs for logos
+      const config = useRuntimeConfig();
+      const API_BASE_FOR_ASSETS =
+        config.public.apiBase || "http://localhost:3005";
+
+      const partnersWithAbsoluteUrls = partnersData.map((partner: Partner) => {
+        if (partner.logo && !partner.logo.startsWith("http")) {
+          partner.logo = `${API_BASE_FOR_ASSETS}${partner.logo}`;
+          console.log(
+            `Converted partner ${partner.name} logo to absolute URL: ${partner.logo}`
+          );
+        }
+        return partner;
+      });
+
       // Update global state
-      globalPartners.value = partnersData;
+      globalPartners.value = partnersWithAbsoluteUrls;
       lastFetchTime.value = now;
 
-      console.log("Partners fetched successfully:", partnersData.length);
-      notifyPartnerChange("fetched", { count: partnersData.length });
+      console.log(
+        "Partners fetched successfully:",
+        partnersWithAbsoluteUrls.length
+      );
+      notifyPartnerChange("fetched", {
+        count: partnersWithAbsoluteUrls.length,
+      });
 
-      return partnersData;
+      return partnersWithAbsoluteUrls;
     } catch (err) {
       console.error("Error fetching partners:", err);
       globalError.value = (err as Error).message || "Failed to fetch partners";
@@ -339,8 +363,24 @@ export const usePartners = () => {
       const newPartner = await response.json();
       console.log("Partner created successfully:", newPartner);
 
-      // Update local cache
-      globalPartners.value.push(newPartner);
+      // Convert relative URLs to absolute URLs for logo
+      const config = useRuntimeConfig();
+      const API_BASE_FOR_ASSETS =
+        config.public.apiBase || "http://localhost:3005";
+
+      if (newPartner.logo && !newPartner.logo.startsWith("http")) {
+        newPartner.logo = `${API_BASE_FOR_ASSETS}${newPartner.logo}`;
+        console.log(
+          `Converted new partner logo to absolute URL: ${newPartner.logo}`
+        );
+      }
+
+      // Update local cache by replacing the entire array to ensure reactivity
+      globalPartners.value = [...globalPartners.value, newPartner];
+      console.log(
+        "Updated global partners count:",
+        globalPartners.value.length
+      );
       notifyPartnerChange("created", newPartner);
 
       return newPartner;
@@ -379,10 +419,25 @@ export const usePartners = () => {
       const updatedPartner = await response.json();
       console.log("Partner updated successfully:", updatedPartner);
 
-      // Update in local cache
+      // Convert relative URLs to absolute URLs for logo
+      const config = useRuntimeConfig();
+      const API_BASE_FOR_ASSETS =
+        config.public.apiBase || "http://localhost:3005";
+
+      if (updatedPartner.logo && !updatedPartner.logo.startsWith("http")) {
+        updatedPartner.logo = `${API_BASE_FOR_ASSETS}${updatedPartner.logo}`;
+        console.log(
+          `Converted updated partner logo to absolute URL: ${updatedPartner.logo}`
+        );
+      }
+
+      // Update in local cache by replacing the entire array to ensure reactivity
       const index = globalPartners.value.findIndex((p) => p.id === id);
       if (index !== -1) {
-        globalPartners.value[index] = updatedPartner;
+        const updatedPartners = [...globalPartners.value];
+        updatedPartners[index] = updatedPartner;
+        globalPartners.value = updatedPartners;
+        console.log("Updated partner in cache at index:", index);
       }
       notifyPartnerChange("updated", updatedPartner);
 

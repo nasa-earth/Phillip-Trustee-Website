@@ -61,7 +61,7 @@
                                 All Questions</h2>
                             <div class="flex items-center gap-2">
                                 <button @click="expandAll"
-                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1">
+                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -70,7 +70,7 @@
                                     Expand All
                                 </button>
                                 <button @click="collapseAll"
-                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1">
+                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1 cursor-pointer">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -1,18 +1,46 @@
 <template>
-    <div class="events-management space-y-6">
+    <div class="events-management space-y-6 p-2">
         <!-- Header Section -->
-        <div class="bg-white rounded-lg shadow-sm p-6">
-            <div class="flex justify-between items-center">
+        <div class="">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
                 <div>
-                    <h3 class="text-2xl font-bold text-gray-800">Events Management</h3>
+                    <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">Events Management</h3>
                 </div>
                 <Button label="Add New Event" icon="pi pi-plus" severity="success" @click="openEventDialog()"
                     class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
             </div>
         </div>
 
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div>
+                    <p class="text-black text-xl font-medium">Total Events</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{ totalRecords }}
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div>
+                    <p class="text-black text-xl font-medium">Total Drafts</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{events.filter(event => !event.published).length}}
+                    </p>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div>
+                    <p class="text-black text-xl font-medium">Total Published</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{events.filter(event => event.published).length}}
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- Filters and Search -->
-        <div class="bg-white rounded-lg shadow-sm p-4">
+        <div class="">
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div class="flex flex-col sm:flex-row gap-4 flex-1">
                     <div class="flex-1 max-w-md">
@@ -22,311 +50,197 @@
                                 class="w-full" />
                         </span>
                     </div>
-                    <div class="flex gap-2">
-                        <Button :label="viewMode === 'table' ? 'Grid View' : 'Table View'"
-                            :icon="viewMode === 'table' ? 'pi pi-th-large' : 'pi pi-list'" outlined
-                            @click="toggleViewMode"
-                            class="text-[#f15a22] border-[#f15a22] hover:bg-[#f15a22] hover:text-white" />
-                        <!-- <Button icon="pi pi-refresh" outlined @click="loadEvents" :loading="loading"
-                            v-tooltip="'Refresh Data'"
-                            class="text-blue-500 border-blue-500 hover:bg-blue-500 hover:text-white" /> -->
-                    </div>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-2 text-sm">
-                    <div class="flex items-center" v-if="!loading">
-                        <span class="inline-block w-2 h-2 rounded-full mr-2"
-                            :class="{ 'bg-green-500': databaseConnected && totalRecords > 0, 'bg-red-500': !databaseConnected || totalRecords === 0 }"></span>
-                        <span class="text-gray-600">{{ totalRecords }} events in database</span>
-                    </div>
-                    <div class="text-gray-500 italic" v-else>Loading from database...</div>
-                    <!-- <div class="text-gray-500 text-xs" v-if="lastRefresh">
-                        <i class="pi pi-clock mr-1"></i>Last updated: {{ formatTime(lastRefresh) }}
-                    </div> -->
                 </div>
             </div>
         </div>
 
         <!-- Table View -->
-<div v-if="viewMode === 'table'" class="bg-white rounded-lg shadow-sm overflow-hidden">
-    <DataTable 
-        :value="filteredEvents" 
-        :loading="loading" 
-        :paginator="true" 
-        :rows="rowsPerPage"
-        :rowsPerPageOptions="[5, 10, 20, 50]" 
-        :totalRecords="totalRecords" 
-        :lazy="true"
-        responsiveLayout="scroll" 
-        stripedRows 
-        @page="onPage" 
-        class="events-table"
-        :globalFilterFields="['title', 'description', 'slug']"
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        :currentPageReportTemplate="'Showing {first} to {last} of {totalRecords} events'">
-        
-        <template #empty>
-            <div class="text-center py-8">
-                <i class="pi pi-calendar text-4xl text-gray-300 mb-4"></i>
-                <h3 class="text-lg text-gray-600 mb-2">No Events Found</h3>
-                <p class="text-gray-500 mb-4">Get started by creating your first event</p>
-                <Button 
-                    label="Create Event" 
-                    icon="pi pi-plus" 
-                    @click="openEventDialog()"
-                    class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
-            </div>
-        </template>
+        <div v-if="viewMode === 'table'" class="bg-white rounded-lg shadow-sm overflow-hidden">
+            <DataTable :value="filteredEvents" :loading="loading" :paginator="true" :rows="rowsPerPage"
+                :rowsPerPageOptions="[5, 10, 20, 50]" :totalRecords="totalRecords" :lazy="true"
+                responsiveLayout="scroll" stripedRows @page="onPage" class="events-table"
+                :globalFilterFields="['title', 'description', 'slug']"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                :currentPageReportTemplate="'Showing {first} to {last} of {totalRecords} events'">
 
-        <!-- Thumbnail Column -->
-        <Column field="thumbnail" header="Image" :style="{ width: '80px' }">
-            <template #body="slotProps">
-                <img 
-                    :src="slotProps.data.thumbnail || '/images/event/default.jpg'" 
-                    :alt="slotProps.data.title"
-                    class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
-            </template>
-        </Column>
-
-        <!-- Title Column -->
-        <Column field="title" header="Title" sortable class="min-w-48">
-            <template #body="slotProps">
-                <div>
-                    <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.title }}</h4>
-                    <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.slug }}</p>
-                </div>
-            </template>
-        </Column>
-
-        <!-- Description Column -->
-        <Column field="description" header="Description" sortable class="min-w-64">
-            <template #body="slotProps">
-                <div>
-                    <p class="text-sm text-gray-700 line-clamp-2">{{ slotProps.data.description }}</p>
-                </div>
-            </template>
-        </Column>
-
-        <!-- Status Column -->
-        <Column field="status" header="Status" :style="{ width: '100px' }">
-            <template #body="slotProps">
-                <Tag 
-                    :value="slotProps.data.published ? 'Published' : 'Draft'"
-                    :severity="slotProps.data.published ? 'success' : 'warning'" />
-            </template>
-        </Column>
-
-        <!-- Created Date Column -->
-        <Column field="createdAt" header="Created" sortable>
-            <template #body="slotProps">
-                <div class="text-sm">
-                    <div class="text-gray-900">{{ formatDate(slotProps.data.createdAt) }}</div>
-                    <div class="text-gray-500">{{ formatTime(slotProps.data.createdAt) }}</div>
-                </div>
-            </template>
-        </Column>
-
-        <!-- Actions Column -->
-        <Column header="Actions" :style="{ width: '180px' }">
-            <template #body="slotProps">
-                <div class="flex gap-1">
-                    <Button 
-                        icon="pi pi-external-link" 
-                        size="small" 
-                        text 
-                        severity="info"
-                        @click="previewEvent(slotProps.data)" 
-                        v-tooltip="'Preview'" />
-                    <Button 
-                        icon="pi pi-pencil" 
-                        size="small" 
-                        text 
-                        severity="warning"
-                        @click="editEvent(slotProps.data)" 
-                        v-tooltip="'Edit'" />
-                    <Button 
-                        icon="pi pi-trash" 
-                        size="small" 
-                        text 
-                        severity="danger"
-                        @click="confirmDeleteEvent(slotProps.data)" 
-                        v-tooltip="'Delete'" />
-                </div>
-            </template>
-        </Column>
-    </DataTable>
-</div>
-
-        <!-- Grid View -->
-        <div v-else class="bg-white rounded-lg shadow-sm p-6">
-            <!-- Loading State -->
-            <div v-if="loading" class="flex justify-center items-center py-20">
-                <div
-                    class="w-16 h-16 border-4 border-t-[#f15a22] border-r-[#f15a22]/50 border-b-[#f15a22]/30 border-l-[#f15a22]/10 rounded-full animate-spin">
-                </div>
-                <p class="mt-4 text-gray-600">Fetching events from database...</p>
-            </div>
-
-            <!-- Database Status -->
-            <div v-if="!loading && displayedEvents.length > 0" class="mb-4 flex items-center justify-between">
-                <div class="text-sm text-gray-600 flex items-center">
-                    <span class="inline-block w-2 h-2 rounded-full mr-2 bg-green-500"></span>
-                    <span>Connected to database</span>
-                </div>
-                <div class="text-sm text-gray-500">
-                    Showing {{ displayedEvents.length }} of {{ totalRecords }} total events
-                </div>
-            </div>
-
-            <!-- Events Grid -->
-            <div v-else-if="displayedEvents.length > 0"
-                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <div v-for="event in displayedEvents" :key="event.id"
-                    class="group bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden hover:shadow-lg transition-all duration-300 relative">
-
-                    <!-- Status Badge -->
-                    <div class="absolute top-3 left-3 z-10">
-                        <Tag :value="event.published ? 'Published' : 'Draft'"
-                            :severity="event.published ? 'success' : 'warning'" class="text-xs" />
+                <template #empty>
+                    <div class="text-center py-8">
+                        <i class="pi pi-calendar text-4xl text-gray-300 mb-4"></i>
+                        <h3 class="text-lg text-gray-600 mb-2">No Events Found</h3>
+                        <p class="text-gray-500 mb-4">Get started by creating your first event</p>
+                        <Button label="Create Event" icon="pi pi-plus" @click="openEventDialog()"
+                            class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
                     </div>
+                </template>
 
-                    <!-- Admin Action Buttons -->
-                    <div
-                        class="absolute top-3 right-3 z-10 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Button icon="pi pi-eye" size="small" rounded severity="info" @click="previewEvent(event)"
-                            v-tooltip="'Preview'" class="bg-blue-500 hover:bg-blue-600 border-blue-500 w-8 h-8" />
-                        <Button icon="pi pi-pencil" size="small" rounded severity="warning" @click="editEvent(event)"
-                            v-tooltip="'Edit'" class="bg-yellow-500 hover:bg-yellow-600 border-yellow-500 w-8 h-8" />
-                        <Button icon="pi pi-trash" size="small" rounded severity="danger"
-                            @click="confirmDeleteEvent(event)" v-tooltip="'Delete'"
-                            class="bg-red-500 hover:bg-red-600 border-red-500 w-8 h-8" />
-                    </div>
+                <!-- Thumbnail Column -->
+                <Column field="thumbnail" header="Image" :style="{ width: '80px' }">
+                    <template #body="slotProps">
+                        <img :src="slotProps.data.thumbnail || '/images/event/default.jpg'" :alt="slotProps.data.title"
+                            class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
+                    </template>
+                </Column>
 
-                    <div class="aspect-video bg-gray-100 overflow-hidden">
-                        <img :src="event.thumbnail || '/images/event/default.jpg'" :alt="event.title"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </div>
-
-                    <div class="p-4">
-                        <h3 class="font-semibold text-gray-900 mb-2 line-clamp-2">{{ event.title }}</h3>
-                        <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ event.description }}</p>
-
-                        <div class="space-y-2 text-xs text-gray-500">
-                            <div class="flex items-center">
-                                <i class="pi pi-calendar mr-1"></i>
-                                <span>Created: {{ formatDate(event.createdAt) }}</span>
-                            </div>
-                            <div class="flex items-center"
-                                v-if="event.updatedAt && event.updatedAt !== event.createdAt">
-                                <i class="pi pi-clock mr-1"></i>
-                                <span>Updated: {{ formatDate(event.updatedAt) }}</span>
-                            </div>
+                <!-- Title Column -->
+                <Column field="title" header="Title" sortable class="min-w-48">
+                    <template #body="slotProps">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-1">{{ slotProps.data.title }}</h4>
+                            <p class="text-sm text-gray-500 truncate max-w-xs">{{ slotProps.data.slug }}</p>
                         </div>
+                    </template>
+                </Column>
 
-                        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-                            <div class="flex items-center gap-2">
-                                <code class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">{{ event.slug
-                                }}</code>
-                            </div>
-                            <Button label="Preview" size="small" text @click="previewEvent(event)"
-                                class="text-[#f15a22] hover:bg-orange-50" />
+                <!-- Description Column -->
+                <Column field="description" header="Description" sortable class="min-w-64">
+                    <template #body="slotProps">
+                        <div>
+                            <p class="text-sm text-gray-700 line-clamp-2">{{ slotProps.data.description }}</p>
                         </div>
-                    </div>
-                </div>
-            </div>
+                    </template>
+                </Column>
 
-            <!-- Empty State -->
-            <div v-else class="text-center py-20">
-                <i class="pi pi-calendar text-6xl text-gray-300 mb-4"></i>
-                <h3 class="text-xl text-gray-600 mb-2">No Events Found</h3>
-                <p class="text-gray-500 mb-6">Get started by creating your first event</p>
-                <Button label="Create Event" icon="pi pi-plus" @click="openEventDialog()"
-                    class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
-            </div>
+                <!-- Status Column -->
+                <Column field="status" header="Status" :style="{ width: '100px' }">
+                    <template #body="slotProps">
+                        <Tag :value="slotProps.data.published ? 'Published' : 'Draft'"
+                            :severity="slotProps.data.published ? 'success' : 'warning'" />
+                    </template>
+                </Column>
+
+                <!-- Created Date Column -->
+                <Column field="createdAt" header="Created" sortable>
+                    <template #body="slotProps">
+                        <div class="text-sm">
+                            <div class="text-gray-900">{{ formatDate(slotProps.data.createdAt) }}</div>
+                            <div class="text-gray-500">{{ formatTime(slotProps.data.createdAt) }}</div>
+                        </div>
+                    </template>
+                </Column>
+
+                <!-- Actions Column -->
+                <Column header="Actions" :style="{ width: '180px' }">
+                    <template #body="slotProps">
+                        <div class="flex gap-1">
+                            <Button icon="pi pi-external-link" size="small" text severity="info"
+                                @click="previewEvent(slotProps.data)" v-tooltip="'Preview'" />
+                            <Button icon="pi pi-pencil" size="small" text severity="warning"
+                                @click="editEvent(slotProps.data)" v-tooltip="'Edit'" />
+                            <Button icon="pi pi-trash" size="small" text severity="danger"
+                                @click="confirmDeleteEvent(slotProps.data)" v-tooltip="'Delete'" />
+                        </div>
+                    </template>
+                </Column>
+            </DataTable>
         </div>
 
         <!-- Event Dialog for Create/Edit -->
         <Dialog v-model:visible="eventDialog" :header="editingEvent ? 'Edit Event' : 'Create New Event'"
-            :style="{ width: '80vw', maxWidth: '1000px' }" :modal="true" class="p-fluid">
-            <form @submit.prevent="saveEvent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Left Column -->
-                <div class="space-y-4">
-                    <div class="field">
-                        <label for="title" class="font-medium">Title *</label>
-                        <InputText id="title" v-model="eventForm.title" required placeholder="Enter event title"
-                            class="w-full" @input="validateTitle" />
-                        <small class="text-red-500" v-if="titleError">{{ titleError }}</small>
-                    </div>
+            :style="{ width: '95vw', height: '95vh', maxWidth: 'none' }" :modal="true" class="p-fluid">
+            <form @submit.prevent="saveEvent" class="flex flex-col h-full overflow-hidden">
+                <div class="flex-1 overflow-auto">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-full">
+                        <!-- Left Column -->
+                        <div class="space-y-4">
+                            <div class="field">
+                                <label for="title" class="font-medium">Title *</label>
+                                <InputText id="title" v-model="eventForm.title" required placeholder="Enter event title"
+                                    class="w-full" @input="validateTitle" />
+                                <small class="text-red-500" v-if="titleError">{{ titleError }}</small>
+                            </div>
 
-                    <div class="field">
-                        <label for="slug" class="font-medium">Slug *</label>
-                        <div class="flex gap-2">
-                            <InputText id="slug" v-model="eventForm.slug" required placeholder="event-slug"
-                                class="w-full" @input="validateSlug" />
-                            <Button type="button" icon="pi pi-refresh" class="p-button-outlined"
-                                @click="generateSlugFromTitle" v-tooltip="'Generate slug from title'" />
-                        </div>
-                        <small class="text-gray-600">This will be used in the URL (e.g., /events/your-slug)</small>
-                        <small class="text-red-500" v-if="slugError">{{ slugError }}</small>
-                    </div>
+                            <div class="field">
+                                <label for="slug" class="font-medium">Slug *</label>
+                                <div class="flex gap-2">
+                                    <InputText id="slug" v-model="eventForm.slug" required placeholder="event-slug"
+                                        class="w-full" @input="validateSlug" />
+                                    <Button type="button" icon="pi pi-refresh" class="p-button-outlined"
+                                        @click="generateSlugFromTitle" v-tooltip="'Generate slug from title'" />
+                                </div>
+                                <small class="text-gray-600">This will be used in the URL (e.g.,
+                                    /events/your-slug)</small>
+                                <small class="text-red-500" v-if="slugError">{{ slugError }}</small>
+                            </div>
 
-                    <div class="field">
-                        <label for="description" class="font-medium">Description *</label>
-                        <Textarea id="description" v-model="eventForm.description" required
-                            placeholder="Detailed description of the event" rows="6" class="w-full"
-                            @input="validateDescription" />
-                        <small class="text-red-500" v-if="descriptionError">{{ descriptionError }}</small>
-                    </div>
+                            <div class="field">
+                                <label for="description" class="font-medium">Description *</label>
+                                <Textarea id="description" v-model="eventForm.description" required
+                                    placeholder="Detailed description of the event" rows="6" class="w-full"
+                                    @input="validateDescription" />
+                                <small class="text-red-500" v-if="descriptionError">{{ descriptionError }}</small>
+                            </div>
 
-                    <div class="field">
-                        <div class="flex align-items-center">
-                            <Checkbox id="published" v-model="eventForm.published" :binary="true" />
-                            <label for="published" class="ml-2 font-medium">Published</label>
-                        </div>
-                        <small class="text-gray-600">Check to make this event visible on the public website</small>
-                    </div>
+                            <div class="field">
+                                <div class="flex align-items-center">
+                                    <Checkbox id="published" v-model="eventForm.published" :binary="true" />
+                                    <label for="published" class="ml-2 font-medium">Published</label>
+                                </div>
+                                <small class="text-gray-600">Check to make this event visible on the public
+                                    website</small>
+                            </div>
 
-                    <div class="field">
-                        <label for="thumbnail" class="font-medium">Thumbnail Image</label>
-                        <FileUpload mode="basic" name="thumbnail" accept="image/*" :maxFileSize="5000000"
-                            @select="onThumbnailSelect" @clear="onThumbnailClear" chooseLabel="Choose Thumbnail"
-                            class="w-full" />
-                        <div v-if="eventForm.thumbnailPreview" class="mt-3">
-                            <img :src="eventForm.thumbnailPreview" alt="Thumbnail preview"
-                                class="max-w-xs h-32 object-cover rounded-lg border">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Right Column -->
-                <div class="space-y-4">
-                    <div class="field">
-                        <label for="eventImages" class="font-medium">Additional Images</label>
-                        <FileUpload mode="advanced" name="eventImages" accept="image/*" :multiple="true"
-                            :maxFileSize="5000000" @select="onImagesSelect" @remove="onImageRemove"
-                            @clear="onImagesClear" chooseLabel="Choose Images" uploadLabel="Upload" cancelLabel="Cancel"
-                            class="w-full">
-                            <template #empty>
-                                <p>Drag and drop images here or click to upload.</p>
-                            </template>
-                        </FileUpload>
-                        <div v-if="eventForm.imagePreviews.length > 0" class="mt-3 grid grid-cols-2 gap-2">
-                            <div v-for="(preview, index) in eventForm.imagePreviews" :key="index" class="relative">
-                                <img :src="preview" :alt="`Preview ${index + 1}`"
-                                    class="w-full h-24 object-cover rounded-lg border">
-                                <button @click="removeImagePreview(index)"
-                                    class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
-                                    type="button">
-                                    ×
-                                </button>
+                            <div class="field">
+                                <label for="thumbnail" class="font-medium">Thumbnail Image</label>
+                                <FileUpload mode="basic" name="thumbnail" accept="image/*" :maxFileSize="5000000"
+                                    @select="onThumbnailSelect" @clear="onThumbnailClear" chooseLabel="Choose Thumbnail"
+                                    class="w-full" />
+                                <div v-if="eventForm.thumbnailPreview" class="mt-3">
+                                    <img :src="eventForm.thumbnailPreview" alt="Thumbnail preview"
+                                        class="w-full max-w-md h-48 object-cover rounded-lg border">
+                                </div>
                             </div>
                         </div>
-                        <small class="text-gray-600 mt-1">Maximum file size: 5MB per image. Supported formats: JPG, PNG,
-                            GIF</small>
+
+                        <!-- Right Column - Images -->
+                        <div class="space-y-4">
+                            <div class="field">
+                                <label for="eventImages" class="font-medium">Additional Images</label>
+                                <FileUpload mode="advanced" name="eventImages" accept="image/*" :multiple="true"
+                                    :maxFileSize="5000000" @select="onImagesSelect" @remove="onImageRemove"
+                                    @clear="onImagesClear" chooseLabel="Choose Images" uploadLabel="Upload"
+                                    cancelLabel="Cancel" :auto="false" :showUploadButton="false"
+                                    :showCancelButton="false" class="w-full">
+                                    <template #empty>
+                                        <p>Drag and drop images here or click to upload.</p>
+                                    </template>
+                                </FileUpload>
+
+                                <!-- Debug information -->
+                                <div class="text-xs text-gray-500 mt-2">
+                                    Debug: {{ debugImageFiles.fileCount }} files, {{ debugImageFiles.previewCount }}
+                                    previews
+                                </div>
+
+                                <!-- Full-screen images displayed vertically -->
+                                <div v-if="eventForm.imagePreviews.length > 0"
+                                    class="mt-3 space-y-4 max-h-96 overflow-y-auto">
+                                    <div v-for="(preview, index) in eventForm.imagePreviews" :key="index"
+                                        class="relative">
+                                        <img :src="preview" :alt="`Preview ${index + 1}`"
+                                            class="w-full h-64 object-cover rounded-lg border shadow-sm">
+                                        <button @click="removeImagePreview(index)"
+                                            class="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm hover:bg-red-600 shadow-lg"
+                                            type="button">
+                                            ×
+                                        </button>
+                                        <div
+                                            class="absolute bottom-2 left-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-sm">
+                                            Image {{ index + 1 }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <small class="text-gray-600 mt-1">Maximum file size: 5MB per image. Supported formats:
+                                    JPG, PNG,
+                                    GIF</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Form Actions -->
-                <div class="col-span-full flex justify-end gap-3 pt-4 border-t">
+                <div class="flex justify-end gap-3 pt-4 border-t mt-4">
                     <Button label="Cancel" icon="pi pi-times" severity="secondary" @click="eventDialog = false"
                         type="button" :disabled="saving" />
                     <Button :label="editingEvent ? 'Update' : 'Create'" icon="pi pi-check" type="submit"
@@ -335,10 +249,6 @@
                 </div>
             </form>
         </Dialog>
-
-        <!-- Delete Confirmation Dialog -->
-        <ConfirmDialog />
-
         <!-- Toast for notifications -->
         <Toast />
     </div>
@@ -364,6 +274,7 @@ import Tag from 'primevue/tag'
 import Dropdown from 'primevue/dropdown'
 import FileUpload from 'primevue/fileupload'
 import { ref } from 'vue'
+import { DraftingCompass } from 'lucide-vue-next'
 
 export default {
     name: 'EventsManagement',
@@ -406,6 +317,8 @@ export default {
             searchQuery: '',
             statusFilter: null,
             searchTimeout: null,
+            slugGenerationTimeout: null,
+            hasTriedRetry: false,
             currentPage: 1,
             rowsPerPage: 10,
             totalRecords: 0,
@@ -438,23 +351,64 @@ export default {
         // Load events data
         await this.loadEvents();
     },
+    beforeUnmount() {
+        // Clean up timeouts
+        if (this.searchTimeout) {
+            clearTimeout(this.searchTimeout);
+        }
+        if (this.slugGenerationTimeout) {
+            clearTimeout(this.slugGenerationTimeout);
+        }
+    },
     computed: {
         displayedEvents() {
             return this.filteredEvents || this.events || []
+        },
+
+        // Debug computed properties
+        debugImageFiles() {
+            console.log('Debug - imageFiles length:', this.eventForm.imageFiles.length);
+            console.log('Debug - imagePreviews length:', this.eventForm.imagePreviews.length);
+            console.log('Debug - imageFiles:', this.eventForm.imageFiles.map(f => f.name));
+            console.log('Debug - imagePreviews:', this.eventForm.imagePreviews);
+            return {
+                fileCount: this.eventForm.imageFiles.length,
+                previewCount: this.eventForm.imagePreviews.length
+            };
         }
     },
     watch: {
-        'eventForm.title'(newTitle) {
-            if (!this.editingEvent && newTitle) {
-                // Auto-generate slug from title
-                this.eventForm.slug = newTitle
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]+/g, '-')
-                    .replace(/(^-|-$)/g, '')
+        'eventForm.title': {
+            handler(newTitle, oldTitle) {
+                // Only auto-generate if we're creating a new event and title actually changed
+                if (!this.editingEvent && newTitle && newTitle !== oldTitle && newTitle.trim()) {
+                    // Clear previous timeout to prevent overlapping
+                    if (this.slugGenerationTimeout) {
+                        clearTimeout(this.slugGenerationTimeout);
+                        this.slugGenerationTimeout = null;
+                    }
 
-                // Validate slug after generation
-                this.validateSlug()
-            }
+                    this.slugGenerationTimeout = setTimeout(() => {
+                        // Double-check we're still in create mode and title is still the same
+                        if (!this.editingEvent && this.eventForm.title === newTitle) {
+                            // Auto-generate slug from title (without timestamp)
+                            let newSlug = newTitle
+                                .toLowerCase()
+                                .replace(/[^a-z0-9]+/g, '-')
+                                .replace(/(^-|-$)/g, '')
+                                .replace(/-+/g, '-'); // Replace multiple hyphens with single
+
+                            // Only update if the slug would actually change to prevent recursive updates
+                            if (this.eventForm.slug !== newSlug) {
+                                this.eventForm.slug = newSlug;
+                            }
+                        }
+                        // Clear the timeout reference
+                        this.slugGenerationTimeout = null;
+                    }, 500); // Increased debounce time
+                }
+            },
+            immediate: false
         }
     },
     methods: {
@@ -690,6 +644,15 @@ export default {
         },
 
         resetForm() {
+            // Clear any pending slug generation
+            if (this.slugGenerationTimeout) {
+                clearTimeout(this.slugGenerationTimeout);
+                this.slugGenerationTimeout = null;
+            }
+
+            // Reset retry flag
+            this.hasTriedRetry = false;
+
             this.eventForm = {
                 title: '',
                 slug: '',
@@ -788,10 +751,19 @@ export default {
 
         async saveEvent() {
             this.saving = true
+
+            // Reset retry flag at start of save operation
+            if (!this.hasTriedRetry) {
+                this.hasTriedRetry = false;
+            }
+
             try {
+                console.log('=== STARTING EVENT SAVE PROCESS ===');
+
                 // Check authentication state first
                 const authStore = useAuthStore();
                 if (!authStore.isAuthenticated || !authStore.accessToken) {
+                    console.error('Authentication check failed');
                     this.toast.add({
                         severity: 'error',
                         summary: 'Authentication Error',
@@ -805,6 +777,7 @@ export default {
 
                 // Validate required fields
                 if (!this.validateForm()) {
+                    console.log('Form validation failed');
                     this.toast.add({
                         severity: 'error',
                         summary: 'Validation Error',
@@ -814,17 +787,21 @@ export default {
                     return;
                 }
 
+                console.log('Form validation passed, proceeding with uploads...');
+
                 // Upload thumbnail if selected
                 let thumbnailUrl = this.eventForm.thumbnailPreview
                 if (this.eventForm.thumbnailFile) {
                     try {
+                        console.log('Starting thumbnail upload...');
                         thumbnailUrl = await this.uploadFile(this.eventForm.thumbnailFile, 'thumbnail')
+                        console.log('Thumbnail upload completed successfully:', thumbnailUrl);
                     } catch (uploadError) {
                         console.error('Thumbnail upload failed:', uploadError);
                         this.toast.add({
                             severity: 'error',
                             summary: 'Upload Error',
-                            detail: 'Failed to upload thumbnail. Please check your authentication and try again.',
+                            detail: `Failed to upload thumbnail: ${uploadError.message || uploadError}`,
                             life: 5000
                         });
                         return;
@@ -835,20 +812,46 @@ export default {
                 let imageUrls = []
                 if (this.eventForm.imageFiles.length > 0) {
                     try {
-                        imageUrls = await Promise.all(
-                            this.eventForm.imageFiles.map(file => this.uploadFile(file, 'gallery'))
+                        console.log(`Starting upload of ${this.eventForm.imageFiles.length} additional images...`);
+                        const uploadResults = await Promise.all(
+                            this.eventForm.imageFiles.map(async (file, index) => {
+                                console.log(`Uploading image ${index + 1}:`, file.name);
+                                const result = await this.uploadFile(file, 'gallery');
+                                console.log(`Image ${index + 1} uploaded successfully:`, result);
+                                return result;
+                            })
                         )
+
+                        // Convert relative URLs to absolute URLs
+                        const config = useRuntimeConfig();
+                        const apiBase = config.public.apiBase || 'http://localhost:3005';
+                        imageUrls = uploadResults.map(url => {
+                            if (url && !url.startsWith('http')) {
+                                const absoluteUrl = `${apiBase}${url}`;
+                                console.log(`Converting relative URL ${url} to absolute: ${absoluteUrl}`);
+                                return absoluteUrl;
+                            }
+                            return url;
+                        });
+
+                        console.log('All images uploaded successfully with absolute URLs:', imageUrls);
                     } catch (uploadError) {
                         console.error('Image upload failed:', uploadError);
                         this.toast.add({
-                            severity: 'warn',
-                            summary: 'Upload Warning',
-                            detail: 'Some images failed to upload. Proceeding with event creation.',
+                            severity: 'error',
+                            summary: 'Upload Error',
+                            detail: `Failed to upload images: ${uploadError.message || uploadError}`,
                             life: 5000
                         });
-                        // Continue with event creation even if image upload fails
+                        return;
                     }
                 }
+
+                console.log('All uploads completed, preparing event data...');
+
+                // Get API base URL for absolute URL conversion
+                const config = useRuntimeConfig();
+                const apiBase = config.public.apiBase || 'http://localhost:3005';
 
                 // Prepare event data to match database schema
                 const eventData = {
@@ -856,53 +859,103 @@ export default {
                     slug: this.eventForm.slug.trim(),
                     description: this.eventForm.description.trim(),
                     published: this.eventForm.published,
-                    thumbnail: thumbnailUrl || null,
+                    thumbnail: thumbnailUrl ? (thumbnailUrl.startsWith('http') ? thumbnailUrl : `${apiBase}${thumbnailUrl}`) : null,
                     // Don't include id, createdAt, or updatedAt as these are managed by the backend
                 }
 
+                console.log('Event data prepared:', eventData);
+
                 let savedEvent
-                if (this.editingEvent) {
-                    savedEvent = await this.eventService.updateEvent(this.editingEvent.id, eventData)
-                    this.toast.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Event updated successfully',
-                        life: 3000
-                    })
-                } else {
-                    savedEvent = await this.eventService.createEvent(eventData)
-                    this.toast.add({
-                        severity: 'success',
-                        summary: 'Success',
-                        detail: 'Event created successfully',
-                        life: 3000
-                    })
+                try {
+                    if (this.editingEvent) {
+                        console.log('Updating existing event:', this.editingEvent.id);
+                        savedEvent = await this.eventService.updateEvent(this.editingEvent.id, eventData)
+                        this.toast.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'Event updated successfully',
+                            life: 3000
+                        })
+                    } else {
+                        console.log('Creating new event...');
+                        savedEvent = await this.eventService.createEvent(eventData)
+                        this.toast.add({
+                            severity: 'success',
+                            summary: 'Success',
+                            detail: 'Event created successfully',
+                            life: 3000
+                        })
+                    }
+                    console.log('Event save operation completed:', savedEvent);
+                    console.log('Saved event ID:', savedEvent?.data?.id || savedEvent?.id);
+                    console.log('Saved event keys:', savedEvent ? Object.keys(savedEvent) : 'No savedEvent');
+                    console.log('Saved event data keys:', savedEvent?.data ? Object.keys(savedEvent.data) : 'No data property');
+                } catch (eventError) {
+                    console.error('Event save operation failed:', eventError);
+                    throw eventError; // Re-throw to be handled by outer catch
                 }
 
                 // Handle additional images if any
                 if (imageUrls.length > 0 && savedEvent) {
-                    try {
-                        // Create event images (you'll need to implement this in the backend)
-                        for (const imageUrl of imageUrls) {
-                            await this.createEventImage(savedEvent.id, imageUrl)
-                        }
-                    } catch (imageError) {
-                        console.warn('Failed to create additional images:', imageError)
+                    // Get the actual event ID from the response structure
+                    const eventId = savedEvent?.data?.id || savedEvent?.id;
+
+                    // Check if we have a valid event ID
+                    if (!eventId) {
+                        console.error('SavedEvent missing ID:', savedEvent);
                         this.toast.add({
                             severity: 'warn',
                             summary: 'Warning',
-                            detail: 'Event created but some images failed to upload',
-                            life: 3000
-                        })
+                            detail: 'Event created but cannot add additional images due to missing event ID',
+                            life: 5000
+                        });
+                    } else {
+                        try {
+                            console.log(`Adding ${imageUrls.length} images to event ID: ${eventId}`);
+                            // Create event images (you'll need to implement this in the backend)
+                            for (const [index, imageUrl] of imageUrls.entries()) {
+                                console.log(`Creating event image ${index + 1} for event ${eventId} with URL: ${imageUrl}`);
+                                console.log(`URL validation - starts with http: ${imageUrl.startsWith('http')}`);
+                                await this.eventService.createEventImage(eventId, imageUrl)
+                                console.log(`Event image ${index + 1} created successfully`);
+                            }
+                            console.log('All event images added successfully');
+                        } catch (imageError) {
+                            console.warn('Failed to create additional images:', imageError)
+                            this.toast.add({
+                                severity: 'warn',
+                                summary: 'Warning',
+                                detail: 'Event created but some images failed to upload',
+                                life: 3000
+                            })
+                        }
                     }
                 }
 
+                console.log('Event save process completed successfully');
+
+                // Reset retry flag on success
+                this.hasTriedRetry = false;
+
                 this.eventDialog = false
+
                 // Force refresh the events cache to ensure UI consistency
-                await eventService.refreshEventsCache();
-                await this.loadEvents();
+                try {
+                    await this.eventService.refreshEventsCache();
+                    await this.loadEvents();
+                    console.log('Events cache refreshed successfully');
+                } catch (refreshError) {
+                    console.warn('Failed to refresh events cache:', refreshError);
+                    // Don't show error as the main operation was successful
+                }
+
             } catch (error) {
-                console.error('Save event error:', error);
+                console.error('=== EVENT SAVE ERROR ===');
+                console.error('Error type:', typeof error);
+                console.error('Error object:', error);
+                console.error('Error message:', error.message);
+                console.error('Error stack:', error.stack);
+                console.error('========================');
 
                 // Handle specific error cases
                 if (error.status === 401 || error.statusCode === 401 || error.message.includes('Authentication')) {
@@ -923,12 +976,54 @@ export default {
                         life: 5000
                     });
                 } else if (error.status === 409 || error.statusCode === 409) {
-                    this.toast.add({
-                        severity: 'error',
-                        summary: 'Conflict Error',
-                        detail: 'An event with this slug already exists. Please choose a different slug.',
-                        life: 5000
-                    });
+                    // Auto-generate a new unique slug and retry once
+                    if (!this.hasTriedRetry) {
+                        this.hasTriedRetry = true;
+                        console.log('409 conflict detected, generating new slug and retrying...');
+
+                        // Generate a new unique slug with incremental number
+                        const baseSlug = this.eventForm.title
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]+/g, '-')
+                            .replace(/(^-|-$)/g, '')
+                            .replace(/-+/g, '-');
+
+                        // Check if current slug already has a number suffix
+                        const currentSlug = this.eventForm.slug;
+                        const numberMatch = currentSlug.match(/-(\d+)$/);
+
+                        let newSlug;
+                        if (numberMatch) {
+                            // Increment existing number
+                            const currentNumber = parseInt(numberMatch[1]);
+                            newSlug = currentSlug.replace(/-(\d+)$/, `-${currentNumber + 1}`);
+                        } else {
+                            // Add -2 to the base slug (assuming original was -1 conceptually)
+                            newSlug = `${baseSlug}-2`;
+                        }
+
+                        this.eventForm.slug = newSlug;
+
+                        this.toast.add({
+                            severity: 'info',
+                            summary: 'Slug Conflict',
+                            detail: `Slug already exists. Auto-generated new slug: ${this.eventForm.slug}`,
+                            life: 5000
+                        });
+
+                        // Retry the save operation
+                        setTimeout(() => {
+                            this.saveEvent();
+                        }, 100);
+                        return;
+                    } else {
+                        this.toast.add({
+                            severity: 'error',
+                            summary: 'Conflict Error',
+                            detail: 'An event with this slug already exists. Please manually choose a different slug.',
+                            life: 5000
+                        });
+                    }
                 } else if (error.status === 500 || error.statusCode === 500) {
                     this.toast.add({
                         severity: 'error',
@@ -946,6 +1041,7 @@ export default {
                 }
             } finally {
                 this.saving = false
+                console.log('=== EVENT SAVE PROCESS ENDED ===');
             }
         },
 
@@ -957,22 +1053,33 @@ export default {
                     throw new Error('Authentication required. Please log in again.');
                 }
 
+                console.log('Starting file upload:', { fileName: file.name, type: type, fileSize: file.size });
+
                 // Use the fileUpload service
                 const result = await this.fileUpload.uploadFile(file, type);
 
+                console.log('Upload result received:', result);
+
                 // Handle the response - it might be a URL string or an object with url property
                 if (typeof result === 'string') {
+                    console.log('Upload successful, returning URL string:', result);
                     return result;
                 } else if (result && result.url) {
+                    console.log('Upload successful, returning URL from object:', result.url);
                     return result.url;
                 } else {
+                    console.error('Invalid upload response format:', result);
                     throw new Error('Invalid upload response format');
                 }
             } catch (error) {
-                console.error('Upload failed:', error);
+                console.error('Upload failed with error:', error);
+                console.error('Error type:', typeof error);
+                console.error('Error status:', error.status || error.statusCode);
+                console.error('Error message:', error.message);
 
                 // If authentication error, handle it specifically
                 if (error.message.includes('Authentication') || error.status === 401 || error.statusCode === 401) {
+                    console.error('Authentication error detected');
                     this.toast.add({
                         severity: 'error',
                         summary: 'Authentication Error',
@@ -984,43 +1091,13 @@ export default {
 
                 // If it's a server error, throw it up
                 if (error.status >= 500 || error.statusCode >= 500) {
+                    console.error('Server error detected');
                     throw new Error('Server error during file upload. Please try again.');
                 }
 
-                console.warn('Upload failed, using preview as fallback:', error);
-                // Create a data URL synchronously instead of using a Promise
-                const reader = new FileReader();
-                return new Promise((resolve) => {
-                    reader.onload = (e) => resolve(e.target.result);
-                    reader.onerror = () => {
-                        console.error('FileReader failed');
-                        resolve(''); // Return empty string on error
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        },
-
-        async createEventImage(eventId, imageUrl) {
-            try {
-                const { useApiUrl } = await import('@/composables/useApiUrl')
-                const { useAuth } = await import('@/composables/useAuth')
-
-                const { getApiBase } = useApiUrl()
-                const { getAuthHeaders } = useAuth()
-
-                const response = await $fetch(`${getApiBase()}/api/events/${eventId}/images`, {
-                    method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: {
-                        url: imageUrl,
-                        eventId: eventId
-                    }
-                })
-                return response
-            } catch (error) {
-                console.error('Error creating event image:', error)
-                throw error
+                // For any other error, also throw it up instead of using fallback
+                console.error('Upload failed, throwing error instead of using fallback');
+                throw new Error(`Upload failed: ${error.message || 'Unknown error'}`);
             }
         },
 
@@ -1081,16 +1158,23 @@ export default {
         },
 
         async onImagesSelect(event) {
+            console.log('=== onImagesSelect called ===');
+            console.log('Event object:', event);
+
             if (!event || !event.files || !Array.isArray(event.files)) {
-                console.warn('Invalid files received in onImagesSelect');
+                console.warn('Invalid files received in onImagesSelect:', event);
                 return;
             }
 
             const files = Array.from(event.files);
+            console.log(`Processing ${files.length} files:`, files.map(f => f.name));
+
             const validFiles = [];
 
             // Validate all files first
             for (const file of files) {
+                console.log(`Validating file: ${file.name}, size: ${file.size}, type: ${file.type}`);
+
                 // Validate each file
                 const validation = this.fileUpload.validateFile(file, {
                     maxSize: 5 * 1024 * 1024, // 5MB
@@ -1098,6 +1182,7 @@ export default {
                 });
 
                 if (!validation.isValid) {
+                    console.error(`File ${file.name} validation failed:`, validation.errors);
                     this.toast.add({
                         severity: 'error',
                         summary: 'Invalid File',
@@ -1107,26 +1192,40 @@ export default {
                     continue;
                 }
 
+                console.log(`File ${file.name} passed validation`);
                 validFiles.push(file);
             }
 
-            // Update file list first
-            this.eventForm.imageFiles = [...this.eventForm.imageFiles, ...validFiles];
+            console.log(`${validFiles.length} valid files out of ${files.length} total`);
+
+            // Replace the file list entirely (FileUpload gives us ALL selected files, not just new ones)
+            this.eventForm.imageFiles = [...validFiles];
+            console.log('Updated imageFiles array:', this.eventForm.imageFiles.map(f => f.name));
 
             // Process all previews in parallel to avoid sequential async issues
             try {
+                console.log('Creating image previews...');
                 const previews = await Promise.all(
-                    validFiles.map(file => this.fileUpload.createImagePreview(file)
-                        .catch(error => {
+                    validFiles.map(async (file, index) => {
+                        try {
+                            console.log(`Creating preview for ${file.name}`);
+                            const preview = await this.fileUpload.createImagePreview(file);
+                            console.log(`Preview created for ${file.name}:`, preview?.substring(0, 50) + '...');
+                            return preview;
+                        } catch (error) {
                             console.error('Failed to create preview for', file.name, error);
                             return null; // Return null for failed previews
-                        })
-                    )
+                        }
+                    })
                 );
 
-                // Add only successful previews
+                // Replace previews entirely to match the files
                 const validPreviews = previews.filter(preview => preview !== null);
-                this.eventForm.imagePreviews = [...this.eventForm.imagePreviews, ...validPreviews];
+                console.log(`${validPreviews.length} previews created successfully`);
+
+                this.eventForm.imagePreviews = [...validPreviews];
+                console.log('Updated imagePreviews array length:', this.eventForm.imagePreviews.length);
+
             } catch (error) {
                 console.error('Error creating image previews:', error);
                 this.toast.add({
@@ -1136,6 +1235,8 @@ export default {
                     life: 3000
                 });
             }
+
+            console.log('=== onImagesSelect completed ===');
         },
 
         onImageRemove(event) {

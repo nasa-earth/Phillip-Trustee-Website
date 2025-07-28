@@ -20,18 +20,23 @@ export class DashboardActivityDto {
   date: Date;
 }
 
+export class UsersByRoleDto {
+  @ApiProperty()
+  admins: number;
+
+  @ApiProperty()
+  editors: number;
+
+  @ApiProperty()
+  users: number;
+}
+
 export class DashboardStatsDto {
   @ApiProperty()
   users: number;
 
   @ApiProperty()
-  posts: number;
-
-  @ApiProperty()
-  publishedPosts: number;
-
-  @ApiProperty()
-  draftPosts: number;
+  usersByRole: UsersByRoleDto;
 
   @ApiProperty()
   events: number;
@@ -40,19 +45,16 @@ export class DashboardStatsDto {
   publishedEvents: number;
 
   @ApiProperty()
-  upcomingEvents: number;
+  draftEvents: number;
 
   @ApiProperty()
   partners: number;
 
   @ApiProperty()
-  pages: number;
-
-  @ApiProperty()
   faqs: number;
 
   @ApiProperty()
-  categories: number;
+  faqCategories: number;
 }
 
 export class DashboardResponseDto {
@@ -60,5 +62,8 @@ export class DashboardResponseDto {
   stats: DashboardStatsDto;
 
   @ApiProperty({ type: [DashboardActivityDto] })
-  recentActivity: DashboardActivityDto[];
+  recentActivity?: DashboardActivityDto[];
+
+  @ApiProperty()
+  timestamp: string;
 }

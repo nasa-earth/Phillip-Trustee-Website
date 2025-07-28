@@ -33,9 +33,9 @@
         <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
           <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Events</h2>
           <!-- <div class="w-24 h-1 bg-orange-500 mx-auto mb-8"></div>  -->
-          <p class="text-xl text-[#e6eaf0] max-w-3xl text-center mx-auto">
+          <!-- <p class="text-xl text-[#e6eaf0] max-w-3xl text-center mx-auto">
             Join us at our upcoming events to learn more about trust services and network with industry professionals
-          </p>
+          </p> -->
         </div>
 
         <!-- Loading State -->
@@ -61,10 +61,7 @@
           <div v-for="event in events" :key="event.id"
             class="group bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20 animate-card">
-            <!-- Status Badge (Only display if needed) -->
-            <div v-if="event.published !== undefined" class="absolute top-3 right-3 z-10">
-              <span class="bg-green-500 text-white text-xs font-medium px-2 py-1 rounded-full">Published</span>
-            </div>
+
 
             <div class="h-56 w-full overflow-hidden relative">
               <img :src="event.thumbnail || '/images/event/default.jpg'" :alt="event.title"
@@ -73,11 +70,11 @@
             </div>
 
             <div class="p-6">
-              <h3 class="text-xl font-bold text-[#f15a22] mb-4">
+              <h3 class="text-xl font-bold text-center text-[#f15a22] mb-4">
                 {{ event.title }}
               </h3>
               <p class="text-[#e6eaf0]/90 mb-4 line-clamp-3">{{ event.description }}</p>
-              <div class="text-sm text-[#e6eaf0]/70 mb-6">
+              <!-- <div class="text-sm text-[#e6eaf0]/70 mb-6">
                 <div class="flex flex-col gap-1">
                   <p v-if="event.createdAt">
                     <i class="pi pi-calendar mr-2"></i>Created: {{ formatDate(event.createdAt) }}
@@ -86,7 +83,7 @@
                     <i class="pi pi-clock mr-2"></i>Updated: {{ formatDate(event.updatedAt) }}
                   </p>
                 </div>
-              </div>
+              </div> -->
               <div class="flex justify-between items-center">
                 <NuxtLink :to="`/EventDetails?slug=${event.slug}`" @click="trackEventClick(event)"
                   class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-5 py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group">

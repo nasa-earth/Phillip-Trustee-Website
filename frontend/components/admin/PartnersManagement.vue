@@ -1,10 +1,29 @@
 <template>
-    <div class="p-6">
+    <div class="p-2">
         <!-- Partners Management Header -->
-        <div class="flex justify-between items-center mb-8">
-            <h3 class="text-2xl font-semibold text-gray-800">Partners Management</h3>
+        <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
+            <div>
+                <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+                    <!-- <i class="pi pi-users text-blue-600"></i> -->
+                    Partners Management
+                </h3>
+            </div>
             <Button label="Add Partner" icon="pi pi-plus" @click="showAddDialog = true"
-                class="bg-green-600 hover:bg-green-700 border-green-600 text-white px-4 py-2 rounded-lg font-medium" />
+                    class="bg-green-600 hover:bg-green-700 border-green-600 text-white px-4 py-2 rounded-lg font-medium" />
+
+        </div>
+
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6 mt-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-black text-xl font-medium">Total Partners</p>
+                    <p class="text-2xl font-bold text-black">
+                        {{ partnersForManagement.length }}
+                    </p>
+                </div>
+                
+            </div>
         </div>
 
         <!-- Partners List -->
@@ -274,8 +293,13 @@ const editingPartner = ref({
 });
 
 // Watch for changes in partners data
-watch(partnersForManagement, (newPartners) => {
-    console.log('Partners data updated in management:', newPartners?.length || 0);
+watch(partnersForManagement, (newPartners, oldPartners) => {
+    console.log('Partners data updated in management:', {
+        newCount: newPartners?.length || 0,
+        oldCount: oldPartners?.length || 0,
+        changed: (newPartners?.length || 0) !== (oldPartners?.length || 0)
+    });
+    console.log('New partners data:', newPartners);
 }, { immediate: true });
 
 // Subscribe to partner change events
@@ -433,7 +457,17 @@ const onLogoSelect = async (event) => {
             const result = await uploadFile(file, 'partner-logos');
 
             // Handle both direct URL response and object response
-            newPartner.value.logo = result.url || result;
+            let logoUrl = result.url || result;
+
+            // Convert relative URLs to absolute URLs
+            const config = useRuntimeConfig();
+            const apiBase = config.public.apiBase || 'http://localhost:3005';
+            if (logoUrl && !logoUrl.startsWith('http')) {
+                logoUrl = `${apiBase}${logoUrl}`;
+                console.log(`Converting relative URL to absolute: ${logoUrl}`);
+            }
+
+            newPartner.value.logo = logoUrl;
 
             toast.add({
                 severity: 'success',
@@ -480,7 +514,17 @@ const onEditLogoSelect = async (event) => {
             console.log('Upload result:', result);
 
             // Handle both direct URL response and object response
-            editingPartner.value.logo = result.url || result;
+            let logoUrl = result.url || result;
+
+            // Convert relative URLs to absolute URLs
+            const config = useRuntimeConfig();
+            const apiBase = config.public.apiBase || 'http://localhost:3005';
+            if (logoUrl && !logoUrl.startsWith('http')) {
+                logoUrl = `${apiBase}${logoUrl}`;
+                console.log(`Converting relative URL to absolute: ${logoUrl}`);
+            }
+
+            editingPartner.value.logo = logoUrl;
 
             toast.add({
                 severity: 'success',
@@ -565,6 +609,11 @@ const addPartner = async () => {
 
         showAddDialog.value = false;
         resetNewPartner();
+
+        // Force refresh the partners list to ensure UI updates
+        console.log('Forcing partners refresh after creation...');
+        await fetchPartners(true);
+        console.log('Partners refresh completed after creation');
 
         toast.add({
             severity: 'success',
@@ -657,6 +706,12 @@ const updatePartnerData = async () => {
 
         await updatePartner(editingPartner.value.id, updateData);
         showEditDialog.value = false;
+
+        // Force refresh the partners list to ensure UI updates
+        console.log('Forcing partners refresh after update...');
+        await fetchPartners(true);
+        console.log('Partners refresh completed after update');
+
         toast.add({
             severity: 'success',
             summary: 'Success',
@@ -704,6 +759,12 @@ const confirmDeletePartner = (partner) => {
 const deletePartnerData = async (partnerId) => {
     try {
         await deletePartner(partnerId);
+
+        // Force refresh the partners list to ensure UI updates
+        console.log('Forcing partners refresh after deletion...');
+        await fetchPartners(true);
+        console.log('Partners refresh completed after deletion');
+
         toast.add({
             severity: 'success',
             summary: 'Success',

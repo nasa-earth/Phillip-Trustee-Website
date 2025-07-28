@@ -33,6 +33,7 @@ import { CreateEventImageDto } from './dto/create-event-image.dto';
 
 @ApiTags('events')
 @Controller('events')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class EventsController {
   private readonly logger = new Logger(EventsController.name);
 

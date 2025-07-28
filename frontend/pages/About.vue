@@ -147,7 +147,8 @@
                             </div>
                             <div class="p-6">
                                 <div class="mb-4">
-                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip General Insurance
+                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip General
+                                        Insurance
                                     </h3>
                                 </div>
                                 <p class="text-[#e6eaf0] text-lg">
@@ -187,7 +188,6 @@
                 <!-- Header -->
                 <div class="text-center mb-16" data-aos="fade-down" data-aos-duration="1000">
                     <h2 class="text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4">Goals</h2>
-                    <!-- <div class="w-24 h-1 bg-orange-500 mx-auto"></div> -->
                 </div>
 
                 <!-- Timeline -->
@@ -213,9 +213,11 @@
                                     <!-- Timeline Dot -->
                                     <div
                                         class="hidden md:block absolute left-0 md:left-[calc(50%-0.625rem)] top-0 w-5 h-5 rounded-full border-4 border-orange-500 bg-white group-hover:scale-150 transition-transform duration-300">
-                                    </div> <!-- Goal Card -->
+                                    </div>
+
+                                    <!-- Goal Card -->
                                     <div
-                                        class="relative bg-[#13325e] text-[#e6eaf0] p-8 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
+                                        class="relative text-[#e6eaf0] p-4 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
                                         <div class="flex items-center gap-3 mb-4">
                                             <img :src="goal.image" :alt="goal.title" class="w-8 h-8 object-contain" />
                                             <!-- Fallback to emoji icon if image doesn't load -->
@@ -226,7 +228,7 @@
                                         <!-- Large image below title and above content -->
                                         <div v-if="goal.largeImage" class="my-6 rounded-lg overflow-hidden shadow-md">
                                             <img :src="goal.largeImage" :alt="`${goal.title} illustration`"
-                                                class="w-full h-48 object-cover object-center hover:scale-105 transition-transform duration-500" />
+                                                class="w-full h-72 object-cover object-center hover:scale-105 transition-transform duration-500" />
                                         </div>
 
                                         <p v-if="goal.type === 'text'" class="text-[#e6eaf0] text-lg">
@@ -256,10 +258,10 @@
                 <div class="flex flex-col items-center mb-12">
                     <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
                     <!-- <div class="w-24 h-1 text-[#f15a22]"></div> -->
-                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
-                        We collaborate with leading organizations across Cambodia to provide the best service to our
-                        clients.
-                    </p>
+                        <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
+                            We collaborate with leading organizations across Cambodia to provide the best service to our
+                            clients.
+                        </p> -->
                 </div>
 
                 <!-- Partners Slider Component -->

@@ -1,8 +1,10 @@
 @import "tailwindcss";
+@import "tailwindcss-primeui";
 
 /* Global styles to improve PrimeVue component integration */
 :root {
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
 }
 
 body {

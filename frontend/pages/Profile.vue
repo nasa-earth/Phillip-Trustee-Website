@@ -32,97 +32,76 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 mx-[200px]">
-                    <div v-for="(manager, idx) in managers" :key="manager.name" @click="openModal(idx)"
-                        class="group relative animate-card" data-aos="fade-up" :data-aos-delay="idx * 100">
-                        <!-- Card with hover effects -->
-                        <div
-                            class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
-                                transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20 cursor-pointer">
-
-                            <!-- Image with overlay -->
-                            <div class="relative h-64 overflow-hidden">
+                <!-- Container adjusted for the layout -->
+                <div class="mx-auto max-w-7xl px-4 py-10">
+                    <!-- Top row: 3 members -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center mb-20 mx-20">
+                        <div v-for="(manager, idx) in managers.slice(0, 3)" :key="manager.name" @click="openModal(idx)"
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-4 rounded-xl hover:bg-white/10">
+                            <div
+                                class="w-55 h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
                                 <img :src="manager.image" :alt="manager.name"
-                                    class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-[#0d254a] via-transparent to-transparent">
-                                </div>
+                                    class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110" />
                             </div>
+                            <h3 class="mt-4 text-2xl font-bold text-[#f15a22] mb-2 transition-colors duration-300">{{
+                                manager.name }}</h3>
+                            <p class="text-xl text-white/90 transition-colors duration-300">{{ manager.title }}</p>
+                        </div>
+                    </div>
 
-                            <!-- Content -->
-                            <div class="p-6 relative">
-                                <!-- Profile image overlay -->
-                                <div class="absolute -top-16 left-1/2 transform -translate-x-1/2">
-                                    <div
-                                        class="w-24 h-24 rounded-full border-4 border-orange-500 overflow-hidden shadow-xl">
-                                        <img :src="manager.image" :alt="manager.name"
-                                            class="w-full h-full object-cover" />
-                                    </div>
-                                </div>
-
-                                <!-- Text content -->
-                                <div class="mt-10 text-center">
-                                    <h3
-                                        class="text-xl font-bold text-[#f15a22] transition-colors duration-300 group-hover:text-[#e6eaf0] mb-1">
-                                        {{ manager.name }}
-                                    </h3>
-                                    <p class="text-[#e6eaf0] mb-4 text-base">{{ manager.title }}</p>
-                                    <div class="w-12 h-0.5 bg-orange-500/50 mx-auto"></div>
-                                    <p class="mt-4 text-[#e6eaf0] text-base line-clamp-2">{{ manager.desc }}</p>
-
-                                    <!-- View More button -->
-                                    <div class="mt-4 pt-2">
-                                        <span
-                                            class="inline-flex items-center gap-1 text-[#f15a22] hover:text-orange-300 text-sm font-medium transition-colors group-hover:translate-x-1 transform duration-300">
-                                            View Profile
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M9 5l7 7-7 7" />
-                                            </svg>
-                                        </span>
-                                    </div>
-                                </div>
+                    <!-- Bottom row: 2 members centered -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-1 justify-center mx-60">
+                        <div v-for="(manager, idx) in managers.slice(3)" :key="manager.name" @click="openModal(idx + 3)"
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-4 rounded-xl hover:bg-white/10">
+                            <div
+                                class="w-55 h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
+                                <img :src="manager.image" :alt="manager.name"
+                                    class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110 " />
                             </div>
+                            <h3 class="mt-4 text-2xl font-bold text-[#f15a22] transition-colors duration-300">{{ manager.name
+                                }}</h3>
+                            <p class="text-xl text-white/90 transition-colors duration-300">{{ manager.title }}</p>
                         </div>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Enhanced Modal -->
             <transition name="fade">
                 <div v-if="modalOpen"
                     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
                     <div
-                        class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-2xl shadow-2xl max-w-lg w-full p-8 relative animate-card border border-white/10">
+                        class="bg-white max-w-4xl w-full rounded-xl shadow-2xl p-8 relative overflow-y-auto max-h-[90vh] text-[#13325e]">
+
+                        <!-- Close Button -->
                         <button @click="closeModal"
-                            class="absolute top-4 right-4 text-[#f15a22] hover:text-[#e6eaf0] w-8 h-8 flex items-center justify-center rounded-full bg-white/10 hover:bg-orange-500/20 transition-all cursor-pointer">
+                            class="absolute top-4 right-4 text-[#13325e] hover:text-[#f15a22] text-3xl font-bold focus:outline-none cursor-pointer">
                             &times;
                         </button>
 
-                        <div class="flex flex-col md:flex-row items-center md:items-start gap-6">
-                            <div
-                                class="w-28 h-28 rounded-full overflow-hidden border-4 border-orange-500/50 flex-shrink-0">
+                        <!-- Top Row: Image, Name, and Title -->
+                        <div class="flex items-center gap-8 mb-8 border-b pb-6">
+                            <!-- Profile Image -->
+                            <div class="flex-shrink-0 w-36 h-36 rounded-full overflow-hidden">
                                 <img :src="selectedManager.image" :alt="selectedManager.name"
                                     class="w-full h-full object-cover" />
                             </div>
 
+                            <!-- Name and Title -->
                             <div class="flex-1">
-                                <h3 class="text-2xl font-bold text-[#f15a22] mb-1">{{ selectedManager.name }}</h3>
-                                <p class="text-[#e6eaf0] font-medium mb-2">{{ selectedManager.title }}</p>
-                                <div class="w-12 h-0.5 bg-orange-500/50 mb-4"></div>
-                                <p class="text-[#e6eaf0] leading-relaxed">{{ selectedManager.desc }}</p>
-
-                                <!-- Additional details if available -->
-                                <div v-if="selectedManager.experience" class="mt-4 pt-4 border-t border-white/10">
-                                    <h4 class="text-[#e6eaf0] font-medium mb-2">Experience</h4>
-                                    <p class="text-[#e6eaf0]">{{ selectedManager.experience }}</p>
-                                </div>
+                                <h3 class="text-3xl font-bold text-[#13325e] mb-2">{{ selectedManager.name }}</h3>
+                                <p class="text-xl font-medium text-[#13325e]/80">{{ selectedManager.title }}</p>
                             </div>
+                        </div>
+
+                        <!-- Bottom Row: Description -->
+                        <div class="text-[#0a2b5c] text-lg leading-relaxed whitespace-pre-line">
+                            {{ selectedManager.desc }}
                         </div>
                     </div>
                 </div>
             </transition>
+
         </section>
 
         <!-- Partners Section -->
@@ -130,10 +109,10 @@
             <div class="container mx-auto mb-8">
                 <div class="flex flex-col items-center mb-10">
                     <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
-                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
+                    <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                         We collaborate with leading organizations across Cambodia to provide the best service to our
                         clients.
-                    </p>
+                    </p> -->
                 </div>
 
                 <!-- Partners Slider Component -->
@@ -164,36 +143,31 @@ const managers = ref([
         name: 'ONG TEONG HOON',
         title: 'Chairman',
         image: '/images/profile/ceo.jpg',
-        desc: 'Chairman of Phillip Trustee (Cambodia) with over 20 years of experience in finance and trust management. Leads the strategic direction of the company with a focus on innovation and client-centered solutions.',
-        experience: 'Previously served as CEO of multiple financial institutions across Southeast Asia with expertise in both commercial and private banking.'
+        desc: 'Mr. Ong started working in the financial sector in 1977, with Standard Chartered Bank, as a Management Trainee. For 25 years with the Bank, he had been through all aspects of Commercial Banking apart from Treasury function, and he ended his banking career as Country Manager for the Bank in Cambodia in from 2000 to 2002. This was after being the Bank’s Chief Representative in Myanmar between 1995 and 2000; and before that, Regional Manager, Asia Pacific Region covering Financial Institutions.\n\n Soon after that, he joined Phillip Securities Pte Ltd and covered various functions, including a stint in Phillip Securities Thailand PLC as its acting CEO, and was the Director of OTC Capital prior to being assigned to KREDIT Microfinance in 2012. He is currently serving as Chairman of both Phillip General Insurance(Cambodia) Plc and Phillip Trustee Cambodia in addition to being shareholder representative for Phillip General Insurance(Cambodia) Plc, Phillip Life Assurance(Cambodia) Plc, and Phillip Bank Plc.\n\n Mr.Ong is a graduate from the University of Singapore with a Bachelor of Business Administration and is an Associate of the Chartered Institute of Bankers since 1978.',
     },
     {
         name: 'Sopheap Proeung',
         title: 'General Manager',
         image: '/images/profile/mr_sopheap.jpg',
-        desc: 'General Manager with extensive experience in banking and trust operations. Oversees daily management and ensures operational excellence across all departments.',
-        experience: '15+ years in leadership roles within the Cambodian financial sector.'
+        desc: 'Sopheap is the General Manager of Phillip trustee (Cambodia). As a founding member of the Group’s Trust services in Cambodia over two years ago, he has been instrumental in developing the Kingdom’s nascent Trust landscape and driving its business growth. Prior to his current role, Sopheap has over 20 years of experience in various roles across the NGOs, Microfinance and banking sectors.',
     },
     {
         name: 'Phang Vichet',
         title: 'Legal & Compliance Manager',
         image: '/images/profile/legal_manager.jpg',
-        desc: 'Expert in legal and compliance matters for trust and financial services. Ensures all operations adhere to Cambodian laws and regulations while protecting client interests.',
-        experience: 'Former legal advisor to multiple international banks operating in Cambodia.'
+        desc: 'Vichet is a Legal & Compliance Manager of Phillip Trustee (Cambodia) Co., Ltd. and a practicing notary in Cambodia upon completion of the notary profession training from the Royal Academy for Judicial Professions and nomination of notary in 2016 and the master’s degree in Private Law from Lumière Lyon 2 University from France in 2008. Vichet has worked as Legal Consultant for a law firm for 4 years, as Case Manager for Civil Party Lead Co-Lawyers of the Extra-ordinary Chamber in the Court of Cambodia for 4 years, and as Legal Manager for banks for 8 years. Vichet is also a part-time lecturer of law at RULE for 16 years, and at the Royal Academy for Judicial Professions since 2023.\n\n s Legal & Compliance Manager of Phillip Trustee, Vichet has key work to review, advise on the contracts, and legal documents, identify legal risk, conduct risk profiling of customers, update laws and regulations to the senior management of the company.',
     },
     {
         name: 'Kong Rothana',
         title: 'Accounting and Finance Manager',
         image: '/images/profile/kong_rothana.jpg',
-        desc: 'Specialist in accounting and finance for trust management. Responsible for maintaining financial integrity and transparency in all client accounts.',
-        experience: 'Certified accountant with expertise in international financial reporting standards.'
+        desc: 'Rothana is the Accounting and Finance Manager of Phillip trustee (Cambodia) Co, Ltd. Before joining the Company, he was the Senior External Audit Manager at an audit which involved various sector such Real Estate Company, Manufacturing, Trading Company, and Microfinance and banking sectors.\n\n He is pursuing the Association of Chartered Certified Accountants (ACCA) at CamEd Business School. In 2015, he got a bachelor’s degree of Banking and Finance from the Royal University of Law and Economic (RULE). Moreover, he got the other degree of Intensive English Academic Purpose (IEAP) program from Pannasastra University of Law and Economics (PUC).',
     },
     {
         name: 'Ho Souven',
         title: 'Operation Supervisor',
         image: '/images/profile/ho_souven.jpg',
-        desc: 'Oversees daily operations and ensures service excellence. Dedicated to maintaining the highest standards of client satisfaction through efficient processes.',
-        experience: 'Joined Phillip Trustee after 8 years of experience in banking operations.'
+        desc: 'Souven is Operation Supervisor of Phillip Trustee (Cambodia) Co., Ltd. and hold completed bachelor’s degree of Law in 2016 from Royal University of Law and Economics. Souven used to work as Credit admin supervisor at one of Cambodia’s Largest Commercial Banks in Cambodia for over 4 years. Prior to his posting in Phillip Trustee (Cambodia) Co., Ltd. he used to work at one of a well-known French’s bank in Cambodia as Credit Admin Deputy Team leader for over 2 years.\n\n As Operation Supervisor of Phillip Trustee, Souven has key work to control operation process of client onboarding, update operational process and propose implementation trust operation to the management of the company.'
     },
 ]);
 

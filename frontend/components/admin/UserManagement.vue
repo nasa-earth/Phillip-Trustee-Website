@@ -6,7 +6,7 @@
             <div>
                 <h3
                     class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
-                    <i class="pi pi-users text-blue-600"></i>
+                    <!-- <i class="pi pi-users text-blue-600"></i> -->
                     User Management
                 </h3>
             </div>
@@ -14,21 +14,50 @@
                 class="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 font-semibold" />
         </div>
 
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-black text-xl font-medium">Total Users</p>
+                        <p class="text-2xl font-bold text-brand-primary">{{ totalRecords }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-black text-xl font-medium">Admin Users</p>
+                        <p class="text-2xl font-bold text-black">{{users.filter(u => u.role === 'ADMIN').length}}</p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-black text-xl font-medium">Editor Users</p>
+                        <p class="text-2xl font-bold text-black">{{users.filter(u => u.role === 'EDITOR').length}}</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <!-- Search Section -->
-        <div class="bg-white/80 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-white/20">
+        <div class="">
             <div class="flex items-center gap-3">
                 <div class="relative flex-1 max-w-md">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <!-- <i class="pi pi-search text-slate-400"></i> -->
                     </div>
-                    <InputText v-model="searchQuery" placeholder="Search"
-                        @input="debounceSearch"
+                    <InputText v-model="searchQuery" placeholder="Search" @input="debounceSearch"
                         class="w-full pl-10 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200" />
                 </div>
-                <div class="flex items-center gap-2 text-sm text-slate-500">
+                <!-- <div class="flex items-center gap-2 text-sm text-slate-500">
                     <i class="pi pi-info-circle"></i>
                     <span>{{ totalRecords }} users found</span>
-                </div>
+                </div> -->
             </div>
         </div>
 
@@ -91,13 +120,13 @@
                 <Column header="Actions" class="w-32">
                     <template #body="{ data }">
                         <div class="flex gap-1 justify-center">
-                            <Button icon="pi pi-eye" @click="viewUser(data)"
+                            <Button unstyled icon="pi pi-eye" @click="viewUser(data)"
                                 class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'View Details'" />
-                            <Button v-if="isAdmin" icon="pi pi-pencil" @click="editUser(data)"
+                            <Button v-if="isAdmin" unstyled icon="pi pi-pencil" @click="editUser(data)"
                                 class="w-8 h-8 bg-green-500 hover:bg-green-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'Edit User'" />
-                            <Button v-if="isAdmin" icon="pi pi-trash" @click="confirmDeleteUser(data)"
+                            <Button v-if="isAdmin" unstyled="" icon="pi pi-trash" @click="confirmDeleteUser(data)"
                                 class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'Delete User'" />
                         </div>
@@ -283,12 +312,14 @@ import { ref, onMounted, computed } from 'vue';
 import { useConfirm } from 'primevue/useconfirm';
 import { useToast } from 'primevue/usetoast';
 import { useAuthStore } from '~/stores/auth';
+import { useDashboardEvents } from '~/composables/useDashboardEvents';
 
 // Composables and utilities
 const apiUrl = useApiUrl();
 const authStore = useAuthStore();
 const confirm = useConfirm();
 const toast = useToast();
+const dashboardEvents = useDashboardEvents();
 
 // Computed properties
 const isAdmin = computed(() => {
@@ -525,6 +556,9 @@ const deleteUser = async (data) => {
         // Success case - reload the users
         loadUsers(currentPage.value, rowsPerPage.value, searchQuery.value);
         toast.add({ severity: 'success', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
+
+        // Notify dashboard about user deletion
+        dashboardEvents.notifyUserDeleted(data);
     } catch (error) {
         console.error('Error deleting user:', error);
         toast.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete user', life: 3000 });
@@ -605,6 +639,9 @@ const saveUser = async () => {
             }
 
             toast.add({ severity: 'success', summary: 'Success', detail: 'User created successfully', life: 3000 });
+
+            // Notify dashboard about user creation
+            dashboardEvents.notifyUserCreated(responseData?.data);
         } else {
             const { id, createdAt, updatedAt, ...updateData } = user.value;
             // Remove password if it's empty (not changed)
@@ -669,6 +706,9 @@ const saveUser = async () => {
             }
 
             toast.add({ severity: 'success', summary: 'Success', detail: 'User updated successfully', life: 3000 });
+
+            // Notify dashboard about user update
+            dashboardEvents.notifyUserUpdated(responseData?.data);
         }
 
         hideDialog();

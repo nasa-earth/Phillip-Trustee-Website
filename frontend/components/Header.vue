@@ -3,20 +3,20 @@
     scrolled ? 'fixed top-0 left-0 bg-[#0a2b5c]/70 backdrop-blur-md border-b border-white/10 shadow-md' :
       'absolute top-0 left-0 bg-transparent backdrop-blur-none border-b-0 shadow-none'
   ]">
-    <nav class="container mx-auto px-6 py-4">
+    <nav class="mx-25 px-10 py-1 justify-center">
       <div class="flex items-center justify-between">
         <!-- Logo Section -->
         <div class="flex items-center space-x-3">
           <NuxtLink to="/" class="flex items-center space-x-3 group">
             <div class="relative">
               <img src="~/assets/images/logo.png" alt="Phillip Trustee Logo"
-                class="h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105" />
+                class="h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
-            <div class="hidden sm:block">
+            <!-- <div class="hidden sm:block">
               <h1 class="text-xl font-bold text-[#e6eaf0] group-hover:text-orange-400 transition-colors duration-300">
                 Phillip Trustee
               </h1>
-            </div>
+            </div> -->
           </NuxtLink>
         </div>
 

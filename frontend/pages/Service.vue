@@ -571,10 +571,10 @@
                     <h2 class="text-4xl md:text-4xl font-bold text-[#e6eaf0] mb-6 text-center">Key Services & Products
                     </h2>
                     <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
-                    <p class="text-xl text-[#e6eaf0] max-w-3xl mx-auto text-center leading-relaxed">
+                    <!-- <p class="text-xl text-[#e6eaf0] max-w-3xl mx-auto text-center leading-relaxed">
                         We offer comprehensive trust services to protect your assets and secure your future with
                         expertise and reliability that you can depend on.
-                    </p>
+                    </p> -->
                 </div>
                 <div class="flex flex-col space-y-6 mx-[150px]" v-motion-fade-visible-once>
                     <div v-for="(service, index) in services" :key="service.id" v-motion-slide-visible-once-bottom

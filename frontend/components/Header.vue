@@ -3,14 +3,14 @@
     scrolled ? 'fixed top-0 left-0 bg-[#0a2b5c]/70 backdrop-blur-md border-b border-white/10 shadow-md' :
       'absolute top-0 left-0 bg-transparent backdrop-blur-none border-b-0 shadow-none'
   ]">
-    <nav class="mx-25 px-10 py-1 justify-center">
+    <nav class="mx-4 sm:mx-6 md:mx-10 lg:mx-25 px-4 sm:px-6 md:px-10 py-1 justify-center">
       <div class="flex items-center justify-between">
         <!-- Logo Section -->
-        <div class="flex items-center space-x-3">
-          <NuxtLink to="/" class="flex items-center space-x-3 group">
+        <div class="flex items-center space-x-2 sm:space-x-3">
+          <NuxtLink to="/" class="flex items-center space-x-2 sm:space-x-3 group">
             <div class="relative">
               <img src="~/assets/images/logo.png" alt="Phillip Trustee Logo"
-                class="h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
+                class="h-10 sm:h-12 md:h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-105" />
             </div>
             <!-- <div class="hidden sm:block">
               <h1 class="text-xl font-bold text-[#e6eaf0] group-hover:text-orange-400 transition-colors duration-300">
@@ -39,12 +39,12 @@
         <button @click="toggleMobileMenu"
           class="lg:hidden p-2 rounded-lg hover:bg-white/10 transition-colors duration-300"
           :class="{ 'bg-white/10': isMobileMenuOpen }" aria-label="Toggle mobile menu">
-          <div class="w-6 h-6 flex flex-col justify-center items-center">
-            <span class="block w-5 h-0.5 bg-white transition-all duration-300"
+          <div class="w-5 h-5 sm:w-6 sm:h-6 flex flex-col justify-center items-center">
+            <span class="block w-4 sm:w-5 h-0.5 bg-white transition-all duration-300"
               :class="isMobileMenuOpen ? 'rotate-45 translate-y-1' : ''"></span>
-            <span class="block w-5 h-0.5 bg-white mt-1 transition-all duration-300"
+            <span class="block w-4 sm:w-5 h-0.5 bg-white mt-1 transition-all duration-300"
               :class="isMobileMenuOpen ? 'opacity-0' : ''"></span>
-            <span class="block w-5 h-0.5 bg-white mt-1 transition-all duration-300"
+            <span class="block w-4 sm:w-5 h-0.5 bg-white mt-1 transition-all duration-300"
               :class="isMobileMenuOpen ? '-rotate-45 -translate-y-1' : ''"></span>
           </div>
         </button>
@@ -55,20 +55,23 @@
         enter-from-class="opacity-0 transform -translate-y-4" enter-to-class="opacity-100 transform translate-y-0"
         leave-active-class="transition-all duration-200 ease-in" leave-from-class="opacity-100 transform translate-y-0"
         leave-to-class="opacity-0 transform -translate-y-4">
-        <div v-if="isMobileMenuOpen" class="lg:hidden mt-6 pb-4">
-          <div class="bg-[#0d254a]/90 backdrop-blur-lg rounded-2xl shadow-xl border border-white/10 overflow-hidden">
-            <div class="px-4 py-2">
+        <div v-if="isMobileMenuOpen" class="lg:hidden mt-4 sm:mt-6 pb-3 sm:pb-4">
+          <div
+            class="bg-[#0d254a]/90 backdrop-blur-lg rounded-xl sm:rounded-2xl shadow-xl border border-white/10 overflow-hidden mx-2 sm:mx-0">
+            <div class="px-3 sm:px-4 py-2">
               <NuxtLink v-for="link in navLinks" :key="link.to" :to="link.to" @click="closeMobileMenu"
-                class="block px-4 py-3 text-[#e6eaf0] font-medium hover:text-orange-400 hover:bg-[#13325e] rounded-lg transition-all duration-300"
+                class="block px-3 sm:px-4 py-2.5 sm:py-3 text-[#e6eaf0] font-medium hover:text-orange-400 hover:bg-[#13325e] rounded-lg transition-all duration-300 text-sm sm:text-base"
                 active-class="text-orange-400 bg-[#13325e] font-bold"
                 exact-active-class="text-orange-400 bg-[#13325e] font-bold">
                 <div class="flex items-center">
                   <span>{{ link.label }}</span>
                   <!-- Active indicator for mobile -->
-                  <span v-if="$route.path === link.to" class="ml-auto w-2 h-2 bg-orange-400 rounded-full"></span>
+                  <span v-if="$route.path === link.to"
+                    class="ml-auto w-1.5 h-1.5 sm:w-2 sm:h-2 bg-orange-400 rounded-full"></span>
                 </div>
-              </NuxtLink> <!-- Mobile CTA Button -->
-              <div class="mt-4 pt-4 border-t border-white/10">
+              </NuxtLink>
+              <!-- Mobile CTA Button -->
+              <div class="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-white/10">
               </div>
             </div>
           </div>

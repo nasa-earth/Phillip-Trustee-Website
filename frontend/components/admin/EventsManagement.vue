@@ -2,9 +2,19 @@
     <div class="events-management space-y-6 p-2">
         <!-- Header Section -->
         <div class="">
-            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
+            <div
+                class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
                 <div>
-                    <h3 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">Events Management</h3>
+                    <h3
+                        class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent flex items-center gap-2">
+                        Events Management</h3>
+                    <!-- <p class="text-sm text-gray-600 mt-1">
+                        Role: <span class="font-medium" :class="isAdmin ? 'text-green-600' : 'text-orange-600'">
+                            {{ currentUserRole }}
+                        </span>
+                        <span v-if="!isAdmin" class="text-orange-600 ml-2">(Limited permissions - Contact admin for
+                            event deletion)</span>
+                    </p> -->
                 </div>
                 <Button label="Add New Event" icon="pi pi-plus" severity="success" @click="openEventDialog()"
                     class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
@@ -128,8 +138,10 @@
                                 @click="previewEvent(slotProps.data)" v-tooltip="'Preview'" />
                             <Button icon="pi pi-pencil" size="small" text severity="warning"
                                 @click="editEvent(slotProps.data)" v-tooltip="'Edit'" />
-                            <Button icon="pi pi-trash" size="small" text severity="danger"
+                            <Button v-if="canDeleteEvents" icon="pi pi-trash" size="small" text severity="danger"
                                 @click="confirmDeleteEvent(slotProps.data)" v-tooltip="'Delete'" />
+                            <Button v-else icon="pi pi-trash" size="small" text severity="danger" disabled
+                                v-tooltip="'Delete (Admin Only)'" />
                         </div>
                     </template>
                 </Column>
@@ -147,7 +159,7 @@
                             <div class="field">
                                 <label for="title" class="font-medium">Title *</label>
                                 <InputText id="title" v-model="eventForm.title" required placeholder="Enter event title"
-                                    class="w-full" @input="validateTitle" />
+                                    class="w-full" @input="debounceValidateTitle" />
                                 <small class="text-red-500" v-if="titleError">{{ titleError }}</small>
                             </div>
 
@@ -155,7 +167,7 @@
                                 <label for="slug" class="font-medium">Slug *</label>
                                 <div class="flex gap-2">
                                     <InputText id="slug" v-model="eventForm.slug" required placeholder="event-slug"
-                                        class="w-full" @input="validateSlug" />
+                                        class="w-full" @input="debounceValidateSlug" />
                                     <Button type="button" icon="pi pi-refresh" class="p-button-outlined"
                                         @click="generateSlugFromTitle" v-tooltip="'Generate slug from title'" />
                                 </div>
@@ -168,7 +180,7 @@
                                 <label for="description" class="font-medium">Description *</label>
                                 <Textarea id="description" v-model="eventForm.description" required
                                     placeholder="Detailed description of the event" rows="6" class="w-full"
-                                    @input="validateDescription" />
+                                    @input="debounceValidateDescription" />
                                 <small class="text-red-500" v-if="descriptionError">{{ descriptionError }}</small>
                             </div>
 
@@ -207,12 +219,6 @@
                                     </template>
                                 </FileUpload>
 
-                                <!-- Debug information -->
-                                <div class="text-xs text-gray-500 mt-2">
-                                    Debug: {{ debugImageFiles.fileCount }} files, {{ debugImageFiles.previewCount }}
-                                    previews
-                                </div>
-
                                 <!-- Full-screen images displayed vertically -->
                                 <div v-if="eventForm.imagePreviews.length > 0"
                                     class="mt-3 space-y-4 max-h-96 overflow-y-auto">
@@ -244,7 +250,7 @@
                     <Button label="Cancel" icon="pi pi-times" severity="secondary" @click="eventDialog = false"
                         type="button" :disabled="saving" />
                     <Button :label="editingEvent ? 'Update' : 'Create'" icon="pi pi-check" type="submit"
-                        :loading="saving" :disabled="saving || !validateForm()"
+                        :loading="saving" :disabled="saving || !isFormValid"
                         class="bg-[#f15a22] hover:bg-orange-600 border-[#f15a22]" />
                 </div>
             </form>
@@ -318,12 +324,16 @@ export default {
             statusFilter: null,
             searchTimeout: null,
             slugGenerationTimeout: null,
+            titleValidationTimeout: null,
+            slugValidationTimeout: null,
+            descriptionValidationTimeout: null,
             hasTriedRetry: false,
             currentPage: 1,
             rowsPerPage: 10,
             totalRecords: 0,
             databaseConnected: false,
             lastRefresh: null,
+            _updatingSlug: false, // Flag to prevent recursive updates
             eventForm: {
                 title: '',
                 slug: '',
@@ -359,27 +369,53 @@ export default {
         if (this.slugGenerationTimeout) {
             clearTimeout(this.slugGenerationTimeout);
         }
+        if (this.titleValidationTimeout) {
+            clearTimeout(this.titleValidationTimeout);
+        }
+        if (this.slugValidationTimeout) {
+            clearTimeout(this.slugValidationTimeout);
+        }
+        if (this.descriptionValidationTimeout) {
+            clearTimeout(this.descriptionValidationTimeout);
+        }
     },
     computed: {
         displayedEvents() {
             return this.filteredEvents || this.events || []
         },
 
-        // Debug computed properties
-        debugImageFiles() {
-            console.log('Debug - imageFiles length:', this.eventForm.imageFiles.length);
-            console.log('Debug - imagePreviews length:', this.eventForm.imagePreviews.length);
-            console.log('Debug - imageFiles:', this.eventForm.imageFiles.map(f => f.name));
-            console.log('Debug - imagePreviews:', this.eventForm.imagePreviews);
-            return {
-                fileCount: this.eventForm.imageFiles.length,
-                previewCount: this.eventForm.imagePreviews.length
-            };
+        // Cache auth store to prevent repeated access
+        authUser() {
+            const authStore = useAuthStore();
+            return authStore.user;
+        },
+
+        isAdmin() {
+            return this.authUser?.role === 'ADMIN' || this.authUser?.role === 'EDITOR';
+        },
+
+        canDeleteEvents() {
+            return this.authUser?.role === 'ADMIN' || this.authUser?.role === 'EDITOR';
+        },
+
+        currentUserRole() {
+            return this.authUser?.role || 'Unknown';
+        },
+
+        isFormValid() {
+            // Use cached validation results instead of calling validation methods
+            return !this.titleError && !this.slugError && !this.descriptionError &&
+                this.eventForm.title?.trim().length >= 3 &&
+                this.eventForm.slug?.trim().length >= 3 &&
+                this.eventForm.description?.trim().length >= 10;
         }
     },
     watch: {
         'eventForm.title': {
             handler(newTitle, oldTitle) {
+                // Avoid infinite loops by checking if we're already processing
+                if (this._updatingSlug) return;
+
                 // Only auto-generate if we're creating a new event and title actually changed
                 if (!this.editingEvent && newTitle && newTitle !== oldTitle && newTitle.trim()) {
                     // Clear previous timeout to prevent overlapping
@@ -390,7 +426,7 @@ export default {
 
                     this.slugGenerationTimeout = setTimeout(() => {
                         // Double-check we're still in create mode and title is still the same
-                        if (!this.editingEvent && this.eventForm.title === newTitle) {
+                        if (!this.editingEvent && this.eventForm.title === newTitle && this.eventForm.title.trim()) {
                             // Auto-generate slug from title (without timestamp)
                             let newSlug = newTitle
                                 .toLowerCase()
@@ -398,9 +434,15 @@ export default {
                                 .replace(/(^-|-$)/g, '')
                                 .replace(/-+/g, '-'); // Replace multiple hyphens with single
 
-                            // Only update if the slug would actually change to prevent recursive updates
-                            if (this.eventForm.slug !== newSlug) {
+                            // Only update if the slug would actually change and is not empty to prevent recursive updates
+                            if (newSlug && this.eventForm.slug !== newSlug) {
+                                // Set flag to prevent infinite loops
+                                this._updatingSlug = true;
                                 this.eventForm.slug = newSlug;
+                                // Clear flag after DOM update
+                                this.$nextTick(() => {
+                                    this._updatingSlug = false;
+                                });
                             }
                         }
                         // Clear the timeout reference
@@ -624,6 +666,9 @@ export default {
             this.slugError = ''
             this.descriptionError = ''
 
+            // Set flag to prevent watcher conflicts during form initialization
+            this._updatingSlug = true;
+
             if (event) {
                 // Edit mode
                 this.eventForm = {
@@ -640,19 +685,38 @@ export default {
                 // Create mode
                 this.resetForm()
             }
-            this.eventDialog = true
+
+            // Clear flag after DOM update
+            this.$nextTick(() => {
+                this._updatingSlug = false;
+                this.eventDialog = true;
+            });
         },
 
         resetForm() {
-            // Clear any pending slug generation
+            // Clear any pending timeouts
             if (this.slugGenerationTimeout) {
                 clearTimeout(this.slugGenerationTimeout);
                 this.slugGenerationTimeout = null;
             }
+            if (this.titleValidationTimeout) {
+                clearTimeout(this.titleValidationTimeout);
+                this.titleValidationTimeout = null;
+            }
+            if (this.slugValidationTimeout) {
+                clearTimeout(this.slugValidationTimeout);
+                this.slugValidationTimeout = null;
+            }
+            if (this.descriptionValidationTimeout) {
+                clearTimeout(this.descriptionValidationTimeout);
+                this.descriptionValidationTimeout = null;
+            }
 
-            // Reset retry flag
+            // Reset retry flag and update flag
             this.hasTriedRetry = false;
+            this._updatingSlug = true; // Prevent watcher from running during reset
 
+            // Reset form data
             this.eventForm = {
                 title: '',
                 slug: '',
@@ -668,17 +732,29 @@ export default {
             this.titleError = ''
             this.slugError = ''
             this.descriptionError = ''
+
+            // Clear flag after form is reset
+            this.$nextTick(() => {
+                this._updatingSlug = false;
+            });
         },
 
         generateSlugFromTitle() {
             if (this.eventForm.title) {
+                // Set flag to prevent watcher conflicts
+                this._updatingSlug = true;
+
                 this.eventForm.slug = this.eventForm.title
                     .toLowerCase()
                     .replace(/[^a-z0-9]+/g, '-')  // Replace non-alphanumeric characters with hyphens
                     .replace(/(^-|-$)/g, '')      // Remove leading/trailing hyphens
                     .replace(/-+/g, '-');         // Replace multiple hyphens with a single one
 
-                this.validateSlug();
+                // Clear flag after DOM update
+                this.$nextTick(() => {
+                    this._updatingSlug = false;
+                    this.validateSlug();
+                });
 
                 this.toast.add({
                     severity: 'info',
@@ -694,59 +770,6 @@ export default {
                     life: 3000
                 });
             }
-        },
-
-        validateTitle() {
-            this.titleError = ''
-            if (!this.eventForm.title || this.eventForm.title.trim().length < 3) {
-                this.titleError = 'Title must be at least 3 characters long'
-                return false
-            }
-            if (this.eventForm.title.trim().length > 200) {
-                this.titleError = 'Title must be less than 200 characters'
-                return false
-            }
-            return true
-        },
-
-        validateSlug() {
-            this.slugError = ''
-            if (!this.eventForm.slug || this.eventForm.slug.trim().length < 3) {
-                this.slugError = 'Slug must be at least 3 characters long'
-                return false
-            }
-            if (this.eventForm.slug.trim().length > 100) {
-                this.slugError = 'Slug must be less than 100 characters'
-                return false
-            }
-            // Check for valid slug format
-            const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
-            if (!slugRegex.test(this.eventForm.slug)) {
-                this.slugError = 'Slug can only contain lowercase letters, numbers, and hyphens'
-                return false
-            }
-            return true
-        },
-
-        validateDescription() {
-            this.descriptionError = ''
-            if (!this.eventForm.description || this.eventForm.description.trim().length < 10) {
-                this.descriptionError = 'Description must be at least 10 characters long'
-                return false
-            }
-            if (this.eventForm.description.trim().length > 5000) {
-                this.descriptionError = 'Description must be less than 5000 characters'
-                return false
-            }
-            return true
-        },
-
-        validateForm() {
-            const titleValid = this.validateTitle()
-            const slugValid = this.validateSlug()
-            const descriptionValid = this.validateDescription()
-
-            return titleValid && slugValid && descriptionValid
         },
 
         async saveEvent() {
@@ -770,13 +793,12 @@ export default {
                         detail: 'You are not properly authenticated. Please log in again.',
                         life: 5000
                     });
-                    await authStore.logout();
-                    await navigateTo('/login');
+                    window.location.href = '/login';
                     return;
                 }
 
                 // Validate required fields
-                if (!this.validateForm()) {
+                if (!this.isFormValid) {
                     console.log('Form validation failed');
                     this.toast.add({
                         severity: 'error',
@@ -967,7 +989,7 @@ export default {
                     });
                     const authStore = useAuthStore();
                     await authStore.logout();
-                    await navigateTo('/login');
+                    window.location.href = '/login';
                 } else if (error.status === 403 || error.statusCode === 403) {
                     this.toast.add({
                         severity: 'error',
@@ -1275,6 +1297,17 @@ export default {
 
         async deleteEvent(eventId) {
             try {
+                // Check if user has admin permissions
+                if (!this.canDeleteEvents) {
+                    this.toast.add({
+                        severity: 'error',
+                        summary: 'Permission Denied',
+                        detail: 'Only administrators and editors can delete events.',
+                        life: 5000
+                    });
+                    return;
+                }
+
                 // Check authentication before attempting delete
                 const authStore = useAuthStore();
                 if (!authStore.isAuthenticated || !authStore.accessToken) {
@@ -1284,11 +1317,30 @@ export default {
                         detail: 'Please log in again to delete events.',
                         life: 5000
                     });
-                    // Do logout first before navigation
-                    await authStore.logout();
                     // Use window.location for reliable navigation that doesn't create promise issues
                     window.location.href = '/login';
                     return;
+                }
+
+                // Try to refresh token if it might be expired
+                if (authStore.refreshToken) {
+                    try {
+                        const refreshSuccess = await authStore.refreshAccessToken();
+                        if (!refreshSuccess) {
+                            this.toast.add({
+                                severity: 'error',
+                                summary: 'Session Expired',
+                                detail: 'Please log in again',
+                                life: 5000
+                            });
+                            window.location.href = '/login';
+                            return;
+                        }
+                    } catch (refreshError) {
+                        console.warn('Token refresh failed during delete:', refreshError);
+                        window.location.href = '/login';
+                        return;
+                    }
                 }
 
                 // Delete the event
@@ -1321,14 +1373,13 @@ export default {
                         detail: 'Your session has expired. Please log in again.',
                         life: 5000
                     });
-                    const authStore = useAuthStore();
-                    await authStore.logout();
-                    await navigateTo('/login');
+                    // Use window.location instead of navigateTo to avoid promise issues
+                    window.location.href = '/login';
                 } else if (error.status === 403 || error.statusCode === 403) {
                     this.toast.add({
                         severity: 'error',
-                        summary: 'Permission Error',
-                        detail: 'You do not have permission to delete this event.',
+                        summary: 'Permission Denied',
+                        detail: 'You do not have permission to delete events. Only administrators and editors can delete events.',
                         life: 5000
                     });
                 } else if (error.status === 404 || error.statusCode === 404) {
@@ -1338,6 +1389,8 @@ export default {
                         detail: 'Event not found. It may have been already deleted.',
                         life: 3000
                     });
+                    // Refresh the list since the event might have been deleted elsewhere
+                    await this.loadEvents();
                 } else {
                     this.toast.add({
                         severity: 'error',
@@ -1419,6 +1472,37 @@ export default {
                 hour: '2-digit',
                 minute: '2-digit'
             })
+        },
+
+        // Debounced validation methods to prevent infinite recursion
+        debounceValidateTitle() {
+            if (this.titleValidationTimeout) {
+                clearTimeout(this.titleValidationTimeout);
+            }
+            this.titleValidationTimeout = setTimeout(() => {
+                this.validateTitle();
+                this.titleValidationTimeout = null;
+            }, 300);
+        },
+
+        debounceValidateSlug() {
+            if (this.slugValidationTimeout) {
+                clearTimeout(this.slugValidationTimeout);
+            }
+            this.slugValidationTimeout = setTimeout(() => {
+                this.validateSlug();
+                this.slugValidationTimeout = null;
+            }, 300);
+        },
+
+        debounceValidateDescription() {
+            if (this.descriptionValidationTimeout) {
+                clearTimeout(this.descriptionValidationTimeout);
+            }
+            this.descriptionValidationTimeout = setTimeout(() => {
+                this.validateDescription();
+                this.descriptionValidationTimeout = null;
+            }, 300);
         },
 
         // Form validation methods

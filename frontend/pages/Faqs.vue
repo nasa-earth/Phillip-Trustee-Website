@@ -1,7 +1,8 @@
 <template>
     <div class="faqs-page relative">
         <!-- Hero Section with Particles -->
-        <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
+        <section
+            class="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen w-full flex items-center justify-center bg-cover bg-center overflow-hidden"
             :style="{ backgroundImage: 'url(/images/faq/faq_header.jpg)' }">
             <div class="absolute inset-0 z-0">
                 <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10">
@@ -10,7 +11,8 @@
         </section>
 
         <!-- FAQ Accordion Section -->
-        <section class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] py-16 px-4 mb-0 relative overflow-hidden">
+        <section
+            class="bg-gradient-to-b from-[#0a2b5c] to-[#081f42] py-8 sm:py-12 md:py-16 px-4 mb-0 relative overflow-hidden">
             <!-- Background Pattern -->
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -25,75 +27,82 @@
 
             <!-- Decorative Elements -->
             <div
-                class="absolute top-20 right-0 w-72 h-72 bg-[#f15a22]/10 rounded-full blur-[120px] -z-0 animate-pulse-slow">
+                class="absolute top-20 right-0 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-[#f15a22]/10 rounded-full blur-[120px] -z-0 animate-pulse-slow">
             </div>
             <div
-                class="absolute bottom-40 left-20 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-0 animate-pulse-slow animation-delay-3000">
+                class="absolute bottom-40 left-20 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[100px] -z-0 animate-pulse-slow animation-delay-3000">
             </div>
 
             <div class="container mx-auto relative z-10">
                 <div class="max-w-4xl mx-auto">
                     <!-- Loading State -->
-                    <div v-if="loading" class="text-center py-16">
-                        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-[#f15a22]"></div>
-                        <p class="text-[#e6eaf0] mt-4">Loading FAQs...</p>
+                    <div v-if="loading" class="text-center py-12 sm:py-16">
+                        <div
+                            class="inline-block animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-[#f15a22]">
+                        </div>
+                        <p class="text-[#e6eaf0] mt-4 text-sm sm:text-base">Loading FAQs...</p>
                     </div>
 
                     <!-- Error State -->
-                    <div v-else-if="error" class="text-center py-16 bg-red-500/10 rounded-2xl border border-red-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 mx-auto text-red-400 mb-4" fill="none"
-                            viewBox="0 0 24 24" stroke="currentColor">
+                    <div v-else-if="error"
+                        class="text-center py-12 sm:py-16 bg-red-500/10 rounded-2xl border border-red-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="w-12 h-12 sm:w-16 sm:h-16 mx-auto text-red-400 mb-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <p class="text-red-400 mb-4">{{ error }}</p>
+                        <p class="text-red-400 mb-4 text-sm sm:text-base">{{ error }}</p>
                         <button @click="getFaqs"
-                            class="px-4 py-2 bg-[#f15a22] text-white rounded-lg hover:bg-[#f15a22]/80 transition-colors">
+                            class="px-4 py-2 bg-[#f15a22] text-white rounded-lg hover:bg-[#f15a22]/80 transition-colors text-sm sm:text-base">
                             Try Again
                         </button>
                     </div>
 
                     <!-- FAQ Content -->
                     <div v-else>
-                        <div class="flex flex-wrap justify-between items-center mb-8"
+                        <div class="flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-2"
                             v-motion-slide-visible-once-bottom>
-                            <h2 class="text-3xl md:text-4xl font-bold text-[#e6eaf0]">
+                            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#e6eaf0]">
                                 All Questions</h2>
-                            <div class="flex items-center gap-2">
+                            <div class="flex items-center gap-2 w-full sm:w-auto">
                                 <button @click="expandAll"
-                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1 cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                    class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center justify-center gap-1 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 sm:w-4 sm:h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M19 9l-7 7-7-7" />
                                     </svg>
-                                    Expand All
+                                    <span class="hidden sm:inline">Expand All</span>
+                                    <span class="sm:hidden">Expand</span>
                                 </button>
                                 <button @click="collapseAll"
-                                    class="px-4 py-2 text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center gap-1 cursor-pointer">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                    class="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-white/10 text-[#e6eaf0] hover:bg-white/20 transition-all rounded-lg flex items-center justify-center gap-1 cursor-pointer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 sm:w-4 sm:h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M5 15l7-7 7 7" />
                                     </svg>
-                                    Collapse All
+                                    <span class="hidden sm:inline">Collapse All</span>
+                                    <span class="sm:hidden">Collapse</span>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Search Bar -->
-                        <div class="mb-6" v-motion-slide-visible-once-bottom>
+                        <div class="mb-4 sm:mb-6" v-motion-slide-visible-once-bottom>
                             <div class="relative">
                                 <input v-model="searchQuery" type="text" placeholder="Search FAQs..."
-                                    class="w-full px-4 py-3 pl-12 bg-white/10 border border-white/20 rounded-xl text-[#e6eaf0] placeholder-[#e6eaf0]/60 focus:outline-none focus:border-[#f15a22] focus:ring-2 focus:ring-[#f15a22]/20 transition-all backdrop-blur-sm">
-                                <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-[#e6eaf0]/60"
+                                    class="w-full px-4 py-3 pl-10 sm:pl-12 text-sm sm:text-base bg-white/10 border border-white/20 rounded-xl text-[#e6eaf0] placeholder-[#e6eaf0]/60 focus:outline-none focus:border-[#f15a22] focus:ring-2 focus:ring-[#f15a22]/20 transition-all backdrop-blur-sm">
+                                <svg class="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[#e6eaf0]/60"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                                 <button v-if="searchQuery" @click="searchQuery = ''"
-                                    class="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#e6eaf0]/60 hover:text-[#f15a22] transition-colors">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-[#e6eaf0]/60 hover:text-[#f15a22] transition-colors">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M6 18L18 6M6 6l12 12" />
                                     </svg>
@@ -102,65 +111,69 @@
                         </div>
 
                         <!-- Filter Categories -->
-                        <div class="flex flex-wrap gap-2 mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-3 rounded-2xl backdrop-blur-sm border border-white/10"
+                        <div class="flex flex-wrap gap-2 mb-6 sm:mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-2 sm:p-3 rounded-2xl backdrop-blur-sm border border-white/10"
                             v-motion-slide-visible-once-bottom>
                             <button @click="selectedCategory = null"
                                 :class="['category-btn cursor-pointer', !selectedCategory ? 'active' : '']">
                                 <span class="flex items-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 sm:w-4 sm:h-4" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 6h16M4 12h16M4 18h16" />
                                     </svg>
-                                    All Questions
+                                    <span class="hidden sm:inline">All Questions</span>
+                                    <span class="sm:hidden">All</span>
                                 </span>
                             </button>
                             <button v-for="category in categories" :key="category" @click="selectedCategory = category"
                                 :class="['category-btn cursor-pointer', selectedCategory === category ? 'active' : '']">
-                                {{ category }}
+                                <span class="sm:hidden">{{ category.split(' ')[0] }}</span>
+                                <span class="hidden sm:inline">{{ category }}</span>
                             </button>
                         </div>
 
                         <div v-if="filteredFaqs.length === 0"
-                            class="text-center py-16 bg-white/20 rounded-2xl shadow-md backdrop-blur-sm border border-white/10"
+                            class="text-center py-12 sm:py-16 bg-white/20 rounded-2xl shadow-md backdrop-blur-sm border border-white/10"
                             v-motion-slide-visible-once-bottom>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-20 h-20 mx-auto text-white/40 mb-4"
-                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-white/40 mb-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
-                            <p class="text-xl text-[#e6eaf0]/80 mb-4">No questions found matching your search</p>
+                            <p class="text-lg sm:text-xl text-[#e6eaf0]/80 mb-4">No questions found matching your search
+                            </p>
                             <button @click="clearSearch"
-                                class="px-6 py-2 bg-gradient-to-r from-[#f15a22] to-orange-500 text-white rounded-lg hover:shadow-lg hover:shadow-[#f15a22]/30 transition-all transform hover:translate-y-[-2px]">
+                                class="px-4 sm:px-6 py-2 bg-gradient-to-r from-[#f15a22] to-orange-500 text-white rounded-lg hover:shadow-lg hover:shadow-[#f15a22]/30 transition-all transform hover:translate-y-[-2px] text-sm sm:text-base">
                                 Clear Search
                             </button>
                         </div>
 
-                        <div v-else class="space-y-4">
+                        <div v-else class="space-y-3 sm:space-y-4">
                             <div v-for="(faq, idx) in filteredFaqs" :key="faq.id || idx"
                                 class="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-xl shadow-md border border-white/10 transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/30"
                                 v-motion-slide-visible-once-bottom :style="{ animationDelay: `${idx * 100}ms` }">
                                 <button
-                                    class="w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none cursor-pointer"
+                                    class="w-full flex justify-between items-center px-4 sm:px-6 py-4 sm:py-5 text-left focus:outline-none cursor-pointer"
                                     @click="toggle(getFaqIndex(faq))">
-                                    <span class="flex-1 pr-4">
+                                    <span class="flex-1 pr-3 sm:pr-4">
                                         <span v-if="searchQuery" v-html="highlightSearch(faq.question)"
-                                            class="text-lg font-semibold"
+                                            class="text-base sm:text-lg font-semibold"
                                             :class="faq.open ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#e6eaf0]'"></span>
-                                        <span v-else class="text-lg font-semibold"
+                                        <span v-else class="text-base sm:text-lg font-semibold"
                                             :class="faq.open ? 'text-transparent bg-clip-text bg-gradient-to-r from-[#f15a22] to-[#f97949]' : 'text-[#e6eaf0]'">
                                             {{ faq.question }}
                                         </span>
                                     </span>
-                                    <div class="flex items-center gap-3">
-                                        <span class="hidden sm:block text-sm px-3 py-1 rounded-full"
+                                    <div class="flex items-center gap-2 sm:gap-3">
+                                        <span class="hidden sm:block text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full"
                                             :class="faq.open ? 'bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 text-[#f15a22] shadow-sm' : 'bg-white/10 text-[#e6eaf0]/80'">
                                             {{ getCategoryFromQuestion(faq.question) }}
                                         </span>
                                         <span
-                                            class="h-8 w-8 flex items-center justify-center rounded-full transition-all duration-300"
+                                            class="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full transition-all duration-300"
                                             :class="faq.open ? 'bg-gradient-to-r from-[#f15a22] to-orange-500 text-white shadow-md shadow-[#f15a22]/20' : 'bg-white/10 text-[#e6eaf0]'">
-                                            <svg :class="['w-4 h-4 transition-transform duration-300', { 'rotate-180': faq.open }]"
+                                            <svg :class="['w-3 h-3 sm:w-4 sm:h-4 transition-transform duration-300', { 'rotate-180': faq.open }]"
                                                 fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M19 9l-7 7-7-7" />
@@ -170,11 +183,12 @@
                                 </button>
                                 <transition name="accordion">
                                     <div v-if="faq.open"
-                                        class="px-6 pb-6 border-t border-white/10 pt-4 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-sm">
+                                        class="px-4 sm:px-6 pb-4 sm:pb-6 border-t border-white/10 pt-3 sm:pt-4 bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-sm">
                                         <div v-if="searchQuery" v-html="highlightSearch(faq.answer)"
-                                            class="prose text-[#e6eaf0]/90 leading-relaxed max-w-none"></div>
+                                            class="prose text-[#e6eaf0]/90 leading-relaxed max-w-none text-sm sm:text-base">
+                                        </div>
                                         <div v-else v-html="faq.answer"
-                                            class="prose text-[#e6eaf0]/90 leading-relaxed max-w-none">
+                                            class="prose text-[#e6eaf0]/90 leading-relaxed max-w-none text-sm sm:text-base">
                                         </div>
                                     </div>
                                 </transition>
@@ -472,9 +486,9 @@ export default {
 
 /* Category Buttons */
 .category-btn {
-    padding: 0.5rem 1rem;
+    padding: 0.375rem 0.75rem;
     border-radius: 9999px;
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     font-weight: 500;
     background-color: rgba(255, 255, 255, 0.1);
     color: #e6eaf0;
@@ -483,6 +497,13 @@ export default {
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(10px);
+}
+
+@media (min-width: 640px) {
+    .category-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
 }
 
 .category-btn:hover {

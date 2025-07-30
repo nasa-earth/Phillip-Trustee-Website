@@ -2,14 +2,17 @@
     <div class="min-h-screen bg-lightgray">
 
         <!-- Hero Section -->
-        <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
-            backgroundImage: 'url(/images/about/2_about.jpg)',
-        }">
+        <section
+            class="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen w-full flex items-center justify-center bg-cover bg-center"
+            :style="{
+                backgroundImage: 'url(/images/about/2_about.jpg)',
+            }">
             <!-- Overlay -->
             <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
         </section>
 
-        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
+        <section
+            class="bg-[#0a2b5c] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -22,17 +25,19 @@
             </div>
 
             <div class="container mx-auto relative z-10">
-                <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-4xl font-semibold text-[#e6eaf0] mb-4">About Us</h2>
+                <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up"
+                    data-aos-duration="800">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#e6eaf0] mb-4">About Us</h2>
                     <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
                 </div>
 
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-12 mx-[100px]">
+                <div
+                    class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10 md:gap-12 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[100px]">
                     <!-- Left Side: Overlapping Images with Animation -->
-                    <div class="w-full lg:w-1/3 relative flex justify-center" data-aos="fade-right"
+                    <div class="w-full lg:w-1/3 relative flex justify-center mb-8 lg:mb-0" data-aos="fade-right"
                         data-aos-duration="1000">
                         <!-- Back Image -->
-                        <div class="w-[300px] md:w-[350px] lg:w-[400px] rounded-xl overflow-hidden shadow-xl z-10 
+                        <div class="w-[250px] sm:w-[280px] md:w-[320px] lg:w-[350px] xl:w-[400px] rounded-xl overflow-hidden shadow-xl z-10 
                       transform hover:translate-y-2 transition-all duration-500 hover:shadow-orange-500/30">
                             <img src="~/assets/images/about/2-phillip-bank.jpg" alt="Phillip Trustee Office"
                                 class="w-full h-auto object-cover border-3 border-white rounded-xl" />
@@ -40,7 +45,7 @@
 
                         <!-- Front Image (Overlap) -->
                         <div
-                            class="absolute top-1/2 left-1/2 translate-x-[-20%] translate-y-[5%] w-[300px] md:w-[350px] lg:w-[400px] 
+                            class="absolute top-1/2 left-1/2 translate-x-[-20%] translate-y-[5%] w-[250px] sm:w-[280px] md:w-[320px] lg:w-[350px] xl:w-[400px] 
                       rounded-xl overflow-hidden shadow-xl z-20 border-3 border-white
                       transform hover:-translate-y-2 hover:translate-x-[-15%] transition-all duration-500 hover:shadow-orange-500/30">
                             <img src="~/assets/images/about/1-phillip-bank.jpg" alt="Phillip Trustee Reception"
@@ -49,17 +54,19 @@
                     </div>
 
                     <!-- Right Side: Content with Animation -->
-                    <div class="w-full lg:w-1/2 space-y-8" data-aos="fade-left" data-aos-duration="1000"
+                    <div class="w-full lg:w-1/2 space-y-6 sm:space-y-8" data-aos="fade-left" data-aos-duration="1000"
                         data-aos-delay="200">
                         <div
-                            class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
+                            class="flex items-start gap-3 sm:gap-4 bg-[#13325e] p-4 sm:p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
                             <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
-                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                                <img src="/images/icons/check.png" alt="Check"
+                                    class="w-5 h-5 sm:w-6 sm:h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Origins</h3>
-                                <p class="text-[#e6eaf0] text-lg">
-                                    <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co Ltd.</strong>
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2 text-[#f15a22]">Our Origins</h3>
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
+                                    <strong class="text-[#e6eaf0] text-base sm:text-lg">Phillip Trustee (Cambodia), Co
+                                        Ltd.</strong>
                                     was
                                     incorporated in June 2022, after the Law of Trust was passed in 2019, allowing
                                     foreigners to register their fixed assets with trustee companies in Cambodia. Our
@@ -69,14 +76,16 @@
                             </div>
                         </div>
                         <div
-                            class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
+                            class="flex items-start gap-3 sm:gap-4 bg-[#13325e] p-4 sm:p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
                             <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
-                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                                <img src="/images/icons/check.png" alt="Check"
+                                    class="w-5 h-5 sm:w-6 sm:h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Affiliations</h3>
-                                <p class="text-[#e6eaf0] text-lg">
-                                    We are the associated company of <strong class="text-[#e6eaf0] text-lg">Phillip
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2 text-[#f15a22]">Our Affiliations</h3>
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
+                                    We are the associated company of <strong
+                                        class="text-[#e6eaf0] text-base sm:text-lg">Phillip
                                         Bank,
                                         Plc</strong>, one of the medium-sized commercial banks in Cambodia, part of the
                                     Phillip Capital group in Singapore, and a sister company of Phillip General
@@ -85,14 +94,16 @@
                             </div>
                         </div>
                         <div
-                            class="flex items-start gap-4 bg-[#13325e] p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
+                            class="flex items-start gap-3 sm:gap-4 bg-[#13325e] p-4 sm:p-6 rounded-lg hover:bg-[#1a3e70] transition-all duration-300 shadow-lg">
                             <div class="flex-shrink-0 transition-transform duration-300 transform hover:scale-125">
-                                <img src="/images/icons/check.png" alt="Check" class="w-6 h-6 mt-1 object-contain" />
+                                <img src="/images/icons/check.png" alt="Check"
+                                    class="w-5 h-5 sm:w-6 sm:h-6 mt-1 object-contain" />
                             </div>
                             <div>
-                                <h3 class="text-xl font-semibold mb-2 text-[#f15a22]">Our Approach</h3>
-                                <p class="text-[#e6eaf0] text-lg">
-                                    At <strong class="text-[#e6eaf0] text-lg">Phillip Trustee (Cambodia), Co
+                                <h3 class="text-lg sm:text-xl font-semibold mb-2 text-[#f15a22]">Our Approach</h3>
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
+                                    At <strong class="text-[#e6eaf0] text-base sm:text-lg">Phillip Trustee (Cambodia),
+                                        Co
                                         Ltd.</strong>, we
                                     believe in a financial and non-financial ecosystem that provides suitable services
                                     to investors and customers throughout Cambodia, including commercial, public, social
@@ -105,29 +116,33 @@
             </div>
         </section>
 
-        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
+        <section
+            class="bg-[#0a2b5c] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 bg-gradient-radial from-blue-900/20 to-transparent"></div>
             <div class="container mx-auto relative z-10">
-                <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Phillip Members (Cambodia Offices)</h2>
+                <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up"
+                    data-aos-duration="800">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Phillip Members (Cambodia
+                        Offices)</h2>
                     <!-- <div class="w-32 h-1 bg-orange-500"></div> -->
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mx-[180px]" data-aos="fade-up"
-                    data-aos-delay="200">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[180px]"
+                    data-aos="fade-up" data-aos-delay="200">
                     <!-- Card 1: Phillip Bank -->
                     <div class="group">
                         <div class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20">
-                            <div class="overflow-hidden h-56">
+                            <div class="overflow-hidden h-48 sm:h-52 md:h-56">
                                 <img src="~/assets/images/about/1-phillip-bank.jpg" alt="Phillip Bank"
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
-                            <div class="p-6">
-                                <div class="mb-4">
-                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip Bank</h3>
+                            <div class="p-4 sm:p-5 md:p-6">
+                                <div class="mb-3 sm:mb-4">
+                                    <h3 class="text-lg sm:text-xl text-center font-semibold text-[#f15a22]">Phillip Bank
+                                    </h3>
                                 </div>
-                                <p class="text-[#e6eaf0] text-lg">
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
                                     One of the commercial banks in Cambodia, providing
                                     comprehensive banking services to individuals and businesses.
                                 </p>
@@ -140,18 +155,19 @@
                     <div class="group">
                         <div class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20">
-                            <div class="overflow-hidden h-56">
+                            <div class="overflow-hidden h-48 sm:h-52 md:h-56">
                                 <img src="~/assets/images/about/1-phillip-general-insurance.png"
                                     alt="Phillip General Insurance"
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
-                            <div class="p-6">
-                                <div class="mb-4">
-                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip General
+                            <div class="p-4 sm:p-5 md:p-6">
+                                <div class="mb-3 sm:mb-4">
+                                    <h3 class="text-lg sm:text-xl text-center font-semibold text-[#f15a22]">Phillip
+                                        General
                                         Insurance
                                     </h3>
                                 </div>
-                                <p class="text-[#e6eaf0] text-lg">
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
                                     Offering a wide range of insurance products designed to protect individuals
                                     and businesses across Cambodia.
                                 </p>
@@ -164,15 +180,16 @@
                     <div class="group">
                         <div class="bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20">
-                            <div class="overflow-hidden h-56">
+                            <div class="overflow-hidden h-48 sm:h-52 md:h-56">
                                 <img src="~/assets/images/about/1-phillip-trustee.jpg" alt="Phillip Trustee"
                                     class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
                             </div>
-                            <div class="p-6">
-                                <div class="mb-4">
-                                    <h3 class="text-xl text-center font-semibold text-[#f15a22]">Phillip Trustee</h3>
+                            <div class="p-4 sm:p-5 md:p-6">
+                                <div class="mb-3 sm:mb-4">
+                                    <h3 class="text-lg sm:text-xl text-center font-semibold text-[#f15a22]">Phillip
+                                        Trustee</h3>
                                 </div>
-                                <p class="text-[#e6eaf0] text-lg">
+                                <p class="text-[#e6eaf0] text-base sm:text-lg">
                                     Providing comprehensive trust services enabling foreign investors
                                     to own and manage their assets in Cambodia.
                                 </p>
@@ -183,11 +200,12 @@
                 </div>
             </div>
         </section>
-        <section id="goal" class="relative py-32 px-8 bg-[#0e2a52]" data-aos="fade-up" data-aos-duration="1200">
+        <section id="goal" class="relative py-16 sm:py-20 md:py-24 lg:py-32 px-4 sm:px-6 md:px-8 bg-[#0e2a52]"
+            data-aos="fade-up" data-aos-duration="1200">
             <div class="max-w-6xl mx-auto">
                 <!-- Header -->
-                <div class="text-center mb-16" data-aos="fade-down" data-aos-duration="1000">
-                    <h2 class="text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4">Goals</h2>
+                <div class="text-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-down" data-aos-duration="1000">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4">Goals</h2>
                 </div>
 
                 <!-- Timeline -->
@@ -197,7 +215,7 @@
                         data-aos="height" data-aos-duration="1500"></div>
 
                     <!-- Timeline Items -->
-                    <div class="space-y-16">
+                    <div class="space-y-8 sm:space-y-12 md:space-y-16">
                         <template v-for="(goal, index) in goals" :key="index">
                             <div class="relative group" :data-aos="index % 2 === 0 ? 'fade-right' : 'fade-left'"
                                 :data-aos-delay="index * 100" data-aos-duration="1000" :class="{
@@ -208,39 +226,41 @@
                                     'md:w-1/2': true,
                                     'md:ml-auto md:pl-16': index % 2 === 0,
                                     'md:mr-auto': index % 2 === 1,
-                                    'pl-8': true,
+                                    'pl-4 sm:pl-6 md:pl-8': true,
                                 }">
                                     <!-- Timeline Dot -->
                                     <div
-                                        class="hidden md:block absolute left-0 md:left-[calc(50%-0.625rem)] top-0 w-5 h-5 rounded-full border-4 border-orange-500 bg-white group-hover:scale-150 transition-transform duration-300">
+                                        class="hidden md:block absolute left-0 md:left-[calc(50%-0.625rem)] top-0 w-4 h-4 sm:w-5 sm:h-5 rounded-full border-3 sm:border-4 border-orange-500 bg-white group-hover:scale-150 transition-transform duration-300">
                                     </div>
 
                                     <!-- Goal Card -->
                                     <div
-                                        class="relative text-[#e6eaf0] p-4 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
-                                        <div class="flex items-center gap-3 mb-4">
-                                            <img :src="goal.image" :alt="goal.title" class="w-8 h-8 object-contain" />
+                                        class="relative text-[#e6eaf0] p-3 sm:p-4 md:p-4 rounded-2xl shadow-lg transition-all duration-300 hover:-translate-y-2">
+                                        <div class="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                                            <img :src="goal.image" :alt="goal.title"
+                                                class="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 object-contain" />
                                             <!-- Fallback to emoji icon if image doesn't load -->
-                                            <span v-if="!goal.image" class="text-2xl">{{ goal.icon }}</span>
-                                            <h3 class="text-xl font-bold">{{ goal.title }}</h3>
+                                            <span v-if="!goal.image" class="text-xl sm:text-2xl">{{ goal.icon }}</span>
+                                            <h3 class="text-lg sm:text-xl font-bold">{{ goal.title }}</h3>
                                         </div>
 
                                         <!-- Large image below title and above content -->
-                                        <div v-if="goal.largeImage" class="my-6 rounded-lg overflow-hidden shadow-md">
+                                        <div v-if="goal.largeImage"
+                                            class="my-4 sm:my-6 rounded-lg overflow-hidden shadow-md">
                                             <img :src="goal.largeImage" :alt="`${goal.title} illustration`"
-                                                class="w-full h-72 object-cover object-center hover:scale-105 transition-transform duration-500" />
+                                                class="w-full h-48 sm:h-56 md:h-64 lg:h-72 object-cover object-center hover:scale-105 transition-transform duration-500" />
                                         </div>
 
-                                        <p v-if="goal.type === 'text'" class="text-[#e6eaf0] text-lg">
+                                        <p v-if="goal.type === 'text'" class="text-[#e6eaf0] text-base sm:text-lg">
                                             {{ goal.description }}
                                         </p>
 
-                                        <ul v-if="goal.type === 'list'" class="space-y-3 mt-2">
+                                        <ul v-if="goal.type === 'list'" class="space-y-2 sm:space-y-3 mt-2">
                                             <li v-for="(item, i) in goal.description" :key="i"
                                                 class="flex items-start gap-2">
                                                 <img src="/images/icons/check.png" alt="Check"
-                                                    class="w-5 h-5 mt-1 object-contain flex-shrink-0" />
-                                                <span>{{ item }}</span>
+                                                    class="w-4 h-4 sm:w-5 sm:h-5 mt-1 object-contain flex-shrink-0" />
+                                                <span class="text-sm sm:text-base">{{ item }}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -253,12 +273,13 @@
         </section>
 
         <!-- Partners Section -->
-        <section class="bg-[#0a2b5c] py-16 px-4">
-            <div class="container mx-auto mb-12">
-                <div class="flex flex-col items-center mb-12">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
+        <section class="bg-[#0a2b5c] py-12 sm:py-14 md:py-16 px-4">
+            <div class="container mx-auto mb-8 sm:mb-10 md:mb-12">
+                <div class="flex flex-col items-center mb-8 sm:mb-10 md:mb-12">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners
+                    </h2>
                     <!-- <div class="w-24 h-1 text-[#f15a22]"></div> -->
-                        <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
+                    <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                             We collaborate with leading organizations across Cambodia to provide the best service to our
                             clients.
                         </p> -->

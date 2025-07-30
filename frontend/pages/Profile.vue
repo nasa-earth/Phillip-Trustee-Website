@@ -1,16 +1,19 @@
 <template>
     <div class="min-h-screen bg-[#e6eaf0]"> <!-- Hero Section -->
         <!-- Hero Section -->
-        <section class="relative h-screen w-full flex items-center justify-center bg-cover bg-center" :style="{
-            backgroundImage: 'url(/images/profile/profile_header.jpg)',
-        }">
+        <section
+            class="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-screen w-full flex items-center justify-center bg-cover bg-center"
+            :style="{
+                backgroundImage: 'url(/images/profile/profile_header.jpg)',
+            }">
             <!-- Overlay -->
             <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
 
         </section>
 
         <!-- Management Profiles -->
-        <section class="bg-[#0a2b5c] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
+        <section
+            class="bg-[#0a2b5c] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -23,44 +26,53 @@
             </div>
 
             <div class="container mx-auto relative z-10">
-                <div class="flex flex-col items-center mb-16" data-aos="fade-up" data-aos-duration="800">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Our Leadership Team</h2>
+                <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up"
+                    data-aos-duration="800">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Our Leadership Team</h2>
                     <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
-                    <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
+                    <p class="text-[#e6eaf0] text-center text-base sm:text-lg md:text-xl mt-4 sm:mt-6 max-w-2xl px-4">
                         Meet the dedicated professionals leading Phillip Trustee to excellence in Cambodia's financial
                         services.
                     </p>
                 </div>
 
                 <!-- Container adjusted for the layout -->
-                <div class="mx-auto max-w-7xl px-4 py-10">
+                <div class="mx-auto max-w-7xl px-4 py-6 sm:py-8 md:py-10">
                     <!-- Top row: 3 members -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center mb-20 mx-20">
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center mb-12 sm:mb-16 md:mb-20 mx-0 sm:mx-4 md:mx-8 lg:mx-20">
                         <div v-for="(manager, idx) in managers.slice(0, 3)" :key="manager.name" @click="openModal(idx)"
-                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-4 rounded-xl hover:bg-white/10">
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl hover:bg-white/10 mb-8 sm:mb-0">
                             <div
-                                class="w-55 h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
+                                class="w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 lg:w-55 lg:h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
                                 <img :src="manager.image" :alt="manager.name"
                                     class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110" />
                             </div>
-                            <h3 class="mt-4 text-2xl font-bold text-[#f15a22] mb-2 transition-colors duration-300">{{
-                                manager.name }}</h3>
-                            <p class="text-xl text-white/90 transition-colors duration-300">{{ manager.title }}</p>
+                            <h3
+                                class="mt-3 sm:mt-4 text-lg sm:text-xl md:text-2xl font-bold text-[#f15a22] mb-1 sm:mb-2 transition-colors duration-300">
+                                {{
+                                    manager.name }}</h3>
+                            <p class="text-base sm:text-lg md:text-xl text-white/90 transition-colors duration-300">{{
+                                manager.title }}</p>
                         </div>
                     </div>
 
                     <!-- Bottom row: 2 members centered -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-1 justify-center mx-60">
+                    <div
+                        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-1 justify-center mx-0 sm:mx-8 md:mx-16 lg:mx-32 xl:mx-60">
                         <div v-for="(manager, idx) in managers.slice(3)" :key="manager.name" @click="openModal(idx + 3)"
-                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-4 rounded-xl hover:bg-white/10">
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl hover:bg-white/10">
                             <div
-                                class="w-55 h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
+                                class="w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 lg:w-55 lg:h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
                                 <img :src="manager.image" :alt="manager.name"
                                     class="w-full h-full object-cover transform transition-transform duration-300 hover:scale-110 " />
                             </div>
-                            <h3 class="mt-4 text-2xl font-bold text-[#f15a22] transition-colors duration-300">{{ manager.name
+                            <h3
+                                class="mt-3 sm:mt-4 text-lg sm:text-xl md:text-2xl font-bold text-[#f15a22] transition-colors duration-300">
+                                {{ manager.name
                                 }}</h3>
-                            <p class="text-xl text-white/90 transition-colors duration-300">{{ manager.title }}</p>
+                            <p class="text-base sm:text-lg md:text-xl text-white/90 transition-colors duration-300">{{
+                                manager.title }}</p>
                         </div>
                     </div>
                 </div>
@@ -71,31 +83,35 @@
                 <div v-if="modalOpen"
                     class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
                     <div
-                        class="bg-white max-w-4xl w-full rounded-xl shadow-2xl p-8 relative overflow-y-auto max-h-[90vh] text-[#13325e]">
+                        class="bg-white max-w-4xl w-full rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 relative overflow-y-auto max-h-[90vh] text-[#13325e]">
 
                         <!-- Close Button -->
                         <button @click="closeModal"
-                            class="absolute top-4 right-4 text-[#13325e] hover:text-[#f15a22] text-3xl font-bold focus:outline-none cursor-pointer">
+                            class="absolute top-2 right-2 sm:top-4 sm:right-4 text-[#13325e] hover:text-[#f15a22] text-2xl sm:text-3xl font-bold focus:outline-none cursor-pointer">
                             &times;
                         </button>
 
                         <!-- Top Row: Image, Name, and Title -->
-                        <div class="flex items-center gap-8 mb-8 border-b pb-6">
+                        <div
+                            class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 md:gap-8 mb-6 sm:mb-8 border-b pb-4 sm:pb-6">
                             <!-- Profile Image -->
-                            <div class="flex-shrink-0 w-36 h-36 rounded-full overflow-hidden">
+                            <div
+                                class="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 rounded-full overflow-hidden">
                                 <img :src="selectedManager.image" :alt="selectedManager.name"
                                     class="w-full h-full object-cover" />
                             </div>
 
                             <!-- Name and Title -->
-                            <div class="flex-1">
-                                <h3 class="text-3xl font-bold text-[#13325e] mb-2">{{ selectedManager.name }}</h3>
-                                <p class="text-xl font-medium text-[#13325e]/80">{{ selectedManager.title }}</p>
+                            <div class="flex-1 text-center sm:text-left">
+                                <h3 class="text-xl sm:text-2xl md:text-3xl font-bold text-[#13325e] mb-1 sm:mb-2">{{
+                                    selectedManager.name }}</h3>
+                                <p class="text-base sm:text-lg md:text-xl font-medium text-[#13325e]/80">{{
+                                    selectedManager.title }}</p>
                             </div>
                         </div>
 
                         <!-- Bottom Row: Description -->
-                        <div class="text-[#0a2b5c] text-lg leading-relaxed whitespace-pre-line">
+                        <div class="text-[#0a2b5c] text-sm sm:text-base md:text-lg leading-relaxed whitespace-pre-line">
                             {{ selectedManager.desc }}
                         </div>
                     </div>
@@ -105,10 +121,11 @@
         </section>
 
         <!-- Partners Section -->
-        <section class="bg-[#13325e] text-[#e6eaf0] py-16 px-4 relative">
-            <div class="container mx-auto mb-8">
-                <div class="flex flex-col items-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners</h2>
+        <section class="bg-[#13325e] text-[#e6eaf0] py-12 sm:py-14 md:py-16 px-4 relative">
+            <div class="container mx-auto mb-6 sm:mb-8">
+                <div class="flex flex-col items-center mb-8 sm:mb-10">
+                    <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners
+                    </h2>
                     <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
                         We collaborate with leading organizations across Cambodia to provide the best service to our
                         clients.

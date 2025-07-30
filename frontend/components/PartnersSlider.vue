@@ -4,18 +4,19 @@
         <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-transparent z-10"></div>
 
         <!-- Show loading state -->
-        <div v-if="loading" class="flex justify-center items-center h-24">
-            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div v-if="loading" class="flex justify-center items-center h-16 sm:h-20 md:h-24">
+            <div class="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-blue-600"></div>
         </div>
 
         <!-- Show error state -->
-        <div v-else-if="error" class="flex justify-center items-center h-24 text-red-500">
-            <p>{{ error }}</p>
+        <div v-else-if="error" class="flex justify-center items-center h-16 sm:h-20 md:h-24 text-red-500">
+            <p class="text-sm sm:text-base">{{ error }}</p>
         </div>
 
         <!-- Show empty state -->
-        <div v-else-if="!partners || partners.length === 0" class="flex justify-center items-center h-24 text-gray-500">
-            <p>No partners to display</p>
+        <div v-else-if="!partners || partners.length === 0"
+            class="flex justify-center items-center h-16 sm:h-20 md:h-24 text-gray-500">
+            <p class="text-sm sm:text-base">No partners to display</p>
         </div>
 
         <!-- Main slider container -->
@@ -24,8 +25,8 @@
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`first-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.logo || partner.image" :alt="'Partner logo'" class="h-full object-contain px-4"
-                        @error="onImageError" />
+                    <img :src="partner.logo || partner.image" :alt="'Partner logo'"
+                        class="h-full object-contain px-2 sm:px-3 md:px-4" @error="onImageError" />
                 </div>
             </div>
 
@@ -33,8 +34,8 @@
             <div class="partners-track" :style="{ animationDuration: `${speed}s` }">
                 <div v-for="(partner, index) in partners" :key="`second-${index}`" class="partner-item"
                     :class="[imageSize]">
-                    <img :src="partner.logo || partner.image" :alt="'Partner logo'" class="h-full object-contain px-4"
-                        @error="onImageError" />
+                    <img :src="partner.logo || partner.image" :alt="'Partner logo'"
+                        class="h-full object-contain px-2 sm:px-3 md:px-4" @error="onImageError" />
                 </div>
             </div>
         </div>
@@ -74,9 +75,9 @@ export default {
     computed: {
         imageSize() {
             switch (this.size) {
-                case 'small': return 'w-32 h-16';
-                case 'large': return 'w-64 h-32';
-                default: return 'w-36 h-18'; // medium
+                case 'small': return 'w-24 h-12 sm:w-28 sm:h-14 md:w-32 md:h-16';
+                case 'large': return 'w-48 h-24 sm:w-56 sm:h-28 md:w-64 md:h-32';
+                default: return 'w-28 h-14 sm:w-32 sm:h-16 md:w-36 md:h-18'; // medium
             }
         }
     },
@@ -108,7 +109,20 @@ export default {
 .partners-slider-wrapper {
     width: 100%;
     margin: 0 auto;
-    padding: 20px 0;
+    padding: 12px 0;
+}
+
+/* Mobile-first responsive padding */
+@media (min-width: 640px) {
+    .partners-slider-wrapper {
+        padding: 16px 0;
+    }
+}
+
+@media (min-width: 768px) {
+    .partners-slider-wrapper {
+        padding: 20px 0;
+    }
 }
 
 .partners-slider-container {
@@ -137,9 +151,34 @@ export default {
     content: '';
     position: absolute;
     top: 0;
-    width: 100px;
+    width: 30px;
     height: 100%;
     z-index: 2;
+}
+
+/* Responsive gradient widths */
+@media (min-width: 640px) {
+
+    .partners-slider-wrapper::before,
+    .partners-slider-wrapper::after {
+        width: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+
+    .partners-slider-wrapper::before,
+    .partners-slider-wrapper::after {
+        width: 80px;
+    }
+}
+
+@media (min-width: 1024px) {
+
+    .partners-slider-wrapper::before,
+    .partners-slider-wrapper::after {
+        width: 100px;
+    }
 }
 
 .partners-slider-wrapper::before {
@@ -162,12 +201,29 @@ export default {
     }
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
+/* Enhanced mobile responsiveness */
+@media (max-width: 480px) {
+    .partners-slider-wrapper {
+        padding: 8px 0;
+    }
 
     .partners-slider-wrapper::before,
     .partners-slider-wrapper::after {
-        width: 50px;
+        width: 20px;
+    }
+
+    /* Slightly faster animation on very small screens for better visual flow */
+    .partners-track {
+        animation-duration: calc(var(--duration, 30s) * 0.8) !important;
+    }
+}
+
+/* Tablet and small desktop adjustments */
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    .partners-slider-wrapper::before,
+    .partners-slider-wrapper::after {
+        width: 60px;
     }
 }
 </style>

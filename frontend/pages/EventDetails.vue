@@ -1,7 +1,8 @@
 <template>
     <div class="min-h-screen bg-lightgray">
         <!-- Hero Section -->
-        <section v-if="event" class="relative h-screen w-full flex items-center justify-center bg-cover bg-center"
+        <section v-if="event"
+            class="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen w-full flex items-center justify-center bg-cover bg-center"
             :style="{ backgroundImage: `url(${event.thumbnail || '/images/event/default.jpg'})` }">
             <!-- Enhanced Overlay with better gradient -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/10 z-0"></div>
@@ -9,7 +10,7 @@
 
         <!-- Event Details Section -->
         <section v-if="event"
-            class="bg-gradient-to-b from-[#0a2b5c] to-[#081d3f] text-[#e6eaf0] py-24 px-4 md:px-8 relative overflow-hidden">
+            class="bg-gradient-to-b from-[#0a2b5c] to-[#081d3f] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
             <!-- Dot Pattern Background -->
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
@@ -22,48 +23,51 @@
                 </svg>
             </div>
             <!-- Content -->
-            <div class="relative z-10 text-center text-[#e6eaf0] px-6 max-w-4xl mx-[300px]" data-aos="fade-up"
-                data-aos-duration="1000">
+            <div class="relative z-10 text-center text-[#e6eaf0] px-4 sm:px-6 max-w-4xl mx-auto lg:mx-[300px]"
+                data-aos="fade-up" data-aos-duration="1000">
                 <!-- Preview Mode Banner -->
                 <div v-if="$route.query.preview && !event.published"
-                    class="bg-yellow-600/90 text-white py-2 px-4 rounded-lg mb-4 inline-flex items-center">
+                    class="bg-yellow-600/90 text-white py-2 px-4 rounded-lg mb-4 inline-flex items-center text-sm sm:text-base">
                     <i class="pi pi-eye mr-2"></i>
                     <span>Preview Mode - This event is not published</span>
                 </div>
 
-                <h1 class="text-3xl md:text-4xl font-bold leading-tight mb-6">
+                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold leading-tight mb-4 sm:mb-6">
                     {{ event.title }}
                 </h1>
-                <p class="text-lg md:text-lg text-[#e6eaf0]/90">
+                <p class="text-base sm:text-lg md:text-lg text-[#e6eaf0]/90">
                     <!-- Location removed since it's not in the current model -->
                 </p>
             </div>
 
             <!-- Decorative Circle Elements -->
             <div
-                class="absolute top-20 right-10 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
+                class="absolute top-10 sm:top-20 right-5 sm:right-10 w-48 h-48 sm:w-64 sm:h-64 bg-orange-500/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
             </div>
             <div
-                class="absolute bottom-20 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
+                class="absolute bottom-10 sm:bottom-20 left-10 sm:left-20 w-56 h-56 sm:w-72 sm:h-72 bg-blue-500/10 rounded-full blur-3xl -z-10 animate-pulse-slow">
             </div>
 
             <div class="container mx-auto relative z-10">
                 <div class="rounded-2xl shadow-2xl overflow-hidden max-w-6xl mx-auto">
-                    <div class="p-8 md:p-12">
+                    <div class="p-4 sm:p-6 md:p-8 lg:p-12">
                         <!-- Event Details -->
-                        <div class="flex flex-col gap-8 mb-8">
+                        <div class="flex flex-col gap-6 sm:gap-8 mb-6 sm:mb-8">
                             <div class="w-full max-w-4xl mx-auto">
-                                <div class="mb-8">
-                                    <p class="text-[#e6eaf0]/90 mb-8 text-lg leading-relaxed whitespace-pre-line">{{
-                                        event.description }}</p>
+                                <div class="mb-6 sm:mb-8">
+                                    <p
+                                        class="text-[#e6eaf0]/90 mb-6 sm:mb-8 text-base sm:text-lg leading-relaxed whitespace-pre-line">
+                                        {{
+                                            event.description }}</p>
                                 </div>
 
                                 <!-- Event Images Gallery -->
-                                <div v-if="event.images && event.images.length > 0" class="mb-8">
-                                    <h4 class="text-lg font-semibold text-[#e6eaf0] mb-6">Event Gallery</h4>
+                                <div v-if="event.images && event.images.length > 0" class="mb-6 sm:mb-8">
+                                    <h4 class="text-base sm:text-lg font-semibold text-[#e6eaf0] mb-4 sm:mb-6">Event
+                                        Gallery</h4>
 
                                     <!-- Full-width images displayed vertically -->
-                                    <div class="space-y-6">
+                                    <div class="space-y-4 sm:space-y-6">
                                         <div v-for="(image, index) in event.images" :key="index"
                                             class="relative rounded-sm overflow-hidden shadow-2xl border border-white/10 cursor-pointer group"
                                             @click="openImageModal(image)">
@@ -74,11 +78,11 @@
                                             <div
                                                 class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 
-                                                <div class="absolute top-4 right-4">
-                                                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-2">
+                                                <div class="absolute top-2 sm:top-4 right-2 sm:right-4">
+                                                    <div class="bg-white/20 backdrop-blur-sm rounded-full p-1.5 sm:p-2">
                                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                                            class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
-                                                            stroke="currentColor">
+                                                            class="h-4 w-4 sm:h-6 sm:w-6 text-white" fill="none"
+                                                            viewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
                                                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
@@ -90,19 +94,19 @@
                                     </div>
 
                                     <!-- Gallery info -->
-                                    <div class="mt-4 text-center">
-                                        <p class="text-[#e6eaf0]/70 text-sm">
+                                    <div class="mt-3 sm:mt-4 text-center">
+                                        <p class="text-[#e6eaf0]/70 text-xs sm:text-sm">
                                             Click on any image to view it in full size
                                         </p>
                                     </div>
                                 </div>
 
                                 <!-- Navigation -->
-                                <div class="flex flex-wrap justify-center gap-4 pt-8">
+                                <div class="flex flex-wrap justify-center gap-3 sm:gap-4 pt-6 sm:pt-8">
                                     <NuxtLink to="/Event"
-                                        class="bg-[#f15a22] hover:bg-[#f15a22]/90 text-white px-8 py-4 rounded-xl flex items-center gap-3 transition-all duration-300 shadow-lg hover:shadow-xl font-medium">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                            fill="currentColor">
+                                        class="bg-[#f15a22] hover:bg-[#f15a22]/90 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl flex items-center gap-2 sm:gap-3 transition-all duration-300 shadow-lg hover:shadow-xl font-medium text-sm sm:text-base">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5"
+                                            viewBox="0 0 20 20" fill="currentColor">
                                             <path fill-rule="evenodd"
                                                 d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
                                                 clip-rule="evenodd" />
@@ -118,29 +122,31 @@
         </section>
 
         <!-- Loading State -->
-        <div v-if="loading" class="h-screen w-full flex items-center justify-center bg-[#081d3f]">
-            <div class="text-center">
+        <div v-if="loading" class="h-[500px] sm:h-screen w-full flex items-center justify-center bg-[#081d3f]">
+            <div class="text-center px-4">
                 <div
-                    class="w-16 h-16 border-4 border-t-[#f15a22] border-r-[#f15a22]/50 border-b-[#f15a22]/30 border-l-[#f15a22]/10 rounded-full animate-spin mb-4 mx-auto">
+                    class="w-12 h-12 sm:w-16 sm:h-16 border-4 border-t-[#f15a22] border-r-[#f15a22]/50 border-b-[#f15a22]/30 border-l-[#f15a22]/10 rounded-full animate-spin mb-4 mx-auto">
                 </div>
-                <p class="text-[#e6eaf0] text-lg">Loading event details...</p>
+                <p class="text-[#e6eaf0] text-base sm:text-lg">Loading event details...</p>
             </div>
         </div>
 
         <!-- Event Not Found -->
-        <div v-else-if="!event || error" class="h-screen w-full flex items-center justify-center bg-[#081d3f]">
-            <div class="text-center">
-                <i class="pi pi-exclamation-triangle text-6xl text-red-400 mb-4"></i>
-                <h2 class="text-2xl text-[#e6eaf0] mb-4">{{ error || 'Event Not Found' }}</h2>
-                <p class="text-[#e6eaf0]/70 mb-6">{{ error ? 'Please try again later.' : "The event you're looking for doesn't exist or has been removed." }}</p>
-                <div class="flex gap-4 justify-center">
+        <div v-else-if="!event || error"
+            class="h-[500px] sm:h-screen w-full flex items-center justify-center bg-[#081d3f]">
+            <div class="text-center px-4">
+                <i class="pi pi-exclamation-triangle text-4xl sm:text-6xl text-red-400 mb-4"></i>
+                <h2 class="text-xl sm:text-2xl text-[#e6eaf0] mb-4">{{ error || 'Event Not Found' }}</h2>
+                <p class="text-[#e6eaf0]/70 mb-6 text-sm sm:text-base">{{ error ? 'Please try again later.' : "The event you're looking for doesn't exist or has been removed." }}</p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                     <button v-if="error" @click="loadEvent"
-                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg transition-all duration-300">
+                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-300 text-sm sm:text-base">
                         Try Again
                     </button>
                     <NuxtLink to="/Event"
-                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-6 py-3 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-4 sm:px-6 py-2 sm:py-3 rounded-lg inline-flex items-center justify-center gap-2 transition-all duration-300 text-sm sm:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20"
+                            fill="currentColor">
                             <path fill-rule="evenodd"
                                 d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
                                 clip-rule="evenodd" />

@@ -4,11 +4,11 @@
         <ConfirmDialog />
         <!-- Welcome Header Section -->
         <div class="bg-white/90 backdrop-blur-sm shadow-xl rounded-xl m-4 border border-white/20 overflow-hidden">
-            <div class="flex items-center justify-between p-6 gap-6">
+            <div class="flex items-center justify-between p-6 gap-4">
                 <!-- Left Side - Company Logo -->
                 <div class="flex-shrink-0">
                     <img src="/images/logo/phillip trustee.png" alt="Phillip Trustee Logo"
-                        class="h-16 w-auto object-contain" />
+                        class="h-25 w-auto object-contain" />
                 </div>
 
                 <!-- Center - User Welcome, Date & Role -->

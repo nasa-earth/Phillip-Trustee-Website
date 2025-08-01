@@ -154,13 +154,13 @@
                     <template #body="{ data }">
                         <div class="flex gap-1 justify-center">
                             <Button unstyled icon="pi pi-pencil" @click="editFaq(data)"
-                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 size="small" v-tooltip.top="'Edit FAQ'" />
                             <!-- <Button icon="pi pi-arrows-v" @click="openReorderDialog"
                                 class="w-8 h-8 bg-purple-500 hover:bg-purple-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
                                 size="small" v-tooltip.top="'Reorder FAQs'" /> -->
                             <Button unstyled icon="pi pi-trash" @click="confirmDeleteFaq(data)"
-                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 size="small" v-tooltip.top="'Delete FAQ'" />
                         </div>
                     </template>

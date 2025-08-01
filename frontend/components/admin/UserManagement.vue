@@ -121,13 +121,13 @@
                     <template #body="{ data }">
                         <div class="flex gap-1 justify-center">
                             <Button unstyled icon="pi pi-eye" @click="viewUser(data)"
-                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                class="w-8 h-8 bg-green-500 hover:bg-green-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 size="small" v-tooltip.top="'View Details'" />
                             <Button v-if="isAdmin" unstyled icon="pi pi-pencil" @click="editUser(data)"
-                                class="w-8 h-8 bg-green-500 hover:bg-green-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 size="small" v-tooltip.top="'Edit User'" />
                             <Button v-if="isAdmin" unstyled="" icon="pi pi-trash" @click="confirmDeleteUser(data)"
-                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110"
+                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 size="small" v-tooltip.top="'Delete User'" />
                         </div>
                     </template>

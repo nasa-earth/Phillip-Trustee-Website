@@ -63,35 +63,34 @@
         <!-- Events Grid -->
         <div v-else-if="events.length > 0"
           class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]">
-          <div v-for="event in events" :key="event.id" class="group bg-gradient-to-b from-[#13325e] to-[#0d254a] rounded-xl shadow-xl overflow-hidden 
+          <div v-for="event in events" :key="event.id" class="group bg-gradient-to-b from-[#13325e] to-[#092f68] rounded-xl shadow-xl overflow-hidden 
                      transform transition-all duration-500 hover:-translate-y-2 hover:shadow-orange-500/20 animate-card
-                     h-[450px] sm:h-[480px] md:h-[500px] flex flex-col">
+                     h-[350px] sm:h-[370px] md:h-[380px] flex flex-col">
 
             <!-- Image Section - Fixed Height -->
-            <div class="h-48 sm:h-52 md:h-56 w-full overflow-hidden relative flex-shrink-0">
+            <div class="h-36 sm:h-40 md:h-44 w-full overflow-hidden relative flex-shrink-0">
               <img :src="event.thumbnail || '/images/event/default.jpg'" :alt="event.title"
                 class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/30 to-transparent"></div>
             </div>
 
             <!-- Content Section - Flexible Height -->
-            <div class="p-4 sm:p-5 md:p-6 flex flex-col flex-grow">
+            <div class="p-3 sm:p-4 md:p-5 flex flex-col flex-grow">
               <!-- Title with truncation -->
               <h3
-                class="text-lg sm:text-xl font-bold text-center text-[#f15a22] mb-2 sm:mb-2 line-clamp-2 min-h-[3.5rem] sm:min-h-[4rem]">
+                class="text-base sm:text-lg font-bold text-center text-[#f15a22] mb-2 line-clamp-2 min-h-[3rem] sm:min-h-[3.5rem] flex items-center justify-center">
                 {{ event.title }}
               </h3>
 
               <!-- Description with fixed height -->
-              <p
-                class="text-[#e6eaf0]/90 mb-18 sm:mb-10 line-clamp-3 text-sm sm:text-base flex-grow min-h-[3rem] sm:min-h-[4rem]">
+              <p class="text-[#e6eaf0]/90 mb-3 sm:mb-4 line-clamp-3 text-sm flex-grow min-h-[2.5rem]">
                 {{ event.description }}
               </p>
 
               <!-- Button Section - Always at bottom -->
               <div class="flex justify-center items-center mt-auto">
                 <NuxtLink :to="`/EventDetails?slug=${event.slug}`" @click="trackEventClick(event)"
-                  class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group text-sm sm:text-base">
+                  class="bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg flex items-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg group text-sm">
                   <span>Read More</span>
                   <svg xmlns="http://www.w3.org/2000/svg"
                     class="h-3 w-3 sm:h-4 sm:w-4 group-hover:translate-x-1 transition-transform duration-300"
@@ -230,6 +229,19 @@ export default {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* Mobile-specific line clamp */
+@media (max-width: 640px) {
+  .line-clamp-2 {
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .line-clamp-3 {
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
 }
 
 @keyframes fadein {

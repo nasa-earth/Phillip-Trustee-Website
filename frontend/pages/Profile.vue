@@ -14,15 +14,9 @@
         <!-- Management Profiles -->
         <section
             class="bg-[#0a2b5c] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
-            <div class="absolute inset-0 opacity-5">
-                <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <pattern id="dot-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-                            <circle cx="2" cy="2" r="1" fill="white" />
-                        </pattern>
-                    </defs>
-                    <rect x="0" y="0" width="100%" height="100%" fill="url(#dot-pattern)" />
-                </svg>
+            <!-- Simple Dot Background -->
+            <div class="absolute inset-0 opacity-20">
+                <div class="w-full h-full bg-dot-pattern"></div>
             </div>
 
             <div class="container mx-auto relative z-10">
@@ -42,7 +36,7 @@
                     <div
                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-items-center mb-12 sm:mb-16 md:mb-20 mx-0 sm:mx-4 md:mx-8 lg:mx-20">
                         <div v-for="(manager, idx) in managers.slice(0, 3)" :key="manager.name" @click="openModal(idx)"
-                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl hover:bg-white/10 mb-8 sm:mb-0">
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl mb-8 sm:mb-0">
                             <div
                                 class="w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 lg:w-55 lg:h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
                                 <img :src="manager.image" :alt="manager.name"
@@ -61,7 +55,7 @@
                     <div
                         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-1 justify-center mx-0 sm:mx-8 md:mx-16 lg:mx-32 xl:mx-60">
                         <div v-for="(manager, idx) in managers.slice(3)" :key="manager.name" @click="openModal(idx + 3)"
-                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl hover:bg-white/10">
+                            class="text-center cursor-pointer transform transition-all duration-300 hover:scale-105 p-3 sm:p-4 rounded-xl">
                             <div
                                 class="w-40 h-40 sm:w-48 sm:h-48 md:w-52 md:h-52 lg:w-55 lg:h-55 mx-auto rounded-full overflow-hidden shadow-lg transition-transform duration-300 hover:shadow-xl">
                                 <img :src="manager.image" :alt="manager.name"
@@ -302,6 +296,11 @@ onMounted(async () => {
 }
 
 /* Background patterns */
+.bg-dot-pattern {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.6) 1.5px, transparent 1.5px);
+    background-size: 25px 25px;
+}
+
 .bg-pattern-dots {
     background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
     background-size: 20px 20px;

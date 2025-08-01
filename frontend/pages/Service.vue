@@ -10,12 +10,10 @@
                 <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10">
                 </div>
             </div>
-            <!-- Content -->
-
 
             <!-- Scroll Indicator -->
             <div
-                class="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce-slow z-10">
+                class="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-10">
                 <span class="text-[#e6eaf0]/80 text-xs sm:text-sm mb-1 sm:mb-2">Scroll Down</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6 text-[#e6eaf0]/80" fill="none"
                     viewBox="0 0 24 24" stroke="currentColor">
@@ -40,10 +38,10 @@
 
             <!-- Decorative Elements -->
             <div
-                class="absolute top-10 sm:top-16 md:top-20 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-[#f15a22]/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-0 animate-pulse-slow">
+                class="absolute top-10 sm:top-16 md:top-20 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 bg-[#f15a22]/10 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-0">
             </div>
             <div
-                class="absolute bottom-20 sm:bottom-32 md:bottom-40 left-10 sm:left-16 md:left-20 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] sm:blur-[90px] md:blur-[100px] -z-0 animate-pulse-slow animation-delay-3000">
+                class="absolute bottom-20 sm:bottom-32 md:bottom-40 left-10 sm:left-16 md:left-20 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[80px] sm:blur-[90px] md:blur-[100px] -z-0">
             </div>
 
             <!-- Curved Section Divider at Top -->
@@ -57,7 +55,7 @@
             </div>
 
             <div class="container mx-auto relative z-10">
-                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20" v-motion-slide-visible-once-bottom>
+                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20">
                     <!-- <span class="text-[#f15a22] text-lg font-medium tracking-wider uppercase mb-3">Understanding
                         Trusts</span> -->
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 sm:mb-6">
@@ -72,10 +70,10 @@
                 </div>
 
                 <!-- Row 1: Text left, Image right -->
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 md:gap-16 mb-16 sm:mb-20 md:mb-28 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]"
-                    v-motion-fade-visible-once>
+                <div
+                    class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 md:gap-16 mb-16 sm:mb-20 md:mb-28 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]">
                     <!-- Left: Content -->
-                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6" v-motion-slide-visible-once-left>
+                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                         <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                             <div
                                 class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#f15a22]/30 to-[#f15a22]/10 backdrop-blur-sm rounded-2xl">
@@ -119,21 +117,12 @@
                     </div>
 
                     <!-- Right: Image -->
-                    <div class="w-full lg:w-1/2" v-motion-slide-visible-once-right>
+                    <div class="w-full lg:w-1/2">
                         <div class="relative group">
-                            <!-- Decorative element -->
-                            <div
-                                class="absolute -top-2 -left-2 sm:-top-4 sm:-left-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 border-t-4 border-l-4 border-[#f15a22] opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:border-white">
-                            </div>
-                            <div
-                                class="absolute -bottom-2 -right-2 sm:-bottom-4 sm:-right-4 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 border-b-4 border-r-4 border-[#f15a22] opacity-60 transition-all duration-500 group-hover:opacity-100 group-hover:border-white">
-                            </div>
-
                             <!-- Image Container -->
-                            <div
-                                class="rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-500 hover:shadow-orange-500/30 border border-white/10">
+                            <div class="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                                 <img src="/images/Services/Attorney-consults.jpg" alt="Trust Legal Foundation"
-                                    class="w-full h-48 sm:h-56 md:h-auto object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                    class="w-full h-48 sm:h-56 md:h-auto object-cover" />
 
                                 <!-- Overlay Gradient -->
                                 <div
@@ -146,10 +135,10 @@
 
 
                 <!-- Row 2: Image left, Text right -->
-                <div class="flex flex-col lg:flex-row-reverse items-center justify-between gap-8 sm:gap-12 md:gap-16 mb-16 sm:mb-20 md:mb-28 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]"
-                    v-motion-fade-visible-once>
+                <div
+                    class="flex flex-col lg:flex-row-reverse items-center justify-between gap-8 sm:gap-12 md:gap-16 mb-16 sm:mb-20 md:mb-28 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]">
                     <!-- Right: Content -->
-                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6" v-motion-slide-visible-once-right>
+                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                         <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                             <div
                                 class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#f15a22]/30 to-[#f15a22]/10 backdrop-blur-sm rounded-2xl">
@@ -174,7 +163,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 mt-4 sm:mt-6">
                             <div
-                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
+                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-colors group">
                                 <div class="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                                     <img src="/images/icons/user.png" alt="Trustor" class="w-5 h-5 sm:w-6 sm:h-6" />
                                     <h4
@@ -184,7 +173,7 @@
                                 <p class="text-[#e6eaf0]/80 text-xs sm:text-sm">Creates and funds the trust</p>
                             </div>
                             <div
-                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
+                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-colors group">
                                 <div class="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                                     <img src="/images/icons/shield.png" alt="Trustee" class="w-5 h-5 sm:w-6 sm:h-6" />
                                     <h4
@@ -194,7 +183,7 @@
                                 <p class="text-[#e6eaf0]/80 text-xs sm:text-sm">Manages trust assets</p>
                             </div>
                             <div
-                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-all duration-300 hover:bg-white/10 group">
+                                class="bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-xl border border-white/10 hover:border-[#f15a22]/30 transition-colors group">
                                 <div class="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                                     <img src="/images/icons/multiple-users-silhouette.png" alt="Beneficiaries"
                                         class="w-5 h-5 sm:w-6 sm:h-6" />
@@ -208,18 +197,12 @@
                     </div>
 
                     <!-- Left: Image -->
-                    <div class="w-full lg:w-1/2" v-motion-slide-visible-once-left>
-                        <div class="relative group">
-                            <!-- Floating elements -->
-                            <div
-                                class="absolute -top-3 -right-3 sm:-top-6 sm:-right-6 w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 bg-orange-500/20 rounded-full blur-3xl animate-pulse-slow z-0">
-                            </div>
-
+                    <div class="w-full lg:w-1/2">
+                        <div class="relative">
                             <!-- Image frame with styled border -->
-                            <div
-                                class="relative rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-500 hover:shadow-orange-500/30 border border-white/10 z-10">
+                            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                                 <img src="/images/Services/client-value.jpg" alt="Trust Relationship"
-                                    class="w-full h-48 sm:h-56 md:h-auto object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                    class="w-full h-48 sm:h-56 md:h-auto object-cover" />
 
                                 <!-- Overlay with gradient -->
                                 <div
@@ -242,10 +225,10 @@
 
 
                 <!-- Row 3: Text left, Image right -->
-                <div class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 md:gap-16 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]"
-                    v-motion-fade-visible-once>
+                <div
+                    class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-12 md:gap-16 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]">
                     <!-- Left: Content -->
-                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6" v-motion-slide-visible-once-left>
+                    <div class="w-full lg:w-1/2 space-y-4 sm:space-y-6">
                         <div class="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-6">
                             <div
                                 class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-br from-[#f15a22]/30 to-[#f15a22]/10 backdrop-blur-sm rounded-2xl">
@@ -265,13 +248,13 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
                             <div class="flex items-start gap-3 sm:gap-4 group">
                                 <div
-                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-all duration-300">
+                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-colors">
                                     <img src="/images/icons/shield.png" alt="Asset Protection"
                                         class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors mb-1">
                                         Asset Protection</h4>
                                     <p class="text-[#e6eaf0]/80 text-xs sm:text-sm leading-relaxed">Safeguard your
                                         assets from
@@ -281,13 +264,13 @@
 
                             <div class="flex items-start gap-3 sm:gap-4 group">
                                 <div
-                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-all duration-300">
+                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-colors">
                                     <img src="/images/icons/commercial.png" alt="Foreign Investment"
                                         class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors mb-1">
                                         Foreign Investment</h4>
                                     <p class="text-[#e6eaf0]/80 text-xs sm:text-sm leading-relaxed">Simplified processes
                                         for
@@ -297,13 +280,13 @@
 
                             <div class="flex items-start gap-3 sm:gap-4 group">
                                 <div
-                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-all duration-300">
+                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-colors">
                                     <img src="/images/icons/income.png" alt="Tax Efficiency"
                                         class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors mb-1">
                                         Tax Efficiency</h4>
                                     <p class="text-[#e6eaf0]/80 text-xs sm:text-sm leading-relaxed">Optimize tax
                                         obligations and
@@ -313,13 +296,13 @@
 
                             <div class="flex items-start gap-3 sm:gap-4 group">
                                 <div
-                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-all duration-300">
+                                    class="w-8 h-8 sm:w-10 sm:h-10 rounded-lg bg-[#f15a22]/20 flex items-center justify-center flex-shrink-0 group-hover:bg-[#f15a22]/30 transition-colors">
                                     <img src="/images/icons/multiple-users-silhouette.png" alt="Succession Planning"
                                         class="w-4 h-4 sm:w-5 sm:h-5" />
                                 </div>
                                 <div>
                                     <h4
-                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors duration-300 mb-1">
+                                        class="font-semibold text-sm sm:text-base text-[#e6eaf0] group-hover:text-[#f15a22] transition-colors mb-1">
                                         Succession Planning</h4>
                                     <p class="text-[#e6eaf0]/80 text-xs sm:text-sm leading-relaxed">Ensure smooth
                                         transfer of
@@ -331,18 +314,12 @@
                     </div>
 
                     <!-- Right: Image -->
-                    <div class="w-full lg:w-1/2" v-motion-slide-visible-once-right>
-                        <div class="relative group">
-                            <!-- Glass Effect Card -->
-                            <div
-                                class="absolute -top-3 -right-3 sm:-top-6 sm:-right-6 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-64 lg:h-64 bg-gradient-to-br from-[#f15a22]/20 to-blue-500/10 rounded-2xl backdrop-blur-sm border border-white/10 transform rotate-6 group-hover:rotate-3 transition-all duration-500 z-0">
-                            </div>
-
+                    <div class="w-full lg:w-1/2">
+                        <div class="relative">
                             <!-- Main Image -->
-                            <div
-                                class="relative rounded-2xl overflow-hidden shadow-2xl transform group-hover:scale-[1.02] transition-all duration-500 hover:shadow-orange-500/30 border border-white/10 z-10">
+                            <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
                                 <img src="/images/Services/trustee-image.jpg" alt="Benefits of Trust Services"
-                                    class="w-full h-48 sm:h-56 md:h-auto object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                    class="w-full h-48 sm:h-56 md:h-auto object-cover" />
 
                                 <!-- Overlay with gradient -->
                                 <div
@@ -382,94 +359,63 @@
 
             <!-- Enhanced Decorative Elements -->
             <div
-                class="absolute top-10 sm:top-16 md:top-20 left-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-r from-[#f15a22]/20 to-orange-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-10 animate-pulse-slow">
+                class="absolute top-10 sm:top-16 md:top-20 left-0 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-r from-[#f15a22]/20 to-orange-500/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-10">
             </div>
             <div
-                class="absolute bottom-20 sm:bottom-32 md:bottom-40 right-5 sm:right-8 md:right-10 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-l from-blue-600/10 to-white/5 rounded-full blur-[80px] sm:blur-[90px] md:blur-[100px] -z-10 animate-pulse-slow animation-delay-2000">
-            </div>
-
-            <!-- Floating elements -->
-            <div
-                class="absolute top-1/4 right-1/4 w-6 h-6 sm:w-8 sm:h-8 border-4 border-[#f15a22]/30 rounded-full animate-bounce-slow animation-delay-1000">
-            </div>
-            <div
-                class="absolute bottom-1/3 left-1/4 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 border-4 border-dashed border-white/20 rounded-full animate-spin-slow">
+                class="absolute bottom-20 sm:bottom-32 md:bottom-40 right-5 sm:right-8 md:right-10 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-l from-blue-600/10 to-white/5 rounded-full blur-[80px] sm:blur-[90px] md:blur-[100px] -z-10">
             </div>
 
             <div class="container mx-auto relative z-10">
                 <!-- Header -->
-                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20" v-motion-fade-visible-once>
+                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4 sm:mb-6 text-center">
                         Types of Trust in <span class="text-[#f15a22]">Cambodia</span>
                     </h2>
                 </div>
                 <!-- Enhanced Slider with 3D effects and better interaction -->
-                <div class="relative px-2 sm:px-4 md:px-10" v-motion-fade-visible-once>
+                <div class="relative px-2 sm:px-4 md:px-10">
                     <!-- Glass Effect Background Panel -->
                     <div
                         class="absolute inset-0 -mx-4 sm:-mx-6 md:-mx-10 -my-4 sm:-my-6 bg-white/5 backdrop-filter backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl z-0">
-                    </div> <!-- Left Navigation Button with enhanced visibility and call-to-action -->
+                    </div>
+                    <!-- Left Navigation Button with enhanced visibility and call-to-action -->
                     <button @click="slideTrustTypesLeft"
-                        class="absolute -left-2 sm:-left-3 md:-left-5 lg:left-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-[#e6eaf0] p-3 sm:p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:-translate-x-1 hover:-translate-y-1 transform active:scale-95"
-                        :class="{ 'animate-pulse-slow': trustTypeSlideIndex > 0 }" aria-label="Previous type of trust">
+                        class="absolute -left-2 sm:-left-3 md:-left-5 lg:left-0 top-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-colors text-[#0e2a52] hover:text-[#e6eaf0] p-3 sm:p-4 md:p-5 rounded-full shadow-xl focus:outline-none cursor-pointer"
+                        aria-label="Previous type of trust">
                         <div class="relative">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
                                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M15 19l-7-7 7-7" />
                             </svg>
-
-                            <!-- Pulsating indicator for better visibility -->
-                            <span v-if="trustTypeSlideIndex > 0"
-                                class="absolute -top-1 -right-1 h-2 w-2 sm:h-3 sm:w-3 bg-[#f15a22] rounded-full animate-pulse-slow"></span>
                         </div>
                     </button>
 
                     <!-- Enhanced Slider Viewport with 3D perspective and smoother transitions -->
                     <div class="overflow-hidden px-2 sm:px-4 py-6 sm:py-8 md:py-10 relative z-10">
-                        <div class="flex transition-all duration-1000 ease-out transform"
+                        <div class="flex transition-transform duration-500 ease-out"
                             :style="{ transform: `translateX(-${trustTypeSlideIndex * 100 / visibleSlides}%)` }"
                             ref="trustTypeSlider">
                             <div v-for="(type, index) in trustTypes" :key="type.title"
                                 class="flex-shrink-0 px-2 sm:px-3 md:px-4 lg:px-6"
                                 :style="{ width: `${100 / visibleSlides}%` }">
                                 <!-- Enhanced Card with 3D Transform and Glassmorphism -->
-                                <div class="h-full perspective-card group"
-                                    :class="{ 'active-card': trustTypeSlideIndex === Math.floor(index / visibleSlides) }">
+                                <div class="h-full group">
                                     <div
-                                        class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl h-full p-6 sm:p-8 md:p-10 flex flex-col items-center text-center transition-all duration-700 border border-white/10 hover:border-[#f15a22]/30 shadow-2xl transform hover:-translate-y-3 hover:shadow-[#f15a22]/20 card-inner">
-
+                                        class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl h-full p-6 sm:p-8 md:p-10 flex flex-col items-center text-center transition-colors border border-white/10 hover:border-[#f15a22]/30 shadow-2xl">
 
                                         <!-- Enhanced Icon Container with 3D hover effect -->
-                                        <div
-                                            class="mb-6 sm:mb-8 relative group-hover:transform group-hover:translate-z-10 transition-all duration-500">
+                                        <div class="mb-6 sm:mb-8 relative">
                                             <div
-                                                class="absolute inset-0 bg-gradient-to-br from-[#f15a22]/40 to-[#f15a22]/10 rounded-2xl blur-xl opacity-70 group-hover:opacity-100 transition-opacity duration-700">
-                                            </div>
-                                            <div
-                                                class="relative bg-gradient-to-br from-[#f15a22]/30 to-[#f15a22]/5 p-6 sm:p-8 rounded-2xl group-hover:bg-[#f15a22]/20 transition-all duration-500 transform group-hover:scale-110 overflow-hidden">
-                                                <!-- Animated background pattern -->
-                                                <div class="absolute inset-0 opacity-30">
-                                                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                                                        <defs>
-                                                            <pattern id="smallGrid" width="8" height="8"
-                                                                patternUnits="userSpaceOnUse">
-                                                                <path d="M 8 0 L 0 0 0 8" fill="none" stroke="white"
-                                                                    stroke-width="0.2"></path>
-                                                            </pattern>
-                                                        </defs>
-                                                        <rect width="100%" height="100%" fill="url(#smallGrid)"></rect>
-                                                    </svg>
-                                                </div>
-
+                                                class="relative bg-gradient-to-br from-[#f15a22]/30 to-[#f15a22]/5 p-6 sm:p-8 rounded-2xl group-hover:bg-[#f15a22]/20 transition-colors overflow-hidden">
                                                 <img :src="getIconImagePath(type.title)" :alt="`${type.title} icon`"
-                                                    class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain relative z-10 transform group-hover:scale-110 group-hover:rotate-3 transition-all duration-700" />
+                                                    class="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain relative z-10" />
                                             </div>
                                         </div>
 
                                         <!-- Title with enhanced hover effect -->
                                         <h4
-                                            class="text-lg sm:text-xl font-bold text-[#e6eaf0] mb-3 sm:mb-4 relative group-hover:text-[#f15a22] transition-colors duration-500">
+                                            class="text-lg sm:text-xl font-bold text-[#e6eaf0] mb-3 sm:mb-4 relative group-hover:text-[#f15a22] transition-colors">
                                             {{ type.title }}
                                         </h4>
 
@@ -483,10 +429,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div> <!-- Enhanced Right Navigation Button with more visibility -->
+                    </div>
+
+                    <!-- Enhanced Right Navigation Button with more visibility -->
                     <button @click="slideTrustTypesRight"
-                        class="absolute -right-2 sm:-right-3 md:-right-5 lg:right-0 top-1/2 -translate-y-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-all duration-500 text-[#0e2a52] hover:text-[#e6eaf0] p-3 sm:p-4 md:p-5 rounded-full shadow-xl hover:shadow-2xl hover:shadow-[#f15a22]/30 focus:outline-none hover:translate-x-1 hover:-translate-y-1 transform active:scale-95"
-                        :class="{ 'animate-pulse-slow': trustTypeSlideIndex < Math.ceil(trustTypes.length / visibleSlides) - 1 }"
+                        class="absolute -right-2 sm:-right-3 md:-right-5 lg:right-0 top-1/2 z-20 bg-gradient-to-br from-white/80 to-white/50 backdrop-blur-sm hover:from-[#f15a22] hover:to-orange-500 transition-colors text-[#0e2a52] hover:text-[#e6eaf0] p-3 sm:p-4 md:p-5 rounded-full shadow-xl focus:outline-none cursor-pointer"
                         aria-label="Next type of trust">
                         <div class="relative">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6"
@@ -494,40 +441,8 @@
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M9 5l7 7-7 7" />
                             </svg>
-
-                            <!-- Pulsating indicator when there are more slides -->
-                            <span v-if="trustTypeSlideIndex < Math.ceil(trustTypes.length / visibleSlides) - 1"
-                                class="absolute -top-1 -left-1 h-2 w-2 sm:h-3 sm:w-3 bg-[#f15a22] rounded-full animate-pulse-slow"></span>
                         </div>
-                    </button><!-- Enhanced Slide Indicators with Animation and More Clarity -->
-                    <div class="flex flex-col items-center space-y-3 sm:space-y-4 mt-8 sm:mt-10 md:mt-12 relative z-10">
-
-                        <!-- Visual Indicators -->
-                        <div class="flex justify-center space-x-3 sm:space-x-4">
-                            <button v-for="(_, index) in Math.ceil(trustTypes.length / visibleSlides)" :key="index"
-                                @click="goToTrustTypeSlide(index)" :class="[
-                                    'focus:outline-none transition-all duration-700 overflow-hidden rounded-full',
-                                    trustTypeSlideIndex === index
-                                        ? 'bg-gradient-to-r from-[#f15a22] to-orange-400 w-12 h-3 sm:w-16 sm:h-4 shadow-lg shadow-[#f15a22]/30 animate-pulse-slow'
-                                        : 'bg-white/20 hover:bg-white/40 w-3 h-3 sm:w-4 sm:h-4 hover:scale-110 transform'
-                                ]" :aria-label="`Go to slide ${index + 1}`">
-                                <span class="sr-only">Slide {{ index + 1 }}</span>
-                            </button>
-                        </div>
-
-                        <!-- Trust Type Names Listed to Show All Available Options -->
-                        <!-- <div class="flex flex-wrap justify-center gap-3 mt-2">
-                            <button v-for="(type, index) in trustTypes" :key="type.title"
-                                @click="goToTrustTypeSlide(Math.floor(index / visibleSlides))"
-                                class="text-xs px-3 py-1 rounded-full border transition-all duration-300" :class="[
-                                    Math.floor(index / visibleSlides) === trustTypeSlideIndex && (index % visibleSlides) < visibleSlides
-                                        ? 'bg-[#f15a22] text-[#e6eaf0] border-[#f15a22]'
-                                        : 'text-[#e6eaf0]/70 border-white/20 hover:border-white/50 hover:text-[#e6eaf0]'
-                                ]">
-                                {{ type.title }}
-                            </button>
-                        </div> -->
-                    </div>
+                    </button>
                 </div>
             </div>
         </section>
@@ -559,49 +474,27 @@
 
             <!-- Enhanced Decorative Elements -->
             <div
-                class="absolute top-10 sm:top-16 md:top-20 right-5 sm:right-8 md:right-10 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-br from-[#f15a22]/20 to-orange-500/5 rounded-full blur-[100px] sm:blur-[120px] md:blur-[150px] -z-10 animate-pulse-slow">
+                class="absolute top-10 sm:top-16 md:top-20 right-5 sm:right-8 md:right-10 w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 bg-gradient-to-br from-[#f15a22]/20 to-orange-500/5 rounded-full blur-[100px] sm:blur-[120px] md:blur-[150px] -z-10">
             </div>
             <div
-                class="absolute bottom-20 sm:bottom-32 md:bottom-40 left-5 sm:left-8 md:left-10 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-l from-blue-600/10 to-white/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-10 animate-pulse-slow animation-delay-2500">
-            </div>
-
-            <!-- Decorative Elements - Floating shapes -->
-            <div class="absolute left-1/4 top-20 sm:top-32 md:top-40 opacity-20">
-                <svg width="60" height="60" sm:width="70" sm:height="70" md:width="80" md:height="80"
-                    viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-spin-slow">
-                    <circle cx="40" cy="40" r="32" stroke="white" stroke-width="2" stroke-dasharray="5 5" />
-                </svg>
-            </div>
-            <div class="absolute right-1/3 bottom-20 sm:bottom-32 md:bottom-40 opacity-20">
-                <svg width="40" height="40" sm:width="50" sm:height="50" md:width="60" md:height="60"
-                    viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="animate-bounce-slow">
-                    <rect x="10" y="10" width="40" height="40" stroke="#f15a22" stroke-width="2"
-                        stroke-dasharray="4 4" />
-                </svg>
+                class="absolute bottom-20 sm:bottom-32 md:bottom-40 left-5 sm:left-8 md:left-10 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-gradient-to-l from-blue-600/10 to-white/5 rounded-full blur-[80px] sm:blur-[100px] md:blur-[120px] -z-10">
             </div>
 
             <div class="container mx-auto relative z-10">
-                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20" v-motion-fade-visible-once>
+                <div class="flex flex-col items-center mb-12 sm:mb-16 md:mb-20">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#e6eaf0] mb-4 sm:mb-6 text-center">Key
                         Services & Products
                     </h2>
-                    <!-- <div class="w-32 h-1.5 bg-gradient-to-r from-[#f15a22] to-orange-400 rounded-full mb-8"></div> -->
-                    <!-- <p class="text-xl text-[#e6eaf0] max-w-3xl mx-auto text-center leading-relaxed">
-                        We offer comprehensive trust services to protect your assets and secure your future with
-                        expertise and reliability that you can depend on.
-                    </p> -->
                 </div>
-                <div class="flex flex-col space-y-4 sm:space-y-6 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]"
-                    v-motion-fade-visible-once>
-                    <div v-for="(service, index) in services" :key="service.id" v-motion-slide-visible-once-bottom
-                        class="bg-gradient-to-br from-white/5 to-white/15 backdrop-blur-sm border border-white/10 rounded-xl shadow-xl overflow-hidden hover:shadow-xl hover:shadow-[#f15a22]/20 transition-all duration-500 group animate-card animation-delay-300"
-                        :style="{ animationDelay: `${index * 150}ms` }">
+                <div class="flex flex-col space-y-4 sm:space-y-6 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[150px]">
+                    <div v-for="(service, index) in services" :key="service.id"
+                        class="bg-gradient-to-br from-white/5 to-white/15 backdrop-blur-sm border border-white/10 rounded-xl shadow-xl overflow-hidden hover:shadow-xl hover:shadow-[#f15a22]/20 transition-all duration-300 group">
                         <div class="flex flex-col md:flex-row">
                             <!-- Left: Image with Enhanced Visual Effects -->
                             <div class="md:w-2/5 relative overflow-hidden">
                                 <!-- Main Image -->
                                 <img :src="service.image" :alt="service.title"
-                                    class="w-full h-48 sm:h-56 md:h-60 object-cover object-center group-hover:scale-110 transition-transform duration-1000 ease-in-out" />
+                                    class="w-full h-48 sm:h-56 md:h-60 object-cover object-center group-hover:scale-105 transition-transform duration-300" />
 
                                 <!-- Enhanced Gradient Overlay -->
                                 <div class="absolute inset-0 to-transparent md:bg-gradient-to-l">
@@ -610,11 +503,10 @@
                                 <!-- Service Number Badge -->
                                 <div
                                     class="absolute top-2 sm:top-3 left-2 sm:left-3 w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
-                                    <div
-                                        class="absolute inset-0 bg-[#ffff]/80 backdrop-blur-sm rounded-full transform rotate-45 group-hover:rotate-0 transition-all duration-700">
+                                    <div class="absolute inset-0 bg-[#ffff]/80 backdrop-blur-sm rounded-full">
                                     </div>
                                     <span class="relative text-[#f15a22] text-sm sm:text-lg font-bold">0{{ service.id
-                                        }}</span>
+                                    }}</span>
                                 </div>
                             </div>
 
@@ -637,7 +529,7 @@
                                 <!-- CTA Button with Enhanced Animation -->
                                 <div>
                                     <NuxtLink :to="getServiceRoute(service)"
-                                        class="w-auto px-3 py-1.5 bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] shadow-md transition-all rounded-full duration-300 inline-flex items-center space-x-2 text-xs sm:text-sm font-medium group-hover:translate-y-0 transform hover:-translate-y-1 active:scale-95">
+                                        class="w-auto px-3 py-1.5 bg-[#f15a22] hover:bg-orange-600 text-[#e6eaf0] shadow-md transition-colors rounded-full inline-flex items-center space-x-2 text-xs sm:text-sm font-medium">
                                         <span>Learn More</span>
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="h-3 w-3 group-hover:translate-x-1 transition-transform duration-300"
@@ -659,31 +551,12 @@
         <transition name="fade">
             <div v-if="modalOpen"
                 class="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/60 backdrop-blur-sm">
-                <!-- Animated Background Patterns -->
-                <div class="absolute inset-0 overflow-hidden opacity-10">
-                    <div class="absolute top-0 left-0 w-full h-full">
-                        <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <pattern id="modal-grid" x="0" y="0" width="40" height="40"
-                                    patternUnits="userSpaceOnUse">
-                                    <path d="M0 0 L40 0 L40 40 L0 40 Z" fill="none" stroke="white" stroke-width="0.5">
-                                    </path>
-                                </pattern>
-                            </defs>
-                            <rect x="0" y="0" width="100%" height="100%" fill="url(#modal-grid)"></rect>
-                        </svg>
-                    </div>
-                    <div
-                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] md:w-[800px] md:h-[800px] rounded-full bg-gradient-to-br from-[#f15a22]/30 to-blue-500/20 blur-[80px] sm:blur-[100px] md:blur-[120px] animate-spin-slow">
-                    </div>
-                </div>
-
                 <!-- Modal Content with Split Design -->
                 <div
-                    class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden relative animate-modal max-h-[90vh] overflow-y-auto">
+                    class="bg-white rounded-2xl sm:rounded-3xl shadow-2xl max-w-4xl w-full overflow-hidden relative max-h-[90vh] overflow-y-auto">
                     <!-- Close Button -->
                     <button @click="closeModal"
-                        class="absolute top-3 right-3 sm:top-6 sm:right-6 z-50 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-[#f15a22] text-[#f15a22] hover:text-[#e6eaf0] rounded-full flex items-center justify-center transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#f15a22] focus:ring-opacity-50 shadow-lg">
+                        class="absolute top-3 right-3 sm:top-6 sm:right-6 z-50 w-8 h-8 sm:w-10 sm:h-10 bg-white/80 backdrop-blur-sm hover:bg-[#f15a22] text-[#f15a22] hover:text-[#e6eaf0] rounded-full flex items-center justify-center transition-colors focus:outline-none shadow-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 sm:h-5 sm:w-5" viewBox="0 0 20 20"
                             fill="currentColor">
                             <path fill-rule="evenodd"
@@ -699,7 +572,7 @@
                             <div class="h-48 sm:h-56 md:h-full relative overflow-hidden">
                                 <div class="absolute inset-0 bg-gradient-to-r from-[#13325e] to-[#13325e]/80"></div>
                                 <img :src="selectedService.image" :alt="selectedService.title"
-                                    class="w-full h-full object-cover object-center opacity-75 scale-110 hover:scale-125 transition-transform duration-2000" />
+                                    class="w-full h-full object-cover object-center opacity-75" />
 
                                 <!-- Decorative Elements -->
                                 <div class="absolute bottom-3 left-3 sm:bottom-6 sm:left-6 flex flex-col">
@@ -748,12 +621,12 @@
                                             <li v-for="(feature, idx) in getServiceFeatures(selectedService.title)"
                                                 :key="idx" class="flex items-start gap-2 sm:gap-3 group">
                                                 <div
-                                                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f15a22]/10 p-1 mt-0.5 sm:mt-1 flex-shrink-0 flex items-center justify-center group-hover:bg-[#f15a22]/30 transition-colors duration-300">
+                                                    class="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#f15a22]/10 p-1 mt-0.5 sm:mt-1 flex-shrink-0 flex items-center justify-center group-hover:bg-[#f15a22]/30 transition-colors">
                                                     <div class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[#f15a22] rounded-full">
                                                     </div>
                                                 </div>
                                                 <span
-                                                    class="text-sm sm:text-base text-[#13325e]/80 group-hover:text-[#13325e] transition-colors duration-300">
+                                                    class="text-sm sm:text-base text-[#13325e]/80 group-hover:text-[#13325e] transition-colors">
                                                     {{ feature }}
                                                 </span>
                                             </li>
@@ -764,7 +637,7 @@
                                 <!-- Action Buttons -->
                                 <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
                                     <button @click="closeModal"
-                                        class="bg-gradient-to-r from-[#f15a22] to-orange-500 text-[#e6eaf0] py-2.5 sm:py-3 px-6 sm:px-8 rounded-full shadow-lg shadow-[#f15a22]/20 hover:shadow-[#f15a22]/40 transition-all duration-300 hover:-translate-y-1 transform active:scale-95 focus:outline-none text-sm sm:text-base">
+                                        class="bg-gradient-to-r from-[#f15a22] to-orange-500 text-[#e6eaf0] py-2.5 sm:py-3 px-6 sm:px-8 rounded-full shadow-lg hover:shadow-[#f15a22]/40 transition-colors focus:outline-none text-sm sm:text-base">
                                         <span class="flex items-center gap-2 justify-center">
                                             <span>Close</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4"
@@ -775,7 +648,7 @@
                                         </span>
                                     </button>
                                     <button
-                                        class="bg-white border-2 border-[#13325e] text-[#13325e] py-2.5 sm:py-3 px-6 sm:px-8 rounded-full hover:bg-[#13325e] hover:text-[#e6eaf0] transition-colors duration-300 shadow-lg hover:shadow-[#13325e]/20 focus:outline-none text-sm sm:text-base">
+                                        class="bg-white border-2 border-[#13325e] text-[#13325e] py-2.5 sm:py-3 px-6 sm:px-8 rounded-full hover:bg-[#13325e] hover:text-[#e6eaf0] transition-colors shadow-lg focus:outline-none text-sm sm:text-base">
                                         <span class="flex items-center gap-2 justify-center">
                                             <span>Contact Us</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-4 sm:w-4"
@@ -1019,7 +892,7 @@ export default {
             // Return the appropriate route based on service title
             const routeMap = {
                 'Hold Trust Property': '/Services_hold_property',
-                'Personal Trust Services': '/Services_fund_retention', // Mapping to fund retention as closest match
+                'Hold Personal Trust': '/Services_fund_retention',
                 'Escrow Services': '/Services_escrow_service',
                 'Sales and Purchase Agreement (SPA) Services': '/Services_spa'
             };

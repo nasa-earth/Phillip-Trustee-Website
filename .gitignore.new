@@ -20,7 +20,7 @@ dist
 
 # Production
 build
-.next
+.next   
 
 # Environment files
 .env

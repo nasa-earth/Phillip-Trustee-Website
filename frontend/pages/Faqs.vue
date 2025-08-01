@@ -27,10 +27,10 @@
 
             <!-- Decorative Elements -->
             <div
-                class="absolute top-20 right-0 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-[#f15a22]/10 rounded-full blur-[120px] -z-0 animate-pulse-slow">
+                class="absolute top-20 right-0 w-48 h-48 sm:w-60 sm:h-60 md:w-72 md:h-72 bg-[#f15a22]/10 rounded-full blur-[120px] -z-0">
             </div>
             <div
-                class="absolute bottom-40 left-20 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[100px] -z-0 animate-pulse-slow animation-delay-3000">
+                class="absolute bottom-40 left-20 w-64 h-64 sm:w-80 sm:h-80 md:w-96 md:h-96 bg-blue-600/10 rounded-full blur-[100px] -z-0">
             </div>
 
             <div class="container mx-auto relative z-10">
@@ -61,8 +61,8 @@
 
                     <!-- FAQ Content -->
                     <div v-else>
-                        <div class="flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-2"
-                            v-motion-slide-visible-once-bottom>
+                        <div
+                            class="flex flex-col sm:flex-row sm:flex-wrap justify-between items-start sm:items-center mb-6 sm:mb-8 gap-4 sm:gap-2">
                             <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-[#e6eaf0]">
                                 All Questions</h2>
                             <div class="flex items-center gap-2 w-full sm:w-auto">
@@ -90,7 +90,7 @@
                         </div>
 
                         <!-- Search Bar -->
-                        <div class="mb-4 sm:mb-6" v-motion-slide-visible-once-bottom>
+                        <div class="mb-4 sm:mb-6">
                             <div class="relative">
                                 <input v-model="searchQuery" type="text" placeholder="Search FAQs..."
                                     class="w-full px-4 py-3 pl-10 sm:pl-12 text-sm sm:text-base bg-white/10 border border-white/20 rounded-xl text-[#e6eaf0] placeholder-[#e6eaf0]/60 focus:outline-none focus:border-[#f15a22] focus:ring-2 focus:ring-[#f15a22]/20 transition-all backdrop-blur-sm">
@@ -111,8 +111,8 @@
                         </div>
 
                         <!-- Filter Categories -->
-                        <div class="flex flex-wrap gap-2 mb-6 sm:mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-2 sm:p-3 rounded-2xl backdrop-blur-sm border border-white/10"
-                            v-motion-slide-visible-once-bottom>
+                        <div
+                            class="flex flex-wrap gap-2 mb-6 sm:mb-8 overflow-x-auto py-2 scrollbar-hide bg-white/20 p-2 sm:p-3 rounded-2xl backdrop-blur-sm border border-white/10">
                             <button @click="selectedCategory = null"
                                 :class="['category-btn cursor-pointer', !selectedCategory ? 'active' : '']">
                                 <span class="flex items-center gap-1">
@@ -133,8 +133,7 @@
                         </div>
 
                         <div v-if="filteredFaqs.length === 0"
-                            class="text-center py-12 sm:py-16 bg-white/20 rounded-2xl shadow-md backdrop-blur-sm border border-white/10"
-                            v-motion-slide-visible-once-bottom>
+                            class="text-center py-12 sm:py-16 bg-white/20 rounded-2xl shadow-md backdrop-blur-sm border border-white/10">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="w-16 h-16 sm:w-20 sm:h-20 mx-auto text-white/40 mb-4" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
@@ -151,8 +150,7 @@
 
                         <div v-else class="space-y-3 sm:space-y-4">
                             <div v-for="(faq, idx) in filteredFaqs" :key="faq.id || idx"
-                                class="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-xl shadow-md border border-white/10 transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/30"
-                                v-motion-slide-visible-once-bottom :style="{ animationDelay: `${idx * 100}ms` }">
+                                class="bg-gradient-to-r from-white/10 to-white/5 backdrop-blur-sm rounded-xl shadow-md border border-white/10 transition-all duration-300 overflow-hidden hover:shadow-lg hover:border-[#f15a22]/30">
                                 <button
                                     class="w-full flex justify-between items-center px-4 sm:px-6 py-4 sm:py-5 text-left focus:outline-none cursor-pointer"
                                     @click="toggle(getFaqIndex(faq))">
@@ -166,10 +164,10 @@
                                         </span>
                                     </span>
                                     <div class="flex items-center gap-2 sm:gap-3">
-                                        <span class="hidden sm:block text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full"
+                                        <!-- <span class="hidden sm:block text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full"
                                             :class="faq.open ? 'bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 text-[#f15a22] shadow-sm' : 'bg-white/10 text-[#e6eaf0]/80'">
                                             {{ getCategoryFromQuestion(faq.question) }}
-                                        </span>
+                                        </span> -->
                                         <span
                                             class="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full transition-all duration-300"
                                             :class="faq.open ? 'bg-gradient-to-r from-[#f15a22] to-orange-500 text-white shadow-md shadow-[#f15a22]/20' : 'bg-white/10 text-[#e6eaf0]'">
@@ -337,115 +335,19 @@ export default {
     overflow: hidden;
 }
 
-/* Particle Animation */
-@keyframes floatParticle {
-    0% {
-        transform: translateY(0) translateX(0) rotate(0deg);
-    }
-
-    33% {
-        transform: translateY(-30px) translateX(20px) rotate(120deg);
-    }
-
-    66% {
-        transform: translateY(20px) translateX(-15px) rotate(240deg);
-    }
-
-    100% {
-        transform: translateY(0) translateX(0) rotate(360deg);
-    }
-}
-
-.particle {
-    animation: floatParticle 15s infinite ease-in-out;
-    will-change: transform;
-}
-
 /* Animations */
-@keyframes fadeInDown {
+@keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(-20px);
     }
 
     to {
         opacity: 1;
-        transform: translateY(0);
     }
 }
 
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes pulse-slow {
-
-    0%,
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    50% {
-        transform: scale(1.05);
-        opacity: 0.8;
-    }
-}
-
-@keyframes float {
-
-    0%,
-    100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-
-    33% {
-        transform: translateY(-10px) rotate(-5deg);
-    }
-
-    66% {
-        transform: translateY(5px) rotate(5deg);
-    }
-}
-
-.animate-float {
-    animation: float 8s ease-in-out infinite;
-}
-
-.animate-float-delay {
-    animation: float 10s ease-in-out 2s infinite;
-}
-
-.animate-fadeInDown {
-    animation: fadeInDown 0.8s cubic-bezier(.4, 0, .2, 1) both;
-}
-
-.animate-fadeInUp {
-    animation: fadeInUp 0.8s cubic-bezier(.4, 0, .2, 1) both;
-}
-
-.animation-delay-100 {
-    animation-delay: 0.1s;
-}
-
-.animation-delay-200 {
-    animation-delay: 0.2s;
-}
-
-.animation-delay-300 {
-    animation-delay: 0.3s;
-}
-
-.animate-pulse-slow {
-    animation: pulse-slow 3s infinite;
+.animate-fadeIn {
+    animation: fadeIn 0.5s ease-in-out;
 }
 
 /* Scrollbar styling */
@@ -509,7 +411,6 @@ export default {
 .category-btn:hover {
     background-color: rgba(255, 255, 255, 0.2);
     border-color: rgba(241, 90, 34, 0.3);
-    transform: translateY(-1px);
 }
 
 .category-btn.active {

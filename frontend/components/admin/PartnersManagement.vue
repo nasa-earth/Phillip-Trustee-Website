@@ -104,10 +104,10 @@
                 <Column header="Actions" class="w-32">
                     <template #body="slotProps">
                         <div class="flex gap-2 justify-center">
-                            <Button icon="pi pi-pencil" class="p-button-text p-button-sm p-button-rounded p-button-info"
+                            <Button unstyled icon="pi pi-pencil" class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 @click="editPartner(slotProps.data)" v-tooltip="'Edit Partner'" />
-                            <Button icon="pi pi-trash"
-                                class="p-button-text p-button-sm p-button-rounded p-button-danger"
+                            <Button unstyled icon="pi pi-trash"
+                                class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 @click="confirmDeletePartner(slotProps.data)" v-tooltip="'Delete Partner'" />
                         </div>
                     </template>

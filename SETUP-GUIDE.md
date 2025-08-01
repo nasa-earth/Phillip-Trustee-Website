@@ -2,24 +2,166 @@
 
 This guide will help you set up the Phillip Trustee Website project on a new laptop after cloning from GitHub.
 
+## �️ Version Compatibility First!
+
+**⚠️ IMPORTANT:** Before starting, run the environment check to avoid version conflicts:
+
+```bash
+# After cloning the repository
+node check-environment.js
+```
+
+This will verify:
+
+- ✅ Node.js version (18.19.0 required)
+- ✅ npm version (9.0.0+ required)
+- ✅ PostgreSQL availability
+- ✅ Git installation
+- ✅ Port availability (3000, 3005)
+
+If any checks fail, see [VERSION-COMPATIBILITY.md](./VERSION-COMPATIBILITY.md) for solutions.
+
 ## 📋 Prerequisites
 
-Before you start, make sure you have the following installed on your laptop:
+**Exact versions required for compatibility:**
 
-1. **Node.js** (version 18 or higher)
+1. **Node.js** (version 18.19.0 - LTS)
 
-   - Download from: https://nodejs.org/
-   - Verify installation: `node --version` and `npm --version`
+   - Download from: https://nodejs.org/dist/v18.19.0/
+   - **Alternative**: Use `.nvmrc` file with nvm: `nvm use`
+   - Verify installation: `node --version` (should show v18.19.0)
 
-2. **PostgreSQL** (version 12 or higher)
+2. **npm** (version 9.0.0 or higher)
+
+   - Usually comes with Node.js
+   - Update if needed: `npm install -g npm@latest`
+   - Verify: `npm --version`
+
+3. **PostgreSQL** (version 12 or higher, recommended: 14.x/15.x)
 
    - Download from: https://www.postgresql.org/download/
    - Remember the username and password you set during installation
 
-3. **Git**
+4. **Git**
    - Download from: https://git-scm.com/
 
-## 🔧 Step-by-Step Setup
+## � Docker Setup for New Laptop (Recommended)
+
+This is the easiest way to set up the project on a new laptop without installing Node.js, PostgreSQL, or managing dependencies.
+
+### Prerequisites
+
+1. **Docker Desktop**
+
+   - Download from: https://www.docker.com/products/docker-desktop/
+   - Install and ensure Docker is running
+   - Verify: `docker --version` and `docker-compose --version`
+
+2. **Git**
+   - Download from: https://git-scm.com/
+
+### Quick Start
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/nasa-earth/Phillip-Trustee-Website.git
+   cd Phillip-Trustee-Website
+   ```
+
+2. **Start Everything with One Command**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   **Or run in background:**
+
+   ```bash
+   docker-compose up --build -d
+   ```
+
+3. **Access the Application**
+   - **Frontend:** http://localhost:3000
+   - **Backend API:** http://localhost:3005/api
+   - **API Documentation:** http://localhost:3005/api/docs
+
+### Docker Commands Reference
+
+```bash
+# Start services
+docker-compose up --build
+
+# Start in background (detached mode)
+docker-compose up --build -d
+
+# Stop services
+docker-compose down
+
+# View logs
+docker-compose logs
+
+# View logs for specific service
+docker-compose logs frontend
+docker-compose logs backend
+docker-compose logs postgres
+
+# Restart a specific service
+docker-compose restart backend
+
+# Rebuild and restart
+docker-compose up --build --force-recreate
+
+# Clean up everything (including volumes)
+docker-compose down -v
+```
+
+### What's Included in Docker Setup
+
+- **PostgreSQL Database** (automatically configured)
+- **Backend API Server** (NestJS with Prisma)
+- **Frontend Application** (Nuxt.js)
+- **Automatic database migrations**
+- **Persistent data storage**
+- **Health checks for all services**
+
+### Troubleshooting Docker Setup
+
+1. **Port conflicts:**
+
+   ```bash
+   # Check what's using the ports
+   netstat -ano | findstr :3000
+   netstat -ano | findstr :3005
+   ```
+
+2. **Docker not starting:**
+
+   - Ensure Docker Desktop is running
+   - Restart Docker Desktop
+   - Check Docker logs in Docker Desktop
+
+3. **Services failing to start:**
+
+   ```bash
+   # Check logs
+   docker-compose logs
+
+   # Rebuild from scratch
+   docker-compose down -v
+   docker-compose up --build
+   ```
+
+4. **Database issues:**
+   ```bash
+   # Reset database
+   docker-compose down -v
+   docker-compose up --build
+   ```
+
+---
+
+## 🔧 Manual Setup (Alternative)
 
 ### 1. Clone the Repository
 
@@ -28,21 +170,78 @@ git clone https://github.com/nasa-earth/Phillip-Trustee-Website.git
 cd Phillip-Trustee-Website
 ```
 
-### 2. Backend Setup
+### 2. Quick Setup Options
 
-#### 2.1 Navigate to Backend Directory
+Choose one of these setup methods:
+
+#### Option A: Automated Setup (Recommended)
+
+```bash
+# Windows PowerShell
+.\setup.ps1
+
+# Linux/macOS
+chmod +x setup.sh && ./setup.sh
+```
+
+#### Option B: Docker Setup (Most Consistent - Recommended for New Laptops)
+
+**Prerequisites for Docker Setup:**
+
+- Docker Desktop installed and running
+- Git installed
+- No need for Node.js, npm, or PostgreSQL (Docker handles everything!)
+
+**Step 1: Clone and Navigate**
+
+```bash
+git clone https://github.com/nasa-earth/Phillip-Trustee-Website.git
+cd Phillip-Trustee-Website
+```
+
+**Step 2: Start with Docker**
+
+```bash
+# Build and start all services (database, backend, frontend)
+docker-compose up --build
+
+# OR run in detached mode (background)
+docker-compose up --build -d
+```
+
+**What this does:**
+
+- 🐘 Sets up PostgreSQL database automatically
+- 🔧 Builds and runs the backend API server
+- 🚀 Builds and runs the frontend application
+- 🔗 Connects everything together with proper networking
+
+**Docker Services Access:**
+
+- **Frontend:** http://localhost:3000
+- **Backend API:** http://localhost:3005/api
+- **API Documentation:** http://localhost:3005/api/docs
+- **Database:** Automatically configured (no manual setup needed)
+
+#### Option C: Manual Setup (Step-by-Step)
+
+Continue with sections 3-6 below for manual installation.
+
+### 3. Manual Backend Setup
+
+#### 3.1 Navigate to Backend Directory
 
 ```bash
 cd backend
 ```
 
-#### 2.2 Install Dependencies
+#### 3.2 Install Dependencies
 
 ```bash
 npm install
 ```
 
-#### 2.3 Set Up Environment Variables
+#### 3.3 Set Up Environment Variables
 
 Create a `.env` file in the backend directory with the following content:
 
@@ -54,7 +253,7 @@ PORT=3005
 
 **⚠️ Important:** Replace `your_username` and `your_password` with your PostgreSQL credentials.
 
-#### 2.4 Set Up PostgreSQL Database
+#### 3.4 Set Up PostgreSQL Database
 
 1. **Create Database:**
 

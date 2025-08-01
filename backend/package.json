@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "<p align=\"center\">\r   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"120\" alt=\"Nest Logo\" /></a>\r </p>",
   "main": "check-partners.js",
+  "engines": {
+    "node": ">=18.19.0 <20.0.0",
+    "npm": ">=9.0.0"
+  },
   "directories": {
     "test": "test"
   },

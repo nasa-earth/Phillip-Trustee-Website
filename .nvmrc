@@ -1,0 +1,5 @@
+# Node.js Version Manager Configuration
+
+# This ensures the project uses the correct Node.js version
+
+18.19.0

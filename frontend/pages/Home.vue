@@ -8,7 +8,7 @@
     <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-10"></div>
 
     <!-- Text Content -->
-    <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24 mt-[-100px] ml-[100px]">
+    <!-- <div class="relative z-20 h-full flex items-center px-6 md:px-16 lg:px-24 mt-[-100px] ml-[100px]">
       <div class="max-w-xl text-left text-[#e6eaf0] space-y-6">
         <h3 class="text-xl md:text-2xl font-medium">Leave your worries behind,</h3>
         <h1 class="text-4xl md:text-5xl lg:text-6xl leading-tight font-semibold">
@@ -16,7 +16,7 @@
           <span class="block text-[#f15a22] italic">your back</span>
         </h1>
       </div>
-    </div>
+    </div> -->
   </section>
 
 
@@ -151,7 +151,7 @@
         <!-- Read More Button -->
         <div class="text-center lg:text-left">
           <NuxtLink to="/Service"
-            class="inline-block bg-[#f15a22] text-[#e6eaf0] px-4 sm:px-6 py-2 rounded-full hover:bg-orange-600 transition-all text-sm sm:text-base hover-lift animate-fade-in-up animation-delay-900">
+            class="inline-block bg-[#f15a22] text-[#e6eaf0] py-2 px-4 sm:px-6 rounded-full hover:bg-orange-600 transition-all text-sm sm:text-base hover-lift">
             Read More
           </NuxtLink>
         </div>

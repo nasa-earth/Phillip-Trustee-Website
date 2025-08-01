@@ -2,55 +2,21 @@
     <div class="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <Toast />
         <ConfirmDialog />
-        <!-- Welcome Header Section -->
-        <div class="bg-white/90 backdrop-blur-sm shadow-xl rounded-xl m-4 border border-white/20 overflow-hidden">
-            <div class="flex items-center justify-between p-6 gap-4">
-                <!-- Left Side - Company Logo -->
-                <div class="flex-shrink-0">
-                    <img src="/images/logo/phillip trustee.png" alt="Phillip Trustee Logo"
-                        class="h-25 w-auto object-contain" />
-                </div>
-
-                <!-- Center - User Welcome, Date & Role -->
-                <div class="flex-1 text-center space-y-3">
-                    <!-- User Welcome -->
-                    <h2
-                        class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                        Welcome back, {{ user?.name || 'User' }}
-                    </h2>
-
-                    <!-- Current Date -->
-                    <p class="text-slate-600 font-medium text-lg">{{ currentDate }}</p>
-
-                    <!-- User Role Badge -->
-                    <div class="flex justify-center">
-                        <Chip :label="user?.role || 'USER'" :class="{
-                            'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': user?.role === 'ADMIN',
-                            'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': user?.role === 'EDITOR',
-                            // 'bg-gradient-to-r from-gray-500 to-gray-600 text-white shadow-lg': user?.role === 'USER'
-                        }" class="text-xs font-semibold px-4 py-2 rounded-full shadow-md" />
-                    </div>
-                </div>
-
-                <!-- Right Side - Logout Button -->
-                <div class="flex-shrink-0">
-                    <Button icon="pi pi-sign-out" @click="handleLogout"
-                        class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
-                        rounded aria-label="Logout" v-tooltip="'Logout'" />
-                </div>
-            </div>
-        </div>
 
         <!-- Admin Dashboard Content -->
         <div class="flex flex-1 mx-4 mb-4 gap-6">
             <!-- Left Side - Content Selection Menu -->
             <div class="w-72 bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-white/20">
-                <div class="pb-4 border-b border-slate-200/50">
-                    <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                        <i class="pi pi-th-large text-blue-600"></i>
-                        Admin Controls
-                    </h3>
-                    <!-- <p class="text-sm text-slate-500 mt-1">Manage your website content</p> -->
+                <!-- Header with logo -->
+                <div class="pb-4 border-b border-slate-200/50 flex items-center gap-3">
+                    <img src="/images/logo/phillip trustee.png" alt="Phillip Trustee Logo"
+                        class="h-12 w-auto object-contain" />
+                    <!-- <div>
+                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <i class="pi pi-th-large text-blue-600"></i>
+                            Admin Controls
+                        </h3>
+                    </div> -->
                 </div>
                 <ul class="mt-6 space-y-2">
                     <li v-for="(item, idx) in dashboardMenuItems" :key="idx" :class="[
@@ -71,6 +37,32 @@
 
             <!-- Right Side - Selected Content View -->
             <div class="flex-1 bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-white/20">
+                <!-- Header with user info and logout -->
+                <div class="flex items-center justify-between pb-4 border-b border-slate-200/50 mb-6">
+                    <!-- User Welcome, Date & Role -->
+                    <div class="flex items-center gap-4">
+                        <!-- User Welcome -->
+                        <div>
+                            <h2
+                                class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                                Welcome back, {{ user?.name || 'User' }}
+                            </h2>
+                            <!-- Current Date -->
+                            <p class="text-slate-600 font-medium">{{ currentDate }}</p>
+                        </div>
+                        <!-- User Role Badge -->
+                        <Chip :label="user?.role || 'USER'" :class="{
+                            'bg-gradient-to-r from-indigo-500 to-purple-600 text-white shadow-lg': user?.role === 'ADMIN',
+                            'bg-gradient-to-r from-blue-500 to-cyan-500 text-white shadow-lg': user?.role === 'EDITOR',
+                        }" class="text-xs font-semibold px-4 py-2 rounded-full shadow-md" />
+                    </div>
+
+                    <!-- Logout Button -->
+                    <Button icon="pi pi-sign-out" @click="handleLogout"
+                        class="bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105"
+                        rounded aria-label="Logout" v-tooltip="'Logout'" />
+                </div>
+
                 <!-- Component Loading Animation -->
                 <div v-if="componentLoading" class="h-full flex items-center justify-center">
                     <div class="text-center">
@@ -231,7 +223,7 @@
                                         <div>
                                             <p class="text-xl font-medium text-black">Events</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.events.total
-                                            }}
+                                                }}
                                             </p>
                                         </div>
                                         <div class="p-3 bg-blue-100 rounded-full">
@@ -267,7 +259,7 @@
                                         <div>
                                             <p class="text-xl font-medium text-black">Partners</p>
                                             <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.partners.total
-                                            }}</p>
+                                                }}</p>
                                         </div>
                                         <div class="p-3 bg-purple-100 rounded-full">
                                             <i class="pi pi-briefcase text-purple-600 text-xl"></i>

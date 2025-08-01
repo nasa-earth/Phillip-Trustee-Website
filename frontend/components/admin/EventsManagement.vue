@@ -134,14 +134,14 @@
                 <Column header="Actions" :style="{ width: '180px' }">
                     <template #body="slotProps">
                         <div class="flex gap-1">
-                            <Button icon="pi pi-external-link" size="small" text severity="info"
+                            <Button unstyled icon="pi pi-external-link" size="small" text severity="info" class="w-8 h-8 bg-green-500 hover:bg-green-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 @click="previewEvent(slotProps.data)" v-tooltip="'Preview'" />
-                            <Button icon="pi pi-pencil" size="small" text severity="warning"
+                            <Button unstyled icon="pi pi-pencil" size="small" text severity="warning" class="w-8 h-8 bg-blue-500 hover:bg-blue-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 @click="editEvent(slotProps.data)" v-tooltip="'Edit'" />
-                            <Button v-if="canDeleteEvents" icon="pi pi-trash" size="small" text severity="danger"
+                            <Button v-if="canDeleteEvents" unstyled icon="pi pi-trash" size="small" text severity="danger" class="w-8 h-8 bg-red-500 hover:bg-red-600 text-white border-none rounded-lg shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 cursor-pointer"
                                 @click="confirmDeleteEvent(slotProps.data)" v-tooltip="'Delete'" />
-                            <Button v-else icon="pi pi-trash" size="small" text severity="danger" disabled
-                                v-tooltip="'Delete (Admin Only)'" />
+                            <!-- <Button v-else icon="pi pi-trash" size="small" text severity="danger" disabled
+                                v-tooltip="'Delete (Admin Only)'" /> -->
                         </div>
                     </template>
                 </Column>

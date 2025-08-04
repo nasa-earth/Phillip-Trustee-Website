@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-6 p-2">
+    <div class="space-y-3">
         <!-- Header Section -->
         <div class="">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
@@ -14,7 +14,7 @@
             </div>
         </div>
         <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4 justify-between">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-5 gap-4 justify-between">
         <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6">
             <div class="flex items-center justify-between">
                 <div>
@@ -35,9 +35,8 @@
                 </div>
             </div>
         </div>
-        </div>
+        </div> -->
         <!-- Filters and Search -->
-        <div class="">
             <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
                 <div class="flex flex-col sm:flex-row gap-4 flex-1">
                     <div class="flex-1 max-w-md">
@@ -53,7 +52,7 @@
                 </div>
 
             </div>
-        </div>
+  
 
         <!-- Loading State -->
         <div v-if="loading && !faqs.length"

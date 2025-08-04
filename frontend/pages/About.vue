@@ -28,28 +28,17 @@
                 <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up"
                     data-aos-duration="800">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-semibold text-[#e6eaf0] mb-4">About Us</h2>
-                    <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
                 </div>
 
                 <div
                     class="flex flex-col lg:flex-row items-center justify-between gap-8 sm:gap-10 md:gap-12 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[100px]">
-                    <!-- Left Side: Overlapping Images with Animation -->
+                    <!-- Left Side: Single Image with Simple Animation -->
                     <div class="w-full lg:w-1/3 relative flex justify-center mb-8 lg:mb-0" data-aos="fade-right"
                         data-aos-duration="1000">
-                        <!-- Back Image -->
-                        <div class="w-[250px] sm:w-[280px] md:w-[320px] lg:w-[350px] xl:w-[400px] rounded-xl overflow-hidden shadow-xl z-10 
-                      transform hover:translate-y-2 transition-all duration-500 hover:shadow-orange-500/30">
+                        <div class="w-[250px] sm:w-[280px] md:w-[320px] lg:w-[350px] xl:w-[400px] rounded-xl overflow-hidden shadow-xl 
+                      transform hover:scale-105 transition-all duration-500 hover:shadow-orange-500/30">
                             <img src="~/assets/images/about/2-phillip-bank.jpg" alt="Phillip Trustee Office"
                                 class="w-full h-auto object-cover border-3 border-white rounded-xl" />
-                        </div>
-
-                        <!-- Front Image (Overlap) -->
-                        <div
-                            class="absolute top-1/2 left-1/2 translate-x-[-20%] translate-y-[5%] w-[250px] sm:w-[280px] md:w-[320px] lg:w-[350px] xl:w-[400px] 
-                      rounded-xl overflow-hidden shadow-xl z-20 border-3 border-white
-                      transform hover:-translate-y-2 hover:translate-x-[-15%] transition-all duration-500 hover:shadow-orange-500/30">
-                            <img src="~/assets/images/about/1-phillip-bank.jpg" alt="Phillip Trustee Reception"
-                                class="w-full h-auto object-cover" />
                         </div>
                     </div>
 
@@ -124,7 +113,6 @@
                     data-aos-duration="800">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Phillip Members (Cambodia
                         Offices)</h2>
-                    <!-- <div class="w-32 h-1 bg-orange-500"></div> -->
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 mx-0 sm:mx-4 md:mx-8 lg:mx-16 xl:mx-[180px]"
@@ -273,31 +261,23 @@
         </section>
 
         <!-- Partners Section -->
-        <section class="bg-[#0a2b5c] py-12 sm:py-14 md:py-16 px-4">
+        <!-- <section class="bg-[#0a2b5c] py-12 sm:py-14 md:py-16 px-4">
             <div class="container mx-auto mb-8 sm:mb-10 md:mb-12">
                 <div class="flex flex-col items-center mb-8 sm:mb-10 md:mb-12">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners
                     </h2>
-                    <!-- <div class="w-24 h-1 text-[#f15a22]"></div> -->
-                    <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
-                            We collaborate with leading organizations across Cambodia to provide the best service to our
-                            clients.
-                        </p> -->
                 </div>
 
-                <!-- Partners Slider Component -->
                 <PartnersSlider :partners="partnersForSlider" :speed="40" size="medium" :loading="loading"
                     :error="error" />
             </div>
-        </section>
+        </section> -->
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
-// import Header from '~/components/Header.vue';
-// import Footer from '~/components/Footer.vue';
-import PartnersSlider from '~/components/PartnersSlider.vue';
+// import PartnersSlider from '~/components/PartnersSlider.vue';
 import { usePartners } from '~/composables/usePartners';
 
 const { partners, loading, error, getPartners: fetchPartners, onPartnerChange } = usePartners();
@@ -360,20 +340,6 @@ const members = ref([
     }
 ]);
 
-const nextSlide = () => {
-    currentSlide.value = (currentSlide.value + 1) % members.value.length;
-    updateCarousel();
-};
-
-const prevSlide = () => {
-    currentSlide.value = (currentSlide.value - 1 + members.value.length) % members.value.length;
-    updateCarousel();
-};
-
-const goToSlide = (index) => {
-    currentSlide.value = index;
-    updateCarousel();
-};
 
 const updateCarousel = () => {
     const track = document.querySelector('.carousel-track');
@@ -406,32 +372,6 @@ onMounted(async () => {
     });
 });
 </script>
-image: '/images/about/1-phillip-general-insurance.png',
-icon: 'shield'
-},
-{
-title: 'Phillip Trustee',
-description: 'Providing trust services to help foreign investors secure their assets in Cambodia.',
-image: '/images/about/1-phillip-trustee.jpg',
-icon: 'users'
-}
-],
-partnersList: [
-{ name: 'Rose Mavel', image: '/images/partners/1_Rose_Mavel.jpg' },
-{ name: 'La Maision', image: '/images/partners/2_La_Maision.jpg' },
-{ name: 'Vimean Samnang', image: '/images/partners/3_Vimean_Samnang.jpg' },
-{ name: 'IPS', image: '/images/partners/4_IPS.jpg' },
-{ name: 'SaRaNa', image: '/images/partners/5_SaRaNa.jpg' },
-{ name: 'YI Dung', image: '/images/partners/6_YI Dung.jpg' },
-{ name: 'Dragon Land', image: '/images/partners/Dragon Land.jpg' },
-]
-};
-},
-methods: {
-nextSlide() {
-this.currentSlide = (this.currentSlide + 1) % this.members.length;
-this.updateCarousel();
-
 
 <style scoped>
 @import '~/assets/css/theme.css';

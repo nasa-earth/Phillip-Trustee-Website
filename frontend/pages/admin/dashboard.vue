@@ -1,54 +1,44 @@
 <template>
-    <div class="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+    <div class="flex flex-col h-screen overflow-hidden bg-gray-100">
         <Toast />
         <ConfirmDialog />
 
         <!-- Admin Dashboard Content -->
-        <div class="flex flex-1 mx-4 mb-4 gap-6">
+        <div class="flex flex-1 h-full">
             <!-- Left Side - Content Selection Menu -->
-            <div class="w-72 bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-white/20">
+            <div class="w-50 bg-gray-800 p-6 h-full">
                 <!-- Header with logo -->
-                <div class="pb-4 border-b border-slate-200/50 flex items-center gap-3">
-                    <img src="/images/logo/phillip trustee.png" alt="Phillip Trustee Logo"
-                        class="h-12 w-auto object-contain" />
-                    <!-- <div>
-                        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <i class="pi pi-th-large text-blue-600"></i>
-                            Admin Controls
-                        </h3>
-                    </div> -->
+                <div class="pb-4 border-b border-gray-600 flex items-center gap-3">
+                    <img src="~/assets/images/logo.png" alt="Phillip Trustee Logo" class="h-12 w-auto object-contain" />
                 </div>
                 <ul class="mt-6 space-y-2">
                     <li v-for="(item, idx) in dashboardMenuItems" :key="idx" :class="[
                         'flex items-center px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 menu-item group',
                         activeSection === item.key
-                            ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white shadow-lg transform scale-105'
-                            : 'hover:bg-slate-50 hover:shadow-md hover:transform hover:scale-102'
+                            ? 'bg-white text-black shadow-lg transform scale-105'
+                            : 'hover:bg-gray-800 hover:shadow-md hover:transform hover:scale-102 text-white'
                     ]" @click="selectSection(item.key)" :data-section="item.key">
                         <i
-                            :class="[item.icon, 'mr-3 text-lg', activeSection === item.key ? 'text-white' : 'text-slate-500 group-hover:text-blue-600']"></i>
+                            :class="[item.icon, 'mr-3 text-lg', activeSection === item.key ? 'text-black' : 'text-gray-300 group-hover:text-white']"></i>
                         <span class="text-sm font-semibold flex-1">{{ item.label }}</span>
-                        <i v-if="activeSection === item.key" class="pi pi-chevron-right ml-auto text-white/80"></i>
+                        <i v-if="activeSection === item.key" class="pi pi-chevron-right ml-auto text-black"></i>
                         <i v-else
-                            class="pi pi-chevron-right ml-auto text-slate-300 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            class="pi pi-chevron-right ml-auto text-gray-500 group-hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"></i>
                     </li>
                 </ul>
             </div>
 
             <!-- Right Side - Selected Content View -->
-            <div class="flex-1 bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-6 border border-white/20">
-                <!-- Header with user info and logout -->
-                <div class="flex items-center justify-between pb-4 border-b border-slate-200/50 mb-6">
-                    <!-- User Welcome, Date & Role -->
+            <div class="flex-1 bg-white p-6 h-full overflow-y-auto">
+                <div class="flex items-center justify-between pb-4 border-b border-gray-200 mb-6">
                     <div class="flex items-center gap-4">
                         <!-- User Welcome -->
                         <div>
-                            <h2
-                                class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                                Welcome back, {{ user?.name || 'User' }}
+                            <h2 class="text-2xl font-bold text-black">
+                                Welcome, {{ user?.name || 'User' }}
                             </h2>
                             <!-- Current Date -->
-                            <p class="text-slate-600 font-medium">{{ currentDate }}</p>
+                            <p class="text-gray-600 font-medium">{{ currentDate }}</p>
                         </div>
                         <!-- User Role Badge -->
                         <Chip :label="user?.role || 'USER'" :class="{
@@ -73,9 +63,9 @@
                             <div class="absolute inset-0 w-16 h-16 border-4 border-transparent border-r-indigo-400 rounded-full animate-spin mx-auto"
                                 style="animation-delay: 0.3s;"></div>
                         </div>
-                        <span class="mt-4 block text-lg font-medium text-slate-600">Loading {{
+                        <span class="mt-4 block text-lg font-medium text-gray-600">Loading {{
                             getSectionDisplayName(activeSection) }}...</span>
-                        <span class="text-sm text-slate-400">Please wait a moment</span>
+                        <span class="text-sm text-gray-400">Please wait a moment</span>
 
                         <!-- Emergency reset button after 5 seconds -->
                         <div class="mt-6" v-if="showEmergencyReset">
@@ -192,12 +182,11 @@
                 </div>
 
                 <!-- Dashboard View -->
-                <div v-else-if="activeSection === 'dashboard'" class="h-full overflow-y-auto">
+                <div v-else-if="activeSection === 'dashboard'" class="h-full">
                     <div class="max-w-7xl mx-auto">
-                        <!-- Dashboard Header -->
                         <div class="flex justify-between items-center mb-6">
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-800">Dashboard Overview</h2>
+                                <h2 class="text-2xl font-bold text-gray-800 text-center">Dashboard Overview</h2>
                             </div>
                             <Button label="Refresh Data" icon="pi pi-refresh" @click="refreshDashboardData"
                                 :loading="dashboardLoading" class="bg-blue-600 hover:bg-blue-700" />
@@ -215,77 +204,98 @@
 
                         <!-- Dashboard Content -->
                         <div v-else class="space-y-6">
-                            <!-- Stats Cards -->
-                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <!-- Events Card -->
-                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                            <!-- Charts Section -->
+                            <div class="space-y-6">
+                                <!-- Stats Summary Cards -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 py-6 px-20">
+                                <!-- Events Summary -->
+                                <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-xl font-medium text-black">Events</p>
-                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.events.total
-                                                }}
+                                            <p class="text-sm font-medium text-gray-600">Events</p>
+                                            <p class="text-xl font-bold text-gray-900">{{ dashboardStats.events.total }}
                                             </p>
                                         </div>
-                                        <div class="p-3 bg-blue-100 rounded-full">
-                                            <i class="pi pi-calendar text-blue-600 text-xl"></i>
+                                        <div class="p-2 bg-orange-100 rounded-full">
+                                            <i class="pi pi-calendar text-orange-600"></i>
                                         </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- Users Card -->
-                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <p class="text-xl font-medium text-black">Users</p>
-                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.users.total }}
-                                            </p>
-                                        </div>
-                                        <div class="p-3 bg-green-100 rounded-full">
-                                            <i class="pi pi-users text-green-600 text-xl"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mt-4">
-                                        <span class="text-lg text-blue-600">{{ dashboardStats.users.admins }}
-                                            admins</span>
-                                        <span class="text-lg text-gray-800 ml-2">{{ dashboardStats.users.editors }}
-                                            editors</span>
                                     </div>
                                 </div>
 
-                                <!-- Partners Card -->
-                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
+                                <!-- Users Summary -->
+                                <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            <p class="text-xl font-medium text-black">Partners</p>
-                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.partners.total
-                                                }}</p>
-                                        </div>
-                                        <div class="p-3 bg-purple-100 rounded-full">
-                                            <i class="pi pi-briefcase text-purple-600 text-xl"></i>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                                <!-- FAQs Card -->
-                                <div class="bg-white rounded-lg shadow-sm p-6 border border-gray-200">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <p class="text-xl font-medium text-black">FAQs</p>
-                                            <p class="text-2xl font-bold text-gray-900">{{ dashboardStats.faqs.total }}
+                                            <p class="text-sm font-medium text-gray-600">Users</p>
+                                            <p class="text-xl font-bold text-gray-900">{{ dashboardStats.users.total }}
                                             </p>
                                         </div>
-                                        <div class="p-3 bg-yellow-100 rounded-full">
-                                            <i class="pi pi-question-circle text-yellow-600 text-xl"></i>
+                                        <div class="p-2 bg-cyan-100 rounded-full">
+                                            <i class="pi pi-users text-cyan-600"></i>
                                         </div>
                                     </div>
-                                    <div class="mt-4">
-                                        <span class="text-lg text-blue-600">{{ dashboardStats.faqs.categories }}
-                                            categories</span>
+                                </div>
+
+                                <!-- Partners Summary -->
+                                <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">Partners</p>
+                                            <p class="text-xl font-bold text-gray-900">{{ dashboardStats.partners.total
+                                            }}</p>
+                                        </div>
+                                        <div class="p-2 bg-gray-100 rounded-full">
+                                            <i class="pi pi-briefcase text-gray-600"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- FAQs Summary -->
+                                <div class="bg-white rounded-lg shadow-sm p-4 border border-gray-200">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-600">FAQs</p>
+                                            <p class="text-xl font-bold text-gray-900">{{ dashboardStats.faqs.total }}
+                                            </p>
+                                        </div>
+                                        <div class="p-2 bg-purple-100 rounded-full">
+                                            <i class="pi pi-question-circle text-purple-600"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+
+                                <!-- First Row - Bar Chart -->
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div class="">
+                                        <div class="h-62 w-full px-20">
+                                            <Chart type="bar" :data="chartData" :options="chartOptions" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Second Row - Pie and Doughnut Charts -->
+                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                    <!-- Users Role Chart -->
+                                    <div class="">
+                                        <div class="h-96 w-full flex justify-center">
+                                            <Chart type="pie" :data="usersChartData" :options="usersChartOptions"
+                                                class="w-full md:w-[30rem]" />
+                                        </div>
+                                    </div>
+
+                                    <!-- FAQs Chart -->
+                                    <div class="py-6">
+                                        <div class="h-96 w-full flex justify-center">
+                                            <Chart type="doughnut" :data="faqsChartData" :options="faqsChartOptions"
+                                                class="w-full md:w-[30rem]" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
 
                         </div>
                     </div>
@@ -334,7 +344,8 @@ import UserManagement from '~/components/admin/UserManagement.vue';
 import EventsManagement from '~/components/admin/EventsManagement.vue';
 import FaqsManagement from '~/components/admin/FaqsManagement.vue';
 import PartnersManagement from '~/components/admin/PartnersManagement.vue';
-import SettingsManagement from '~/components/admin/SettingsManagement.vue';
+// import SettingsManagement from '~/components/admin/SettingsManagement.vue';
+import Chart from 'primevue/chart';
 
 // Define layout and middleware for this page
 definePageMeta({
@@ -356,9 +367,9 @@ const dashboardLoading = ref(false);
 const showEmergencyReset = ref(false);
 const autoRefreshEnabled = ref(true);
 const refreshInterval = ref(30000); // 30 seconds
-let loadingTimeout = null; // Add timeout reference
-let emergencyTimeout = null; // Emergency reset timeout
-let autoRefreshTimer = null; // Auto refresh timer
+let loadingTimeout = null;
+let emergencyTimeout = null;
+let autoRefreshTimer = null;
 
 // Dashboard data
 const dashboardStats = ref({
@@ -375,6 +386,14 @@ const systemHealth = ref({
     uptime: 0,
     memoryUsage: { used: 0, total: 0 }
 });
+
+// Chart data and options
+const chartData = ref();
+const chartOptions = ref();
+const usersChartData = ref();
+const usersChartOptions = ref();
+const faqsChartData = ref();
+const faqsChartOptions = ref();
 
 // Dashboard menu state
 const activeSection = ref('dashboard');
@@ -414,17 +433,168 @@ const dashboardMenuItems = ref([
         label: 'FAQs',
         icon: 'pi pi-question-circle'
     },
-    // {
-    //     key: 'settings',
-    //     label: 'Settings',
-    //     icon: 'pi pi-cog'
-    // },
-
 ]);
 
+// Chart setup functions
+const setChartData = () => {
+    const eventsTotal = dashboardStats.value.events.total || 0;
+    const usersTotal = dashboardStats.value.users.total || 0;
+    const partnersTotal = dashboardStats.value.partners.total || 0;
+    const faqsTotal = dashboardStats.value.faqs.total || 0;
 
+    return {
+        labels: ['Events', 'Users', 'Partners', 'FAQs'],
+        datasets: [
+            {
+                label: 'Dashboard Statistics',
+                data: [eventsTotal, usersTotal, partnersTotal, faqsTotal],
+                backgroundColor: [
+                    'rgba(249, 115, 22, 0.2)',
+                    'rgba(6, 182, 212, 0.2)',
+                    'rgba(107, 114, 128, 0.2)',
+                    'rgba(139, 92, 246, 0.2)'
+                ],
+                borderColor: [
+                    'rgb(249, 115, 22)',
+                    'rgb(6, 182, 212)',
+                    'rgb(107, 114, 128)',
+                    'rgb(139, 92, 246)'
+                ],
+                borderWidth: 1
+            }
+        ]
+    };
+};
 
-// Function to select dashboard section
+const setChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = '#374151';
+    const textColorSecondary = '#6b7280';
+    const surfaceBorder = '#e5e7eb';
+
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            },
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    color: textColorSecondary
+                },
+                grid: {
+                    color: surfaceBorder
+                }
+            }
+        }
+    };
+};
+
+const setUsersChartData = () => {
+    const documentStyle = getComputedStyle(document.body);
+    const adminCount = dashboardStats.value.users.admins || 0;
+    const editorCount = dashboardStats.value.users.editors || 0;
+    const regularUsers = (dashboardStats.value.users.total || 0) - adminCount - editorCount;
+
+    return {
+        labels: ['Admin', 'Editor'],
+        datasets: [
+            {
+                data: [adminCount, editorCount],
+                backgroundColor: [
+                    documentStyle.getPropertyValue('--p-cyan-500') || '#06b6d4',
+                    documentStyle.getPropertyValue('--p-orange-500') || '#f97316',
+                ],
+                hoverBackgroundColor: [
+                    documentStyle.getPropertyValue('--p-cyan-400') || '#22d3ee',
+                    documentStyle.getPropertyValue('--p-orange-400') || '#fb923c',
+                ]
+            }
+        ]
+    };
+};
+
+const setUsersChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = '#374151';
+
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    color: textColor
+                }
+            }
+        }
+    };
+};
+
+const setFaqsChartData = () => {
+    const documentStyle = getComputedStyle(document.body);
+    const faqsTotal = dashboardStats.value.faqs.total || 0;
+    const categoriesTotal = dashboardStats.value.faqs.categories || 0;
+
+    return {
+        labels: ['FAQs', 'Categories'],
+        datasets: [
+            {
+                data: [faqsTotal, categoriesTotal],
+                backgroundColor: [
+                    documentStyle.getPropertyValue('--p-cyan-500') || '#06b6d4',
+                    documentStyle.getPropertyValue('--p-orange-500') || '#f97316'
+                ],
+                hoverBackgroundColor: [
+                    documentStyle.getPropertyValue('--p-cyan-400') || '#22d3ee',
+                    documentStyle.getPropertyValue('--p-orange-400') || '#fb923c'
+                ]
+            }
+        ]
+    };
+};
+
+const setFaqsChartOptions = () => {
+    const documentStyle = getComputedStyle(document.documentElement);
+    const textColor = '#374151';
+
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                labels: {
+                    color: textColor
+                }
+            }
+        },
+        cutout: '60%'
+    };
+};
+
+const updateChartData = () => {
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
+    usersChartData.value = setUsersChartData();
+    usersChartOptions.value = setUsersChartOptions();
+    faqsChartData.value = setFaqsChartData();
+    faqsChartOptions.value = setFaqsChartOptions();
+};// Function to select dashboard section
 const selectSection = async (sectionKey) => {
     // Prevent switching if already loading and clicking same section
     if (componentLoading.value && activeSection.value === sectionKey) {
@@ -476,7 +646,6 @@ const selectSection = async (sectionKey) => {
 
         // For Partners section, add extra safeguards
         if (sectionKey === 'partners') {
-            // Force reset loading after component should be mounted
             setTimeout(() => {
                 if (componentLoading.value) {
                     console.log('Force resetting Partners component loading state');
@@ -546,6 +715,9 @@ const fetchDashboardData = async () => {
         if (summaryData.health) {
             systemHealth.value = summaryData.health;
         }
+
+        // Update chart data after loading stats
+        updateChartData();
 
         console.log('Dashboard data loaded successfully');
     } catch (error) {
@@ -791,6 +963,14 @@ const handleLogout = () => {
 onMounted(async () => {
     console.log('Dashboard component mounted');
     activeSection.value = 'dashboard';
+
+    // Initialize chart data with default values
+    chartData.value = setChartData();
+    chartOptions.value = setChartOptions();
+    usersChartData.value = setUsersChartData();
+    usersChartOptions.value = setUsersChartOptions();
+    faqsChartData.value = setFaqsChartData();
+    faqsChartOptions.value = setFaqsChartOptions();
 
     try {
         await fetchDashboardData();

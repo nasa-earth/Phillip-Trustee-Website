@@ -164,10 +164,6 @@
                                         </span>
                                     </span>
                                     <div class="flex items-center gap-2 sm:gap-3">
-                                        <!-- <span class="hidden sm:block text-xs sm:text-sm px-2 sm:px-3 py-1 rounded-full"
-                                            :class="faq.open ? 'bg-gradient-to-r from-[#f15a22]/20 to-orange-400/20 text-[#f15a22] shadow-sm' : 'bg-white/10 text-[#e6eaf0]/80'">
-                                            {{ getCategoryFromQuestion(faq.question) }}
-                                        </span> -->
                                         <span
                                             class="h-7 w-7 sm:h-8 sm:w-8 flex items-center justify-center rounded-full transition-all duration-300"
                                             :class="faq.open ? 'bg-gradient-to-r from-[#f15a22] to-orange-500 text-white shadow-md shadow-[#f15a22]/20' : 'bg-white/10 text-[#e6eaf0]'">

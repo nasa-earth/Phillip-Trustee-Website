@@ -1,5 +1,5 @@
 <template>
-    <div class="events-management space-y-6 p-2">
+    <div class="events-management space-y-3">
         <!-- Header Section -->
         <div class="">
             <div
@@ -22,7 +22,7 @@
         </div>
 
         <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                 <div>
                     <p class="text-black text-xl font-medium">Total Events</p>
@@ -47,7 +47,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Filters and Search -->
         <div class="">
@@ -86,10 +86,10 @@
                 </template>
 
                 <!-- Thumbnail Column -->
-                <Column field="thumbnail" header="Image" :style="{ width: '80px' }">
+                <Column field="thumbnail" header="Image" :style="{ width: '120px' }">
                     <template #body="slotProps">
                         <img :src="slotProps.data.thumbnail || '/images/event/default.jpg'" :alt="slotProps.data.title"
-                            class="w-16 h-16 object-cover rounded-lg border border-gray-200" />
+                            class="w-32 h-16 object-cover border border-gray-200" />
                     </template>
                 </Column>
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2">
+    <div class="">
         <!-- Partners Management Header -->
         <div
             class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
@@ -14,7 +14,7 @@
 
         </div>
 
-        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6 mt-6">
+        <!-- <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm mb-6 mt-6">
             <div class="flex items-center justify-between">
                 <div>
                     <p class="text-black text-xl font-medium">Total Partners</p>
@@ -24,7 +24,7 @@
                 </div>
                 
             </div>
-        </div>
+        </div> -->
 
         <!-- Partners List -->
         <div v-if="loading" class="flex flex-col items-center py-12 gap-4">
@@ -62,7 +62,7 @@
                     <template #body="slotProps">
                         <div class="flex justify-center">
                             <img v-if="slotProps.data.logo" :src="slotProps.data.logo" :alt="slotProps.data.name"
-                                class="w-16 h-16 object-contain rounded-lg border border-gray-200 bg-gray-50" />
+                                class="w-16 h-16 object-contain border border-gray-200 bg-gray-50" />
                             <div v-else
                                 class="w-16 h-16 flex items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50">
                                 <i class="pi pi-image text-2xl text-gray-400"></i>

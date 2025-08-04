@@ -1,5 +1,5 @@
 <template>
-    <div class="space-y-6 p-2">
+    <div class="space-y-3">
         <!-- Header Section -->
         <div
             class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-200/50">
@@ -15,7 +15,7 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <!-- <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
                 <div class="flex items-center justify-between">
                     <div>
@@ -42,7 +42,7 @@
 
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Search Section -->
         <div class="">

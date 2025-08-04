@@ -23,7 +23,6 @@
                 <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up"
                     data-aos-duration="800">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4">Our Leadership Team</h2>
-                    <!-- <div class="w-24 h-1 bg-orange-500"></div> -->
                     <p class="text-[#e6eaf0] text-center text-base sm:text-lg md:text-xl mt-4 sm:mt-6 max-w-2xl px-4">
                         Meet the dedicated professionals leading Phillip Trustee to excellence in Cambodia's financial
                         services.
@@ -120,10 +119,6 @@
                 <div class="flex flex-col items-center mb-8 sm:mb-10">
                     <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-4 text-[#e6eaf0]">Our Partners
                     </h2>
-                    <!-- <p class="text-[#e6eaf0] text-center text-xl mt-6 max-w-2xl">
-                        We collaborate with leading organizations across Cambodia to provide the best service to our
-                        clients.
-                    </p> -->
                 </div>
 
                 <!-- Partners Slider Component -->

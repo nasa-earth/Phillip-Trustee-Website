@@ -6,7 +6,6 @@
       :style="{
         backgroundImage: 'url(/images/event/event_header.jpg)',
       }">
-      <!-- Overlay -->
       <div class="absolute inset-0 bg-gradient-to-b from-[#001a4d]/50 via-[#0e2a52]/20 to-[#001a4d]/10 z-0"></div>
     </section>
 
@@ -36,10 +35,6 @@
       <div class="container mx-auto relative z-10">
         <div class="flex flex-col items-center mb-8 sm:mb-12 md:mb-16" data-aos="fade-up" data-aos-duration="800">
           <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Events</h2>
-          <!-- <div class="w-24 h-1 bg-orange-500 mx-auto mb-8"></div>  -->
-          <!-- <p class="text-xl text-[#e6eaf0] max-w-3xl text-center mx-auto">
-            Join us at our upcoming events to learn more about trust services and network with industry professionals
-          </p> -->
         </div>
 
         <!-- Loading State -->
@@ -73,8 +68,6 @@
                 class="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
               <div class="absolute inset-0 bg-gradient-to-t from-[#0a2b5c]/30 to-transparent"></div>
             </div>
-
-            <!-- Content Section - Flexible Height -->
             <div class="p-3 sm:p-4 md:p-5 flex flex-col flex-grow">
               <!-- Title with truncation -->
               <h3
@@ -104,7 +97,6 @@
             </div>
           </div>
 
-          <!-- Empty State -->
           <div v-if="!loading && !error && events.length === 0"
             class="col-span-full text-center py-12 sm:py-16 md:py-20">
             <i class="pi pi-calendar text-4xl sm:text-5xl md:text-6xl text-[#e6eaf0]/30 mb-3 sm:mb-4"></i>

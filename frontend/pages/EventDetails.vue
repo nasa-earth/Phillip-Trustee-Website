@@ -4,14 +4,12 @@
         <section v-if="event"
             class="relative h-[500px] sm:h-[600px] md:h-[700px] lg:h-screen w-full flex items-center justify-center bg-cover bg-center"
             :style="{ backgroundImage: `url(${event.thumbnail || '/images/event/default.jpg'})` }">
-            <!-- Enhanced Overlay with better gradient -->
             <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-black/10 to-black/10 z-0"></div>
         </section>
 
         <!-- Event Details Section -->
         <section v-if="event"
             class="bg-gradient-to-b from-[#0a2b5c] to-[#081d3f] text-[#e6eaf0] py-12 sm:py-16 md:py-20 lg:py-24 px-4 md:px-8 relative overflow-hidden">
-            <!-- Dot Pattern Background -->
             <div class="absolute inset-0 opacity-5">
                 <svg class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                     <defs>
@@ -36,7 +34,6 @@
                     {{ event.title }}
                 </h1>
                 <p class="text-base sm:text-lg md:text-lg text-[#e6eaf0]/90">
-                    <!-- Location removed since it's not in the current model -->
                 </p>
             </div>
 
@@ -384,8 +381,6 @@ export default {
                 modalImage.style.transform = 'scale(1)'
             })
         },
-
-        // Track event views for analytics purposes
         trackEventView(event) {
             console.log(`Event viewed: ${event.title} (${event.slug})`)
             // Add analytics tracking here in the future
